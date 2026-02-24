@@ -242,14 +242,14 @@
                 </div>
 
                 <div class="diagram-container">
-                    <div class="diagram-title">BPMN-схема процесса Discovery (горизонтальная)</div>
+                    <div class="diagram-title">Фаза 1. Инициализация и исследование</div>
                     <div class="diagram-description">
-                        Полный цикл от получения инициативы до передачи готового решения в production.
+                        От инициативы после PI Planning до сформулированных и приоритизированных гипотез.
                     </div>
                     <div class="mermaid">
 flowchart LR
     Start([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
-    
+
     Init --> Team([Формирование команды])
     Init --> Scope([Определение scope и сроков])
     Init --> Tools([Настройка инструментов])
@@ -267,6 +267,19 @@ flowchart LR
     Data --> Hypotheses
 
     Hypotheses --> Prioritize([Приоритизация гипотез])
+
+    style Start fill:#e1f5ff
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 2. Валидация гипотез и прототипирование</div>
+                    <div class="diagram-description">
+                        От приоритизированных гипотез до проверенного решения и технического прототипа.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    Hypotheses([Формулирование гипотез]) --> Prioritize([Приоритизация гипотез])
     Prioritize --> Validate([Валидация гипотез])
 
     Validate --> QuickTest([Быстрое тестирование])
@@ -274,25 +287,48 @@ flowchart LR
     LowFi --> UserTest1([Тестирование с пользователями])
 
     UserTest1 --> Decision{Гипотеза<br/>валидирована?}
-    
+
     Decision -->|Нет| Pivot([Пивот/Итерация])
     Pivot --> Hypotheses
-    
+
     Decision -->|Да| Prototype([Прототипирование решения])
 
     Prototype --> HighFi([High-fidelity прототипы])
     HighFi --> TechProto([Техническое прототипирование])
     TechProto --> MVPCheck{Готовый продукт<br/>или MVP?}
-    
-    MVPCheck -->|Да| MVPTest([Тестирование MVP<br/>на 10% пользователей])
-    MVPCheck -->|Нет| ValidateSolution([Валидация решения])
 
+    MVPCheck -->|Нет| ValidateSolution([Валидация решения])
+    ValidateSolution --> UserTest2([Тестирование с пользователями])
+    UserTest2 --> Metrics([Измерение метрик])
+    Metrics --> Feedback([Сбор обратной связи])
+
+    Feedback --> Ready{Решение<br/>готово?}
+
+    Ready -->|Нет| Iterate([Итерация прототипа])
+    Iterate --> Prototype
+
+    style Decision fill:#fff9c4
+    style MVPCheck fill:#fff9c4
+    style Ready fill:#fff9c4
+    style Pivot fill:#ffccbc
+    style Iterate fill:#ffccbc
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 3. MVP, масштабирование и внедрение в production</div>
+                    <div class="diagram-description">
+                        От готового продукта/MVP до развертывания и эксплуатации решения в production.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    MVPCheck{Готовый продукт<br/>или MVP?} -->|Да| MVPTest([Тестирование MVP<br/>на 10% пользователей])
     MVPTest --> MVPMetrics([Измерение метрик<br/>MVP на части аудитории])
     MVPMetrics --> MVPSuccess{MVP<br/>успешен?}
-    
+
     MVPSuccess -->|Нет| IterateMVP([Итерация MVP])
     IterateMVP --> MVPTest
-    
+
     MVPSuccess -->|Да| ScaleInfra([Масштабирование<br/>инфраструктуры])
 
     ScaleInfra --> ScalePlan([Планирование масштабирования<br/>для 100% нагрузки])
@@ -301,16 +337,7 @@ flowchart LR
     ScaleMonitor --> LoadTest([Нагрузочное<br/>тестирование])
     LoadTest --> DeployMVP([Развертывание<br/>в Production])
 
-    ValidateSolution --> UserTest2([Тестирование с пользователями])
-    UserTest2 --> Metrics([Измерение метрик])
-    Metrics --> Feedback([Сбор обратной связи])
-    
-    Feedback --> Ready{Решение<br/>готово?}
-
-    Ready -->|Нет| Iterate([Итерация прототипа])
-    Iterate --> Prototype
-
-    Ready -->|Да| Prepare([Подготовка к развертыванию])
+    Ready{Решение<br/>готово?} -->|Да| Prepare([Подготовка к развертыванию])
 
     Prepare --> Doc([Документация])
     Prepare --> Estimate([Оценка сложности])
@@ -330,22 +357,17 @@ flowchart LR
     Monitor --> Operations([Эксплуатация])
 
     Operations --> End([Решение работает<br/>в Production])
-    
-    style Start fill:#e1f5ff
-    style End fill:#c8e6c9
-    style Decision fill:#fff9c4
-    style Ready fill:#fff9c4
+
     style MVPCheck fill:#fff9c4
     style MVPSuccess fill:#fff9c4
-    style Pivot fill:#ffccbc
-    style Iterate fill:#ffccbc
+    style Ready fill:#fff9c4
     style IterateMVP fill:#ffccbc
-    style MVPTest fill:#e1bee7
     style ScaleInfra fill:#c5e1a5
     style DeployMVP fill:#81c784
     style DeployStandard fill:#81c784
     style Rollout fill:#a5d6a7
     style Operations fill:#66bb6a
+    style End fill:#c8e6c9
                     </div>
                 </div>
 
