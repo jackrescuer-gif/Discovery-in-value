@@ -242,93 +242,93 @@
                 </div>
 
                 <div class="diagram-container">
-                    <div class="diagram-title">Основной процесс Discovery</div>
+                    <div class="diagram-title">BPMN-схема процесса Discovery (горизонтальная)</div>
                     <div class="diagram-description">
                         Полный цикл от получения инициативы до передачи готового решения в production.
                     </div>
                     <div class="mermaid">
-flowchart TD
-    Start([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init[Инициализация Discovery]
+flowchart LR
+    Start([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
     
-    Init --> Team[Формирование команды]
-    Init --> Scope[Определение scope и сроков]
-    Init --> Tools[Настройка инструментов]
-    
-    Team --> Research[Исследование проблемы]
+    Init --> Team([Формирование команды])
+    Init --> Scope([Определение scope и сроков])
+    Init --> Tools([Настройка инструментов])
+
+    Team --> Research([Исследование проблемы])
     Scope --> Research
     Tools --> Research
-    
-    Research --> UserResearch[Исследование пользователей]
-    Research --> Competitor[Анализ конкурентов]
-    Research --> Data[Анализ данных и метрик]
-    
-    UserResearch --> Hypotheses[Формулирование гипотез]
+
+    Research --> UserResearch([Исследование пользователей])
+    Research --> Competitor([Анализ конкурентов])
+    Research --> Data([Анализ данных и метрик])
+
+    UserResearch --> Hypotheses([Формулирование гипотез])
     Competitor --> Hypotheses
     Data --> Hypotheses
-    
-    Hypotheses --> Prioritize[Приоритизация гипотез]
-    Prioritize --> Validate[Валидация гипотез]
-    
-    Validate --> QuickTest[Быстрое тестирование]
-    QuickTest --> LowFi[Low-fidelity прототипы]
-    LowFi --> UserTest1[Тестирование с пользователями]
-    
+
+    Hypotheses --> Prioritize([Приоритизация гипотез])
+    Prioritize --> Validate([Валидация гипотез])
+
+    Validate --> QuickTest([Быстрое тестирование])
+    QuickTest --> LowFi([Low-fidelity прототипы])
+    LowFi --> UserTest1([Тестирование с пользователями])
+
     UserTest1 --> Decision{Гипотеза<br/>валидирована?}
     
-    Decision -->|Нет| Pivot[Пивот/Итерация]
+    Decision -->|Нет| Pivot([Пивот/Итерация])
     Pivot --> Hypotheses
     
-    Decision -->|Да| Prototype[Прототипирование решения]
-    
-    Prototype --> HighFi[High-fidelity прототипы]
-    HighFi --> TechProto[Техническое прототипирование]
+    Decision -->|Да| Prototype([Прототипирование решения])
+
+    Prototype --> HighFi([High-fidelity прототипы])
+    HighFi --> TechProto([Техническое прототипирование])
     TechProto --> MVPCheck{Готовый продукт<br/>или MVP?}
     
-    MVPCheck -->|Да| MVPTest[Тестирование MVP<br/>на 10% пользователей]
-    MVPCheck -->|Нет| ValidateSolution[Валидация решения]
-    
-    MVPTest --> MVPMetrics[Измерение метрик<br/>MVP на части аудитории]
+    MVPCheck -->|Да| MVPTest([Тестирование MVP<br/>на 10% пользователей])
+    MVPCheck -->|Нет| ValidateSolution([Валидация решения])
+
+    MVPTest --> MVPMetrics([Измерение метрик<br/>MVP на части аудитории])
     MVPMetrics --> MVPSuccess{MVP<br/>успешен?}
     
-    MVPSuccess -->|Нет| IterateMVP[Итерация MVP]
+    MVPSuccess -->|Нет| IterateMVP([Итерация MVP])
     IterateMVP --> MVPTest
     
-    MVPSuccess -->|Да| ScaleInfra[Масштабирование<br/>инфраструктуры]
-    
-    ScaleInfra --> ScalePlan[Планирование масштабирования<br/>для 100% нагрузки]
-    ScalePlan --> ScaleResources[Увеличение ресурсов<br/>и пропускной способности]
-    ScaleResources --> ScaleMonitor[Настройка мониторинга<br/>и алертинга]
-    ScaleMonitor --> LoadTest[Нагрузочное<br/>тестирование]
-    LoadTest --> DeployMVP[Развертывание<br/>в Production]
-    
-    ValidateSolution --> UserTest2[Тестирование с пользователями]
-    UserTest2 --> Metrics[Измерение метрик]
-    Metrics --> Feedback[Сбор обратной связи]
+    MVPSuccess -->|Да| ScaleInfra([Масштабирование<br/>инфраструктуры])
+
+    ScaleInfra --> ScalePlan([Планирование масштабирования<br/>для 100% нагрузки])
+    ScalePlan --> ScaleResources([Увеличение ресурсов<br/>и пропускной способности])
+    ScaleResources --> ScaleMonitor([Настройка мониторинга<br/>и алертинга])
+    ScaleMonitor --> LoadTest([Нагрузочное<br/>тестирование])
+    LoadTest --> DeployMVP([Развертывание<br/>в Production])
+
+    ValidateSolution --> UserTest2([Тестирование с пользователями])
+    UserTest2 --> Metrics([Измерение метрик])
+    Metrics --> Feedback([Сбор обратной связи])
     
     Feedback --> Ready{Решение<br/>готово?}
-    
-    Ready -->|Нет| Iterate[Итерация прототипа]
+
+    Ready -->|Нет| Iterate([Итерация прототипа])
     Iterate --> Prototype
-    
-    Ready -->|Да| Prepare[Подготовка к развертыванию]
-    
-    Prepare --> Doc[Документация]
-    Prepare --> Estimate[Оценка сложности]
-    Prepare --> Roadmap[План внедрения]
-    
-    Doc --> Handoff[Передача в команду<br/>разработки]
+
+    Ready -->|Да| Prepare([Подготовка к развертыванию])
+
+    Prepare --> Doc([Документация])
+    Prepare --> Estimate([Оценка сложности])
+    Prepare --> Roadmap([План внедрения])
+
+    Doc --> Handoff([Передача в команду<br/>разработки])
     Estimate --> Handoff
     Roadmap --> Handoff
-    
-    Handoff --> Dev[Разработка решения]
-    Dev --> DeployStandard[Развертывание<br/>в Production]
-    
-    DeployMVP --> Rollout[Постепенный запуск:<br/>25% → 50% → 100%]
+
+    Handoff --> Dev([Разработка решения])
+    Dev --> DeployStandard([Развертывание<br/>в Production])
+
+    DeployMVP --> Rollout([Постепенный запуск:<br/>25% → 50% → 100%])
     DeployStandard --> Rollout
-    
-    Rollout --> Monitor[Мониторинг и<br/>стабилизация]
-    Monitor --> Operations[Эксплуатация]
-    
+
+    Rollout --> Monitor([Мониторинг и<br/>стабилизация])
+    Monitor --> Operations([Эксплуатация])
+
     Operations --> End([Решение работает<br/>в Production])
     
     style Start fill:#e1f5ff
