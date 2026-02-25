@@ -105,6 +105,57 @@
             overflow-x: auto;
         }
 
+        .diagram-container.zoomable {
+            cursor: zoom-in;
+        }
+
+        .diagram-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .diagram-overlay.active {
+            display: flex;
+        }
+
+        .diagram-overlay-content {
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow: auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .diagram-overlay-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .diagram-overlay .mermaid {
+            background: transparent;
+            padding: 0;
+        }
+
+        .diagram-overlay .mermaid svg {
+            max-width: 100%;
+            height: auto;
+        }
+
         .diagram-title {
             font-size: 1.5em;
             margin-bottom: 20px;
@@ -250,7 +301,7 @@
 flowchart LR
     Start([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
 
-    Init --> Team([Формирование команды])
+    Init --> Team([Определение фреймворка реализации])
     Init --> Scope([Определение scope и сроков])
     Init --> Tools([Настройка инструментов])
 
@@ -666,7 +717,7 @@ gantt
     title Временная шкала процесса Discovery
     dateFormat YYYY-MM-DD
     section Инициализация
-    Формирование команды           :a1, 2026-02-20, 2d
+    Определение фреймворка реализации           :a1, 2026-02-20, 2d
     Определение scope              :a2, after a1, 1d
     section Исследование
     Исследование пользователей     :b1, after a2, 5d
@@ -820,6 +871,11 @@ graph TB
         </div>
     </div>
 
+    <div class="diagram-overlay">
+        <div class="diagram-overlay-close">&times;</div>
+        <div class="diagram-overlay-content"></div>
+    </div>
+
     <script>
         mermaid.initialize({ 
             startOnLoad: true,
@@ -830,6 +886,43 @@ graph TB
                 curve: 'basis'
             }
         });
+
+        function setupDiagramZoom() {
+            const containers = document.querySelectorAll('.diagram-container');
+            const overlay = document.querySelector('.diagram-overlay');
+            const overlayContent = document.querySelector('.diagram-overlay-content');
+            const overlayClose = document.querySelector('.diagram-overlay-close');
+
+            if (!overlay || !overlayContent || !overlayClose) return;
+
+            const closeOverlay = () => {
+                overlay.classList.remove('active');
+                overlayContent.innerHTML = '';
+            };
+
+            overlayClose.addEventListener('click', closeOverlay);
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeOverlay();
+                }
+            });
+
+            containers.forEach(container => {
+                container.classList.add('zoomable');
+                container.addEventListener('click', () => {
+                    const mermaidEl = container.querySelector('.mermaid');
+                    if (!mermaidEl) return;
+
+                    overlayContent.innerHTML = mermaidEl.outerHTML;
+                    overlay.classList.add('active');
+
+                    // Переинициализируем mermaid внутри оверлея
+                    setTimeout(() => {
+                        mermaid.init(undefined, overlayContent.querySelectorAll('.mermaid'));
+                    }, 0);
+                });
+            });
+        }
 
         function showTab(tabName) {
             // Скрыть все вкладки
@@ -851,6 +944,10 @@ graph TB
                 mermaid.init(undefined, document.querySelectorAll('.mermaid'));
             }, 100);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupDiagramZoom();
+        });
     </script>
 </body>
 </html>
