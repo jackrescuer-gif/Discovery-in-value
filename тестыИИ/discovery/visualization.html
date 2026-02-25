@@ -326,99 +326,199 @@ flowchart LR
                 <div class="diagram-container">
                     <div class="diagram-title">Фаза 2. Валидация гипотез и прототипирование</div>
                     <div class="diagram-description">
-                        От приоритизированных гипотез до проверенного решения и технического прототипа.
+                        Подпроцессы фазы 2 разбиты на отдельные шаги, чтобы было проще читать и анализировать путь от гипотез до готового решения.
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 2.1. Валидация гипотез</div>
+                    <div class="diagram-description">
+                        От приоритизированных гипотез до списка подтверждённых, уточнённых и отклонённых гипотез.
                     </div>
                     <div class="mermaid">
 flowchart LR
-    Hypotheses([Формулирование гипотез]) --> Prioritize([Приоритизация гипотез])
-    Prioritize --> Validate([Валидация гипотез])
+    HypoStart([Приоритизированные<br/>гипотезы]) --> DesignExp([Проектирование<br/>валидации])
+    DesignExp --> Criteria2([Критерии<br/>успеха])
+    DesignExp --> Methods2([Методы<br/>валидации])
 
-    Validate --> QuickTest([Быстрое тестирование])
-    QuickTest --> LowFi([Low-fidelity прототипы])
-    LowFi --> UserTest1([Тестирование с пользователями])
+    Methods2 --> RunTests([Проведение<br/>тестов и экспериментов])
+    RunTests --> Collect2([Сбор данных<br/>и обратной связи])
+    Collect2 --> Analyze2([Анализ<br/>результатов])
 
-    UserTest1 --> Decision{Гипотеза<br/>валидирована?}
+    Analyze2 --> Decision2{Гипотеза<br/>подтверждена?}
 
-    Decision -->|Нет| Pivot([Пивот/Итерация])
-    Pivot --> Hypotheses
+    Decision2 -->|Да| Confirmed2([Подтверждённые<br/>гипотезы])
+    Decision2 -->|Частично| Refine2([Уточнение<br/>гипотезы])
+    Decision2 -->|Нет| Reject2([Отклонённые<br/>гипотезы])
 
-    Decision -->|Да| Prototype([Прототипирование решения])
+    Refine2 --> HypoStart
 
-    Prototype --> HighFi([High-fidelity прототипы])
-    HighFi --> TechProto([Техническое прототипирование])
-    TechProto --> MVPCheck{Готовый продукт<br/>или MVP?}
+    style Decision2 fill:#fff9c4
+    style Confirmed2 fill:#c8e6c9
+    style Reject2 fill:#ffccbc
+                    </div>
+                </div>
 
-    MVPCheck -->|Нет| ValidateSolution([Валидация решения])
-    ValidateSolution --> UserTest2([Тестирование с пользователями])
-    UserTest2 --> Metrics([Измерение метрик])
-    Metrics --> Feedback([Сбор обратной связи])
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 2.2. Прототипирование решения</div>
+                    <div class="diagram-description">
+                        Переход от подтверждённых гипотез к пользовательским и техническим прототипам.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    Confirmed2([Подтверждённые<br/>гипотезы]) --> Concept2([Концепция<br/>решения])
+    Concept2 --> LowFi2([Low-fidelity<br/>прототип])
+    LowFi2 --> InternalTest2([Внутреннее<br/>тестирование])
 
-    Feedback --> Ready{Решение<br/>готово?}
+    InternalTest2 --> HighFi2([High-fidelity<br/>прототип])
+    HighFi2 --> Interactive2([Интерактивный<br/>прототип])
+    Interactive2 --> UserTests2([Тестирование<br/>с пользователями])
 
-    Ready -->|Нет| Iterate([Итерация прототипа])
-    Iterate --> Prototype
+    UserTests2 --> Feedback2([Обратная<br/>связь])
+    Feedback2 --> Iterate2{Нужны<br/>доработки?}
 
-    style Decision fill:#fff9c4
-    style MVPCheck fill:#fff9c4
-    style Ready fill:#fff9c4
-    style Pivot fill:#ffccbc
-    style Iterate fill:#ffccbc
+    Iterate2 -->|Да| Concept2
+    Iterate2 -->|Нет| TechProto2([Техническое<br/>прототипирование])
+
+    style Iterate2 fill:#fff9c4
+    style TechProto2 fill:#c8e6c9
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 2.3. Техническое прототипирование и готовность решения</div>
+                    <div class="diagram-description">
+                        Проверка технической реализуемости, интеграций и готовности решения к переходу в MVP или production.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    TechProto2([Техническое<br/>прототипирование]) --> Integrate2([Интеграция<br/>с системами])
+    Integrate2 --> PerfTests2([Технические и<br/>нагрузочные тесты])
+    PerfTests2 --> PilotUsers2([Пилотное<br/>тестирование])
+
+    PilotUsers2 --> Metrics2([Измерение<br/>метрик])
+    Metrics2 --> Ready2{Решение<br/>готово?}
+
+    Ready2 -->|Нет| Improve2([Улучшения<br/>и итерации])
+    Improve2 --> TechProto2
+
+    Ready2 -->|Да| Handoff2([Готово к<br/>MVP/production])
+
+    style Ready2 fill:#fff9c4
+    style Improve2 fill:#ffccbc
+    style Handoff2 fill:#c8e6c9
                     </div>
                 </div>
 
                 <div class="diagram-container">
                     <div class="diagram-title">Фаза 3. MVP, масштабирование и внедрение в production</div>
                     <div class="diagram-description">
-                        От готового продукта/MVP до развертывания и эксплуатации решения в production.
+                        Подпроцессы фазы 3 разделены на тестирование MVP, масштабирование инфраструктуры, rollout и эксплуатацию.
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 3.1. Тестирование MVP на части аудитории</div>
+                    <div class="diagram-description">
+                        Как MVP проверяется на ограниченной аудитории (например, 10% пользователей) перед масштабированием.
                     </div>
                     <div class="mermaid">
 flowchart LR
-    MVPCheck{Готовый продукт<br/>или MVP?} -->|Да| MVPTest([Тестирование MVP<br/>на 10% пользователей])
-    MVPTest --> MVPMetrics([Измерение метрик<br/>MVP на части аудитории])
-    MVPMetrics --> MVPSuccess{MVP<br/>успешен?}
+    StartMVP([Готовый<br/>MVP]) --> PlanMVPTest([План теста<br/>на 10% пользователей])
+    PlanMVPTest --> LaunchMVP([Запуск MVP<br/>на части аудитории])
+    LaunchMVP --> CollectMVP([Сбор данных<br/>и обратной связи])
+    CollectMVP --> AnalyzeMVP([Анализ<br/>метрик])
 
-    MVPSuccess -->|Нет| IterateMVP([Итерация MVP])
-    IterateMVP --> MVPTest
+    AnalyzeMVP --> DecisionMVP{MVP<br/>успешен?}
 
-    MVPSuccess -->|Да| ScaleInfra([Масштабирование<br/>инфраструктуры])
+    DecisionMVP -->|Да| GoScale3([Решение о<br/>масштабировании])
+    DecisionMVP -->|Нет| IterateMVP3([Итерации MVP<br/>и улучшения])
 
-    ScaleInfra --> ScalePlan([Планирование масштабирования<br/>для 100% нагрузки])
-    ScalePlan --> ScaleResources([Увеличение ресурсов<br/>и пропускной способности])
-    ScaleResources --> ScaleMonitor([Настройка мониторинга<br/>и алертинга])
-    ScaleMonitor --> LoadTest([Нагрузочное<br/>тестирование])
-    LoadTest --> DeployMVP([Развертывание<br/>в Production])
+    IterateMVP3 --> StartMVP
 
-    Ready{Решение<br/>готово?} -->|Да| Prepare([Подготовка к развертыванию])
+    style DecisionMVP fill:#fff9c4
+    style IterateMVP3 fill:#ffccbc
+    style GoScale3 fill:#c8e6c9
+                    </div>
+                </div>
 
-    Prepare --> Doc([Документация])
-    Prepare --> Estimate([Оценка сложности])
-    Prepare --> Roadmap([План внедрения])
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 3.2. Масштабирование инфраструктуры</div>
+                    <div class="diagram-description">
+                        Подготовка инфраструктуры к работе на 100% аудитории с учётом производительности и отказоустойчивости.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    GoScale3([Решение о<br/>масштабировании]) --> Capacity3([Расчёт<br/>нагрузки])
+    Capacity3 --> InfraPlan3([План<br/>инфраструктуры])
+    InfraPlan3 --> ScaleRes3([Масштабирование<br/>ресурсов])
+    ScaleRes3 --> Monitoring3([Настройка<br/>мониторинга])
+    Monitoring3 --> LoadTest3([Нагрузочные<br/>тесты])
 
-    Doc --> Handoff([Передача в команду<br/>разработки])
-    Estimate --> Handoff
-    Roadmap --> Handoff
+    LoadTest3 --> LoadRes3{Тесты<br/>пройдены?}
 
-    Handoff --> Dev([Разработка решения])
-    Dev --> DeployStandard([Развертывание<br/>в Production])
+    LoadRes3 -->|Нет| Fix3([Исправление<br/>проблем])
+    Fix3 --> ScaleRes3
 
-    DeployMVP --> Rollout([Постепенный запуск:<br/>25% → 50% → 100%])
-    DeployStandard --> Rollout
+    LoadRes3 -->|Да| ReadyDeploy3([Готово к<br/>развёртыванию])
 
-    Rollout --> Monitor([Мониторинг и<br/>стабилизация])
-    Monitor --> Operations([Эксплуатация])
+    style LoadRes3 fill:#fff9c4
+    style Fix3 fill:#ffccbc
+    style ReadyDeploy3 fill:#c8e6c9
+                    </div>
+                </div>
 
-    Operations --> End([Решение работает<br/>в Production])
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 3.3. Развёртывание и постепенный rollout</div>
+                    <div class="diagram-description">
+                        Пошаговый запуск решения: 25% → 50% → 100% с возможностью отката при проблемах.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    ReadyDeploy3([Готово к<br/>развёртыванию]) --> PlanRollout3([План rollout:<br/>25% → 50% → 100%])
+    PlanRollout3 --> Deploy25([Запуск<br/>на 25%])
+    Deploy25 --> Check25([Проверка<br/>метрик 25%])
+    Check25 --> Step50{OK<br/>для 25%?}
 
-    style MVPCheck fill:#fff9c4
-    style MVPSuccess fill:#fff9c4
-    style Ready fill:#fff9c4
-    style IterateMVP fill:#ffccbc
-    style ScaleInfra fill:#c5e1a5
-    style DeployMVP fill:#81c784
-    style DeployStandard fill:#81c784
-    style Rollout fill:#a5d6a7
-    style Operations fill:#66bb6a
-    style End fill:#c8e6c9
+    Step50 -->|Да| Deploy50([Запуск<br/>на 50%])
+    Step50 -->|Нет| Rollback25([Откат и<br/>исправления])
+
+    Deploy50 --> Check50([Проверка<br/>метрик 50%])
+    Check50 --> Step100{OK<br/>для 50%?}
+
+    Step100 -->|Да| Deploy100([Запуск<br/>на 100%])
+    Step100 -->|Нет| Rollback50([Откат и<br/>исправления])
+
+    Deploy100 --> Stable3([Стабильная<br/>работа])
+
+    Rollback25 --> PlanRollout3
+    Rollback50 --> PlanRollout3
+
+    style Step50 fill:#fff9c4
+    style Step100 fill:#fff9c4
+    style Rollback25 fill:#ffccbc
+    style Rollback50 fill:#ffccbc
+    style Stable3 fill:#c8e6c9
+                    </div>
+                </div>
+
+                <div class="diagram-container">
+                    <div class="diagram-title">Фаза 3.4. Эксплуатация и развитие решения</div>
+                    <div class="diagram-description">
+                        Что происходит после успешного запуска: мониторинг, поддержка, анализ метрик и планирование улучшений.
+                    </div>
+                    <div class="mermaid">
+flowchart LR
+    Stable3([Стабильная<br/>работа в production]) --> MonitorProd3([Непрерывный<br/>мониторинг])
+    MonitorProd3 --> Support3([Поддержка<br/>и инциденты])
+    MonitorProd3 --> BizMetrics3([Анализ<br/>бизнес-метрик])
+
+    BizMetrics3 --> FeedbackLoop3([Сбор обратной<br/>связи от стейкхолдеров])
+    FeedbackLoop3 --> Backlog3([Формирование<br/>бэклога улучшений])
+    Backlog3 --> Iterations3([Планирование<br/>итераций])
+    Iterations3 --> Stable3
+
+    style Stable3 fill:#c8e6c9
                     </div>
                 </div>
 
