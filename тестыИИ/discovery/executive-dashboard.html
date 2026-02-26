@@ -41,42 +41,58 @@
             color: var(--mck-gray-900);
             line-height: 1.45;
             padding: 18px;
+            opacity: 1;
+            transition: opacity 0.18s ease;
         }
+        body.page-leaving { opacity: 0; }
 
         .page {
             max-width: 1480px;
             margin: 0 auto;
         }
 
-        .top-nav {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            gap: 12px;
+            margin-bottom: 14px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
-        .top-links {
+        .header-nav {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
 
-        .link-btn {
-            border: 1px solid var(--mck-gray-300);
-            background: #fff;
-            color: var(--mck-blue-800);
+        .back-link {
+            color: #fff;
             text-decoration: none;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            opacity: 0.92;
+            transition: background 0.2s;
         }
 
-        .link-btn:hover {
-            border-color: var(--mck-blue-600);
-            color: var(--mck-blue-900);
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .audience-pill {
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .header {
@@ -486,6 +502,35 @@
             margin-top: 6px;
         }
 
+        body.embed-mode {
+            padding: 0;
+            background: #fff;
+        }
+        body.embed-mode .page {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body.embed-mode .header,
+        body.embed-mode .filter-bar,
+        body.embed-mode .category-disclaimer,
+        body.embed-mode .kpi-grid,
+        body.embed-mode .footer-note,
+        body.embed-mode .card:not(.embed-active) {
+            display: none !important;
+        }
+        body.embed-mode .layout-grid {
+            display: block;
+            padding: 0;
+            margin: 0;
+        }
+        body.embed-mode .card.embed-active {
+            border-radius: 0;
+            border: 0;
+            box-shadow: none;
+            min-height: 100vh;
+        }
+
         @media (max-width: 1300px) {
             .kpi-grid {
                 grid-template-columns: repeat(4, minmax(140px, 1fr));
@@ -522,15 +567,15 @@
 </head>
 <body>
     <div class="page">
-        <div class="top-nav">
-            <div class="top-links">
-                <a class="link-btn" href="visualization.html">← Процесс Discovery</a>
-                <a class="link-btn" href="hypothesis-digest.html">Дайджест гипотез</a>
-            </div>
-            <div style="font-size:0.8rem;color:#6c757d;">Аудитория: CEO • CPO • CTO • CFO • COO</div>
-        </div>
-
         <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
+                    <a class="back-link nav-link" href="hypothesis-digest.html">Дайджест проверки гипотез</a>
+                    <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
+                </div>
+                <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
+            </div>
             <h1>Дайджест процесса Discovery</h1>
             <div class="action-title" id="actionTitle"></div>
         </header>
@@ -608,14 +653,14 @@
         <section class="kpi-grid" id="kpiGrid"></section>
 
         <section class="layout-grid">
-            <article class="card span-8">
+            <article class="card span-8" id="widget-cost-structure" data-widget="cost-structure">
                 <div class="section-label">Финансовая эффективность</div>
                 <h2 id="financialTitle">Затраты распределены по фазам Discovery с доминированием исследований</h2>
                 <p class="subtitle">Структура затрат по фазам проверки: прямые и косвенные расходы.</p>
                 <div class="chart-wrap tall"><canvas id="costWaterfall"></canvas></div>
             </article>
 
-            <article class="card span-4">
+            <article class="card span-4" id="widget-cost" data-widget="cost">
                 <div class="section-label">Контроль бюджета</div>
                 <h2 id="costPerValidatedTitle">Блок ответа: где перерасход стоимости подтверждённой гипотезы и насколько</h2>
                 <p class="subtitle">Сравнение по направлениям: факт, порог и отклонение.</p>
@@ -623,14 +668,14 @@
                 <div class="cost-readout" id="costPerValidatedReadout"></div>
             </article>
 
-            <article class="card span-6">
+            <article class="card span-6" id="widget-throughput" data-widget="throughput">
                 <div class="section-label">Операционная динамика</div>
                 <h2 id="throughputTitle">Темп исследований и проверок стабилен, но ниже планового в двух неделях</h2>
                 <p class="subtitle">Еженедельный поток: завершённые исследования и эксперименты.</p>
                 <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
             </article>
 
-            <article class="card span-6">
+            <article class="card span-6" id="widget-cycle" data-widget="cycle">
                 <div class="section-label">Скорость цикла</div>
                 <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между этапами действия и анализа данных</h2>
                 <p class="subtitle">Медианное время исследования и эксперимента + вклад ожиданий.</p>
@@ -638,14 +683,14 @@
                 <div class="mini-bars" id="waitingBars"></div>
             </article>
 
-            <article class="card span-6">
+            <article class="card span-6" id="widget-funnel" data-widget="funnel">
                 <div class="section-label">Качество результата</div>
                 <h2 id="funnelTitle">Конверсия портфеля показывает, сколько гипотез доходит до подтверждения и внедрения</h2>
                 <p class="subtitle">Воронка: сформулировано → приоритизировано → эксперимент → подтверждено/отклонено → внедрено.</p>
                 <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
             </article>
 
-            <article class="card span-6">
+            <article class="card span-6" id="widget-matrix" data-widget="matrix">
                 <div class="section-label">Стратегическая приоритизация</div>
                 <h2 id="matrixTitle">Портфель смещён в высокое effort поле; quick wins присутствуют, но недоинвестированы</h2>
                 <p class="subtitle">Матрица 2x2: уверенность vs сложность, размер точки = охват, цвет = статус.</p>
@@ -1695,11 +1740,48 @@
             document.getElementById("lastUpdated").textContent = "Обновлено: " + now.toLocaleString("ru-RU");
         }
 
+        function navigateTo(url) {
+            if (!url) return;
+            document.body.classList.add("page-leaving");
+            setTimeout(() => {
+                window.location.href = url;
+            }, 140);
+        }
+
+        function setupPageTransitions() {
+            const links = document.querySelectorAll("a.nav-link");
+            links.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    const href = link.getAttribute("href");
+                    if (!href || href.startsWith("http")) return;
+                    event.preventDefault();
+                    navigateTo(href);
+                });
+            });
+        }
+
+        function setupEmbedMode() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("embed") !== "1") return;
+
+            const widget = params.get("widget");
+            document.body.classList.add("embed-mode");
+
+            if (!widget) return;
+            const target = document.querySelector(`[data-widget="${widget}"]`);
+            if (!target) return;
+
+            target.classList.add("embed-active", "span-12");
+            target.classList.remove("span-8", "span-6", "span-4");
+        }
+
         fillTeamFilter();
         ["periodFilter", "categoryFilter", "teamFilter", "statusFilter", "benchmarkMode"].forEach(id => {
             document.getElementById(id).addEventListener("change", render);
         });
+        setupPageTransitions();
         render();
+        setupEmbedMode();
     </script>
 </body>
 </html>

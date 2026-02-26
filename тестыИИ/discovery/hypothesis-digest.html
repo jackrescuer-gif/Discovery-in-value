@@ -39,7 +39,10 @@
             color: var(--text-primary);
             line-height: 1.5;
             padding: 20px;
+            opacity: 1;
+            transition: opacity 0.18s ease;
         }
+        body.page-leaving { opacity: 0; }
 
         .container {
             max-width: 1200px;
@@ -63,6 +66,12 @@
             justify-content: space-between;
             gap: 12px;
             margin-bottom: 14px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .back-link {
@@ -264,8 +273,11 @@
     <div class="container">
         <header>
             <div class="header-top">
-                <a href="visualization.html" class="back-link">← Вернуться к процессу Discovery</a>
-                <a href="executive-dashboard.html" class="back-link">Руководительский дашборд (C-level) →</a>
+                <div class="nav-links">
+                    <a href="visualization.html" class="back-link nav-link">Процесс Discovery</a>
+                    <a href="hypothesis-digest.html" class="back-link nav-link">Дайджест проверки гипотез</a>
+                    <a href="executive-dashboard.html" class="back-link nav-link">Дайджест процесса Discovery</a>
+                </div>
             </div>
             <h1>🧪 Дайджест проверки гипотез</h1>
             <p class="subtitle">Короткий weekly-снимок: что проверили, какие сигналы получили и какие решения приняли.</p>
@@ -407,6 +419,23 @@
             day: '2-digit',
             month: 'long',
             year: 'numeric'
+        });
+
+        function navigateTo(url) {
+            if (!url) return;
+            document.body.classList.add('page-leaving');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 140);
+        }
+
+        document.querySelectorAll('a.nav-link').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('http')) return;
+                event.preventDefault();
+                navigateTo(href);
+            });
         });
     </script>
 </body>

@@ -26,7 +26,10 @@
             min-height: 100vh;
             padding: 20px;
             color: var(--text-primary);
+            opacity: 1;
+            transition: opacity 0.18s ease;
         }
+        body.page-leaving { opacity: 0; }
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -39,7 +42,46 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
             color: white;
             padding: 40px;
-            text-align: center;
+            text-align: left;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .back-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.92;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+        }
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .audience-pill {
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.95);
         }
         header h1 {
             font-size: 1.75rem;
@@ -170,6 +212,94 @@
             color: var(--text-secondary);
             line-height: 1.75;
         }
+        .widget-disclaimer {
+            background: #f8fbff;
+            border: 1px solid #d9e7f6;
+            border-left: 4px solid #147bbc;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 12px 0 18px 0;
+        }
+        .widget-disclaimer h4 {
+            color: #0f4c75;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        .widget-disclaimer p {
+            color: #425466;
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+        .widget-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .widget-link, .widget-preview-btn {
+            border: 1px solid #cddced;
+            background: #fff;
+            color: #1e3a5f;
+            padding: 7px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .widget-preview-btn {
+            background: #1e3a5f;
+            border-color: #1e3a5f;
+            color: #fff;
+        }
+        .widget-link:hover { border-color: #147bbc; }
+        .widget-preview-btn:hover { background: #15314f; }
+        .widget-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200;
+            padding: 24px;
+        }
+        .widget-overlay.active { display: flex; }
+        .widget-modal {
+            width: min(1100px, 96vw);
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #d9d9d9;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+        .widget-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .widget-modal-header h3 {
+            color: #1e3a5f;
+            font-size: 1rem;
+        }
+        .widget-close {
+            border: none;
+            background: transparent;
+            color: #1e293b;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .widget-modal iframe {
+            width: 100%;
+            height: min(80vh, 760px);
+            border: 0;
+            display: block;
+            background: #fff;
+        }
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -196,12 +326,21 @@
             header h1 { font-size: 1.4rem; }
             .content { padding: 20px; }
             .tabs { flex-wrap: wrap; }
+            .widget-modal iframe { height: 72vh; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <div class="header-top">
+                <div class="header-nav">
+                    <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
+                    <a class="back-link nav-link" href="hypothesis-digest.html">Дайджест проверки гипотез</a>
+                    <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
+                </div>
+                <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
+            </div>
             <h1>🔍 Процесс Discovery инициатив</h1>
             <p>От PI Planning до готовности решения к handoff в Delivery</p>
         </header>
@@ -209,8 +348,8 @@
         <div class="tabs">
             <button class="tab active" onclick="showTab('overview')">Обзор процесса</button>
             <button class="tab" onclick="showTab('glossary')">Справочник обозначений</button>
-            <button class="tab" onclick="window.location.href='hypothesis-digest.html'">Дайджест проверки гипотез</button>
-            <button class="tab" onclick="window.location.href='executive-dashboard.html'">Руководительский дашборд (C-level)</button>
+            <button class="tab" onclick="navigateTo('hypothesis-digest.html')">Дайджест проверки гипотез</button>
+            <button class="tab" onclick="navigateTo('executive-dashboard.html')">Дайджест процесса Discovery</button>
         </div>
 
         <div class="content">
@@ -225,6 +364,15 @@
                     <h3>Фаза 1. Инициализация и исследование</h3>
                     <p><strong>Что происходит:</strong> Превращаем идею из планирования в конкретный план действий. Собираем команду, определяем рамки задачи и изучаем проблему со всех сторон.</p>
                     <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «разведки перед боем». Мы понимаем, какую боль клиента лечим, смотрим, что делают конкуренты, анализируем данные и формулируем предположения (гипотезы), что именно поможет пользователям. В результате у нас есть чёткий список приоритетных гипотез для проверки.</p>
+                </div>
+
+                <div class="widget-disclaimer">
+                    <h4>📌 Дисклеймер виджета борда: «Операционная динамика»</h4>
+                    <p>На раннем этапе количество исследований может быть ниже, а длительность — выше. По мере роста компетенций команды виджет должен показывать рост пропускной способности и сокращение времени исследований.</p>
+                    <div class="widget-actions">
+                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-throughput">Перейти к виджету на борде</a>
+                        <button class="widget-preview-btn" onclick="openWidgetPreview('throughput')">Открыть во всплывающем окне</button>
+                    </div>
                 </div>
 
                 <div class="diagram-container">
@@ -281,6 +429,15 @@ flowchart LR
                     <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «проверяем, не врём ли мы себе». Делаем быстрые тесты, опросы, интервью. Если гипотеза не подтверждается — отбрасываем её и не тратим деньги зря. Если подтверждается — идём дальше.</p>
                 </div>
 
+                <div class="widget-disclaimer">
+                    <h4>📌 Дисклеймер виджета борда: «Скорость цикла»</h4>
+                    <p>Именно здесь видны «Время на эксперименты» и «Время проверки гипотез». В начале они могут быть большими, но целевой сигнал — последовательное снижение этих показателей от квартала к кварталу.</p>
+                    <div class="widget-actions">
+                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-cycle">Перейти к виджету на борде</a>
+                        <button class="widget-preview-btn" onclick="openWidgetPreview('cycle')">Открыть во всплывающем окне</button>
+                    </div>
+                </div>
+
                 <div class="diagram-container">
                     <div class="diagram-title">Фаза 2.1. Валидация гипотез</div>
                     <div class="diagram-description">
@@ -335,6 +492,15 @@ flowchart LR
                     <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «рисуем будущее». Сначала делаем простые эскизы, тестируем внутри команды. Потом делаем детальные макеты, похожие на настоящий продукт, и показываем пользователям. Если что-то не нравится — переделываем, пока не «сидит» идеально.</p>
                 </div>
 
+                <div class="widget-disclaimer">
+                    <h4>📌 Дисклеймер виджета борда: «Стратегическая приоритизация»</h4>
+                    <p>На этом этапе важно смотреть, не перегружен ли портфель дорогими инициативами. Виджет помогает балансировать quick wins и сложные гипотезы до передачи в Delivery.</p>
+                    <div class="widget-actions">
+                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-matrix">Перейти к виджету на борде</a>
+                        <button class="widget-preview-btn" onclick="openWidgetPreview('matrix')">Открыть во всплывающем окне</button>
+                    </div>
+                </div>
+
                 <div class="diagram-container">
                     <div class="diagram-title">Фаза 2.2. Прототипирование решения</div>
                     <div class="diagram-description">
@@ -385,6 +551,15 @@ flowchart LR
                     <h3>Фаза 2.3. Техническое прототипирование</h3>
                     <p><strong>Что происходит:</strong> Проверяем, что решение реально сделать технически, и готовим его к запуску в Delivery.</p>
                     <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «а получится ли это вообще сделать?». Разработчики проверяют интеграции с существующими системами, оценивают риски и нагрузку. Лучше узнать о проблемах сейчас, чем в день запуска.</p>
+                </div>
+
+                <div class="widget-disclaimer">
+                    <h4>📌 Дисклеймер виджета борда: «Контроль бюджета»</h4>
+                    <p>Здесь контролируем стоимость подтверждённых гипотез по направлениям. Цель — убрать перерасход и выровнять экономику проверки до handoff в Delivery.</p>
+                    <div class="widget-actions">
+                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-cost">Перейти к виджету на борде</a>
+                        <button class="widget-preview-btn" onclick="openWidgetPreview('cost')">Открыть во всплывающем окне</button>
+                    </div>
                 </div>
 
                 <div class="diagram-container">
@@ -929,6 +1104,16 @@ graph TB
         </div>
     </div>
 
+    <div class="widget-overlay" id="widgetOverlay">
+        <div class="widget-modal" role="dialog" aria-modal="true" aria-labelledby="widgetOverlayTitle">
+            <div class="widget-modal-header">
+                <h3 id="widgetOverlayTitle">Виджет борда</h3>
+                <button class="widget-close" id="widgetOverlayClose" aria-label="Закрыть окно">&times;</button>
+            </div>
+            <iframe id="widgetIframe" title="Виджет из дашборда" loading="lazy"></iframe>
+        </div>
+    </div>
+
     <div class="diagram-overlay">
         <div class="diagram-overlay-close">&times;</div>
         <div class="diagram-overlay-content"></div>
@@ -1027,9 +1212,82 @@ graph TB
             });
         }
 
+        function navigateTo(url) {
+            if (!url) return;
+            document.body.classList.add('page-leaving');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 140);
+        }
+
+        function setupPageTransitions() {
+            document.querySelectorAll('a.nav-link').forEach((link) => {
+                link.addEventListener('click', (event) => {
+                    const href = link.getAttribute('href');
+                    if (!href || href.startsWith('http')) return;
+                    event.preventDefault();
+                    navigateTo(href);
+                });
+            });
+        }
+
+        const widgetPreviewConfig = {
+            throughput: {
+                title: 'Виджет «Операционная динамика»',
+                src: 'executive-dashboard.html?embed=1&widget=throughput'
+            },
+            cycle: {
+                title: 'Виджет «Скорость цикла»',
+                src: 'executive-dashboard.html?embed=1&widget=cycle'
+            },
+            matrix: {
+                title: 'Виджет «Стратегическая приоритизация»',
+                src: 'executive-dashboard.html?embed=1&widget=matrix'
+            },
+            cost: {
+                title: 'Виджет «Контроль бюджета»',
+                src: 'executive-dashboard.html?embed=1&widget=cost'
+            }
+        };
+
+        function closeWidgetPreview() {
+            const overlay = document.getElementById('widgetOverlay');
+            const iframe = document.getElementById('widgetIframe');
+            if (!overlay || !iframe) return;
+            overlay.classList.remove('active');
+            iframe.src = 'about:blank';
+        }
+
+        function openWidgetPreview(widgetKey) {
+            const config = widgetPreviewConfig[widgetKey];
+            if (!config) return;
+            const overlay = document.getElementById('widgetOverlay');
+            const iframe = document.getElementById('widgetIframe');
+            const title = document.getElementById('widgetOverlayTitle');
+            if (!overlay || !iframe || !title) return;
+            title.textContent = config.title;
+            iframe.src = config.src;
+            overlay.classList.add('active');
+        }
+
+        function setupWidgetPreview() {
+            const overlay = document.getElementById('widgetOverlay');
+            const closeBtn = document.getElementById('widgetOverlayClose');
+            if (!overlay || !closeBtn) return;
+
+            closeBtn.addEventListener('click', closeWidgetPreview);
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    closeWidgetPreview();
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             setupDiagramZoom();
             setupGlossarySearch();
+            setupWidgetPreview();
+            setupPageTransitions();
         });
     </script>
 </body>
