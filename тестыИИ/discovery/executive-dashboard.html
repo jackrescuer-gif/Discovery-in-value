@@ -1108,9 +1108,15 @@
                 }
             });
 
+            const actionAndDataCost = phaseCosts
+                .filter(item => item.phase === "Действие" || item.phase === "Данные")
+                .reduce((sum, item) => sum + item.direct + item.indirect, 0);
+            const actionAndDataShare = metrics.totalCost > 0 ? actionAndDataCost / metrics.totalCost : 0;
+
             document.getElementById("financialTitle").textContent =
-                "Стоимость проверки гипотез сосредоточена на фазах «Данные» и «Действие»: " +
-                formatCurrency(metrics.totalCost) + " за выбранный период.";
+                "Из общих затрат на проверку гипотез " + formatCurrency(metrics.totalCost) +
+                " на эксперименты и анализ данных уходит " + formatCurrency(actionAndDataCost) +
+                " (" + formatPct(actionAndDataShare) + ").";
             document.getElementById("costPerValidatedTitle").textContent =
                 "Стоимость подтверждённой гипотезы = " + formatCurrency(metrics.costPerValidated) +
                 ", сравнение с порогом по направлениям показывает точки перерасхода.";
