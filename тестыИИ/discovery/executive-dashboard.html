@@ -159,6 +159,53 @@
             margin-bottom: 14px;
         }
 
+        .category-disclaimer {
+            background: #fff;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .category-disclaimer h3 {
+            font-size: 0.9rem;
+            color: var(--mck-blue-800);
+            margin-bottom: 8px;
+        }
+
+        .category-disclaimer p {
+            font-size: 0.8rem;
+            color: var(--mck-gray-600);
+            margin-bottom: 10px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .category-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 9px;
+            background: #fbfdff;
+        }
+
+        .category-item strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--mck-blue-800);
+            font-size: 0.83rem;
+        }
+
+        .category-item span {
+            font-size: 0.77rem;
+            color: var(--mck-gray-600);
+            line-height: 1.35;
+        }
+
         .kpi-card {
             background: #fff;
             border: 1px solid var(--mck-gray-300);
@@ -443,6 +490,9 @@
             .kpi-grid {
                 grid-template-columns: repeat(4, minmax(140px, 1fr));
             }
+            .category-grid {
+                grid-template-columns: repeat(2, minmax(150px, 1fr));
+            }
             .filter-bar {
                 grid-template-columns: repeat(3, minmax(130px, 1fr));
             }
@@ -460,6 +510,9 @@
             }
             .kpi-grid {
                 grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
             }
             .mini-bar {
                 grid-template-columns: 120px 1fr 60px;
@@ -526,6 +579,29 @@
                     <option value="developing" selected>Развивающийся</option>
                     <option value="effective">Эффективный</option>
                 </select>
+            </div>
+        </section>
+
+        <section class="category-disclaimer">
+            <h3>Что означают направления в дашборде</h3>
+            <p>Чтобы быстрее считывать графики: каждое направление относится к разному типу бизнес-эффекта, поэтому и пороги затрат могут отличаться.</p>
+            <div class="category-grid">
+                <div class="category-item">
+                    <strong>Рост</strong>
+                    <span>Гипотезы про привлечение новых пользователей и расширение верхней части воронки.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Ценность</strong>
+                    <span>Гипотезы про выручку, монетизацию, ARPU/LTV и ценность продукта для клиента.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Удержание</strong>
+                    <span>Гипотезы про снижение оттока, рост частоты использования и повторные сессии.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Эффективность</strong>
+                    <span>Гипотезы про сокращение затрат и ускорение внутренних процессов команды.</span>
+                </div>
             </div>
         </section>
 
@@ -678,6 +754,12 @@
             retention: "Удержание",
             efficiency: "Эффективность"
         };
+        const categoryDescriptions = {
+            growth: "привлечение новых пользователей",
+            value: "монетизация и рост бизнес-ценности",
+            retention: "удержание и снижение оттока",
+            efficiency: "снижение затрат и ускорение процессов"
+        };
 
         const statusDecided = ["confirmed", "rejected", "implemented"];
         const statusPositive = ["confirmed", "implemented"];
@@ -710,6 +792,10 @@
 
         function getCategoryLabel(key) {
             return categoryLabels[key] || key;
+        }
+
+        function getCategoryDescription(key) {
+            return categoryDescriptions[key] || "без дополнительного описания";
         }
 
         function evaluateThreshold(value, target, mode) {
@@ -1218,7 +1304,7 @@
                 row.innerHTML = `
                     <div>
                         <div class="cost-main">${getCategoryLabel(item.category)}: ${formatCurrency(item.value)}</div>
-                        <div class="cost-meta">Порог: ${formatCurrency(target)}</div>
+                        <div class="cost-meta">Порог: ${formatCurrency(target)} • Фокус: ${getCategoryDescription(item.category)}</div>
                     </div>
                     <div class="cost-status ${statusClass}">${deltaText}</div>
                 `;
