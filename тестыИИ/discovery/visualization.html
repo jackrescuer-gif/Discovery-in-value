@@ -520,7 +520,7 @@ flowchart LR
     Feedback2 --> Iterate2{Нужны<br/>доработки?}
 
     Iterate2 -->|Да| Concept2
-    Iterate2 -->|Нет| TechProto2([Инженерное прототипирование<br/>и Proof of Concept])
+    Iterate2 -->|Нет| TechProto2([Старт процесса<br/>Delivery])
 
     style Iterate2 fill:#fff9c4
     style TechProto2 fill:#c8e6c9
@@ -539,7 +539,7 @@ flowchart LR
                     <ul>
                         <li>Дизайн-система применена (или создана)</li>
                     </ul>
-                    <h4 style="margin-top: 15px;">Переход Интерактивный → Инженерное прототипирование и PoC:</h4>
+                    <h4 style="margin-top: 15px;">Переход Интерактивный → Старт процесса Delivery:</h4>
                     <ul>
                         <li>Юзабилити-тестирование: 5+ пользователей, 80%+ success rate по ключевым задачам</li>
                         <li>Критические замечания по UX устранены</li>
@@ -559,34 +559,6 @@ flowchart LR
                     <div class="widget-actions">
                         <a class="widget-link nav-link" href="executive-dashboard.html#widget-cost">Перейти к виджету на борде</a>
                         <button class="widget-preview-btn" onclick="openWidgetPreview('cost')">Открыть во всплывающем окне</button>
-                    </div>
-                </div>
-
-                <div class="diagram-container">
-                    <div class="diagram-title">Фаза 2.3. Инженерное прототипирование и готовность решения</div>
-                    <div class="diagram-description">
-                        Проверка технической реализуемости, безопасности, compliance и интеграционных рисков перед handoff в Delivery.
-                    </div>
-                    <div class="mermaid">
-flowchart LR
-    TechProto2([Инженерное прототипирование<br/>и Proof of Concept]) --> Security2([Security review])
-    Security2 --> Compliance2([Compliance check<br/>(GDPR, accessibility)])
-    Compliance2 --> IntegrRisk2([Оценка<br/>интеграционных рисков])
-    IntegrRisk2 --> PerfTests2([Технические и<br/>нагрузочные тесты])
-    PerfTests2 --> PilotUsers2([Внутренний<br/>технический пилот])
-
-    PilotUsers2 --> Metrics2([Измерение<br/>метрик])
-    Metrics2 --> Ready([Готовность к<br/>handoff])
-
-    Ready --> Check{Чек-лист<br/>приёмки}
-    Check -->|Все критерии выполнены| Handoff([Передача<br/>в Delivery])
-    Check -->|Есть блокеры| Fix([Доработка<br/>артефактов])
-    Fix --> Ready
-
-    style Ready fill:#e1f5ff
-    style Handoff fill:#4caf50
-    style Fix fill:#ffccbc
-    style Check fill:#fff9c4
                     </div>
                 </div>
 
