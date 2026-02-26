@@ -277,10 +277,7 @@
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('overview')">Обзор процесса</button>
-            <button class="tab" onclick="showTab('validation')">Валидация гипотез</button>
-            <button class="tab" onclick="showTab('prototyping')">Прототипирование</button>
-            <button class="tab" onclick="showTab('templates')">Шаблоны и чек-листы</button>
-            <button class="tab" onclick="showTab('roles')">Роли и команда</button>
+            <button class="tab" onclick="showTab('glossary')">Справочник обозначений</button>
         </div>
 
         <div class="content">
@@ -545,6 +542,149 @@ flowchart LR
                         <li>Figma-файл с комментариями и спецификациями</li>
                         <li>Jira Epics / фичи с разбивкой на задачи (если используется Jira)</li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- Справочник обозначений -->
+            <div id="glossary" class="tab-content">
+                <div class="diagram-container">
+                    <div class="diagram-title">📘 Справочник обозначений</div>
+                    <div class="diagram-description">
+                        Краткий глоссарий терминов и сокращений, которые используются в процессе Discovery и последующем handoff в Delivery. Ориентирован на бизнес-стейкхолдеров.
+                    </div>
+
+                    <div style="margin: 10px 0 20px 0;">
+                        <label for="glossary-search" style="font-weight:500; margin-right:8px;">Поиск по терминам:</label>
+                        <input
+                            id="glossary-search"
+                            type="text"
+                            placeholder="Например: PoC, API, ADR..."
+                            style="padding:8px 10px; border-radius:6px; border:1px solid #ccc; min-width:260px;"
+                        />
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table id="glossary-table" style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+                            <thead>
+                                <tr style="background:#f5f5f5;">
+                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Артефакт (англ.)</th>
+                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Аббревиатура</th>
+                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Перевод</th>
+                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Простое объяснение для бизнеса</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Product Requirements Document</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PRD</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Требования к продукту</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Документ, который описывает ЧТО мы делаем и ПОЧЕМУ это важно для бизнеса. Без технических деталей — только суть, ценность и критерии успеха.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Application Programming Interface</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>API</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Интерфейс для связи систем</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Правила, по которым наше решение будет разговаривать с другими программами (базами данных, платёжными системами, внешними сервисами). Как розетка: если не подходит — ничего не заработает.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Architecture Decision Record</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>ADR</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Решения по архитектуре</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Запись важных технических выборов: почему выбрали именно такую технологию, какие были альтернативы, чем рискуем. Нужно, чтобы через полгода не спрашивали «а почему не сделали проще?». </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Proof of Concept</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>POC</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Проверка концепции</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Рабочий макет, который показывает: технически вообще возможно сделать то, что задумали? Дешёвый способ не вляпаться в провал на этапе разработки.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Minimum Viable Product</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>MVP</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Минимально жизнеспособный продукт</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Самая простая версия продукта, которая уже решает проблему пользователя. Не «сырой прототип», а рабочая штука, которую можно показать клиентам и замерить реакцию.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">User Experience / User Interface</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>UX/UI</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Опыт и интерфейс пользователя</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">UX — как человек чувствует себя при использовании (удобно ли, понятно ли). UI — как это выглядит (кнопки, цвета, шрифты). Вместе отвечают за «хочу ещё раз зайти» vs «закрыл и забыл».</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Definition of Done</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>DoD</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Критерии готовности</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Чёткий чек-лист: когда задачу можно считать законченной. Например: «код написан, протестирован, документация обновлена». Защита от «ну вроде сделали».</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Acceptance Criteria</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>AC</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Критерии приёмки</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Конкретные условия, при которых бизнес говорит «да, это то, что мы хотели». Пишутся простым языком: «пользователь может оплатить за 3 клика».</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">General Data Protection Regulation</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>GDPR</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Защита персональных данных (европейский стандарт)</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Правила работы с данными людей: что можно собирать, как хранить, как удалять по требованию. Штрафы за нарушение — до 4% годового оборота.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Web Content Accessibility Guidelines</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>WCAG</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Стандарты доступности сайтов</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Требования, чтобы люди с ограниченными возможностями (слепые, с тремором рук) могли пользоваться продуктом. В некоторых странах — обязательно по закону.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Product Owner</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PO</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Владелец продукта</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Человек от бизнеса, который знает, ЧТО делать и ЗАЧЕМ. Принимает решения, приоритизирует, отвечает за ценность. Его нельзя игнорировать — он голос пользователя.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Key Performance Indicator</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>KPI</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Ключевые показатели эффективности</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Цифры, по которым понятно, успешно ли решение. Например: «конверсия выросла с 2% до 5%» или «время на задачу сократилось вдвое».</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Return on Investment</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>ROI</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Окупаемость инвестиций</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Сколько денег вернётся на каждый вложенный рубль. Если ROI = 300% — вложили 1 млн, получили 3 млн. Главный вопрос для бизнеса.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Program Increment</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PI</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Программный инкремент (в SAFe)</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Большой планировочный цикл, обычно 8–12 недель. В рамках него команды согласовывают, какие инициативы берут в работу. Отсюда приходят задачи в Discovery.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Jobs to be Done</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>JTBD</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Теория «работы, которую нанимают продукт»</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Подход: не думать «какую кнопку сделать», а понять «какую задачу пользователь решает». Пример: люди не покупают дрель, им нужны дырки в стене.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Service Level Agreement</td>
+                                    <td style="border:1px солид #e0e0e0; padding:8px;"><strong>SLA</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Соглашение об уровне сервиса</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Договорённость, насколько быстро система должна работать и как часто может ломаться. Например: «страница грузится за 2 секунды, недоступность — не более 1 часа в месяц».</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Single Point of Failure</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>SPOF</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Единая точка отказа</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Компонент, который если сломается — вся система встанет. Риск, который нужно устранить до запуска.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Technical Debt</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">—</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Технический долг</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Умышленные упрощения в коде «чтобы быстрее запуститься», которые потом надо будет переделывать. Как кредит: срочно — да, но проценты платить придётся.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -908,8 +1048,33 @@ graph TB
             }, 100);
         }
 
+        function setupGlossarySearch() {
+            const input = document.getElementById('glossary-search');
+            const table = document.getElementById('glossary-table');
+            if (!input || !table) return;
+
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            input.addEventListener('input', () => {
+                const term = input.value.trim().toLowerCase();
+
+                if (!term) {
+                    rows.forEach(row => {
+                        row.style.display = '';
+                    });
+                    return;
+                }
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             setupDiagramZoom();
+            setupGlossarySearch();
         });
     </script>
 </body>
