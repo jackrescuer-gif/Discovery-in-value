@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Executive Dashboard — Проверка гипотез</title>
+    <title>Руководительский дашборд — Проверка гипотез</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -154,7 +154,7 @@
 
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(7, minmax(150px, 1fr));
+            grid-template-columns: repeat(8, minmax(150px, 1fr));
             gap: 10px;
             margin-bottom: 14px;
         }
@@ -165,7 +165,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow-soft);
             padding: 12px;
-            min-height: 108px;
+            min-height: 124px;
         }
 
         .kpi-label {
@@ -187,6 +187,26 @@
         .kpi-delta {
             font-size: 0.78rem;
             font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .kpi-target {
+            font-size: 0.73rem;
+            color: var(--mck-gray-600);
+        }
+
+        .kpi-state {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .kpi-state.ok {
+            color: var(--mck-green);
+        }
+
+        .kpi-state.warn {
+            color: #c62828;
         }
 
         .delta-positive {
@@ -314,6 +334,27 @@
             margin-top: 10px;
         }
 
+        .threshold-grid {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .threshold-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            background: #f8fbff;
+            padding: 9px;
+            font-size: 0.8rem;
+        }
+
+        .threshold-item strong {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--mck-blue-800);
+            margin-bottom: 2px;
+        }
+
         .quality-box {
             border: 1px solid var(--mck-gray-300);
             border-radius: 8px;
@@ -390,11 +431,11 @@
                 <a class="link-btn" href="visualization.html">← Процесс Discovery</a>
                 <a class="link-btn" href="hypothesis-digest.html">Дайджест гипотез</a>
             </div>
-            <div style="font-size:0.8rem;color:#6c757d;">Audience: CEO • CPO • CTO • CFO • COO</div>
+            <div style="font-size:0.8rem;color:#6c757d;">Аудитория: CEO • CPO • CTO • CFO • COO</div>
         </div>
 
         <header class="header">
-            <h1>Executive Dashboard: Discovery и проверка гипотез</h1>
+            <h1>Руководительский дашборд: Discovery и проверка гипотез</h1>
             <div class="action-title" id="actionTitle"></div>
         </header>
 
@@ -411,10 +452,10 @@
                 <label for="categoryFilter">Направление</label>
                 <select id="categoryFilter">
                     <option value="all">Все направления</option>
-                    <option value="growth">Growth</option>
-                    <option value="value">Value</option>
-                    <option value="retention">Retention</option>
-                    <option value="efficiency">Efficiency</option>
+                    <option value="growth">Рост</option>
+                    <option value="value">Ценность</option>
+                    <option value="retention">Удержание</option>
+                    <option value="efficiency">Эффективность</option>
                 </select>
             </div>
             <div class="filter-item">
@@ -427,20 +468,20 @@
                 <label for="statusFilter">Статус</label>
                 <select id="statusFilter">
                     <option value="all">Все статусы</option>
-                    <option value="formulated">Formulated</option>
-                    <option value="prioritized">Prioritized</option>
-                    <option value="testing">Testing</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="implemented">Implemented</option>
+                    <option value="formulated">Сформулирована</option>
+                    <option value="prioritized">Приоритизирована</option>
+                    <option value="testing">В эксперименте</option>
+                    <option value="confirmed">Подтверждена</option>
+                    <option value="rejected">Отклонена</option>
+                    <option value="implemented">Внедрена</option>
                 </select>
             </div>
             <div class="filter-item">
-                <label for="benchmarkMode">Benchmark</label>
+                <label for="benchmarkMode">Этап зрелости команды</label>
                 <select id="benchmarkMode">
-                    <option value="strict">Строгий</option>
-                    <option value="standard" selected>Стандартный</option>
-                    <option value="aggressive">Агрессивный</option>
+                    <option value="initial">Начальный</option>
+                    <option value="developing" selected>Развивающийся</option>
+                    <option value="effective">Эффективный</option>
                 </select>
             </div>
         </section>
@@ -449,74 +490,76 @@
 
         <section class="layout-grid">
             <article class="card span-8">
-                <div class="section-label">Financial Efficiency</div>
+                <div class="section-label">Финансовая эффективность</div>
                 <h2 id="financialTitle">Затраты распределены по фазам Discovery с доминированием исследований</h2>
-                <p class="subtitle">Waterfall-bridge по структуре затрат: direct + indirect cost.</p>
+                <p class="subtitle">Структура затрат по фазам проверки: прямые и косвенные расходы.</p>
                 <div class="chart-wrap tall"><canvas id="costWaterfall"></canvas></div>
             </article>
 
             <article class="card span-4">
-                <div class="section-label">Budget Control</div>
+                <div class="section-label">Контроль бюджета</div>
                 <h2 id="costPerValidatedTitle">Стоимость подтверждения по направлениям выше целевого уровня в отдельных сегментах</h2>
-                <p class="subtitle">Cost per validated hypothesis: факт vs target.</p>
+                <p class="subtitle">Стоимость подтверждённой гипотезы: факт против порога.</p>
                 <div class="chart-wrap"><canvas id="costPerValidatedChart"></canvas></div>
             </article>
 
             <article class="card span-6">
-                <div class="section-label">Operational Throughput</div>
+                <div class="section-label">Операционная динамика</div>
                 <h2 id="throughputTitle">Темп исследований и проверок стабилен, но ниже планового в двух неделях</h2>
-                <p class="subtitle">Еженедельный throughput: completed researches и tested hypotheses.</p>
+                <p class="subtitle">Еженедельный поток: завершённые исследования и эксперименты.</p>
                 <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
             </article>
 
             <article class="card span-6">
-                <div class="section-label">Cycle Time</div>
-                <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между Action и Data</h2>
-                <p class="subtitle">Median cycle time в днях + decomposed waiting share.</p>
+                <div class="section-label">Скорость цикла</div>
+                <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между этапами действия и анализа данных</h2>
+                <p class="subtitle">Медианное время исследования и эксперимента + вклад ожиданий.</p>
                 <div class="chart-wrap"><canvas id="cycleTimeChart"></canvas></div>
                 <div class="mini-bars" id="waitingBars"></div>
             </article>
 
             <article class="card span-6">
-                <div class="section-label">Outcome Quality</div>
+                <div class="section-label">Качество результата</div>
                 <h2 id="funnelTitle">Конверсия портфеля показывает, сколько гипотез доходит до подтверждения и внедрения</h2>
-                <p class="subtitle">Funnel: formulated → prioritized → testing → confirmed/rejected → implemented.</p>
+                <p class="subtitle">Воронка: сформулировано → приоритизировано → эксперимент → подтверждено/отклонено → внедрено.</p>
                 <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
             </article>
 
             <article class="card span-6">
-                <div class="section-label">Strategic Prioritization</div>
+                <div class="section-label">Стратегическая приоритизация</div>
                 <h2 id="matrixTitle">Портфель смещён в высокое effort поле; quick wins присутствуют, но недоинвестированы</h2>
-                <p class="subtitle">2x2 матрица: Confidence vs Effort, размер bubble = Reach, цвет = статус.</p>
+                <p class="subtitle">Матрица 2x2: уверенность vs сложность, размер точки = охват, цвет = статус.</p>
                 <div class="chart-wrap"><canvas id="matrixChart"></canvas></div>
                 <div class="legend-row">
-                    <span><span class="dot" style="background:#2e7d32;"></span>Confirmed/Implemented</span>
-                    <span><span class="dot" style="background:#ff6b6b;"></span>Rejected</span>
+                    <span><span class="dot" style="background:#2e7d32;"></span>Подтверждено / внедрено</span>
+                    <span><span class="dot" style="background:#ff6b6b;"></span>Отклонено</span>
                     <span><span class="dot" style="background:#147bbc;"></span>В работе</span>
                 </div>
             </article>
 
             <article class="card span-8">
-                <div class="section-label">Executive Recommendations</div>
+                <div class="section-label">Рекомендации для руководителей</div>
                 <h2 id="recommendationTitle">Рекомендации: где снизить расходы и ускорить цикл в следующем квартале</h2>
                 <p class="subtitle">Риски и действия для управленческого решения на C-level.</p>
                 <div class="insight-list" id="insightList"></div>
             </article>
 
             <article class="card span-4">
-                <div class="section-label">Data Quality & Governance</div>
-                <h2>Контроль качества данных для KPI</h2>
-                <p class="subtitle">Флаги качества, влияющие на доверие к метрикам.</p>
+                <div class="section-label">Пороги и качество данных</div>
+                <h2>Пороговые значения эффективности команды</h2>
+                <p class="subtitle">На начальных этапах время выше, затем должно последовательно сокращаться.</p>
+                <div class="threshold-grid" id="thresholdGrid"></div>
+                <p class="subtitle" style="margin-top:10px;">Флаги качества данных, влияющие на доверие к метрикам.</p>
                 <div class="data-quality" id="qualityGrid"></div>
                 <div class="footer-note" style="margin-top:14px;">
-                    <span><strong>Target alerts:</strong> Budget overrun &gt; 10%, Velocity drift &gt; 20%, Success rate below target</span>
+                    <span><strong>Порог алертов:</strong> перерасход бюджета &gt; 10%, ухудшение скорости &gt; 20%, доля подтверждения ниже цели</span>
                 </div>
             </article>
         </section>
 
         <div class="footer-note">
-            <span>Source: Internal Discovery tracker (synthetic executive dataset), 2026</span>
-            <span id="lastUpdated">Last updated: —</span>
+            <span>Источник: внутренний Discovery tracker (синтетический набор данных), 2026</span>
+            <span id="lastUpdated">Обновлено: —</span>
         </div>
     </div>
 
@@ -525,34 +568,71 @@
             { id: "H-001", title: "Новый онбординг с прогрессом", category: "growth", product: "Core Web", team: "Alpha", status: "implemented", confidence: 89, effort: 2, reach: 82, costDirect: 182000, costIndirect: 74000, createdAt: "2026-01-05", prioritizedAt: "2026-01-07", researchStart: "2026-01-08", researchEnd: "2026-01-13", decisionAt: "2026-01-15" },
             { id: "H-002", title: "Сокращение полей в checkout", category: "value", product: "Payments", team: "Gamma", status: "confirmed", confidence: 84, effort: 3, reach: 74, costDirect: 164000, costIndirect: 69000, createdAt: "2026-01-06", prioritizedAt: "2026-01-08", researchStart: "2026-01-10", researchEnd: "2026-01-16", decisionAt: "2026-01-18" },
             { id: "H-003", title: "Пакетный тариф annual", category: "value", product: "Pricing", team: "Delta", status: "rejected", confidence: 63, effort: 4, reach: 91, costDirect: 228000, costIndirect: 84000, createdAt: "2026-01-09", prioritizedAt: "2026-01-11", researchStart: "2026-01-13", researchEnd: "2026-01-22", decisionAt: "2026-01-24" },
-            { id: "H-004", title: "Smart nudges в retention flow", category: "retention", product: "CRM", team: "Beta", status: "confirmed", confidence: 78, effort: 2, reach: 68, costDirect: 144000, costIndirect: 56000, createdAt: "2026-01-11", prioritizedAt: "2026-01-13", researchStart: "2026-01-15", researchEnd: "2026-01-20", decisionAt: "2026-01-23" },
-            { id: "H-005", title: "Сегментация churn-risk", category: "retention", product: "ML", team: "Beta", status: "testing", confidence: 71, effort: 4, reach: 77, costDirect: 210000, costIndirect: 93000, createdAt: "2026-01-12", prioritizedAt: "2026-01-15", researchStart: "2026-01-18", researchEnd: null, decisionAt: null },
-            { id: "H-006", title: "Авто-классификация user feedback", category: "efficiency", product: "Ops", team: "Omega", status: "implemented", confidence: 86, effort: 3, reach: 63, costDirect: 156000, costIndirect: 62000, createdAt: "2026-01-14", prioritizedAt: "2026-01-17", researchStart: "2026-01-20", researchEnd: "2026-01-27", decisionAt: "2026-01-29" },
-            { id: "H-007", title: "Guided search на первой сессии", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 81, effort: 2, reach: 72, costDirect: 138000, costIndirect: 54000, createdAt: "2026-01-17", prioritizedAt: "2026-01-19", researchStart: "2026-01-22", researchEnd: "2026-01-28", decisionAt: "2026-01-31" },
-            { id: "H-008", title: "Lite-версия отчётов", category: "efficiency", product: "Reporting", team: "Omega", status: "rejected", confidence: 58, effort: 4, reach: 57, costDirect: 172000, costIndirect: 78000, createdAt: "2026-01-18", prioritizedAt: "2026-01-21", researchStart: "2026-01-24", researchEnd: "2026-02-01", decisionAt: "2026-02-04" },
-            { id: "H-009", title: "Paywall после 2-го инсайта", category: "value", product: "Monetization", team: "Delta", status: "confirmed", confidence: 82, effort: 3, reach: 85, costDirect: 188000, costIndirect: 82000, createdAt: "2026-01-20", prioritizedAt: "2026-01-23", researchStart: "2026-01-25", researchEnd: "2026-02-02", decisionAt: "2026-02-06" },
-            { id: "H-010", title: "Predictive prompt для sales", category: "growth", product: "CRM", team: "Beta", status: "prioritized", confidence: 67, effort: 5, reach: 79, costDirect: 92000, costIndirect: 48000, createdAt: "2026-01-23", prioritizedAt: "2026-02-01", researchStart: null, researchEnd: null, decisionAt: null },
-            { id: "H-011", title: "Nudges в модуле оплаты", category: "value", product: "Payments", team: "Gamma", status: "implemented", confidence: 88, effort: 2, reach: 76, costDirect: 132000, costIndirect: 49000, createdAt: "2026-01-25", prioritizedAt: "2026-01-28", researchStart: "2026-01-30", researchEnd: "2026-02-05", decisionAt: "2026-02-08" },
-            { id: "H-012", title: "Reactivation email + offer", category: "retention", product: "CRM", team: "Beta", status: "rejected", confidence: 54, effort: 3, reach: 66, costDirect: 146000, costIndirect: 58000, createdAt: "2026-01-27", prioritizedAt: "2026-01-30", researchStart: "2026-02-02", researchEnd: "2026-02-10", decisionAt: "2026-02-12" },
+            { id: "H-004", title: "Умные подсказки в потоке удержания", category: "retention", product: "CRM", team: "Beta", status: "confirmed", confidence: 78, effort: 2, reach: 68, costDirect: 144000, costIndirect: 56000, createdAt: "2026-01-11", prioritizedAt: "2026-01-13", researchStart: "2026-01-15", researchEnd: "2026-01-20", decisionAt: "2026-01-23" },
+            { id: "H-005", title: "Сегментация риска оттока", category: "retention", product: "ML", team: "Beta", status: "testing", confidence: 71, effort: 4, reach: 77, costDirect: 210000, costIndirect: 93000, createdAt: "2026-01-12", prioritizedAt: "2026-01-15", researchStart: "2026-01-18", researchEnd: null, decisionAt: null },
+            { id: "H-006", title: "Автоклассификация пользовательской обратной связи", category: "efficiency", product: "Ops", team: "Omega", status: "implemented", confidence: 86, effort: 3, reach: 63, costDirect: 156000, costIndirect: 62000, createdAt: "2026-01-14", prioritizedAt: "2026-01-17", researchStart: "2026-01-20", researchEnd: "2026-01-27", decisionAt: "2026-01-29" },
+            { id: "H-007", title: "Пошаговый поиск на первой сессии", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 81, effort: 2, reach: 72, costDirect: 138000, costIndirect: 54000, createdAt: "2026-01-17", prioritizedAt: "2026-01-19", researchStart: "2026-01-22", researchEnd: "2026-01-28", decisionAt: "2026-01-31" },
+            { id: "H-008", title: "Лёгкая версия отчётов", category: "efficiency", product: "Reporting", team: "Omega", status: "rejected", confidence: 58, effort: 4, reach: 57, costDirect: 172000, costIndirect: 78000, createdAt: "2026-01-18", prioritizedAt: "2026-01-21", researchStart: "2026-01-24", researchEnd: "2026-02-01", decisionAt: "2026-02-04" },
+            { id: "H-009", title: "Платный доступ после второго инсайта", category: "value", product: "Monetization", team: "Delta", status: "confirmed", confidence: 82, effort: 3, reach: 85, costDirect: 188000, costIndirect: 82000, createdAt: "2026-01-20", prioritizedAt: "2026-01-23", researchStart: "2026-01-25", researchEnd: "2026-02-02", decisionAt: "2026-02-06" },
+            { id: "H-010", title: "Предиктивная подсказка для продаж", category: "growth", product: "CRM", team: "Beta", status: "prioritized", confidence: 67, effort: 5, reach: 79, costDirect: 92000, costIndirect: 48000, createdAt: "2026-01-23", prioritizedAt: "2026-02-01", researchStart: null, researchEnd: null, decisionAt: null },
+            { id: "H-011", title: "Подсказки в модуле оплаты", category: "value", product: "Payments", team: "Gamma", status: "implemented", confidence: 88, effort: 2, reach: 76, costDirect: 132000, costIndirect: 49000, createdAt: "2026-01-25", prioritizedAt: "2026-01-28", researchStart: "2026-01-30", researchEnd: "2026-02-05", decisionAt: "2026-02-08" },
+            { id: "H-012", title: "Письмо реактивации + оффер", category: "retention", product: "CRM", team: "Beta", status: "rejected", confidence: 54, effort: 3, reach: 66, costDirect: 146000, costIndirect: 58000, createdAt: "2026-01-27", prioritizedAt: "2026-01-30", researchStart: "2026-02-02", researchEnd: "2026-02-10", decisionAt: "2026-02-12" },
             { id: "H-013", title: "Шаблоны для discovery briefs", category: "efficiency", product: "Ops", team: "Omega", status: "confirmed", confidence: 79, effort: 1, reach: 41, costDirect: 86000, costIndirect: 36000, createdAt: "2026-02-01", prioritizedAt: "2026-02-03", researchStart: "2026-02-04", researchEnd: "2026-02-08", decisionAt: "2026-02-09" },
             { id: "H-014", title: "Умный fallback для API latency", category: "retention", product: "Platform", team: "Sigma", status: "testing", confidence: 69, effort: 5, reach: 83, costDirect: 236000, costIndirect: 108000, createdAt: "2026-02-02", prioritizedAt: "2026-02-05", researchStart: "2026-02-07", researchEnd: null, decisionAt: null },
-            { id: "H-015", title: "One-click import из Excel", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 80, effort: 3, reach: 71, costDirect: 149000, costIndirect: 62000, createdAt: "2026-02-04", prioritizedAt: "2026-02-06", researchStart: "2026-02-08", researchEnd: "2026-02-14", decisionAt: "2026-02-17" },
+            { id: "H-015", title: "Импорт из Excel в один клик", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 80, effort: 3, reach: 71, costDirect: 149000, costIndirect: 62000, createdAt: "2026-02-04", prioritizedAt: "2026-02-06", researchStart: "2026-02-08", researchEnd: "2026-02-14", decisionAt: "2026-02-17" },
             { id: "H-016", title: "Новая подсветка ошибок формы", category: "value", product: "Payments", team: "Gamma", status: "implemented", confidence: 90, effort: 2, reach: 70, costDirect: 121000, costIndirect: 46000, createdAt: "2026-02-06", prioritizedAt: "2026-02-08", researchStart: "2026-02-10", researchEnd: "2026-02-14", decisionAt: "2026-02-16" },
-            { id: "H-017", title: "Adaptive recommendations", category: "growth", product: "AI Assist", team: "Sigma", status: "testing", confidence: 73, effort: 5, reach: 94, costDirect: 264000, costIndirect: 116000, createdAt: "2026-02-08", prioritizedAt: "2026-02-11", researchStart: "2026-02-13", researchEnd: null, decisionAt: null },
+            { id: "H-017", title: "Адаптивные рекомендации", category: "growth", product: "AI Assist", team: "Sigma", status: "testing", confidence: 73, effort: 5, reach: 94, costDirect: 264000, costIndirect: 116000, createdAt: "2026-02-08", prioritizedAt: "2026-02-11", researchStart: "2026-02-13", researchEnd: null, decisionAt: null },
             { id: "H-018", title: "Автоматический роутинг тикетов", category: "efficiency", product: "Ops", team: "Omega", status: "confirmed", confidence: 82, effort: 3, reach: 59, costDirect: 138000, costIndirect: 55000, createdAt: "2026-02-09", prioritizedAt: "2026-02-12", researchStart: "2026-02-14", researchEnd: "2026-02-21", decisionAt: "2026-02-23" },
-            { id: "H-019", title: "Bundle для enterprise onboarding", category: "value", product: "Monetization", team: "Delta", status: "formulated", confidence: 61, effort: 5, reach: 88, costDirect: 54000, costIndirect: 28000, createdAt: "2026-02-11", prioritizedAt: null, researchStart: null, researchEnd: null, decisionAt: null },
-            { id: "H-020", title: "Smart SLA alerts", category: "retention", product: "Platform", team: "Sigma", status: "confirmed", confidence: 79, effort: 3, reach: 67, costDirect: 167000, costIndirect: 72000, createdAt: "2026-02-13", prioritizedAt: "2026-02-16", researchStart: "2026-02-18", researchEnd: "2026-02-24", decisionAt: "2026-02-26" },
+            { id: "H-019", title: "Пакет для корпоративного онбординга", category: "value", product: "Monetization", team: "Delta", status: "formulated", confidence: 61, effort: 5, reach: 88, costDirect: 54000, costIndirect: 28000, createdAt: "2026-02-11", prioritizedAt: null, researchStart: null, researchEnd: null, decisionAt: null },
+            { id: "H-020", title: "Умные SLA-оповещения", category: "retention", product: "Platform", team: "Sigma", status: "confirmed", confidence: 79, effort: 3, reach: 67, costDirect: 167000, costIndirect: 72000, createdAt: "2026-02-13", prioritizedAt: "2026-02-16", researchStart: "2026-02-18", researchEnd: "2026-02-24", decisionAt: "2026-02-26" },
             { id: "H-021", title: "Промо-лендинг с ROI-калькулятором", category: "growth", product: "Core Web", team: "Alpha", status: "rejected", confidence: 57, effort: 2, reach: 64, costDirect: 101000, costIndirect: 43000, createdAt: "2026-02-14", prioritizedAt: "2026-02-17", researchStart: "2026-02-19", researchEnd: "2026-02-24", decisionAt: "2026-02-26" },
             { id: "H-022", title: "Снижение шума в мониторинге", category: "efficiency", product: "Platform", team: "Sigma", status: "prioritized", confidence: 66, effort: 4, reach: 62, costDirect: 98000, costIndirect: 47000, createdAt: "2026-02-16", prioritizedAt: "2026-02-19", researchStart: null, researchEnd: null, decisionAt: null },
-            { id: "H-023", title: "Динамическая персонализация paywall", category: "value", product: "Pricing", team: "Delta", status: "testing", confidence: 75, effort: 4, reach: 87, costDirect: 216000, costIndirect: 94000, createdAt: "2026-02-18", prioritizedAt: "2026-02-21", researchStart: "2026-02-23", researchEnd: null, decisionAt: null },
-            { id: "H-024", title: "In-app coaching для новых PM", category: "retention", product: "Core Web", team: "Beta", status: "confirmed", confidence: 83, effort: 2, reach: 55, costDirect: 112000, costIndirect: 42000, createdAt: "2026-02-19", prioritizedAt: "2026-02-21", researchStart: "2026-02-22", researchEnd: "2026-02-25", decisionAt: "2026-02-26" }
+            { id: "H-023", title: "Динамическая персонализация платного доступа", category: "value", product: "Pricing", team: "Delta", status: "testing", confidence: 75, effort: 4, reach: 87, costDirect: 216000, costIndirect: 94000, createdAt: "2026-02-18", prioritizedAt: "2026-02-21", researchStart: "2026-02-23", researchEnd: null, decisionAt: null },
+            { id: "H-024", title: "Встроенный коучинг для новых PM", category: "retention", product: "Core Web", team: "Beta", status: "confirmed", confidence: 83, effort: 2, reach: 55, costDirect: 112000, costIndirect: 42000, createdAt: "2026-02-19", prioritizedAt: "2026-02-21", researchStart: "2026-02-22", researchEnd: "2026-02-25", decisionAt: "2026-02-26" }
         ];
 
         const charts = {};
-        const budgetTargets = {
-            strict: { total: 3900000, successRate: 0.42, validationDays: 4.6, researchDays: 4.8 },
-            standard: { total: 4300000, successRate: 0.38, validationDays: 5.2, researchDays: 5.5 },
-            aggressive: { total: 4700000, successRate: 0.34, validationDays: 5.8, researchDays: 6.2 }
+        const maturityTargets = {
+            initial: {
+                label: "Начальный",
+                total: 4700000,
+                successRate: 0.28,
+                researchDays: 11,
+                experimentDays: 13,
+                validationDays: 16,
+                minResearchCount: 8,
+                minExperimentCount: 6,
+                costPerValidated: 620000
+            },
+            developing: {
+                label: "Развивающийся",
+                total: 4300000,
+                successRate: 0.36,
+                researchDays: 8,
+                experimentDays: 9,
+                validationDays: 11,
+                minResearchCount: 12,
+                minExperimentCount: 10,
+                costPerValidated: 480000
+            },
+            effective: {
+                label: "Эффективный",
+                total: 3900000,
+                successRate: 0.45,
+                researchDays: 5,
+                experimentDays: 6,
+                validationDays: 8,
+                minResearchCount: 16,
+                minExperimentCount: 14,
+                costPerValidated: 360000
+            }
+        };
+
+        const categoryLabels = {
+            growth: "Рост",
+            value: "Ценность",
+            retention: "Удержание",
+            efficiency: "Эффективность"
         };
 
         const statusDecided = ["confirmed", "rejected", "implemented"];
@@ -582,6 +662,21 @@
         function formatDays(value) {
             if (!Number.isFinite(value)) return "—";
             return value.toFixed(1) + " дн.";
+        }
+
+        function getCategoryLabel(key) {
+            return categoryLabels[key] || key;
+        }
+
+        function evaluateThreshold(value, target, mode) {
+            if (!Number.isFinite(value) || !Number.isFinite(target)) {
+                return { className: "warn", text: "Недостаточно данных" };
+            }
+            const ok = mode === "max" ? value <= target : value >= target;
+            return {
+                className: ok ? "ok" : "warn",
+                text: ok ? "В пределах порога" : "Требует улучшения"
+            };
         }
 
         function toDayDiff(start, end) {
@@ -659,7 +754,7 @@
             });
         }
 
-        function computeMetrics(data, range, benchmark) {
+        function computeMetrics(data, range, maturityKey) {
             const activeStatuses = ["prioritized", "testing", "confirmed", "rejected", "implemented"];
             const activeScope = data.filter(item => activeStatuses.includes(item.status));
             const totalCost = activeScope.reduce((sum, item) => sum + item.costDirect + item.costIndirect, 0);
@@ -670,15 +765,17 @@
 
             const validationDays = tested.map(item => toDayDiff(parseDate(item.prioritizedAt), parseDate(item.decisionAt))).filter(v => Number.isFinite(v));
             const researchDays = researches.map(item => toDayDiff(parseDate(item.researchStart), parseDate(item.researchEnd))).filter(v => Number.isFinite(v));
+            const experimentDays = tested.map(item => toDayDiff(parseDate(item.researchStart), parseDate(item.decisionAt))).filter(v => Number.isFinite(v));
 
             const weekCount = getWeeksBetween(range.start, range.end);
             const researchVelocity = researches.length / weekCount;
             const successRate = tested.length ? confirmed.length / tested.length : 0;
             const validationMedian = median(validationDays);
             const researchMedian = median(researchDays);
+            const experimentMedian = median(experimentDays);
             const costPerValidated = confirmed.length ? totalCost / confirmed.length : null;
 
-            const target = budgetTargets[benchmark];
+            const target = maturityTargets[maturityKey];
             const budgetGap = target.total ? (totalCost - target.total) / target.total : 0;
             const validationGap = target.validationDays && validationMedian ? (validationMedian - target.validationDays) / target.validationDays : 0;
             const successGap = target.successRate ? (successRate - target.successRate) / target.successRate : 0;
@@ -686,12 +783,14 @@
             return {
                 totalCost,
                 researchCount: researches.length,
+                experimentCount: tested.length,
                 confirmedCount: confirmed.length,
                 testedCount: tested.length,
                 successRate,
                 researchVelocity,
                 validationVelocityDays: validationMedian,
                 researchVelocityDays: researchMedian,
+                experimentVelocityDays: experimentMedian,
                 costPerValidated,
                 budgetGap,
                 validationGap,
@@ -713,40 +812,93 @@
 
         function getDelta(current, previous, invertGood = false) {
             if (!Number.isFinite(current) || !Number.isFinite(previous) || previous === 0) {
-                return { text: "n/a", className: "delta-neutral" };
+                return { text: "н/д", className: "delta-neutral" };
             }
             const delta = (current - previous) / previous;
             const sign = delta > 0 ? "+" : "";
-            const label = sign + (delta * 100).toFixed(1) + "% vs prev";
+            const label = sign + (delta * 100).toFixed(1) + "% к прошлому периоду";
             const isGood = invertGood ? delta <= 0 : delta >= 0;
             return { text: label, className: isGood ? "delta-positive" : "delta-negative" };
         }
 
         function buildActionTitle(metrics, target) {
             const budgetSignal = metrics.budgetGap > 0.1 ? "превышает бюджет" : "держится в бюджетном коридоре";
-            const speedSignal = metrics.validationVelocityDays && metrics.validationVelocityDays <= target.validationDays
-                ? "скорость проверки гипотез соответствует целевому уровню"
-                : "скорость проверки гипотез ниже целевой";
+            const experimentSignal = metrics.experimentVelocityDays && metrics.experimentVelocityDays <= target.experimentDays
+                ? "эксперименты укладываются в целевое время"
+                : "время экспериментов выше целевого";
+            const validationSignal = metrics.validationVelocityDays && metrics.validationVelocityDays <= target.validationDays
+                ? "проверка гипотез ускоряется"
+                : "проверка гипотез требует ускорения";
             return "Портфель гипотез " + budgetSignal +
                 ": TVC " + formatCurrency(metrics.totalCost) +
                 ", подтверждено " + metrics.confirmedCount +
                 " из " + metrics.testedCount +
-                " проверенных; " + speedSignal +
-                " (" + formatDays(metrics.validationVelocityDays) + ").";
+                " экспериментов; " + experimentSignal +
+                " (" + formatDays(metrics.experimentVelocityDays) + "), " +
+                validationSignal + " (" + formatDays(metrics.validationVelocityDays) + ").";
         }
 
-        function renderKpis(currentMetrics, previousMetrics) {
+        function renderKpis(currentMetrics, previousMetrics, target) {
             const grid = document.getElementById("kpiGrid");
             grid.innerHTML = "";
 
             const items = [
-                { label: "Total Validation Cost", value: formatCurrency(currentMetrics.totalCost), delta: getDelta(currentMetrics.totalCost, previousMetrics.totalCost, true) },
-                { label: "Research Count", value: formatNumber(currentMetrics.researchCount), delta: getDelta(currentMetrics.researchCount, previousMetrics.researchCount, false) },
-                { label: "Confirmed Hypotheses", value: formatNumber(currentMetrics.confirmedCount), delta: getDelta(currentMetrics.confirmedCount, previousMetrics.confirmedCount, false) },
-                { label: "Success Rate", value: formatPct(currentMetrics.successRate), delta: getDelta(currentMetrics.successRate, previousMetrics.successRate, false) },
-                { label: "Research Velocity", value: currentMetrics.researchVelocity.toFixed(2) + " / нед", delta: getDelta(currentMetrics.researchVelocity, previousMetrics.researchVelocity, false) },
-                { label: "Validation Velocity", value: formatDays(currentMetrics.validationVelocityDays), delta: getDelta(currentMetrics.validationVelocityDays, previousMetrics.validationVelocityDays, true) },
-                { label: "Cost per Validated", value: formatCurrency(currentMetrics.costPerValidated || 0), delta: getDelta(currentMetrics.costPerValidated || 0, previousMetrics.costPerValidated || 0, true) }
+                {
+                    label: "Общие затраты на проверку",
+                    value: formatCurrency(currentMetrics.totalCost),
+                    delta: getDelta(currentMetrics.totalCost, previousMetrics.totalCost, true),
+                    targetText: "Порог: ≤ " + formatCurrency(target.total),
+                    threshold: evaluateThreshold(currentMetrics.totalCost, target.total, "max")
+                },
+                {
+                    label: "Количество исследований",
+                    value: formatNumber(currentMetrics.researchCount),
+                    delta: getDelta(currentMetrics.researchCount, previousMetrics.researchCount, false),
+                    targetText: "Порог: ≥ " + formatNumber(target.minResearchCount),
+                    threshold: evaluateThreshold(currentMetrics.researchCount, target.minResearchCount, "min")
+                },
+                {
+                    label: "Время на исследование",
+                    value: formatDays(currentMetrics.researchVelocityDays),
+                    delta: getDelta(currentMetrics.researchVelocityDays, previousMetrics.researchVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.researchDays),
+                    threshold: evaluateThreshold(currentMetrics.researchVelocityDays, target.researchDays, "max")
+                },
+                {
+                    label: "Количество экспериментов",
+                    value: formatNumber(currentMetrics.experimentCount),
+                    delta: getDelta(currentMetrics.experimentCount, previousMetrics.experimentCount, false),
+                    targetText: "Порог: ≥ " + formatNumber(target.minExperimentCount),
+                    threshold: evaluateThreshold(currentMetrics.experimentCount, target.minExperimentCount, "min")
+                },
+                {
+                    label: "Время на эксперименты",
+                    value: formatDays(currentMetrics.experimentVelocityDays),
+                    delta: getDelta(currentMetrics.experimentVelocityDays, previousMetrics.experimentVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.experimentDays),
+                    threshold: evaluateThreshold(currentMetrics.experimentVelocityDays, target.experimentDays, "max")
+                },
+                {
+                    label: "Время проверки гипотез",
+                    value: formatDays(currentMetrics.validationVelocityDays),
+                    delta: getDelta(currentMetrics.validationVelocityDays, previousMetrics.validationVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.validationDays),
+                    threshold: evaluateThreshold(currentMetrics.validationVelocityDays, target.validationDays, "max")
+                },
+                {
+                    label: "Доля подтверждения гипотез",
+                    value: formatPct(currentMetrics.successRate),
+                    delta: getDelta(currentMetrics.successRate, previousMetrics.successRate, false),
+                    targetText: "Порог: ≥ " + formatPct(target.successRate),
+                    threshold: evaluateThreshold(currentMetrics.successRate, target.successRate, "min")
+                },
+                {
+                    label: "Стоимость подтверждённой гипотезы",
+                    value: formatCurrency(currentMetrics.costPerValidated),
+                    delta: getDelta(currentMetrics.costPerValidated, previousMetrics.costPerValidated, true),
+                    targetText: "Порог: ≤ " + formatCurrency(target.costPerValidated),
+                    threshold: evaluateThreshold(currentMetrics.costPerValidated, target.costPerValidated, "max")
+                }
             ];
 
             items.forEach(item => {
@@ -756,6 +908,8 @@
                     <div class="kpi-label">${item.label}</div>
                     <div class="kpi-value">${item.value}</div>
                     <div class="kpi-delta ${item.delta.className}">${item.delta.text}</div>
+                    <div class="kpi-target">${item.targetText}</div>
+                    <div class="kpi-state ${item.threshold.className}">${item.threshold.text}</div>
                 `;
                 grid.appendChild(card);
             });
@@ -763,10 +917,10 @@
 
         function getPhaseCosts(data) {
             const mix = [
-                { phase: "Hypothesis", d: 0.17, i: 0.12 },
-                { phase: "Action", d: 0.26, i: 0.22 },
-                { phase: "Data", d: 0.33, i: 0.41 },
-                { phase: "Insights", d: 0.24, i: 0.25 }
+                { phase: "Гипотеза", d: 0.17, i: 0.12 },
+                { phase: "Действие", d: 0.26, i: 0.22 },
+                { phase: "Данные", d: 0.33, i: 0.41 },
+                { phase: "Инсайты", d: 0.24, i: 0.25 }
             ];
             const totalDirect = data.reduce((sum, item) => sum + item.costDirect, 0);
             const totalIndirect = data.reduce((sum, item) => sum + item.costIndirect, 0);
@@ -862,7 +1016,7 @@
             }
         }
 
-        function renderFinancialCharts(filteredData, metrics, benchmark) {
+        function renderFinancialCharts(filteredData, metrics, maturityKey) {
             const phaseCosts = getPhaseCosts(filteredData);
             destroyChart("costWaterfall");
             charts.costWaterfall = new Chart(document.getElementById("costWaterfall"), {
@@ -871,13 +1025,13 @@
                     labels: phaseCosts.map(item => item.phase),
                     datasets: [
                         {
-                            label: "Direct cost",
+                            label: "Прямые затраты",
                             data: phaseCosts.map(item => item.direct),
                             backgroundColor: "#0f4c75",
                             borderRadius: 5
                         },
                         {
-                            label: "Indirect cost",
+                            label: "Косвенные затраты",
                             data: phaseCosts.map(item => item.indirect),
                             backgroundColor: "#9dd4f2",
                             borderRadius: 5
@@ -910,22 +1064,22 @@
             });
 
             const byCategory = getCostPerValidatedByCategory(filteredData);
-            const target = budgetTargets[benchmark].total / 10;
+            const target = maturityTargets[maturityKey].costPerValidated;
             destroyChart("costPerValidatedChart");
             charts.costPerValidatedChart = new Chart(document.getElementById("costPerValidatedChart"), {
                 data: {
-                    labels: byCategory.map(item => item.category),
+                    labels: byCategory.map(item => getCategoryLabel(item.category)),
                     datasets: [
                         {
                             type: "bar",
-                            label: "Fact",
+                            label: "Факт",
                             data: byCategory.map(item => Math.round(item.value)),
                             backgroundColor: "#147bbc",
                             borderRadius: 5
                         },
                         {
                             type: "line",
-                            label: "Target",
+                            label: "Порог",
                             data: byCategory.map(() => target),
                             borderColor: "#ffb800",
                             pointRadius: 0,
@@ -955,14 +1109,14 @@
             });
 
             document.getElementById("financialTitle").textContent =
-                "Стоимость проверки гипотез сосредоточена на фазах Data/Action: " +
+                "Стоимость проверки гипотез сосредоточена на фазах «Данные» и «Действие»: " +
                 formatCurrency(metrics.totalCost) + " за выбранный период.";
             document.getElementById("costPerValidatedTitle").textContent =
-                "Cost per validated hypothesis = " + formatCurrency(metrics.costPerValidated || 0) +
-                ", сравнение с target по направлениям показывает точки перерасхода.";
+                "Стоимость подтверждённой гипотезы = " + formatCurrency(metrics.costPerValidated) +
+                ", сравнение с порогом по направлениям показывает точки перерасхода.";
         }
 
-        function renderOperationalCharts(filteredData, range, metrics, benchmark) {
+        function renderOperationalCharts(filteredData, range, metrics, maturityKey) {
             const weekly = buildWeeklySeries(filteredData, range);
             destroyChart("throughputChart");
             charts.throughputChart = new Chart(document.getElementById("throughputChart"), {
@@ -971,7 +1125,7 @@
                     labels: weekly.map(item => item.label),
                     datasets: [
                         {
-                            label: "Completed researches",
+                            label: "Завершённые исследования",
                             data: weekly.map(item => item.research),
                             borderColor: "#147bbc",
                             backgroundColor: "rgba(20, 123, 188, 0.15)",
@@ -980,7 +1134,7 @@
                             pointRadius: 3
                         },
                         {
-                            label: "Tested hypotheses",
+                            label: "Завершённые эксперименты",
                             data: weekly.map(item => item.tested),
                             borderColor: "#00a9b5",
                             backgroundColor: "rgba(0, 169, 181, 0.1)",
@@ -1003,27 +1157,29 @@
 
             const cycleData = [
                 Math.round((metrics.researchVelocityDays || 0) * 10) / 10,
+                Math.round((metrics.experimentVelocityDays || 0) * 10) / 10,
                 Math.round((metrics.validationVelocityDays || 0) * 10) / 10
             ];
-            const targetResearch = budgetTargets[benchmark].researchDays;
-            const targetValidation = budgetTargets[benchmark].validationDays;
+            const targetResearch = maturityTargets[maturityKey].researchDays;
+            const targetExperiment = maturityTargets[maturityKey].experimentDays;
+            const targetValidation = maturityTargets[maturityKey].validationDays;
 
             destroyChart("cycleTimeChart");
             charts.cycleTimeChart = new Chart(document.getElementById("cycleTimeChart"), {
                 data: {
-                    labels: ["Research cycle", "Validation cycle"],
+                    labels: ["Время исследования", "Время эксперимента", "Время проверки гипотез"],
                     datasets: [
                         {
                             type: "bar",
-                            label: "Fact, days",
+                            label: "Факт, дней",
                             data: cycleData,
-                            backgroundColor: ["#0f4c75", "#1e9fd9"],
+                            backgroundColor: ["#0f4c75", "#1e9fd9", "#00a9b5"],
                             borderRadius: 5
                         },
                         {
                             type: "line",
-                            label: "Target, days",
-                            data: [targetResearch, targetValidation],
+                            label: "Порог, дней",
+                            data: [targetResearch, targetExperiment, targetValidation],
                             borderColor: "#ffb800",
                             borderWidth: 2,
                             pointRadius: 4,
@@ -1044,9 +1200,9 @@
             });
 
             const waitingBreakdown = [
-                { label: "Between Hypothesis → Action", value: 1.4 },
-                { label: "Between Action → Data", value: 2.1 },
-                { label: "Between Data → Insights", value: 1.2 }
+                { label: "Между гипотезой и действием", value: 1.4 },
+                { label: "Между действием и данными", value: 2.1 },
+                { label: "Между данными и инсайтами", value: 1.2 }
             ];
             const maxValue = Math.max(...waitingBreakdown.map(item => item.value), 1);
             const waitingEl = document.getElementById("waitingBars");
@@ -1064,11 +1220,11 @@
             });
 
             document.getElementById("throughputTitle").textContent =
-                "Скорость проведения исследований: " + metrics.researchVelocity.toFixed(2) +
-                " в неделю, всего завершено " + metrics.researchCount + ".";
+                "Поток исследований и экспериментов стабилен: завершено " + metrics.researchCount +
+                " исследований и " + metrics.experimentCount + " экспериментов.";
             document.getElementById("cycleTitle").textContent =
-                "Скорость проверки гипотез: median " + formatDays(metrics.validationVelocityDays) +
-                ", узкое место — ожидание между Action и Data.";
+                "Время экспериментов и проверки гипотез должно сокращаться с ростом компетенций команды; текущее время проверки — " +
+                formatDays(metrics.validationVelocityDays) + ".";
         }
 
         function renderOutcomeCharts(filteredData) {
@@ -1077,10 +1233,10 @@
             charts.funnelChart = new Chart(document.getElementById("funnelChart"), {
                 type: "bar",
                 data: {
-                    labels: ["Formulated", "Prioritized", "Testing", "Confirmed", "Rejected", "Implemented"],
+                    labels: ["Сформулировано", "Приоритизировано", "В эксперименте", "Подтверждено", "Отклонено", "Внедрено"],
                     datasets: [
                         {
-                            label: "Hypotheses",
+                            label: "Гипотезы",
                             data: [funnel.formulated, funnel.prioritized, funnel.testing, funnel.confirmed, funnel.rejected, funnel.implemented],
                             backgroundColor: ["#9dd4f2", "#1e9fd9", "#147bbc", "#2e7d32", "#ff6b6b", "#0a2f4c"],
                             borderRadius: 5
@@ -1110,7 +1266,7 @@
                 data: {
                     datasets: [
                         {
-                            label: "Portfolio",
+                            label: "Портфель гипотез",
                             data: points,
                             backgroundColor: points.map(point => colorByStatus(point.status)),
                             borderColor: "#ffffff",
@@ -1127,7 +1283,7 @@
                             callbacks: {
                                 label: function(context) {
                                     const p = context.raw;
-                                    return `${p.id}: ${p.title} | Confidence ${p.x}% | Effort ${p.y}`;
+                                    return `${p.id}: ${p.title} | Уверенность ${p.x}% | Сложность ${p.y}`;
                                 }
                             }
                         }
@@ -1136,14 +1292,14 @@
                         x: {
                             min: 40,
                             max: 95,
-                            title: { display: true, text: "Confidence, %" },
+                            title: { display: true, text: "Уверенность, %" },
                             grid: { color: "#e9ecef" }
                         },
                         y: {
                             min: 1,
                             max: 5,
                             reverse: true,
-                            title: { display: true, text: "Effort (1-5)" },
+                            title: { display: true, text: "Сложность (1-5)" },
                             ticks: { stepSize: 1 },
                             grid: { color: "#e9ecef" }
                         }
@@ -1156,11 +1312,11 @@
                 " инициатив до подтверждения дошло " + funnel.confirmed +
                 ", до внедрения — " + funnel.implemented + ".";
             document.getElementById("matrixTitle").textContent =
-                "Матрица приоритизации показывает долю high-confidence quick wins и high-effort bets в портфеле.";
+                "Матрица приоритизации показывает долю быстрых побед и дорогих гипотез в портфеле.";
         }
 
-        function renderInsights(currentMetrics, quality, benchmark) {
-            const target = budgetTargets[benchmark];
+        function renderInsights(currentMetrics, quality, maturityKey) {
+            const target = maturityTargets[maturityKey];
             const insightList = document.getElementById("insightList");
             insightList.innerHTML = "";
 
@@ -1168,7 +1324,7 @@
             if (currentMetrics.budgetGap > 0.1) {
                 alerts.push({
                     className: "risk",
-                    text: "Риск перерасхода: TVC выше бюджетного коридора более чем на 10%. Рекомендуется freeze low-confidence гипотез на этапе Prioritization."
+                    text: "Риск перерасхода: TVC выше бюджетного коридора более чем на 10%. Рекомендуется приостановить низкоуверенные гипотезы на этапе приоритизации."
                 });
             } else {
                 alerts.push({
@@ -1177,27 +1333,39 @@
                 });
             }
 
-            if (currentMetrics.validationVelocityDays && currentMetrics.validationVelocityDays > target.validationDays * 1.2) {
+            if (currentMetrics.experimentVelocityDays && currentMetrics.experimentVelocityDays > target.experimentDays * 1.2) {
                 alerts.push({
                     className: "warn",
-                    text: "Скорость проверки гипотез деградировала >20% к benchmark. Рекомендуется выделить выделенный слот аналитиков на фазу Data."
+                    text: "Время на эксперименты выше порога более чем на 20%. Рекомендуется выделить выделенный слот аналитиков и стандартизировать сценарии экспериментов."
                 });
             } else {
                 alerts.push({
                     className: "good",
-                    text: "Validation velocity соответствует целевой траектории; фокус — удержать текущий темп без роста косвенных затрат."
+                    text: "Время на эксперименты в целевом коридоре: команда наращивает компетенции и повышает повторяемость процесса."
                 });
             }
 
             if (currentMetrics.successRate < target.successRate) {
                 alerts.push({
                     className: "risk",
-                    text: "Success rate ниже целевого порога. Усильте входной gate: формулировка гипотез, критерии успеха и дизайн эксперимента до старта разработки."
+                    text: "Доля подтверждения гипотез ниже целевого порога. Усильте входной контроль: формулировка гипотезы, критерии успеха и дизайн эксперимента до старта разработки."
                 });
             } else {
                 alerts.push({
                     className: "good",
-                    text: "Success rate выше benchmark. Рекомендуется масштабировать подходы из confirmed-кейсов в соседние продуктовые направления."
+                    text: "Доля подтверждения гипотез выше целевого уровня. Масштабируйте подходы из успешных кейсов в соседние продуктовые направления."
+                });
+            }
+
+            if (currentMetrics.validationVelocityDays && currentMetrics.validationVelocityDays > target.validationDays) {
+                alerts.push({
+                    className: "warn",
+                    text: "Время проверки гипотез выше порога зрелости. Сократите ожидания между этапами «Действие» и «Данные» и зафиксируйте SLA на аналитику."
+                });
+            } else {
+                alerts.push({
+                    className: "good",
+                    text: "Время проверки гипотез соответствует порогу: команда становится эффективнее и быстрее проходит полный цикл проверки."
                 });
             }
 
@@ -1221,16 +1389,16 @@
             });
 
             document.getElementById("recommendationTitle").textContent =
-                "Управленческие действия на следующий квартал: контроль бюджета, ускорение Action→Data и повышение success rate.";
+                "Управленческие действия на следующий квартал: контроль бюджета, ускорение исследований и экспериментов, снижение времени проверки гипотез.";
         }
 
         function renderQuality(quality) {
             const qualityGrid = document.getElementById("qualityGrid");
             qualityGrid.innerHTML = "";
             const items = [
-                { label: "Missing dates", value: formatPct(quality.missingDatesPct) },
-                { label: "Missing costs", value: formatPct(quality.missingCostPct) },
-                { label: "Duplicate IDs", value: formatPct(quality.duplicatePct) }
+                { label: "Пропуски дат", value: formatPct(quality.missingDatesPct) },
+                { label: "Пропуски затрат", value: formatPct(quality.missingCostPct) },
+                { label: "Дубли ID", value: formatPct(quality.duplicatePct) }
             ];
             items.forEach(item => {
                 const el = document.createElement("div");
@@ -1240,12 +1408,72 @@
             });
         }
 
+        function renderThresholds(metrics, target) {
+            const thresholdGrid = document.getElementById("thresholdGrid");
+            thresholdGrid.innerHTML = "";
+
+            const rows = [
+                {
+                    label: "Количество исследований",
+                    value: metrics.researchCount,
+                    targetValue: target.minResearchCount,
+                    mode: "min",
+                    displayValue: formatNumber(metrics.researchCount),
+                    displayTarget: "≥ " + formatNumber(target.minResearchCount)
+                },
+                {
+                    label: "Время на исследование",
+                    value: metrics.researchVelocityDays,
+                    targetValue: target.researchDays,
+                    mode: "max",
+                    displayValue: formatDays(metrics.researchVelocityDays),
+                    displayTarget: "≤ " + formatDays(target.researchDays)
+                },
+                {
+                    label: "Количество экспериментов",
+                    value: metrics.experimentCount,
+                    targetValue: target.minExperimentCount,
+                    mode: "min",
+                    displayValue: formatNumber(metrics.experimentCount),
+                    displayTarget: "≥ " + formatNumber(target.minExperimentCount)
+                },
+                {
+                    label: "Время на эксперименты",
+                    value: metrics.experimentVelocityDays,
+                    targetValue: target.experimentDays,
+                    mode: "max",
+                    displayValue: formatDays(metrics.experimentVelocityDays),
+                    displayTarget: "≤ " + formatDays(target.experimentDays)
+                },
+                {
+                    label: "Время проверки гипотез",
+                    value: metrics.validationVelocityDays,
+                    targetValue: target.validationDays,
+                    mode: "max",
+                    displayValue: formatDays(metrics.validationVelocityDays),
+                    displayTarget: "≤ " + formatDays(target.validationDays)
+                }
+            ];
+
+            rows.forEach(row => {
+                const state = evaluateThreshold(row.value, row.targetValue, row.mode);
+                const el = document.createElement("div");
+                el.className = "threshold-item";
+                el.innerHTML = `
+                    <strong>${row.label}</strong>
+                    Факт: ${row.displayValue} • Порог: ${row.displayTarget}<br>
+                    <span class="kpi-state ${state.className}">${state.text}</span>
+                `;
+                thresholdGrid.appendChild(el);
+            });
+        }
+
         function render() {
             const period = document.getElementById("periodFilter").value;
             const category = document.getElementById("categoryFilter").value;
             const team = document.getElementById("teamFilter").value;
             const status = document.getElementById("statusFilter").value;
-            const benchmark = document.getElementById("benchmarkMode").value;
+            const maturityKey = document.getElementById("benchmarkMode").value;
 
             const range = getPeriodRange(period);
             const previousRange = getPreviousRange(range);
@@ -1253,21 +1481,22 @@
             const currentFiltered = applyFilters(hypothesisData, range, { category, team, status });
             const previousFiltered = applyFilters(hypothesisData, previousRange, { category, team, status });
 
-            const currentMetrics = computeMetrics(currentFiltered, range, benchmark);
-            const previousMetrics = computeMetrics(previousFiltered, previousRange, benchmark);
+            const currentMetrics = computeMetrics(currentFiltered, range, maturityKey);
+            const previousMetrics = computeMetrics(previousFiltered, previousRange, maturityKey);
             const quality = computeDataQuality(currentFiltered);
 
-            const target = budgetTargets[benchmark];
+            const target = maturityTargets[maturityKey];
             document.getElementById("actionTitle").textContent = buildActionTitle(currentMetrics, target);
-            renderKpis(currentMetrics, previousMetrics);
-            renderFinancialCharts(currentFiltered, currentMetrics, benchmark);
-            renderOperationalCharts(currentFiltered, range, currentMetrics, benchmark);
+            renderKpis(currentMetrics, previousMetrics, target);
+            renderFinancialCharts(currentFiltered, currentMetrics, maturityKey);
+            renderOperationalCharts(currentFiltered, range, currentMetrics, maturityKey);
             renderOutcomeCharts(currentFiltered);
-            renderInsights(currentMetrics, quality, benchmark);
+            renderInsights(currentMetrics, quality, maturityKey);
+            renderThresholds(currentMetrics, target);
             renderQuality(quality);
 
             const now = new Date();
-            document.getElementById("lastUpdated").textContent = "Last updated: " + now.toLocaleString("ru-RU");
+            document.getElementById("lastUpdated").textContent = "Обновлено: " + now.toLocaleString("ru-RU");
         }
 
         fillTeamFilter();
