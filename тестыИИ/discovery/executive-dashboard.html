@@ -298,6 +298,49 @@
             background: linear-gradient(90deg, var(--mck-blue-600), var(--mck-blue-500));
         }
 
+        .cost-readout {
+            display: grid;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .cost-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.81rem;
+            background: #fff;
+        }
+
+        .cost-row .cost-main {
+            font-weight: 600;
+            color: var(--mck-gray-900);
+        }
+
+        .cost-row .cost-meta {
+            color: var(--mck-gray-600);
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .cost-row .cost-status {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .cost-row .cost-status.ok {
+            color: var(--mck-green);
+        }
+
+        .cost-row .cost-status.over {
+            color: #c62828;
+        }
+
         .insight-list {
             margin-top: 6px;
             display: grid;
@@ -498,9 +541,10 @@
 
             <article class="card span-4">
                 <div class="section-label">Контроль бюджета</div>
-                <h2 id="costPerValidatedTitle">Стоимость подтверждения по направлениям выше целевого уровня в отдельных сегментах</h2>
-                <p class="subtitle">Стоимость подтверждённой гипотезы: факт против порога.</p>
+                <h2 id="costPerValidatedTitle">Блок ответа: где перерасход стоимости подтверждённой гипотезы и насколько</h2>
+                <p class="subtitle">Сравнение по направлениям: факт, порог и отклонение.</p>
                 <div class="chart-wrap"><canvas id="costPerValidatedChart"></canvas></div>
+                <div class="cost-readout" id="costPerValidatedReadout"></div>
             </article>
 
             <article class="card span-6">
@@ -1065,6 +1109,7 @@
 
             const byCategory = getCostPerValidatedByCategory(filteredData);
             const target = maturityTargets[maturityKey].costPerValidated;
+            const barColors = byCategory.map(item => item.value > target ? "rgba(198,40,40,0.72)" : "rgba(46,125,50,0.72)");
             destroyChart("costPerValidatedChart");
             charts.costPerValidatedChart = new Chart(document.getElementById("costPerValidatedChart"), {
                 data: {
@@ -1074,7 +1119,7 @@
                             type: "bar",
                             label: "Факт",
                             data: byCategory.map(item => Math.round(item.value)),
-                            backgroundColor: "#147bbc",
+                            backgroundColor: barColors,
                             borderRadius: 5
                         },
                         {
@@ -1117,9 +1162,68 @@
                 "Из общих затрат на проверку гипотез " + formatCurrency(metrics.totalCost) +
                 " на эксперименты и анализ данных уходит " + formatCurrency(actionAndDataCost) +
                 " (" + formatPct(actionAndDataShare) + ").";
-            document.getElementById("costPerValidatedTitle").textContent =
-                "Стоимость подтверждённой гипотезы = " + formatCurrency(metrics.costPerValidated) +
-                ", сравнение с порогом по направлениям показывает точки перерасхода.";
+
+            const readout = document.getElementById("costPerValidatedReadout");
+            readout.innerHTML = "";
+
+            const withValues = byCategory
+                .map(item => ({
+                    ...item,
+                    delta: item.value - target,
+                    ratio: target > 0 ? (item.value - target) / target : 0
+                }))
+                .filter(item => item.value > 0);
+
+            if (!withValues.length || !Number.isFinite(metrics.costPerValidated)) {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "Недостаточно подтверждённых гипотез для оценки стоимости по направлениям.";
+
+                const row = document.createElement("div");
+                row.className = "cost-row";
+                row.innerHTML = `
+                    <div>
+                        <div class="cost-main">Нет данных для расчёта по текущему фильтру</div>
+                        <div class="cost-meta">Добавьте подтверждённые гипотезы или расширьте период.</div>
+                    </div>
+                    <div class="cost-status">—</div>
+                `;
+                readout.appendChild(row);
+                return;
+            }
+
+            const overrun = withValues.filter(item => item.delta > 0);
+            const sortedByDelta = [...withValues].sort((a, b) => b.delta - a.delta);
+            const worst = sortedByDelta[0];
+
+            if (overrun.length > 0) {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "В перерасходе " + overrun.length + " из " + withValues.length +
+                    " направлений; максимальное отклонение — " + getCategoryLabel(worst.category) +
+                    " (+" + formatCurrency(worst.delta) + " к порогу).";
+            } else {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "Перерасхода нет: все " + withValues.length +
+                    " направлений укладываются в порог по стоимости подтверждённой гипотезы.";
+            }
+
+            sortedByDelta.forEach(item => {
+                const row = document.createElement("div");
+                const isOverrun = item.delta > 0;
+                const statusClass = isOverrun ? "over" : "ok";
+                const deltaText = isOverrun
+                    ? "Перерасход: +" + formatCurrency(item.delta) + " (" + formatPct(item.ratio) + ")"
+                    : "Ниже порога: " + formatCurrency(Math.abs(item.delta)) + " (" + formatPct(Math.abs(item.ratio)) + ")";
+
+                row.className = "cost-row";
+                row.innerHTML = `
+                    <div>
+                        <div class="cost-main">${getCategoryLabel(item.category)}: ${formatCurrency(item.value)}</div>
+                        <div class="cost-meta">Порог: ${formatCurrency(target)}</div>
+                    </div>
+                    <div class="cost-status ${statusClass}">${deltaText}</div>
+                `;
+                readout.appendChild(row);
+            });
         }
 
         function renderOperationalCharts(filteredData, range, metrics, maturityKey) {
