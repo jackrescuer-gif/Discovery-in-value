@@ -614,7 +614,7 @@ flowchart LR
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Architecture Decision Record</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;"><strong>ADR</strong></td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Решения по архитектуре</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Запись важных технических выборов: почему выбрали именно такую технологию, какие были альтернативы, чем рискуем. Нужно, чтобы через полгода не спрашивали «а почему не сделали проще?». </td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Запись важных технических выборов: почему выбрали именно такую технологию, какие были альтернативы, чем рискуем. Нужно, чтобы через полгода не спрашивали «а почему не сделали проще?».</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Proof of Concept</td>
@@ -626,7 +626,19 @@ flowchart LR
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Minimum Viable Product</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;"><strong>MVP</strong></td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Минимально жизнеспособный продукт</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Самая простая версия продукта, которая уже решает проблему пользователя. Не «сырой прототип», а рабочая штука, которую можно показать клиентам и замерить реакцию.</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Самая простая версия продукта, которая уже решает проблему пользователя. Не «сыро́й прототип», а рабочая штука, которую можно показать клиентам и замерить реакцию.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Low-fidelity prototype</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>Low-fi</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Черновой макет / набросок</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Быстрая зарисовка интерфейса на бумаге или в простой программе. Как эскиз дома: видно, где кухня, где спальня, но цвет обоев ещё не выбран. Нужен, чтобы быстро проверить идею без затрат на красивый дизайн.</td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">High-fidelity prototype</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>High-fi</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Детальный макет / близкий к реальности</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Почти готовый интерфейс с реальными цветами, шрифтами, кнопками. Как 3D-визуализация квартиры: уже понятно, как будет выглядеть, но зайти внутрь пока нельзя. Показываем бизнесу и тестируем на пользователях перед разработкой.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">User Experience / User Interface</td>
@@ -645,18 +657,6 @@ flowchart LR
                                     <td style="border:1px solid #e0e0e0; padding:8px;"><strong>AC</strong></td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Критерии приёмки</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Конкретные условия, при которых бизнес говорит «да, это то, что мы хотели». Пишутся простым языком: «пользователь может оплатить за 3 клика».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">General Data Protection Regulation</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>GDPR</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Защита персональных данных (европейский стандарт)</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Правила работы с данными людей: что можно собирать, как хранить, как удалять по требованию. Штрафы за нарушение — до 4% годового оборота.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Web Content Accessibility Guidelines</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>WCAG</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Стандарты доступности сайтов</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Требования, чтобы люди с ограниченными возможностями (слепые, с тремором рук) могли пользоваться продуктом. В некоторых странах — обязательно по закону.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Product Owner</td>
@@ -685,12 +685,12 @@ flowchart LR
                                 <tr>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Jobs to be Done</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;"><strong>JTBD</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Теория «работы, которую нанимают продукт»</td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;">Теория «работы, на которую нанимают продукт»</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Подход: не думать «какую кнопку сделать», а понять «какую задачу пользователь решает». Пример: люди не покупают дрель, им нужны дырки в стене.</td>
                                 </tr>
                                 <tr>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Service Level Agreement</td>
-                                    <td style="border:1px солид #e0e0e0; padding:8px;"><strong>SLA</strong></td>
+                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>SLA</strong></td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Соглашение об уровне сервиса</td>
                                     <td style="border:1px solid #e0e0e0; padding:8px;">Договорённость, насколько быстро система должна работать и как часто может ломаться. Например: «страница грузится за 2 секунды, недоступность — не более 1 часа в месяц».</td>
                                 </tr>
