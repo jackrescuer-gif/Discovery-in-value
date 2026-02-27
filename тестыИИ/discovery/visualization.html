@@ -946,30 +946,47 @@
             <header class="phase-header">
                 <div class="phase-number">03</div>
                 <div>
-                    <h2 class="phase-title">Подготовьте решение к запуску и безопасному handoff в Delivery.</h2>
-                    <p class="phase-description">Фаза 3 фиксирует техническую готовность, риски, KPI и артефакты передачи для устойчивого production-внедрения.</p>
+                    <h2 class="phase-title">Соберите и передайте в Delivery полный пакет артефактов без потери контекста.</h2>
+                    <p class="phase-description">Фаза 3 посвящена только handoff-документации: фиксируем решения, упаковываем артефакты и передаём их команде Delivery в согласованном формате.</p>
                 </div>
             </header>
 
             <div class="phase-layout">
                 <div class="phase-main">
                     <article class="panel">
-                        <h3>Фаза 3. Запуск и handoff в Delivery</h3>
-                        <p><strong>Что происходит:</strong> Проверяем техническую и организационную готовность перед передачей в разработку.</p>
-                        <p><strong>Простыми словами:</strong> Это этап «запускаем только то, что реально внедрить без скрытых блокеров».</p>
-                        <div class="mermaid-shell">
-                            <div class="diagram-title">Диаграмма фазы 3 — Готовность к Delivery</div>
-                            <div class="diagram-description">От старта процесса Delivery до формального handoff с контролем блокеров.</div>
-                            <iframe class="drawio-embed" data-drawio-file="drawio/06-phase-3-delivery.drawio" title="Диаграмма фазы 3" loading="lazy"></iframe>
-                        </div>
+                        <h3>Фаза 3. Формирование handoff-пакета</h3>
+                        <p><strong>Что происходит:</strong> Команда структурирует все результаты Discovery в единый пакет передачи и подтверждает полноту артефактов со стейкхолдерами.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «упаковать и передать»: Delivery получает не идеи, а готовый набор документов, по которому можно сразу начинать реализацию.</p>
+                        <ul class="fact-list">
+                            <li>Финальная формулировка проблемы и бизнес-цели</li>
+                            <li>Подтверждённые гипотезы и их доказательная база</li>
+                            <li>Согласованные API-контракты и архитектурные ограничения</li>
+                            <li>Критерии приёмки и тестовые сценарии</li>
+                            <li>Риски, допущения и план контроля качества</li>
+                        </ul>
                     </article>
 
                     <article class="panel">
-                        <h3>Ключевые метрики финальной готовности</h3>
-                        <div class="mini-metrics">
-                            <div class="mini-metric"><strong>4–8</strong><span>Недель discovery</span></div>
-                            <div class="mini-metric"><strong>6–8</strong><span>Человек в команде</span></div>
-                            <div class="mini-metric"><strong>15–30%</strong><span>Успешность валидации</span></div>
+                        <h3>Реестр артефактов передачи в Delivery</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Артефакт</th>
+                                        <th>Содержимое</th>
+                                        <th>Ответственный</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>PRD / Product Brief</td><td>Бизнес-цель, scope, ограничения, KPI успеха</td><td>Product Manager</td></tr>
+                                    <tr><td>Техническая спецификация</td><td>Архитектурный подход, NFR, интеграции, зависимости</td><td>Tech Lead</td></tr>
+                                    <tr><td>API-контракты</td><td>Схемы запросов/ответов, версии, правила совместимости</td><td>Tech Lead + системные владельцы</td></tr>
+                                    <tr><td>ADR</td><td>Принятые решения, альтернативы, последствия</td><td>Tech Lead</td></tr>
+                                    <tr><td>UX-артефакты</td><td>Пользовательские сценарии, макеты, ключевые UX-решения</td><td>UX/UI Designer</td></tr>
+                                    <tr><td>План тестирования и приёмки</td><td>Критерии приёмки, тест-кейсы, DoD/DoR handoff</td><td>QA/PM/Tech Lead</td></tr>
+                                    <tr><td>План релиза и мониторинга</td><td>Метрики запуска, алерты, роли в инцидентах</td><td>DevOps + Product Manager</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </article>
                 </div>
@@ -977,18 +994,18 @@
                 <aside class="phase-sidebar">
                     <article class="fact-box">
                         <div class="fact-label">Вход в фазу</div>
-                        <div class="fact-value">Подтверждённые гипотезы и прототип, прошедший UX-валидацию</div>
+                        <div class="fact-value">Подтверждённые гипотезы и согласованные продуктовые решения</div>
                     </article>
                     <article class="fact-box">
                         <div class="fact-label">Выход фазы</div>
-                        <div class="fact-value">Полный пакет артефактов, готовых к разработке и тестированию</div>
+                        <div class="fact-value">Полный, проверенный и согласованный пакет артефактов для команды Delivery</div>
                     </article>
                     <article class="fact-box">
-                        <div class="fact-label">Контроль качества</div>
+                        <div class="fact-label">Критерий готовности handoff</div>
                         <ul class="fact-list">
-                            <li>Security и compliance проверки</li>
-                            <li>API-контракты согласованы</li>
-                            <li>Нефункциональные требования зафиксированы</li>
+                            <li>Артефакты имеют владельцев и статус согласования</li>
+                            <li>Пробелы по требованиям и интеграциям закрыты</li>
+                            <li>Критерии приёмки подтверждены бизнесом и Delivery</li>
                         </ul>
                         <div class="widget-links">
                             <a class="widget-btn" href="executive-dashboard.html#widget-cost">Связанный виджет борда</a>
@@ -1001,44 +1018,37 @@
             <div class="accordion-group">
                 <article class="accordion-item">
                     <button class="accordion-trigger" type="button">
-                        <span>Чек-лист готовности к handoff и критерии запуска</span>
+                        <span>Чек-лист полноты пакета передачи</span>
                         <span class="accordion-chevron">▶</span>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
                             <ul>
-                                <li>Security review проведен (особенно для пользовательских данных)</li>
-                                <li>Compliance: GDPR/privacy и accessibility проверены</li>
-                                <li>Определены нефункциональные требования (время отклика, нагрузка)</li>
-                                <li>API-контракты согласованы с владельцами систем</li>
-                                <li>Данные и мониторинг описаны для этапа Delivery</li>
+                                <li>PRD и бизнес-цели синхронизированы с roadmap Delivery</li>
+                                <li>Нефункциональные требования (время отклика, нагрузка, безопасность) задокументированы</li>
+                                <li>API-контракты подписаны всеми затронутыми командами</li>
+                                <li>Критерии приёмки и тестовые сценарии покрывают ключевые пользовательские пути</li>
+                                <li>Риски, допущения и открытые вопросы имеют владельцев и дедлайны</li>
                             </ul>
-                            <p class="text-block"><strong>Стандартный путь handoff:</strong> валидированная проблема, протестированное решение, подтверждённая ценность, готовая документация.</p>
-                            <p class="text-block"><strong>Ускоренный путь MVP:</strong> MVP функционален, протестирован на 10% аудитории и подтверждает ценность.</p>
-                            <p class="text-block"><strong>Артефакты передачи:</strong> PRD, техспецификация и API-контракты, ADR, дизайн-макеты, исследовательская сводка, критерии приёмки и тестовые сценарии.</p>
+                            <p class="text-block"><strong>Итог handoff:</strong> Delivery получает пакет артефактов, достаточный для старта разработки без повторного Discovery.</p>
                         </div>
                     </div>
                 </article>
 
                 <article class="accordion-item">
                     <button class="accordion-trigger" type="button">
-                        <span>Роли и взаимодействие команды (appendix)</span>
+                        <span>Ответственные по артефактам (appendix)</span>
                         <span class="accordion-chevron">▶</span>
                     </button>
                     <div class="accordion-content">
                         <div class="accordion-inner">
-                            <div class="mermaid-shell">
-                                <div class="diagram-title">Диаграмма ролей и взаимодействия</div>
-                                <div class="diagram-description">Кто принимает решения и как распределяется ответственность между Discovery и Delivery.</div>
-                                <iframe class="drawio-embed" data-drawio-file="drawio/07-roles-interaction.drawio" title="Диаграмма ролей" loading="lazy"></iframe>
-                            </div>
                             <ul>
-                                <li><strong>Product Manager:</strong> координация процесса, приоритизация, коммуникация со стейкхолдерами, решение о handoff.</li>
-                                <li><strong>UX Researcher:</strong> исследования пользователей, валидация гипотез, интервью, аналитика сигналов.</li>
-                                <li><strong>UX/UI Designer:</strong> прототипирование, дизайн решения, тестирование интерфейса.</li>
-                                <li><strong>Tech Lead:</strong> техническая валидация, архитектура, оценка сложности, спецификации.</li>
-                                <li><strong>Data Analyst:</strong> метрики, анализ данных, отчётность по успеху экспериментов.</li>
-                                <li><strong>DevOps Engineer:</strong> инфраструктура, мониторинг, процессы развертывания и масштабирования.</li>
+                                <li><strong>Product Manager:</strong> PRD, бизнес-цели, приоритизация релизного scope.</li>
+                                <li><strong>UX Researcher:</strong> исследовательская сводка, обоснование пользовательской ценности.</li>
+                                <li><strong>UX/UI Designer:</strong> UX-артефакты, сценарии, спецификация интерфейса.</li>
+                                <li><strong>Tech Lead:</strong> техспецификация, ADR, архитектурные решения, API-контракты.</li>
+                                <li><strong>Data Analyst:</strong> метрики запуска, baseline, схема измерения эффекта.</li>
+                                <li><strong>DevOps Engineer:</strong> план релиза, мониторинг, эксплуатационные требования.</li>
                             </ul>
                         </div>
                     </div>
