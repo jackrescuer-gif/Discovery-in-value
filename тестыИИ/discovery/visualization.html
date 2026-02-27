@@ -3,961 +3,1153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Процесс Discovery - Визуализация</title>
+    <title>Discovery Process — Корпоративная визуализация</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         :root {
-            --bg-page: #f8fafc;
-            --accent: #1e3a5f;
-            --accent-end: #2c5282;
-            --accent-teal: #00d4aa;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --card-radius: 12px;
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --mck-blue: #0066CC;
+            --mck-blue-dark: #003366;
+            --mck-blue-light: #E6F2FF;
+            --mck-gray-50: #F8F9FA;
+            --mck-gray-100: #F5F5F5;
+            --mck-gray-200: #E9ECEF;
+            --mck-gray-400: #ADB5BD;
+            --mck-gray-600: #6C757D;
+            --mck-gray-800: #343A40;
+            --mck-white: #FFFFFF;
+            --mck-yellow: #FFB81C;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-page);
-            min-height: 100vh;
-            padding: 20px;
-            color: var(--text-primary);
-            opacity: 1;
-            transition: opacity 0.18s ease;
+            font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            color: var(--mck-gray-800);
+            background: var(--mck-white);
+            line-height: 1.55;
         }
-        body.page-leaving { opacity: 0; }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: var(--card-radius);
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
+
+        h1, h2, h3, h4, .brand, .phase-number {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--mck-blue-dark);
+            letter-spacing: -0.01em;
         }
-        header {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
-            color: white;
-            padding: 40px;
-            text-align: left;
-        }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .header-nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .back-link {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            opacity: 0.92;
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: background 0.2s;
-            font-size: 0.85rem;
-        }
-        .back-link:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .audience-pill {
-            margin-top: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 999px;
-            padding: 6px 12px;
-            font-size: 0.82rem;
-            color: rgba(255, 255, 255, 0.95);
-        }
-        header h1 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
-        }
-        header p {
-            font-size: 0.95rem;
-            opacity: 0.9;
-        }
-        .tabs {
-            display: flex;
-            background: #f1f5f9;
-            border-bottom: 1px solid #e2e8f0;
-            overflow-x: auto;
-        }
-        .tab {
-            padding: 14px 28px;
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: all 0.2s;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-        }
-        .tab:hover { background: #e2e8f0; color: var(--text-primary); }
-        .tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-            background: white;
-        }
-        .content { padding: 40px; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .diagram-container {
-            background: #f8fafc;
-            border-radius: var(--card-radius);
-            padding: 24px;
-            margin: 20px 0;
-            border: 1px solid #e2e8f0;
-            overflow-x: auto;
-        }
-        .diagram-container.zoomable { cursor: zoom-in; }
-        .diagram-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
             z-index: 1000;
+            background: var(--mck-white);
+            border-bottom: 1px solid var(--mck-gray-200);
         }
-        .diagram-overlay.active { display: flex; }
-        .diagram-overlay-content {
-            max-width: 95vw;
-            max-height: 90vh;
-            overflow: auto;
-            background: #fff;
-            border-radius: var(--card-radius);
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px 10px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 16px;
         }
-        .diagram-overlay-close {
-            position: absolute;
-            top: 20px;
-            right: 28px;
-            color: #fff;
-            font-size: 1.75rem;
-            cursor: pointer;
+
+        .brand {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--mck-blue-dark);
+            white-space: nowrap;
+        }
+
+        .phase-nav {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .phase-link {
+            text-decoration: none;
+            color: var(--mck-gray-600);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .phase-link:hover {
+            color: var(--mck-blue);
+        }
+
+        .phase-link.active {
+            color: var(--mck-blue);
+            border-bottom-color: var(--mck-blue);
+        }
+
+        .page-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .page-link {
+            text-decoration: none;
+            color: var(--mck-blue-dark);
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+            padding: 6px 9px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--mck-white);
+        }
+
+        .page-link:hover {
+            border-color: var(--mck-blue);
+            color: var(--mck-blue);
+        }
+
+        .phase-select {
+            display: none;
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+            color: var(--mck-blue-dark);
+            font-size: 0.82rem;
+            background: var(--mck-white);
+        }
+
+        .header-progress-track {
+            height: 3px;
+            background: var(--mck-gray-100);
+        }
+
+        .header-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--mck-blue), var(--mck-blue-dark));
+            transition: width 0.1s linear;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 56px;
+        }
+
+        .hero-section {
+            padding: 46px 0 30px;
+            border-bottom: 1px solid var(--mck-gray-200);
+        }
+
+        .hero-title {
+            font-size: 2.45rem;
+            margin-bottom: 10px;
+            color: var(--mck-blue-dark);
+            max-width: 980px;
+        }
+
+        .hero-subtitle {
+            color: var(--mck-gray-600);
+            max-width: 980px;
+            margin-bottom: 24px;
+            font-size: 1.02rem;
+        }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-box {
+            background: var(--mck-white);
+            border: 1px solid var(--mck-gray-200);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 51, 102, 0.06);
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--mck-blue);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value.key {
+            color: var(--mck-yellow);
+        }
+
+        .kpi-label {
+            color: var(--mck-gray-600);
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .macro-card {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 18px;
+        }
+
+        .block-action-title {
+            font-size: 1.05rem;
+            color: var(--mck-blue-dark);
+            margin-bottom: 6px;
+        }
+
+        .block-subtitle {
+            color: var(--mck-gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--mck-gray-200);
+            margin: 26px 0;
+        }
+
+        .phase-section {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--mck-gray-200);
+            scroll-margin-top: 96px;
+        }
+
+        .phase-section.phase-alt {
+            background: var(--mck-gray-50);
+            margin: 0 -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .phase-number {
+            font-size: 4rem;
+            line-height: 0.9;
+            color: var(--mck-gray-200);
+            min-width: 78px;
             font-weight: 700;
         }
-        .diagram-overlay .mermaid { background: transparent; padding: 0; }
-        .diagram-overlay .mermaid svg { max-width: 100%; height: auto; }
-        .diagram-title {
-            font-size: 1.15rem;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .diagram-description {
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        .mermaid {
-            text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .info-box {
-            background: #e0f2fe;
-            border-left: 4px solid #0284c7;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        .info-box h3 { color: #0369a1; margin-bottom: 10px; font-weight: 600; }
-        .info-box p, .info-box ul { margin-left: 20px; color: var(--text-secondary); }
-        .info-box li { margin: 8px 0; }
-        .phase-card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: var(--card-radius);
-            padding: 24px;
-            margin: 15px 0;
-            box-shadow: var(--card-shadow);
-            transition: box-shadow 0.2s, border-color 0.2s;
-        }
-        .phase-card:hover {
-            border-color: #1e3a5f;
-            box-shadow: 0 4px 12px rgba(30,58,95,0.12);
-        }
-        .phase-card h3 {
-            color: var(--accent);
-            margin-bottom: 15px;
-            font-size: 1.15rem;
-            font-weight: 600;
-        }
-        .phase-card ul {
-            margin-left: 20px;
-            color: var(--text-secondary);
-            line-height: 1.75;
-        }
-        .widget-disclaimer {
-            background: #f8fbff;
-            border: 1px solid #d9e7f6;
-            border-left: 4px solid #147bbc;
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin: 12px 0 18px 0;
-        }
-        .widget-disclaimer h4 {
-            color: #0f4c75;
+
+        .phase-title {
+            font-size: 1.78rem;
             margin-bottom: 6px;
-            font-size: 0.95rem;
         }
-        .widget-disclaimer p {
-            color: #425466;
-            font-size: 0.86rem;
-            line-height: 1.45;
+
+        .phase-description {
+            color: var(--mck-gray-600);
+            font-size: 0.96rem;
+            max-width: 920px;
         }
-        .widget-actions {
+
+        .phase-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .phase-main {
+            display: grid;
+            gap: 14px;
+        }
+
+        .panel {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0, 51, 102, 0.04);
+        }
+
+        .panel h3 {
+            font-size: 1.08rem;
+            margin-bottom: 7px;
+            color: var(--mck-blue-dark);
+        }
+
+        .panel p {
+            color: var(--mck-gray-800);
+            font-size: 0.92rem;
+            margin-bottom: 8px;
+        }
+
+        .phase-sidebar {
+            display: grid;
+            gap: 10px;
+        }
+
+        .fact-box {
+            border: 1px solid var(--mck-gray-200);
+            border-left: 3px solid var(--mck-blue);
+            padding: 10px 11px;
+            background: var(--mck-white);
+        }
+
+        .fact-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--mck-gray-400);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .fact-value {
+            color: var(--mck-gray-800);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .fact-list {
+            margin-left: 18px;
+            color: var(--mck-gray-800);
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        .fact-list li {
+            margin-bottom: 5px;
+        }
+
+        .widget-links {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 8px;
         }
-        .widget-link, .widget-preview-btn {
-            border: 1px solid #cddced;
-            background: #fff;
-            color: #1e3a5f;
-            padding: 7px 10px;
-            border-radius: 8px;
+
+        .widget-btn {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            color: var(--mck-blue-dark);
             text-decoration: none;
-            font-size: 0.82rem;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 0.76rem;
             font-weight: 600;
             cursor: pointer;
         }
-        .widget-preview-btn {
-            background: #1e3a5f;
-            border-color: #1e3a5f;
-            color: #fff;
+
+        .widget-btn:hover {
+            border-color: var(--mck-blue);
+            color: var(--mck-blue);
         }
-        .widget-link:hover { border-color: #147bbc; }
-        .widget-preview-btn:hover { background: #15314f; }
+
+        .accordion-group {
+            margin-top: 14px;
+            border-top: 1px solid var(--mck-gray-200);
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--mck-gray-200);
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: left;
+            color: var(--mck-blue-dark);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 13px 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .accordion-chevron {
+            color: var(--mck-gray-600);
+            transition: transform 0.25s ease;
+        }
+
+        .accordion-item.open .accordion-chevron {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .accordion-inner {
+            padding: 2px 0 14px;
+        }
+
+        .accordion-inner ul {
+            margin-left: 20px;
+            color: var(--mck-gray-800);
+            font-size: 0.89rem;
+            line-height: 1.6;
+        }
+
+        .accordion-inner li {
+            margin-bottom: 6px;
+        }
+
+        .text-block {
+            color: var(--mck-gray-800);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .diagram-title {
+            font-size: 1rem;
+            color: var(--mck-blue-dark);
+            margin-bottom: 5px;
+        }
+
+        .diagram-description {
+            color: var(--mck-gray-600);
+            font-size: 0.86rem;
+            margin-bottom: 9px;
+        }
+
+        .mermaid-shell {
+            overflow-x: auto;
+            border-top: 1px solid var(--mck-gray-200);
+            padding-top: 10px;
+        }
+
+        .mermaid {
+            min-width: 620px;
+            background: var(--mck-white);
+            padding: 10px;
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 780px;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--mck-gray-200);
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 0.82rem;
+            color: var(--mck-gray-800);
+        }
+
+        th {
+            color: var(--mck-blue-dark);
+            background: var(--mck-gray-50);
+            font-size: 0.76rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .mini-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .mini-metric {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 9px;
+        }
+
+        .mini-metric strong {
+            font-size: 1.1rem;
+            color: var(--mck-blue-dark);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .mini-metric span {
+            font-size: 0.76rem;
+            color: var(--mck-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-note {
+            margin-top: 26px;
+            color: var(--mck-gray-600);
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .fab-top {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-blue);
+            color: var(--mck-white);
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0, 51, 102, 0.16);
+            display: none;
+        }
+
+        .fab-top.visible {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .widget-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 51, 102, 0.72);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1200;
             padding: 24px;
         }
-        .widget-overlay.active { display: flex; }
+
+        .widget-overlay.active {
+            display: flex;
+        }
+
         .widget-modal {
             width: min(1100px, 96vw);
-            background: #fff;
-            border-radius: 12px;
-            border: 1px solid #d9d9d9;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            overflow: hidden;
+            background: var(--mck-white);
+            border: 1px solid var(--mck-gray-200);
+            box-shadow: 0 14px 28px rgba(0, 51, 102, 0.24);
         }
+
         .widget-modal-header {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--mck-gray-200);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f8fafc;
+            gap: 8px;
         }
+
         .widget-modal-header h3 {
-            color: #1e3a5f;
-            font-size: 1rem;
+            font-size: 0.98rem;
+            color: var(--mck-blue-dark);
         }
+
         .widget-close {
             border: none;
             background: transparent;
-            color: #1e293b;
-            font-size: 1.5rem;
-            line-height: 1;
+            color: var(--mck-gray-800);
+            font-size: 1.35rem;
             cursor: pointer;
+            line-height: 1;
         }
+
         .widget-modal iframe {
             width: 100%;
             height: min(80vh, 760px);
-            border: 0;
-            display: block;
-            background: #fff;
+            border: none;
         }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
+
+        @media (max-width: 980px) {
+            .header-inner {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .phase-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .mini-metrics {
+                grid-template-columns: 1fr;
+            }
         }
-        .metric-card {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
-            color: white;
-            padding: 24px;
-            border-radius: var(--card-radius);
-            text-align: center;
-            box-shadow: var(--card-shadow);
-        }
-        .metric-card h4 {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .metric-value { font-size: 1.75rem; font-weight: 700; }
+
         @media (max-width: 768px) {
-            header h1 { font-size: 1.4rem; }
-            .content { padding: 20px; }
-            .tabs { flex-wrap: wrap; }
-            .widget-modal iframe { height: 72vh; }
+            .page {
+                padding: 0 14px 34px;
+            }
+
+            .hero-section {
+                padding-top: 30px;
+            }
+
+            .hero-title {
+                font-size: 1.96rem;
+            }
+
+            .kpi-row {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-section {
+                padding: 38px 0;
+            }
+
+            .phase-number {
+                font-size: 3rem;
+                min-width: 56px;
+            }
+
+            .phase-title {
+                font-size: 1.45rem;
+            }
+
+            .phase-nav {
+                display: none;
+            }
+
+            .phase-select {
+                display: block;
+            }
+
+            .widget-modal iframe {
+                height: 72vh;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <div class="header-nav">
-                    <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
-                    <a class="back-link nav-link" href="hypothesis-digest.html">Дайджест проверки гипотез</a>
-                    <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
-                </div>
-                <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
+    <header class="sticky-header">
+        <div class="header-inner">
+            <div class="brand">Discovery Process</div>
+            <nav class="phase-nav" id="phaseNav">
+                <a href="#phase-1" class="phase-link active" data-phase="phase-1">Фаза 1: Исследование</a>
+                <a href="#phase-2" class="phase-link" data-phase="phase-2">Фаза 2: Валидация</a>
+                <a href="#phase-3" class="phase-link" data-phase="phase-3">Фаза 3: Запуск</a>
+            </nav>
+            <div class="page-links">
+                <a class="page-link" href="hypothesis-digest.html">Дайджест гипотез</a>
+                <a class="page-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
             </div>
-            <h1>🔍 Процесс Discovery инициатив</h1>
-            <p>От PI Planning до готовности решения к handoff в Delivery</p>
-        </header>
-
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('overview')">Обзор процесса</button>
-            <button class="tab" onclick="showTab('glossary')">Справочник обозначений</button>
-            <button class="tab" onclick="navigateTo('hypothesis-digest.html')">Дайджест проверки гипотез</button>
-            <button class="tab" onclick="navigateTo('executive-dashboard.html')">Дайджест процесса Discovery</button>
+            <select id="phaseSelect" class="phase-select" aria-label="Навигация по фазам">
+                <option value="phase-1">Фаза 1: Исследование</option>
+                <option value="phase-2">Фаза 2: Валидация</option>
+                <option value="phase-3">Фаза 3: Запуск</option>
+            </select>
         </div>
+        <div class="header-progress-track"><div class="header-progress-bar" id="scrollProgress"></div></div>
+    </header>
 
-        <div class="content">
-            <!-- Обзор процесса -->
-            <div id="overview" class="tab-content active">
-                <div class="info-box">
-                    <h3>📋 Ключевая идея для бизнеса</h3>
-                    <p>Discovery — это страховка от дорогих ошибок. Вместо того чтобы сразу тратить миллионы на разработку фичи, которая никому не нужна, мы за 4–8 недель проверяем гипотезы, тестируем на пользователях и запускаем только то, что точно работает и приносит ценность.</p>
-                </div>
-
-                <div class="phase-card">
-                    <h3>Фаза 1. Инициализация и исследование</h3>
-                    <p><strong>Что происходит:</strong> Превращаем идею из планирования в конкретный план действий. Собираем команду, определяем рамки задачи и изучаем проблему со всех сторон.</p>
-                    <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «разведки перед боем». Мы понимаем, какую боль клиента лечим, смотрим, что делают конкуренты, анализируем данные и формулируем предположения (гипотезы), что именно поможет пользователям. В результате у нас есть чёткий список приоритетных гипотез для проверки.</p>
-                </div>
-
-                <div class="widget-disclaimer">
-                    <h4>📌 Дисклеймер виджета борда: «Операционная динамика»</h4>
-                    <p>На раннем этапе количество исследований может быть ниже, а длительность — выше. По мере роста компетенций команды виджет должен показывать рост пропускной способности и сокращение времени исследований.</p>
-                    <div class="widget-actions">
-                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-throughput">Перейти к виджету на борде</a>
-                        <button class="widget-preview-btn" onclick="openWidgetPreview('throughput')">Открыть во всплывающем окне</button>
-                    </div>
-                </div>
-
-                <div class="diagram-container">
-                    <div class="diagram-title">Фаза 1. Инициализация и исследование</div>
-                    <div class="diagram-description">
-                        От инициативы после PI Planning до сформулированных и приоритизированных гипотез.
-                    </div>
+    <main class="page">
+        <section class="hero-section" id="top">
+            <h1 class="hero-title">Процесс Discovery: от инициативы к production-решениям</h1>
+            <p class="hero-subtitle">
+                Discovery снижает риск дорогих ошибок до этапа разработки: команда быстро проверяет гипотезы, фокусируется на подтверждённой ценности и передаёт в Delivery только обоснованные решения.
+            </p>
+            <div class="kpi-row">
+                <article class="kpi-box">
+                    <div class="kpi-value">4–8 недель</div>
+                    <div class="kpi-label">Средняя длительность цикла discovery</div>
+                </article>
+                <article class="kpi-box">
+                    <div class="kpi-value key">60–80%</div>
+                    <div class="kpi-label">Гипотез отсекается до delivery</div>
+                </article>
+                <article class="kpi-box">
+                    <div class="kpi-value">2 пути</div>
+                    <div class="kpi-label">Стандартный handoff или ускоренный MVP</div>
+                </article>
+            </div>
+            <article class="macro-card">
+                <h2 class="block-action-title">Action Title: трехфазный pipeline ускоряет выпуск и защищает бюджет от неверных продуктовых решений.</h2>
+                <p class="block-subtitle">Кликните на узел фазы, чтобы перейти к детальному блоку.</p>
+                <div class="mermaid-shell">
                     <div class="mermaid">
 flowchart LR
-    Start([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
+    Start([Инициатива<br/>после PI Planning]) --> P1([Фаза 1<br/>Исследование])
+    P1 --> P2([Фаза 2<br/>Валидация])
+    P2 --> P3([Фаза 3<br/>Запуск])
+    P3 --> End([Handoff<br/>в Delivery])
+    click P1 phaseClick "Перейти к фазе 1"
+    click P2 phaseClick "Перейти к фазе 2"
+    click P3 phaseClick "Перейти к фазе 3"
+                    </div>
+                </div>
+            </article>
+        </section>
 
-    Init --> Hypotheses([Формулирование гипотез])
-    Hypotheses --> Team([Выбор методологии Discovery:<br/>Design Sprint, Lean UX или JTBD])
-    Hypotheses --> Scope([Определение scope и сроков])
-    Hypotheses --> Tools([Настройка инструментов])
+        <section id="phase-1" class="phase-section">
+            <header class="phase-header">
+                <div class="phase-number">01</div>
+                <div>
+                    <h2 class="phase-title">Сфокусируйте инициативу и сформируйте приоритетные гипотезы на основе исследования.</h2>
+                    <p class="phase-description">Фаза 1 превращает бизнес-запрос в структуру проверяемых гипотез и согласованные рамки discovery-работы.</p>
+                </div>
+            </header>
 
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Фаза 1. Инициализация и исследование</h3>
+                        <p><strong>Что происходит:</strong> Превращаем идею из планирования в конкретный план действий. Собираем команду, определяем рамки задачи и изучаем проблему со всех сторон.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «разведки перед боем». Мы понимаем, какую боль клиента лечим, смотрим конкурентов, анализируем данные и формулируем гипотезы.</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма фазы 1</div>
+                            <div class="diagram-description">От инициативы после PI Planning до списка приоритизированных гипотез.</div>
+                            <div class="mermaid">
+flowchart TD
+    Start1([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
+    Init --> Hypo([Формулирование гипотез])
+    Hypo --> Team([Выбор методологии Discovery])
+    Hypo --> Scope([Определение scope и сроков])
+    Hypo --> Tools([Настройка инструментов])
     Team --> Research([Исследование проблемы])
     Scope --> Research
     Tools --> Research
-
-    Research --> UserResearch([Исследование пользователей])
+    Research --> User([Исследование пользователей])
     Research --> Competitor([Анализ конкурентов])
     Research --> Data([Анализ данных и метрик])
-
-    UserResearch --> Prioritize([Приоритизация гипотез])
+    User --> Prioritize([Приоритизация гипотез])
     Competitor --> Prioritize
     Data --> Prioritize
+                            </div>
+                        </div>
+                    </article>
+                </div>
 
-    style Start fill:#e1f5ff
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Длительность</div>
+                        <div class="fact-value">1–2 недели в рамках полного цикла 4–8 недель</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Ключевые роли</div>
+                        <ul class="fact-list">
+                            <li>Product Manager / Product Owner</li>
+                            <li>UX Researcher</li>
+                            <li>Tech Lead</li>
+                            <li>Data Analyst</li>
+                        </ul>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Выход фазы</div>
+                        <div class="fact-value">Приоритизированный пул гипотез и план валидации на фазу 2</div>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-throughput">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('throughput')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
+            </div>
+
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Definition of Ready и входные условия фазы 1</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>Инициатива от PI Planning с понятной бизнес-ценностью</li>
+                                <li>Product Owner назначен и доступен 50%+ времени</li>
+                                <li>Команда Discovery собрана (минимум: PM, UX, Tech Lead)</li>
+                                <li>Бюджет на Discovery согласован (4–8 недель)</li>
+                                <li>Доступ к пользователям и данным подтверждён</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="phase-card">
-                    <h3>✅ Definition of Ready для Discovery (Фаза 1)</h3>
-                    <ul>
-                        <li>Инициатива от PI Planning с понятной бизнес-ценностью</li>
-                        <li>Product Owner назначен и доступен 50%+ времени</li>
-                        <li>Команда Discovery собрана (минимум: PM, UX, Tech Lead)</li>
-                        <li>Бюджет на Discovery согласован (4–8 недель)</li>
-                        <li>Доступ к пользователям и данным подтверждён</li>
-                    </ul>
-                </div>
-
-                <div class="diagram-container">
-                    <div class="diagram-title">Фаза 2. Валидация гипотез и прототипирование</div>
-                    <div class="diagram-description">
-                        Подпроцессы фазы 2 разбиты на отдельные шаги, чтобы было проще читать и анализировать путь от гипотез до готового решения.
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Справочник обозначений (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block">Глоссарий терминов, используемых в Discovery и последующем handoff в Delivery.</p>
+                            <div class="table-wrap">
+                                <table id="glossaryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Артефакт</th>
+                                            <th>Аббр.</th>
+                                            <th>Перевод</th>
+                                            <th>Пояснение для бизнеса</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Product Requirements Document</td><td><strong>PRD</strong></td><td>Требования к продукту</td><td>Документ, который описывает что и почему мы делаем.</td></tr>
+                                        <tr><td>Application Programming Interface</td><td><strong>API</strong></td><td>Интерфейс для связи систем</td><td>Правила взаимодействия между сервисами и системами.</td></tr>
+                                        <tr><td>Architecture Decision Record</td><td><strong>ADR</strong></td><td>Решения по архитектуре</td><td>Фиксация архитектурных решений, альтернатив и последствий.</td></tr>
+                                        <tr><td>Proof of Concept</td><td><strong>PoC</strong></td><td>Проверка концепции</td><td>Рабочий макет, который показывает техническую реализуемость.</td></tr>
+                                        <tr><td>Minimum Viable Product</td><td><strong>MVP</strong></td><td>Минимально жизнеспособный продукт</td><td>Самая простая рабочая версия с измеримым эффектом.</td></tr>
+                                        <tr><td>Low-fidelity prototype</td><td><strong>Low-fi</strong></td><td>Черновой макет</td><td>Быстрый скетч для дешёвой проверки идеи.</td></tr>
+                                        <tr><td>High-fidelity prototype</td><td><strong>High-fi</strong></td><td>Детальный макет</td><td>Макет, близкий к финальному продукту по UX/UI.</td></tr>
+                                        <tr><td>User Experience / User Interface</td><td><strong>UX/UI</strong></td><td>Опыт и интерфейс</td><td>Как продукт работает и как выглядит для пользователя.</td></tr>
+                                        <tr><td>Definition of Done</td><td><strong>DoD</strong></td><td>Критерии готовности</td><td>Список условий, после которых задача считается завершённой.</td></tr>
+                                        <tr><td>Acceptance Criteria</td><td><strong>AC</strong></td><td>Критерии приёмки</td><td>Условия, при которых бизнес принимает результат.</td></tr>
+                                        <tr><td>Product Owner</td><td><strong>PO</strong></td><td>Владелец продукта</td><td>Отвечает за ценность, приоритизацию и продуктовые решения.</td></tr>
+                                        <tr><td>Key Performance Indicator</td><td><strong>KPI</strong></td><td>Ключевой показатель</td><td>Метрика, по которой измеряется успех гипотезы/решения.</td></tr>
+                                        <tr><td>Return on Investment</td><td><strong>ROI</strong></td><td>Окупаемость</td><td>Показывает возврат инвестиций в инициативу.</td></tr>
+                                        <tr><td>Jobs to be Done</td><td><strong>JTBD</strong></td><td>Задача пользователя</td><td>Подход, фокусирующийся на реальной задаче клиента.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="phase-2" class="phase-section phase-alt">
+            <header class="phase-header">
+                <div class="phase-number">02</div>
+                <div>
+                    <h2 class="phase-title">Проверьте гипотезы и доведите прототип до решения, готового к передаче в Delivery.</h2>
+                    <p class="phase-description">Фаза 2 объединяет подтверждение гипотез, прототипирование и фильтрацию решений до уровня, где можно обоснованно инвестировать в разработку.</p>
                 </div>
+            </header>
 
-                <div class="phase-card">
-                    <h3>Фаза 2.1. Проверка гипотез</h3>
-                    <p><strong>Что происходит:</strong> Тестируем наши предположения на реальных пользователях, прежде чем тратить ресурсы на разработку.</p>
-                    <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «проверяем, не врём ли мы себе». Делаем быстрые тесты, опросы, интервью. Если гипотеза не подтверждается — отбрасываем её и не тратим деньги зря. Если подтверждается — идём дальше.</p>
-                </div>
-
-                <div class="widget-disclaimer">
-                    <h4>📌 Дисклеймер виджета борда: «Скорость цикла»</h4>
-                    <p>Именно здесь видны «Время на эксперименты» и «Время проверки гипотез». В начале они могут быть большими, но целевой сигнал — последовательное снижение этих показателей от квартала к кварталу.</p>
-                    <div class="widget-actions">
-                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-cycle">Перейти к виджету на борде</a>
-                        <button class="widget-preview-btn" onclick="openWidgetPreview('cycle')">Открыть во всплывающем окне</button>
-                    </div>
-                </div>
-
-                <div class="diagram-container">
-                    <div class="diagram-title">Фаза 2.1. Валидация гипотез</div>
-                    <div class="diagram-description">
-                        От приоритизированных гипотез до списка подтверждённых, уточнённых и отклонённых гипотез.
-                    </div>
-                    <div class="mermaid">
-flowchart LR
-    HypoStart([Приоритизированные<br/>гипотезы]) --> DesignExp([Дизайн<br/>эксперимента])
-    DesignExp --> Criteria2([Критерии<br/>успеха])
-    DesignExp --> Methods2([Методы<br/>валидации])
-
-    Methods2 --> RunTests([Проведение<br/>тестов и экспериментов])
-    RunTests --> Collect2([Сбор данных<br/>и обратной связи])
-    Collect2 --> Analyze2([Анализ<br/>результатов])
-
-    Analyze2 --> Decision2{Гипотеза<br/>подтверждена?}
-
-    Decision2 -->|Да| Confirmed2([Подтверждённые<br/>гипотезы])
-    Decision2 -->|Частично| Refine2([Уточнение<br/>гипотезы])
-    Decision2 -->|Нет| Reject2([Отклонённые<br/>гипотезы])
-
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Фаза 2.1. Проверка гипотез</h3>
+                        <p><strong>Что происходит:</strong> Тестируем предположения на реальных пользователях, прежде чем тратить ресурсы на разработку.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «проверяем, не врём ли мы себе».</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма 2.1 — Валидация гипотез</div>
+                            <div class="diagram-description">От приоритизированных гипотез до подтверждённых, уточнённых и отклонённых.</div>
+                            <div class="mermaid">
+flowchart TD
+    HypoStart([Приоритизированные гипотезы]) --> DesignExp([Дизайн эксперимента])
+    DesignExp --> Criteria2([Критерии успеха])
+    DesignExp --> Methods2([Методы валидации])
+    Methods2 --> RunTests([Проведение тестов и экспериментов])
+    RunTests --> Collect2([Сбор данных и обратной связи])
+    Collect2 --> Analyze2([Анализ результатов])
+    Analyze2 --> Decision2{Гипотеза подтверждена?}
+    Decision2 -->|Да| Confirmed2([Подтверждённые гипотезы])
+    Decision2 -->|Частично| Refine2([Уточнение гипотезы])
+    Decision2 -->|Нет| Reject2([Отклонённые гипотезы])
     Refine2 --> HypoStart
+                            </div>
+                        </div>
+                    </article>
 
-    style Decision2 fill:#fff9c4
-    style Confirmed2 fill:#c8e6c9
-    style Reject2 fill:#ffccbc
-                    </div>
-                </div>
-
-                <div class="phase-card">
-                    <h3>📌 Критерии качества гипотезы (Фаза 2.1)</h3>
-                    <p>Гипотеза готова к валидации, если выполнены следующие условия:</p>
-                    <ul>
-                        <li>Формулировка: «Мы верим, что [решение] достигнет [результат] для [сегмент]»</li>
-                        <li>Метрика успеха определена (количественная)</li>
-                        <li>Базовое значение метрики (baseline) известно</li>
-                        <li>Целевое значение метрики (target) установлено</li>
-                        <li>Time-box валидации: 2–5 дней на одну гипотезу</li>
-                        <li>Метод валидации выбран (A/B, интервью, прототип, landing page)</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Дополнительные параметры эксперимента:</h4>
-                    <ul>
-                        <li>Длительность валидации одной гипотезы: 2–5 дней</li>
-                        <li>Kill criteria: если гипотеза не подтверждается после 2 итераций — отклоняем</li>
-                        <li><strong>Метрики:</strong> Количество исследований, Время на исследование, Количество экспериментов, Время на эксперименты</li>
-                    </ul>
-                </div>
-
-                <div class="phase-card">
-                    <h3>Фаза 2.2. Прототипирование решения</h3>
-                    <p><strong>Что происходит:</strong> Создаём «макеты» будущего продукта — от простых набросков до интерактивных моделей.</p>
-                    <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «рисуем будущее». Сначала делаем простые эскизы, тестируем внутри команды. Потом делаем детальные макеты, похожие на настоящий продукт, и показываем пользователям. Если что-то не нравится — переделываем, пока не «сидит» идеально.</p>
-                </div>
-
-                <div class="widget-disclaimer">
-                    <h4>📌 Дисклеймер виджета борда: «Стратегическая приоритизация»</h4>
-                    <p>На этом этапе важно смотреть, не перегружен ли портфель дорогими инициативами. Виджет помогает балансировать quick wins и сложные гипотезы до передачи в Delivery.</p>
-                    <div class="widget-actions">
-                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-matrix">Перейти к виджету на борде</a>
-                        <button class="widget-preview-btn" onclick="openWidgetPreview('matrix')">Открыть во всплывающем окне</button>
-                    </div>
-                </div>
-
-                <div class="diagram-container">
-                    <div class="diagram-title">Фаза 2.2. Прототипирование решения</div>
-                    <div class="diagram-description">
-                        Переход от подтверждённых гипотез к пользовательским и техническим прототипам.
-                    </div>
-                    <div class="mermaid">
-flowchart LR
-    Confirmed2([Подтверждённые<br/>гипотезы]) --> Concept2([Концепция<br/>решения])
-    Concept2 --> LowFi2([Low-fidelity<br/>прототип])
-    LowFi2 --> InternalTest2([Внутреннее<br/>тестирование])
-
-    InternalTest2 --> HighFi2([High-fidelity<br/>прототип])
-    HighFi2 --> Interactive2([Интерактивный<br/>прототип])
-    Interactive2 --> UserTests2([Тестирование<br/>с пользователями])
-
-    UserTests2 --> Feedback2([Обратная<br/>связь])
-    Feedback2 --> Iterate2{Нужны<br/>доработки?}
-
+                    <article class="panel">
+                        <h3>Фаза 2.2. Прототипирование решения</h3>
+                        <p><strong>Что происходит:</strong> Создаём «макеты» будущего продукта — от простых набросков до интерактивных моделей.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «рисуем будущее» и проверяем UX до кода.</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма 2.2 — Прототипирование</div>
+                            <div class="diagram-description">Переход от подтверждённых гипотез к старту процесса Delivery.</div>
+                            <div class="mermaid">
+flowchart TD
+    Confirmed2([Подтверждённые гипотезы]) --> Concept2([Концепция решения])
+    Concept2 --> LowFi2([Low-fidelity прототип])
+    LowFi2 --> InternalTest2([Внутреннее тестирование])
+    InternalTest2 --> HighFi2([High-fidelity прототип])
+    HighFi2 --> Interactive2([Интерактивный прототип])
+    Interactive2 --> UserTests2([Тестирование с пользователями])
+    UserTests2 --> Feedback2([Обратная связь])
+    Feedback2 --> Iterate2{Нужны доработки?}
     Iterate2 -->|Да| Concept2
-    Iterate2 -->|Нет| TechProto2([Старт процесса<br/>Delivery])
-
-    style Iterate2 fill:#fff9c4
-    style TechProto2 fill:#c8e6c9
-                    </div>
+    Iterate2 -->|Нет| DeliveryStart([Старт процесса Delivery])
+                            </div>
+                        </div>
+                    </article>
                 </div>
 
-                <div class="phase-card">
-                    <h3>🚦 Гейты прототипирования (Фаза 2.2)</h3>
-                    <h4>Переход Low-fi → High-fi:</h4>
-                    <ul>
-                        <li>3+ внутренних ревью с положительным фидбэком</li>
-                        <li>Ключевые user flows протестированы на бумаге или wireframes</li>
-                        <li>Product Owner утвердил направление решения</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Переход High-fi → Интерактивный прототип:</h4>
-                    <ul>
-                        <li>Дизайн-система применена (или создана)</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Переход Интерактивный → Старт процесса Delivery:</h4>
-                    <ul>
-                        <li>Юзабилити-тестирование: 5+ пользователей, 80%+ success rate по ключевым задачам</li>
-                        <li>Критические замечания по UX устранены</li>
-                        <li>Tech Lead подтвердил техническую реализуемость решения</li>
-                    </ul>
-                </div>
-
-                <div class="phase-card">
-                    <h3>Фаза 2.3. Техническое прототипирование</h3>
-                    <p><strong>Что происходит:</strong> Проверяем, что решение реально сделать технически, и готовим его к запуску в Delivery.</p>
-                    <p style="margin-top:10px;"><strong>Простыми словами:</strong> Это этап «а получится ли это вообще сделать?». Разработчики проверяют интеграции с существующими системами, оценивают риски и нагрузку. Лучше узнать о проблемах сейчас, чем в день запуска.</p>
-                </div>
-
-                <div class="widget-disclaimer">
-                    <h4>📌 Дисклеймер виджета борда: «Контроль бюджета»</h4>
-                    <p>Здесь контролируем стоимость подтверждённых гипотез по направлениям. Цель — убрать перерасход и выровнять экономику проверки до handoff в Delivery.</p>
-                    <div class="widget-actions">
-                        <a class="widget-link nav-link" href="executive-dashboard.html#widget-cost">Перейти к виджету на борде</a>
-                        <button class="widget-preview-btn" onclick="openWidgetPreview('cost')">Открыть во всплывающем окне</button>
-                    </div>
-                </div>
-
-                <div class="phase-card">
-                    <h3>🧾 Чек-лист готовности к handoff (Фаза 2.3)</h3>
-                    <ul>
-                        <li>Security: ревью безопасности проведено (особенно для пользовательских данных)</li>
-                        <li>Compliance: GDPR / privacy-риски оценены, требования по доступности проверены</li>
-                        <li>Performance: нефункциональные требования определены (время отклика, ожидаемая нагрузка)</li>
-                        <li>Интеграции: API-контракты согласованы с владельцами систем</li>
-                        <li>Данные: структура хранения и обработки данных описана</li>
-                        <li>Мониторинг: определены метрики, которые будем отслеживать в Delivery</li>
-                    </ul>
-                </div>
-
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <h4>Длительность процесса</h4>
-                        <div class="metric-value">4-8 недель</div>
-                    </div>
-                    <div class="metric-card">
-                        <h4>Команда</h4>
-                        <div class="metric-value">6-8 человек</div>
-                    </div>
-                    <div class="metric-card">
-                        <h4>Успешность валидации</h4>
-                        <div class="metric-value">15%-30%</div>
-                    </div>
-                </div>
-
-                <div class="phase-card">
-                    <h3>🎯 Критерии готовности к handoff в Delivery</h3>
-                    <h4>Стандартный путь:</h4>
-                    <ul>
-                        <li>Проблема четко определена и валидирована</li>
-                        <li>Решение протестировано с пользователями и показало положительные результаты</li>
-                        <li>Бизнес-ценность подтверждена метриками</li>
-                        <li>Техническая реализуемость оценена</li>
-                        <li>Документация готова для команды разработки</li>
-                        <li>План внедрения согласован со стейкхолдерами</li>
-                    </ul>
-                    <h4 style="margin-top: 20px;">Ускоренный путь через MVP:</h4>
-                    <ul>
-                        <li>MVP продукт готов и функционален</li>
-                        <li>MVP успешно протестирован на части пользователей (10%) с положительными метриками</li>
-                        <li>Бизнес-ценность подтверждена метриками тестовой группы</li>
-                    </ul>
-                </div>
-
-                <div class="phase-card">
-                    <h3>📦 Артефакты для handoff в Delivery</h3>
-                    <h4>Документация:</h4>
-                    <ul>
-                        <li>Product Requirements Document (PRD) с валидацией гипотез</li>
-                        <li>Технические спецификации (API-контракты, архитектура)</li>
-                        <li>Architecture Decision Records (ADR) — ключевые архитектурные решения</li>
-                        <li>Дизайн-макеты (Figma) с интерактивным прототипом</li>
-                        <li>Исследовательская сводка (пользователи, конкуренты, метрики)</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Для разработки:</h4>
-                    <ul>
-                        <li>Оценка сложности (story points или t-shirt sizes)</li>
-                        <li>Риски и mitigation-план</li>
-                        <li>Зависимости от других команд и систем</li>
-                        <li>Definition of Done для фичи</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Для тестирования:</h4>
-                    <ul>
-                        <li>Критерии приёмки (Acceptance Criteria)</li>
-                        <li>Тестовые сценарии (happy path + edge cases)</li>
-                        <li>Данные для тестовых сред (анонимизированные)</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Для бизнеса:</h4>
-                    <ul>
-                        <li>Решение согласовано и подписано ключевыми стейкхолдерами</li>
-                        <li>Бюджет на реализацию согласован</li>
-                        <li>Success metrics и план их измерения определены</li>
-                    </ul>
-                    <h4 style="margin-top: 15px;">Формат передачи:</h4>
-                    <ul>
-                        <li>Handoff-сессия (1–2 часа): презентация решения, демо прототипа, Q&amp;A</li>
-                        <li>Документация в Confluence/Notion с доступом для Delivery-команды</li>
-                        <li>Figma-файл с комментариями и спецификациями</li>
-                        <li>Jira Epics / фичи с разбивкой на задачи (если используется Jira)</li>
-                    </ul>
-                </div>
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Длительность</div>
+                        <div class="fact-value">2–4 недели (валидация + прототипирование)</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Метрики фазы</div>
+                        <ul class="fact-list">
+                            <li>Количество исследований</li>
+                            <li>Время на исследование</li>
+                            <li>Количество экспериментов</li>
+                            <li>Время на эксперименты</li>
+                        </ul>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Критерий выхода</div>
+                        <div class="fact-value">Подтвержденные гипотезы и прототип решения с валидированным UX</div>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-cycle">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('cycle')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
             </div>
 
-            <!-- Справочник обозначений -->
-            <div id="glossary" class="tab-content">
-                <div class="diagram-container">
-                    <div class="diagram-title">📘 Справочник обозначений</div>
-                    <div class="diagram-description">
-                        Краткий глоссарий терминов и сокращений, которые используются в процессе Discovery и последующем handoff в Delivery. Ориентирован на бизнес-стейкхолдеров.
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Критерии качества гипотезы и гейты прототипирования</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block"><strong>Гипотеза готова к валидации, если:</strong></p>
+                            <ul>
+                                <li>Есть формулировка: «Мы верим, что [решение] достигнет [результат] для [сегмент]»</li>
+                                <li>Метрика успеха определена и baseline известен</li>
+                                <li>Целевое значение метрики установлено</li>
+                                <li>Time-box валидации: 2–5 дней</li>
+                                <li>Определен метод проверки (A/B, интервью, прототип, landing page)</li>
+                            </ul>
+                            <p class="text-block"><strong>Гейты 2.2:</strong> Low-fi → High-fi → Интерактивный прототип → Старт процесса Delivery.</p>
+                            <ul>
+                                <li>Переход Low-fi → High-fi: 3+ внутренних ревью с положительным фидбэком</li>
+                                <li>Переход High-fi → Интерактивный: применена дизайн-система</li>
+                                <li>Переход в Delivery: 5+ пользовательских тестов и 80%+ success rate</li>
+                            </ul>
+                        </div>
                     </div>
+                </article>
 
-                    <div style="margin: 10px 0 20px 0;">
-                        <label for="glossary-search" style="font-weight:500; margin-right:8px;">Поиск по терминам:</label>
-                        <input
-                            id="glossary-search"
-                            type="text"
-                            placeholder="Например: PoC, API, ADR..."
-                            style="padding:8px 10px; border-radius:6px; border:1px solid #ccc; min-width:260px;"
-                        />
-                    </div>
-
-                    <div style="overflow-x: auto;">
-                        <table id="glossary-table" style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
-                            <thead>
-                                <tr style="background:#f5f5f5;">
-                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Артефакт (англ.)</th>
-                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Аббревиатура</th>
-                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Перевод</th>
-                                    <th style="border:1px solid #e0e0e0; padding:8px; text-align:left;">Простое объяснение для бизнеса</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Product Requirements Document</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PRD</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Требования к продукту</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Документ, который описывает ЧТО мы делаем и ПОЧЕМУ это важно для бизнеса. Без технических деталей — только суть, ценность и критерии успеха.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Application Programming Interface</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>API</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Интерфейс для связи систем</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Правила, по которым наше решение будет разговаривать с другими программами (базами данных, платёжными системами, внешними сервисами). Как розетка: если не подходит — ничего не заработает.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Architecture Decision Record</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>ADR</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Решения по архитектуре</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Запись важных технических выборов: почему выбрали именно такую технологию, какие были альтернативы, чем рискуем. Нужно, чтобы через полгода не спрашивали «а почему не сделали проще?».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Proof of Concept</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>POC</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Проверка концепции</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Рабочий макет, который показывает: технически вообще возможно сделать то, что задумали? Дешёвый способ не вляпаться в провал на этапе разработки.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Minimum Viable Product</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>MVP</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Минимально жизнеспособный продукт</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Самая простая версия продукта, которая уже решает проблему пользователя. Не «сыро́й прототип», а рабочая штука, которую можно показать клиентам и замерить реакцию.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Low-fidelity prototype</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>Low-fi</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Черновой макет / набросок</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Быстрая зарисовка интерфейса на бумаге или в простой программе. Как эскиз дома: видно, где кухня, где спальня, но цвет обоев ещё не выбран. Нужен, чтобы быстро проверить идею без затрат на красивый дизайн.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">High-fidelity prototype</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>High-fi</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Детальный макет / близкий к реальности</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Почти готовый интерфейс с реальными цветами, шрифтами, кнопками. Как 3D-визуализация квартиры: уже понятно, как будет выглядеть, но зайти внутрь пока нельзя. Показываем бизнесу и тестируем на пользователях перед разработкой.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">User Experience / User Interface</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>UX/UI</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Опыт и интерфейс пользователя</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">UX — как человек чувствует себя при использовании (удобно ли, понятно ли). UI — как это выглядит (кнопки, цвета, шрифты). Вместе отвечают за «хочу ещё раз зайти» vs «закрыл и забыл».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Definition of Done</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>DoD</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Критерии готовности</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Чёткий чек-лист: когда задачу можно считать законченной. Например: «код написан, протестирован, документация обновлена». Защита от «ну вроде сделали».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Acceptance Criteria</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>AC</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Критерии приёмки</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Конкретные условия, при которых бизнес говорит «да, это то, что мы хотели». Пишутся простым языком: «пользователь может оплатить за 3 клика».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Product Owner</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PO</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Владелец продукта</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Человек от бизнеса, который знает, ЧТО делать и ЗАЧЕМ. Принимает решения, приоритизирует, отвечает за ценность. Его нельзя игнорировать — он голос пользователя.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Key Performance Indicator</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>KPI</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Ключевые показатели эффективности</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Цифры, по которым понятно, успешно ли решение. Например: «конверсия выросла с 2% до 5%» или «время на задачу сократилось вдвое».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Return on Investment</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>ROI</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Окупаемость инвестиций</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Сколько денег вернётся на каждый вложенный рубль. Если ROI = 300% — вложили 1 млн, получили 3 млн. Главный вопрос для бизнеса.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Program Increment</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>PI</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Программный инкремент (в SAFe)</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Большой планировочный цикл, обычно 8–12 недель. В рамках него команды согласовывают, какие инициативы берут в работу. Отсюда приходят задачи в Discovery.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Jobs to be Done</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>JTBD</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Теория «работы, на которую нанимают продукт»</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Подход: не думать «какую кнопку сделать», а понять «какую задачу пользователь решает». Пример: люди не покупают дрель, им нужны дырки в стене.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Service Level Agreement</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>SLA</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Соглашение об уровне сервиса</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Договорённость, насколько быстро система должна работать и как часто может ломаться. Например: «страница грузится за 2 секунды, недоступность — не более 1 часа в месяц».</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Single Point of Failure</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;"><strong>SPOF</strong></td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Единая точка отказа</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Компонент, который если сломается — вся система встанет. Риск, который нужно устранить до запуска.</td>
-                                </tr>
-                                <tr>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Technical Debt</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">—</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Технический долг</td>
-                                    <td style="border:1px solid #e0e0e0; padding:8px;">Умышленные упрощения в коде «чтобы быстрее запуститься», которые потом надо будет переделывать. Как кредит: срочно — да, но проценты платить придётся.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Валидация гипотез -->
-            <div id="validation" class="tab-content">
-                <div class="diagram-container">
-                    <div class="diagram-title">Процесс валидации гипотез</div>
-                    <div class="diagram-description">
-                        Детальный процесс проверки гипотез через различные методы валидации.
-                    </div>
-                    <div class="mermaid">
-flowchart LR
-    Start([Гипотеза]) --> Formulate[Формулировка<br/>гипотезы]
-    
-    Formulate --> Criteria[Определение<br/>критериев успеха]
-    Criteria --> Method[Выбор метода<br/>валидации]
-    
-    Method --> Exp[Эксперимент]
-    Method --> Survey[Опрос]
-    Method --> Interview[Интервью]
-    Method --> Proto[Прототип]
-    
-    Exp --> Collect[Сбор данных]
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Детальный процесс валидации гипотез</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="mermaid-shell">
+                                <div class="diagram-title">Диаграмма 2.1b — Подробная валидация</div>
+                                <div class="diagram-description">Детальный путь гипотезы через методы проверки и цикл уточнения.</div>
+                                <div class="mermaid">
+flowchart TD
+    StartV([Гипотеза]) --> Formulate([Формулировка гипотезы])
+    Formulate --> Criteria([Определение критериев успеха])
+    Criteria --> Method([Выбор метода валидации])
+    Method --> Exp([Эксперимент])
+    Method --> Survey([Опрос])
+    Method --> Interview([Интервью])
+    Method --> Proto([Прототип])
+    Exp --> Collect([Сбор данных])
     Survey --> Collect
     Interview --> Collect
     Proto --> Collect
-    
-    Collect --> Analyze[Анализ результатов]
-    Analyze --> Result{Результат<br/>валидации}
-    
-    Result -->|Подтверждена| Next[Следующая гипотеза]
-    Result -->|Опровергнута| Revise[Пересмотр гипотезы]
-    Result -->|Частично| Refine[Уточнение гипотезы]
-    
+    Collect --> Analyze([Анализ результатов])
+    Analyze --> Result{Результат валидации}
+    Result -->|Подтверждена| Next([Следующая гипотеза])
+    Result -->|Опровергнута| Revise([Пересмотр гипотезы])
+    Result -->|Частично| Refine([Уточнение гипотезы])
     Revise --> Formulate
     Refine --> Formulate
-    Next --> End([Валидация завершена])
-    
-    style Start fill:#e1f5ff
-    style End fill:#c8e6c9
-    style Result fill:#fff9c4
-    style Revise fill:#ffccbc
-    style Refine fill:#fff9c4
+    Next --> EndV([Валидация завершена])
+                                </div>
+                            </div>
+                            <ul>
+                                <li><strong>Эксперименты:</strong> A/B tests, smoke tests, landing page tests</li>
+                                <li><strong>Опросы:</strong> количественные исследования, NPS, satisfaction surveys</li>
+                                <li><strong>Интервью:</strong> глубинные интервью с пользователями и экспертами</li>
+                                <li><strong>Прототипы:</strong> low-fidelity и high-fidelity для UX-валидации</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </article>
 
-                <div class="phase-card">
-                    <h3>📊 Методы валидации</h3>
-                    <ul>
-                        <li><strong>Эксперименты:</strong> A/B тесты, smoke tests, landing page тесты</li>
-                        <li><strong>Опросы:</strong> количественные исследования, NPS, satisfaction surveys</li>
-                        <li><strong>Интервью:</strong> глубинные интервью с пользователями и экспертами</li>
-                        <li><strong>Прототипы:</strong> low-fidelity и high-fidelity прототипы для тестирования</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Прототипирование -->
-            <div id="prototyping" class="tab-content">
-                <div class="diagram-container">
-                    <div class="diagram-title">Процесс прототипирования и тестирования</div>
-                    <div class="diagram-description">
-                        Итеративный процесс создания и тестирования прототипов от wireframes до готового решения.
-                    </div>
-                    <div class="mermaid">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Процесс прототипирования и тестирования</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="mermaid-shell">
+                                <div class="diagram-title">Диаграмма 2.2b — Итеративное прототипирование</div>
+                                <div class="diagram-description">Путь от wireframes до финальной готовности через обратную связь.</div>
+                                <div class="mermaid">
 flowchart TD
-    Start([Валидированные гипотезы]) --> Design[Дизайн-процесс]
-    
-    Design --> Wireframe[Wireframes]
-    Wireframe --> LowFi[Low-fidelity<br/>прототип]
-    
-    LowFi --> Test1[Внутреннее<br/>тестирование]
-    Test1 --> Feedback1[Обратная связь]
-    
-    Feedback1 --> HighFi[High-fidelity<br/>прототип]
-    
-    HighFi --> DesignSystem[Дизайн-система]
-    DesignSystem --> Interactive[Интерактивный<br/>прототип]
-    
-    Interactive --> Test2[Тестирование с<br/>пользователями]
-    Test2 --> Metrics[Сбор метрик]
-    Metrics --> Feedback2[Качественная<br/>обратная связь]
-    
-    Feedback2 --> Evaluate{Оценка<br/>результатов}
-    
-    Evaluate -->|Успешно| TechProto[Инженерное прототипирование<br/>и Proof of Concept]
-    Evaluate -->|Требует доработки| Refine[Доработка<br/>дизайна]
-    
+    StartP([Валидированные гипотезы]) --> Design([Дизайн-процесс])
+    Design --> Wireframe([Wireframes])
+    Wireframe --> LowFi([Low-fidelity прототип])
+    LowFi --> Test1([Внутреннее тестирование])
+    Test1 --> Feedback1([Обратная связь])
+    Feedback1 --> HighFi([High-fidelity прототип])
+    HighFi --> DesignSystem([Дизайн-система])
+    DesignSystem --> Interactive([Интерактивный прототип])
+    Interactive --> Test2([Тестирование с пользователями])
+    Test2 --> Metrics([Сбор метрик])
+    Metrics --> Feedback2([Качественная обратная связь])
+    Feedback2 --> Evaluate{Оценка результатов}
+    Evaluate -->|Успешно| DeliveryReady([Старт процесса Delivery])
+    Evaluate -->|Требует доработки| Refine([Доработка дизайна])
     Refine --> HighFi
-    
-    TechProto --> POC[Proof of Concept]
-    POC --> Integration[Интеграционное<br/>тестирование]
-    
-    Integration --> FinalTest[Финальное<br/>тестирование]
-    FinalTest --> Ready{Готово к<br/>handoff?}
-    
-    Ready -->|Да| Document[Документация]
-    Ready -->|Нет| TechProto
-    
-    Document --> End([Готово])
-    
-    style Start fill:#e1f5ff
-    style End fill:#c8e6c9
-    style Evaluate fill:#fff9c4
-    style Ready fill:#fff9c4
-    style Refine fill:#ffccbc
+                                </div>
+                            </div>
+                            <ul>
+                                <li><strong>Wireframes:</strong> Balsamiq, Whimsical, Miro</li>
+                                <li><strong>Low-fidelity:</strong> Figma, Sketch, Adobe XD</li>
+                                <li><strong>High-fidelity:</strong> Figma, Framer, Principle</li>
+                                <li><strong>Интерактивные:</strong> Framer, InVision, ProtoPie</li>
+                            </ul>
+                        </div>
                     </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Шаблоны и чек-листы (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block"><strong>Шаблон гипотезы:</strong></p>
+                            <p class="text-block">Мы верим, что [функциональность/изменение] для [сегмент пользователей] даст [бизнес-результат], если [критерий успеха через X время].</p>
+                            <p class="text-block"><strong>Шаблон ADR:</strong> Контекст → Решение → Альтернативы → Последствия.</p>
+                            <ul>
+                                <li>Гипотеза сформулирована по шаблону</li>
+                                <li>Метрика и целевое значение определены</li>
+                                <li>Метод валидации выбран</li>
+                                <li>Критерии успеха задокументированы</li>
+                                <li>Дата завершения валидации назначена</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="phase-3" class="phase-section">
+            <header class="phase-header">
+                <div class="phase-number">03</div>
+                <div>
+                    <h2 class="phase-title">Подготовьте решение к запуску и безопасному handoff в Delivery.</h2>
+                    <p class="phase-description">Фаза 3 фиксирует техническую готовность, риски, KPI и артефакты передачи для устойчивого production-внедрения.</p>
+                </div>
+            </header>
+
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Фаза 3. Запуск и handoff в Delivery</h3>
+                        <p><strong>Что происходит:</strong> Проверяем техническую и организационную готовность перед передачей в разработку.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «запускаем только то, что реально внедрить без скрытых блокеров».</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма фазы 3 — Готовность к Delivery</div>
+                            <div class="diagram-description">От старта процесса Delivery до формального handoff с контролем блокеров.</div>
+                            <div class="mermaid">
+flowchart TD
+    StartD([Старт процесса Delivery]) --> Security([Security review])
+    Security --> Compliance([Compliance check<br/>(GDPR, accessibility)])
+    Compliance --> IntegrRisk([Оценка интеграционных рисков])
+    IntegrRisk --> PerfTests([Технические и нагрузочные тесты])
+    PerfTests --> Pilot([Внутренний технический пилот])
+    Pilot --> MetricsD([Измерение метрик])
+    MetricsD --> Ready([Готовность к handoff])
+    Ready --> Check{Чек-лист приёмки}
+    Check -->|Все критерии выполнены| Handoff([Передача в Delivery])
+    Check -->|Есть блокеры| Fix([Доработка артефактов])
+    Fix --> Ready
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="panel">
+                        <h3>Ключевые метрики финальной готовности</h3>
+                        <div class="mini-metrics">
+                            <div class="mini-metric"><strong>4–8</strong><span>Недель discovery</span></div>
+                            <div class="mini-metric"><strong>6–8</strong><span>Человек в команде</span></div>
+                            <div class="mini-metric"><strong>15–30%</strong><span>Успешность валидации</span></div>
+                        </div>
+                    </article>
                 </div>
 
-                <div class="phase-card">
-                    <h3>🛠️ Инструменты прототипирования</h3>
-                    <ul>
-                        <li><strong>Wireframes:</strong> Balsamiq, Whimsical, Miro</li>
-                        <li><strong>Low-fidelity:</strong> Figma, Sketch, Adobe XD</li>
-                        <li><strong>High-fidelity:</strong> Figma, Framer, Principle</li>
-                        <li><strong>Интерактивные:</strong> Framer, InVision, ProtoPie</li>
-                        <li><strong>Технические:</strong> HTML/CSS/JS прототипы, React/Vue компоненты</li>
-                    </ul>
-                </div>
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Вход в фазу</div>
+                        <div class="fact-value">Подтверждённые гипотезы и прототип, прошедший UX-валидацию</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Выход фазы</div>
+                        <div class="fact-value">Полный пакет артефактов, готовых к разработке и тестированию</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Контроль качества</div>
+                        <ul class="fact-list">
+                            <li>Security и compliance проверки</li>
+                            <li>API-контракты согласованы</li>
+                            <li>Нефункциональные требования зафиксированы</li>
+                        </ul>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-cost">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('cost')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
             </div>
 
-            <!-- Шаблоны и чек-листы -->
-            <div id="templates" class="tab-content">
-                <div class="diagram-container">
-                    <div class="diagram-title">📋 Шаблоны и чек-листы</div>
-                    <div class="diagram-description">
-                        Набор базовых шаблонов и чек-листов, которые помогают выровнять ожидания между Discovery и Delivery и повысить повторяемость процесса.
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Чек-лист готовности к handoff и критерии запуска</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>Security review проведен (особенно для пользовательских данных)</li>
+                                <li>Compliance: GDPR/privacy и accessibility проверены</li>
+                                <li>Определены нефункциональные требования (время отклика, нагрузка)</li>
+                                <li>API-контракты согласованы с владельцами систем</li>
+                                <li>Данные и мониторинг описаны для этапа Delivery</li>
+                            </ul>
+                            <p class="text-block"><strong>Стандартный путь handoff:</strong> валидированная проблема, протестированное решение, подтверждённая ценность, готовая документация.</p>
+                            <p class="text-block"><strong>Ускоренный путь MVP:</strong> MVP функционален, протестирован на 10% аудитории и подтверждает ценность.</p>
+                            <p class="text-block"><strong>Артефакты передачи:</strong> PRD, техспецификация и API-контракты, ADR, дизайн-макеты, исследовательская сводка, критерии приёмки и тестовые сценарии.</p>
+                        </div>
                     </div>
+                </article>
 
-                    <div class="phase-card">
-                        <h3>🧠 Шаблон гипотезы</h3>
-                        <pre style="white-space: pre-wrap; background:#f5f5f5; padding:12px; border-radius:6px; border:1px solid #e0e0e0;">
-Мы верим, что [функциональность/изменение]
-Для [сегмент пользователей]
-Достигаем [бизнес-результат/метрика]
-Если [критерий успеха через X время]</pre>
-                    </div>
-
-                    <div class="phase-card">
-                        <h3>🏗️ Шаблон ADR (Architecture Decision Record)</h3>
-                        <ul>
-                            <li><strong>Контекст:</strong> какая проблема или вызов решается</li>
-                            <li><strong>Решение:</strong> что выбрали и почему</li>
-                            <li><strong>Альтернативы:</strong> какие варианты рассматривались и почему были отклонены</li>
-                            <li><strong>Последствия:</strong> технический долг, риски, ограничения</li>
-                        </ul>
-                    </div>
-
-                    <div class="phase-card">
-                        <h3>✅ Чек-лист валидации гипотезы</h3>
-                        <ul>
-                            <li>Гипотеза сформулирована по шаблону</li>
-                            <li>Метрика и целевое значение определены</li>
-                            <li>Метод валидации выбран (A/B, интервью, прототип и т.п.)</li>
-                            <li>Критерии успеха задокументированы</li>
-                            <li>Дата завершения валидации назначена</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Роли и команда -->
-            <div id="roles" class="tab-content">
-                <div class="diagram-container">
-                    <div class="diagram-title">Роли и взаимодействие в команде</div>
-                    <div class="diagram-description">
-                        Структура команды Discovery и взаимодействие между ролями и стейкхолдерами.
-                    </div>
-                    <div class="mermaid">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Роли и взаимодействие команды (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="mermaid-shell">
+                                <div class="diagram-title">Диаграмма ролей и взаимодействия</div>
+                                <div class="diagram-description">Кто принимает решения и как распределяется ответственность между Discovery и Delivery.</div>
+                                <div class="mermaid">
 graph TB
-    subgraph "Команда Discovery"
+    subgraph Discovery["Команда Discovery"]
         PM[Product Manager]
         UX[UX Researcher]
         Designer[UX/UI Designer]
@@ -965,116 +1157,45 @@ graph TB
         Data[Data Analyst]
         DevOps[DevOps Engineer]
     end
-    
-    subgraph "Стейкхолдеры"
+    subgraph Stakeholders["Стейкхолдеры"]
         Business[Business Owner]
         Users[Пользователи]
         Dev[Команда разработки]
     end
-    
-    PM -->|Координация| UX
-    PM -->|Координация| Designer
-    PM -->|Координация| Tech
-    PM -->|Координация| DevOps
-    PM -->|Коммуникация| Business
-    
-    UX -->|Исследование| Users
-    UX -->|Данные| Data
-    UX -->|Результаты| PM
-    
-    Designer -->|Прототипы| Users
-    Designer -->|Дизайн| Tech
-    Designer -->|Результаты| PM
-    
-    Tech -->|Оценка| PM
-    Tech -->|Спецификации| Dev
-    Tech -->|Масштабирование| DevOps
-    
-    Data -->|Метрики| PM
-    Data -->|Анализ| UX
-    
-    DevOps -->|Инфраструктура| Tech
-    DevOps -->|Масштабирование| PM
-    
-    Business -->|Требования| PM
-    PM -->|Результаты| Business
-    
-    Users -->|Обратная связь| UX
-    Users -->|Обратная связь| Designer
-    
-    PM -->|Handoff| Dev
-    
-    style PM fill:#4caf50
-    style UX fill:#2196f3
-    style Designer fill:#9c27b0
-    style Tech fill:#ff9800
-    style Data fill:#00bcd4
-    style DevOps fill:#795548
+    PM --> UX
+    PM --> Designer
+    PM --> Tech
+    PM --> Business
+    UX --> Users
+    UX --> Data
+    Designer --> Users
+    Tech --> Dev
+    Data --> PM
+    DevOps --> Tech
+    PM --> Dev
+                                </div>
+                            </div>
+                            <ul>
+                                <li><strong>Product Manager:</strong> координация процесса, приоритизация, коммуникация со стейкхолдерами, решение о handoff.</li>
+                                <li><strong>UX Researcher:</strong> исследования пользователей, валидация гипотез, интервью, аналитика сигналов.</li>
+                                <li><strong>UX/UI Designer:</strong> прототипирование, дизайн решения, тестирование интерфейса.</li>
+                                <li><strong>Tech Lead:</strong> техническая валидация, архитектура, оценка сложности, спецификации.</li>
+                                <li><strong>Data Analyst:</strong> метрики, анализ данных, отчётность по успеху экспериментов.</li>
+                                <li><strong>DevOps Engineer:</strong> инфраструктура, мониторинг, процессы развертывания и масштабирования.</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-                <div class="metrics-grid">
-                    <div class="phase-card">
-                        <h3>👤 Product Manager</h3>
-                        <ul>
-                            <li>Координация процесса</li>
-                            <li>Приоритизация задач</li>
-                            <li>Коммуникация со стейкхолдерами</li>
-                            <li>Управление roadmap</li>
-                            <li>Принятие решения о handoff инициативы в Delivery</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>🔬 UX Researcher</h3>
-                        <ul>
-                            <li>Исследование пользователей</li>
-                            <li>Валидация гипотез</li>
-                            <li>Проведение интервью</li>
-                            <li>Анализ данных</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>🎨 UX/UI Designer</h3>
-                        <ul>
-                            <li>Прототипирование</li>
-                            <li>Дизайн решения</li>
-                            <li>Создание дизайн-системы</li>
-                            <li>Тестирование с пользователями</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>⚙️ Tech Lead</h3>
-                        <ul>
-                            <li>Техническая валидация</li>
-                            <li>Оценка сложности</li>
-                            <li>Proof of Concept</li>
-                            <li>Технические спецификации</li>
-                            <li>Планирование масштабирования инфраструктуры</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>📊 Data Analyst</h3>
-                        <ul>
-                            <li>Анализ метрик</li>
-                            <li>Обработка данных</li>
-                            <li>Измерение успеха</li>
-                            <li>Отчетность</li>
-                        </ul>
-                    </div>
-                    <div class="phase-card">
-                        <h3>⚙️ DevOps Engineer</h3>
-                        <ul>
-                            <li>Масштабирование инфраструктуры</li>
-                            <li>Настройка мониторинга и алертинга</li>
-                            <li>Процессы развертывания</li>
-                            <li>Нагрузочное тестирование</li>
-                            <li>Автомасштабирование</li>
-                        </ul>
-                    </div>
-                </div>
+                </article>
             </div>
+        </section>
+
+        <div class="footer-note">
+            <span>Source: Internal Discovery tracker, product research materials, PI Planning artifacts</span>
+            <span id="lastUpdated">Updated: —</span>
         </div>
-    </div>
+    </main>
+
+    <button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
 
     <div class="widget-overlay" id="widgetOverlay">
         <div class="widget-modal" role="dialog" aria-modal="true" aria-labelledby="widgetOverlayTitle">
@@ -1082,184 +1203,202 @@ graph TB
                 <h3 id="widgetOverlayTitle">Виджет борда</h3>
                 <button class="widget-close" id="widgetOverlayClose" aria-label="Закрыть окно">&times;</button>
             </div>
-            <iframe id="widgetIframe" title="Виджет из дашборда" loading="lazy"></iframe>
+            <iframe id="widgetIframe" title="Widget preview" loading="lazy"></iframe>
         </div>
     </div>
 
-    <div class="diagram-overlay">
-        <div class="diagram-overlay-close">&times;</div>
-        <div class="diagram-overlay-content"></div>
-    </div>
-
     <script>
-        mermaid.initialize({ 
+        mermaid.initialize({
             startOnLoad: true,
-            theme: 'default',
+            theme: "base",
+            securityLevel: "loose",
+            themeVariables: {
+                primaryColor: "#E6F2FF",
+                primaryTextColor: "#003366",
+                primaryBorderColor: "#0066CC",
+                lineColor: "#6C757D",
+                secondaryColor: "#F8F9FA",
+                tertiaryColor: "#F5F5F5",
+                fontFamily: "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+                fontSize: "14px"
+            },
             flowchart: {
                 useMaxWidth: true,
                 htmlLabels: true,
-                curve: 'basis'
+                curve: "basis",
+                padding: 20
             }
         });
 
-        function setupDiagramZoom() {
-            const containers = document.querySelectorAll('.diagram-container');
-            const overlay = document.querySelector('.diagram-overlay');
-            const overlayContent = document.querySelector('.diagram-overlay-content');
-            const overlayClose = document.querySelector('.diagram-overlay-close');
+        function scrollToPhase(phaseId) {
+            const section = document.getElementById(phaseId);
+            if (!section) return;
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        window.scrollToPhase = scrollToPhase;
 
-            if (!overlay || !overlayContent || !overlayClose) return;
-
-            const closeOverlay = () => {
-                overlay.classList.remove('active');
-                overlayContent.innerHTML = '';
+        window.phaseClick = function(nodeId) {
+            const mapping = {
+                P1: "phase-1",
+                P2: "phase-2",
+                P3: "phase-3"
             };
+            const target = mapping[nodeId];
+            if (target) scrollToPhase(target);
+        };
 
-            overlayClose.addEventListener('click', closeOverlay);
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    closeOverlay();
-                }
+        function updateActiveNav(id) {
+            document.querySelectorAll(".phase-link").forEach(link => {
+                link.classList.toggle("active", link.dataset.phase === id);
             });
+            const select = document.getElementById("phaseSelect");
+            if (select && select.value !== id) {
+                select.value = id;
+            }
+        }
 
-            containers.forEach(container => {
-                container.classList.add('zoomable');
-                container.addEventListener('click', () => {
-                    const mermaidEl = container.querySelector('.mermaid');
-                    if (!mermaidEl) return;
+        function setupPhaseObserver() {
+            const sections = document.querySelectorAll(".phase-section");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateActiveNav(entry.target.id);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: "-30% 0px -50% 0px",
+                threshold: 0.05
+            });
+            sections.forEach(section => observer.observe(section));
+        }
 
-                    overlayContent.innerHTML = mermaidEl.outerHTML;
-                    overlay.classList.add('active');
+        function updateProgressBar() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            const progressEl = document.getElementById("scrollProgress");
+            if (progressEl) {
+                progressEl.style.width = Math.min(100, Math.max(0, progress)).toFixed(2) + "%";
+            }
+            const fab = document.getElementById("backToTop");
+            if (!fab) return;
+            fab.classList.toggle("visible", scrollTop > 500);
+        }
 
-                    // Переинициализируем mermaid внутри оверлея
-                    setTimeout(() => {
-                        mermaid.init(undefined, overlayContent.querySelectorAll('.mermaid'));
-                    }, 0);
+        function setupAccordions() {
+            document.querySelectorAll(".accordion-item").forEach(item => {
+                const trigger = item.querySelector(".accordion-trigger");
+                const content = item.querySelector(".accordion-content");
+                if (!trigger || !content) return;
+
+                trigger.addEventListener("click", () => {
+                    const isOpen = item.classList.contains("open");
+                    if (isOpen) {
+                        item.classList.remove("open");
+                        content.style.maxHeight = "0px";
+                        return;
+                    }
+                    item.classList.add("open");
+                    content.style.maxHeight = content.scrollHeight + "px";
                 });
             });
         }
 
-        function showTab(tabName) {
-            // Скрыть все вкладки
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-
-            // Убрать активный класс со всех кнопок
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            // Показать выбранную вкладку
-            document.getElementById(tabName).classList.add('active');
-
-            // Добавить активный класс к кнопке
-            event.target.classList.add('active');
-
-            // Переинициализировать Mermaid для корректного отображения
-            setTimeout(() => {
-                mermaid.init(undefined, document.querySelectorAll('.mermaid'));
-            }, 100);
-        }
-
-        function setupGlossarySearch() {
-            const input = document.getElementById('glossary-search');
-            const table = document.getElementById('glossary-table');
-            if (!input || !table) return;
-
-            const rows = Array.from(table.querySelectorAll('tbody tr'));
-
-            input.addEventListener('input', () => {
-                const term = input.value.trim().toLowerCase();
-
-                if (!term) {
-                    rows.forEach(row => {
-                        row.style.display = '';
-                    });
-                    return;
-                }
-
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(term) ? '' : 'none';
-                });
-            });
-        }
-
-        function navigateTo(url) {
-            if (!url) return;
-            document.body.classList.add('page-leaving');
-            setTimeout(() => {
-                window.location.href = url;
-            }, 140);
-        }
-
-        function setupPageTransitions() {
-            document.querySelectorAll('a.nav-link').forEach((link) => {
-                link.addEventListener('click', (event) => {
-                    const href = link.getAttribute('href');
-                    if (!href || href.startsWith('http')) return;
+        function setupHeaderNavigation() {
+            document.querySelectorAll(".phase-link").forEach(link => {
+                link.addEventListener("click", (event) => {
                     event.preventDefault();
-                    navigateTo(href);
+                    const target = link.dataset.phase;
+                    if (!target) return;
+                    scrollToPhase(target);
                 });
+            });
+
+            const phaseSelect = document.getElementById("phaseSelect");
+            if (phaseSelect) {
+                phaseSelect.addEventListener("change", () => {
+                    scrollToPhase(phaseSelect.value);
+                });
+            }
+        }
+
+        function setupBackToTop() {
+            const button = document.getElementById("backToTop");
+            if (!button) return;
+            button.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
             });
         }
 
         const widgetPreviewConfig = {
             throughput: {
-                title: 'Виджет «Операционная динамика»',
-                src: 'executive-dashboard.html?embed=1&widget=throughput'
+                title: "Виджет «Операционная динамика»",
+                src: "executive-dashboard.html?embed=1&widget=throughput"
             },
             cycle: {
-                title: 'Виджет «Скорость цикла»',
-                src: 'executive-dashboard.html?embed=1&widget=cycle'
-            },
-            matrix: {
-                title: 'Виджет «Стратегическая приоритизация»',
-                src: 'executive-dashboard.html?embed=1&widget=matrix'
+                title: "Виджет «Скорость цикла»",
+                src: "executive-dashboard.html?embed=1&widget=cycle"
             },
             cost: {
-                title: 'Виджет «Контроль бюджета»',
-                src: 'executive-dashboard.html?embed=1&widget=cost'
+                title: "Виджет «Контроль бюджета»",
+                src: "executive-dashboard.html?embed=1&widget=cost"
             }
         };
 
         function closeWidgetPreview() {
-            const overlay = document.getElementById('widgetOverlay');
-            const iframe = document.getElementById('widgetIframe');
+            const overlay = document.getElementById("widgetOverlay");
+            const iframe = document.getElementById("widgetIframe");
             if (!overlay || !iframe) return;
-            overlay.classList.remove('active');
-            iframe.src = 'about:blank';
+            overlay.classList.remove("active");
+            iframe.src = "about:blank";
         }
 
         function openWidgetPreview(widgetKey) {
             const config = widgetPreviewConfig[widgetKey];
             if (!config) return;
-            const overlay = document.getElementById('widgetOverlay');
-            const iframe = document.getElementById('widgetIframe');
-            const title = document.getElementById('widgetOverlayTitle');
+            const overlay = document.getElementById("widgetOverlay");
+            const iframe = document.getElementById("widgetIframe");
+            const title = document.getElementById("widgetOverlayTitle");
             if (!overlay || !iframe || !title) return;
             title.textContent = config.title;
             iframe.src = config.src;
-            overlay.classList.add('active');
+            overlay.classList.add("active");
         }
+        window.openWidgetPreview = openWidgetPreview;
 
         function setupWidgetPreview() {
-            const overlay = document.getElementById('widgetOverlay');
-            const closeBtn = document.getElementById('widgetOverlayClose');
+            const overlay = document.getElementById("widgetOverlay");
+            const closeBtn = document.getElementById("widgetOverlayClose");
             if (!overlay || !closeBtn) return;
-
-            closeBtn.addEventListener('click', closeWidgetPreview);
-            overlay.addEventListener('click', (event) => {
+            closeBtn.addEventListener("click", closeWidgetPreview);
+            overlay.addEventListener("click", (event) => {
                 if (event.target === overlay) {
                     closeWidgetPreview();
                 }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            setupDiagramZoom();
-            setupGlossarySearch();
+        document.addEventListener("DOMContentLoaded", () => {
+            setupHeaderNavigation();
+            setupPhaseObserver();
+            setupAccordions();
+            setupBackToTop();
             setupWidgetPreview();
-            setupPageTransitions();
+            updateProgressBar();
+
+            const now = new Date();
+            const updated = document.getElementById("lastUpdated");
+            if (updated) {
+                updated.textContent = "Updated: " + now.toLocaleString("ru-RU");
+            }
+        });
+
+        window.addEventListener("scroll", updateProgressBar, { passive: true });
+        window.addEventListener("resize", () => {
+            document.querySelectorAll(".accordion-item.open .accordion-content").forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });
         });
     </script>
 </body>
