@@ -1090,7 +1090,7 @@
         function buildDrawioViewerUrl(filePath) {
             const absoluteFileUrl = new URL(filePath, window.location.href).href;
             const encoded = encodeURIComponent(absoluteFileUrl);
-            return "https://viewer.diagrams.net/?embed=1&chrome=0&nav=1&title=0&layers=1&url=" + encoded;
+            return "https://app.diagrams.net/?lightbox=1&nav=1&title=0&layers=1&url=" + encoded;
         }
 
         function initDrawioEmbeds() {
