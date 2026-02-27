@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         :root {
             --mck-blue: #0066CC;
@@ -442,17 +441,12 @@
             margin: 0 auto;
         }
 
-        .mermaid {
-            min-width: 0;
-            background: var(--mck-white);
-            padding: 10px;
+        .drawio-embed {
+            width: 100%;
+            min-height: 360px;
             border: 1px solid var(--mck-gray-200);
             border-radius: 4px;
-        }
-
-        .mermaid svg {
-            max-width: 100%;
-            height: auto;
+            background: var(--mck-white);
         }
 
         .table-wrap {
@@ -651,6 +645,10 @@
             .widget-modal iframe {
                 height: 72vh;
             }
+
+            .drawio-embed {
+                min-height: 300px;
+            }
         }
     </style>
 </head>
@@ -666,7 +664,6 @@
             <div class="page-links">
                 <a class="page-link" href="hypothesis-digest.html">Дайджест гипотез</a>
                 <a class="page-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
-                <a class="page-link" href="drawio/README.md">Диаграммы в draw.io</a>
             </div>
             <select id="phaseSelect" class="phase-select" aria-label="Навигация по фазам">
                 <option value="phase-1">Фаза 1: Исследование</option>
@@ -699,19 +696,9 @@
             </div>
             <article class="macro-card">
                 <h2 class="block-action-title">Action Title: трехфазный pipeline ускоряет выпуск и защищает бюджет от неверных продуктовых решений.</h2>
-                <p class="block-subtitle">Кликните на узел фазы, чтобы перейти к детальному блоку.</p>
-                <p class="block-subtitle" style="margin-top:-2px;">Для корпоративной работы доступны исходники диаграмм в формате <a href="drawio/README.md" style="color:#0066CC;font-weight:600;text-decoration:none;">draw.io</a>.</p>
+                <p class="block-subtitle">Макро-схема трёх фаз в формате draw.io.</p>
                 <div class="mermaid-shell">
-                    <div class="mermaid">
-flowchart LR
-    Start([Инициатива<br/>после PI Planning]) --> P1([Фаза 1<br/>Исследование])
-    P1 --> P2([Фаза 2<br/>Валидация])
-    P2 --> P3([Фаза 3<br/>Запуск])
-    P3 --> End([Handoff<br/>в Delivery])
-    click P1 phaseClick "Перейти к фазе 1"
-    click P2 phaseClick "Перейти к фазе 2"
-    click P3 phaseClick "Перейти к фазе 3"
-                    </div>
+                    <iframe class="drawio-embed" data-drawio-file="drawio/00-macro-3-phases.drawio" title="Макро-схема 3 фаз Discovery" loading="lazy"></iframe>
                 </div>
             </article>
         </section>
@@ -734,23 +721,7 @@ flowchart LR
                         <div class="mermaid-shell">
                             <div class="diagram-title">Диаграмма фазы 1</div>
                             <div class="diagram-description">От инициативы после PI Planning до списка приоритизированных гипотез.</div>
-                            <div class="mermaid">
-flowchart TD
-    Start1([Инициатива после PI Planning<br/>с понятными ценностями]) --> Init([Инициализация Discovery])
-    Init --> Hypo([Формулирование гипотез])
-    Hypo --> Team([Выбор методологии Discovery])
-    Hypo --> Scope([Определение scope и сроков])
-    Hypo --> Tools([Настройка инструментов])
-    Team --> Research([Исследование проблемы])
-    Scope --> Research
-    Tools --> Research
-    Research --> User([Исследование пользователей])
-    Research --> Competitor([Анализ конкурентов])
-    Research --> Data([Анализ данных и метрик])
-    User --> Prioritize([Приоритизация гипотез])
-    Competitor --> Prioritize
-    Data --> Prioritize
-                            </div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/01-phase-1-research.drawio" title="Диаграмма фазы 1" loading="lazy"></iframe>
                         </div>
                     </article>
                 </div>
@@ -859,20 +830,7 @@ flowchart TD
                         <div class="mermaid-shell">
                             <div class="diagram-title">Диаграмма 2.1 — Валидация гипотез</div>
                             <div class="diagram-description">От приоритизированных гипотез до подтверждённых, уточнённых и отклонённых.</div>
-                            <div class="mermaid">
-flowchart TD
-    HypoStart([Приоритизированные гипотезы]) --> DesignExp([Дизайн эксперимента])
-    DesignExp --> Criteria2([Критерии успеха])
-    DesignExp --> Methods2([Методы валидации])
-    Methods2 --> RunTests([Проведение тестов и экспериментов])
-    RunTests --> Collect2([Сбор данных и обратной связи])
-    Collect2 --> Analyze2([Анализ результатов])
-    Analyze2 --> Decision2{Гипотеза подтверждена?}
-    Decision2 -->|Да| Confirmed2([Подтверждённые гипотезы])
-    Decision2 -->|Частично| Refine2([Уточнение гипотезы])
-    Decision2 -->|Нет| Reject2([Отклонённые гипотезы])
-    Refine2 --> HypoStart
-                            </div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/02-phase-2-1-validation.drawio" title="Диаграмма фазы 2.1" loading="lazy"></iframe>
                         </div>
                     </article>
 
@@ -883,19 +841,7 @@ flowchart TD
                         <div class="mermaid-shell">
                             <div class="diagram-title">Диаграмма 2.2 — Прототипирование</div>
                             <div class="diagram-description">Переход от подтверждённых гипотез к старту процесса Delivery.</div>
-                            <div class="mermaid">
-flowchart TD
-    Confirmed2([Подтверждённые гипотезы]) --> Concept2([Концепция решения])
-    Concept2 --> LowFi2([Low-fidelity прототип])
-    LowFi2 --> InternalTest2([Внутреннее тестирование])
-    InternalTest2 --> HighFi2([High-fidelity прототип])
-    HighFi2 --> Interactive2([Интерактивный прототип])
-    Interactive2 --> UserTests2([Тестирование с пользователями])
-    UserTests2 --> Feedback2([Обратная связь])
-    Feedback2 --> Iterate2{Нужны доработки?}
-    Iterate2 -->|Да| Concept2
-    Iterate2 -->|Нет| DeliveryStart([Старт процесса Delivery])
-                            </div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/03-phase-2-2-prototyping.drawio" title="Диаграмма фазы 2.2" loading="lazy"></iframe>
                         </div>
                     </article>
                 </div>
@@ -961,28 +907,7 @@ flowchart TD
                             <div class="mermaid-shell">
                                 <div class="diagram-title">Диаграмма 2.1b — Подробная валидация</div>
                                 <div class="diagram-description">Детальный путь гипотезы через методы проверки и цикл уточнения.</div>
-                                <div class="mermaid">
-flowchart TD
-    StartV([Гипотеза]) --> Formulate([Формулировка гипотезы])
-    Formulate --> Criteria([Определение критериев успеха])
-    Criteria --> Method([Выбор метода валидации])
-    Method --> Exp([Эксперимент])
-    Method --> Survey([Опрос])
-    Method --> Interview([Интервью])
-    Method --> Proto([Прототип])
-    Exp --> Collect([Сбор данных])
-    Survey --> Collect
-    Interview --> Collect
-    Proto --> Collect
-    Collect --> Analyze([Анализ результатов])
-    Analyze --> Result{Результат валидации}
-    Result -->|Подтверждена| Next([Следующая гипотеза])
-    Result -->|Опровергнута| Revise([Пересмотр гипотезы])
-    Result -->|Частично| Refine([Уточнение гипотезы])
-    Revise --> Formulate
-    Refine --> Formulate
-    Next --> EndV([Валидация завершена])
-                                </div>
+                                <iframe class="drawio-embed" data-drawio-file="drawio/04-validation-detailed.drawio" title="Подробная схема валидации" loading="lazy"></iframe>
                             </div>
                             <ul>
                                 <li><strong>Эксперименты:</strong> A/B tests, smoke tests, landing page tests</li>
@@ -1004,24 +929,7 @@ flowchart TD
                             <div class="mermaid-shell">
                                 <div class="diagram-title">Диаграмма 2.2b — Итеративное прототипирование</div>
                                 <div class="diagram-description">Путь от wireframes до финальной готовности через обратную связь.</div>
-                                <div class="mermaid">
-flowchart TD
-    StartP([Валидированные гипотезы]) --> Design([Дизайн-процесс])
-    Design --> Wireframe([Wireframes])
-    Wireframe --> LowFi([Low-fidelity прототип])
-    LowFi --> Test1([Внутреннее тестирование])
-    Test1 --> Feedback1([Обратная связь])
-    Feedback1 --> HighFi([High-fidelity прототип])
-    HighFi --> DesignSystem([Дизайн-система])
-    DesignSystem --> Interactive([Интерактивный прототип])
-    Interactive --> Test2([Тестирование с пользователями])
-    Test2 --> Metrics([Сбор метрик])
-    Metrics --> Feedback2([Качественная обратная связь])
-    Feedback2 --> Evaluate{Оценка результатов}
-    Evaluate -->|Успешно| DeliveryReady([Старт процесса Delivery])
-    Evaluate -->|Требует доработки| Refine([Доработка дизайна])
-    Refine --> HighFi
-                                </div>
+                                <iframe class="drawio-embed" data-drawio-file="drawio/05-prototyping-detailed.drawio" title="Подробная схема прототипирования" loading="lazy"></iframe>
                             </div>
                             <ul>
                                 <li><strong>Wireframes:</strong> Balsamiq, Whimsical, Miro</li>
@@ -1074,20 +982,7 @@ flowchart TD
                         <div class="mermaid-shell">
                             <div class="diagram-title">Диаграмма фазы 3 — Готовность к Delivery</div>
                             <div class="diagram-description">От старта процесса Delivery до формального handoff с контролем блокеров.</div>
-                            <div class="mermaid">
-flowchart TD
-    StartD([Старт процесса Delivery]) --> Security([Security review])
-    Security --> Compliance([Compliance check<br/>(GDPR, accessibility)])
-    Compliance --> IntegrRisk([Оценка интеграционных рисков])
-    IntegrRisk --> PerfTests([Технические и нагрузочные тесты])
-    PerfTests --> Pilot([Внутренний технический пилот])
-    Pilot --> MetricsD([Измерение метрик])
-    MetricsD --> Ready([Готовность к handoff])
-    Ready --> Check{Чек-лист приёмки}
-    Check -->|Все критерии выполнены| Handoff([Передача в Delivery])
-    Check -->|Есть блокеры| Fix([Доработка артефактов])
-    Fix --> Ready
-                            </div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/06-phase-3-delivery.drawio" title="Диаграмма фазы 3" loading="lazy"></iframe>
                         </div>
                     </article>
 
@@ -1157,33 +1052,7 @@ flowchart TD
                             <div class="mermaid-shell">
                                 <div class="diagram-title">Диаграмма ролей и взаимодействия</div>
                                 <div class="diagram-description">Кто принимает решения и как распределяется ответственность между Discovery и Delivery.</div>
-                                <div class="mermaid">
-graph TB
-    subgraph Discovery["Команда Discovery"]
-        PM[Product Manager]
-        UX[UX Researcher]
-        Designer[UX/UI Designer]
-        Tech[Tech Lead]
-        Data[Data Analyst]
-        DevOps[DevOps Engineer]
-    end
-    subgraph Stakeholders["Стейкхолдеры"]
-        Business[Business Owner]
-        Users[Пользователи]
-        Dev[Команда разработки]
-    end
-    PM --> UX
-    PM --> Designer
-    PM --> Tech
-    PM --> Business
-    UX --> Users
-    UX --> Data
-    Designer --> Users
-    Tech --> Dev
-    Data --> PM
-    DevOps --> Tech
-    PM --> Dev
-                                </div>
+                                <iframe class="drawio-embed" data-drawio-file="drawio/07-roles-interaction.drawio" title="Диаграмма ролей" loading="lazy"></iframe>
                             </div>
                             <ul>
                                 <li><strong>Product Manager:</strong> координация процесса, приоритизация, коммуникация со стейкхолдерами, решение о handoff.</li>
@@ -1218,27 +1087,19 @@ graph TB
     </div>
 
     <script>
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: "base",
-            securityLevel: "loose",
-            themeVariables: {
-                primaryColor: "#E6F2FF",
-                primaryTextColor: "#003366",
-                primaryBorderColor: "#0066CC",
-                lineColor: "#6C757D",
-                secondaryColor: "#F8F9FA",
-                tertiaryColor: "#F5F5F5",
-                fontFamily: "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
-                fontSize: "14px"
-            },
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true,
-                curve: "basis",
-                padding: 20
-            }
-        });
+        function buildDrawioViewerUrl(filePath) {
+            const absoluteFileUrl = new URL(filePath, window.location.href).href;
+            const encoded = encodeURIComponent(absoluteFileUrl);
+            return "https://viewer.diagrams.net/?embed=1&chrome=0&nav=1&title=0&layers=1&url=" + encoded;
+        }
+
+        function initDrawioEmbeds() {
+            document.querySelectorAll("iframe.drawio-embed[data-drawio-file]").forEach((frame) => {
+                const filePath = frame.getAttribute("data-drawio-file");
+                if (!filePath) return;
+                frame.src = buildDrawioViewerUrl(filePath);
+            });
+        }
 
         function scrollToPhase(phaseId) {
             const section = document.getElementById(phaseId);
@@ -1246,16 +1107,6 @@ graph TB
             section.scrollIntoView({ behavior: "smooth", block: "start" });
         }
         window.scrollToPhase = scrollToPhase;
-
-        window.phaseClick = function(nodeId) {
-            const mapping = {
-                P1: "phase-1",
-                P2: "phase-2",
-                P3: "phase-3"
-            };
-            const target = mapping[nodeId];
-            if (target) scrollToPhase(target);
-        };
 
         function updateActiveNav(id) {
             document.querySelectorAll(".phase-link").forEach(link => {
@@ -1390,6 +1241,7 @@ graph TB
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            initDrawioEmbeds();
             setupHeaderNavigation();
             setupPhaseObserver();
             setupAccordions();
