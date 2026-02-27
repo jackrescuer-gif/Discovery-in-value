@@ -175,6 +175,139 @@
             margin-bottom: 14px;
         }
 
+        .hero-summary {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hero-topline {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .hero-kpi-card {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .hero-kpi-card h3 {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--mck-gray-600);
+            margin-bottom: 6px;
+        }
+
+        .hero-kpi-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--mck-blue-900);
+            margin-bottom: 4px;
+        }
+
+        .hero-kpi-state {
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .hero-kpi-card.status-danger {
+            border-color: rgba(198, 40, 40, 0.45);
+            background: #fff8f8;
+        }
+        .hero-kpi-card.status-danger .hero-kpi-state { color: #c62828; }
+
+        .hero-kpi-card.status-warn {
+            border-color: rgba(245, 124, 0, 0.45);
+            background: #fffcf6;
+        }
+        .hero-kpi-card.status-warn .hero-kpi-state { color: #ad6800; }
+
+        .hero-kpi-card.status-ok {
+            border-color: rgba(46, 125, 50, 0.45);
+            background: #f4fbf4;
+        }
+        .hero-kpi-card.status-ok .hero-kpi-state { color: #2e7d32; }
+
+        .hero-insight {
+            margin-top: 10px;
+            border-radius: 9px;
+            border: 1px solid rgba(20, 123, 188, 0.26);
+            background: #f7fbff;
+            color: var(--mck-blue-800);
+            font-size: 0.86rem;
+            padding: 9px 11px;
+            font-weight: 600;
+        }
+
+        .section-nav {
+            position: sticky;
+            top: 84px;
+            z-index: 9;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(3px);
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 9px;
+            box-shadow: var(--shadow-soft);
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .section-link {
+            text-decoration: none;
+            color: var(--mck-blue-800);
+            border: 1px solid var(--mck-gray-300);
+            background: #fff;
+            border-radius: 8px;
+            padding: 6px 9px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .section-link:hover {
+            border-color: var(--mck-blue-500);
+            color: var(--mck-blue-900);
+        }
+
+        .dashboard-section {
+            margin-bottom: 14px;
+        }
+
+        .section-head {
+            margin-bottom: 8px;
+        }
+
+        .section-head h2 {
+            color: var(--mck-blue-900);
+            font-size: 1.08rem;
+            margin-bottom: 3px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-head p {
+            font-size: 0.84rem;
+            color: var(--mck-gray-600);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .section-card {
+            min-height: 100%;
+        }
+
         .category-disclaimer {
             background: #fff;
             border: 1px solid var(--mck-gray-300);
@@ -296,6 +429,13 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow-soft);
             padding: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(20, 123, 188, 0.35);
+            box-shadow: 0 8px 24px rgba(5, 28, 44, 0.1);
         }
 
         .span-12 { grid-column: span 12; }
@@ -379,6 +519,21 @@
             background: #fff;
         }
 
+        .cost-row.clickable {
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .cost-row.clickable:hover {
+            border-color: var(--mck-blue-500);
+            background: #f8fbff;
+        }
+
+        .cost-row.active {
+            border-color: var(--mck-blue-600);
+            background: #edf6fd;
+        }
+
         .cost-row .cost-main {
             font-weight: 600;
             color: var(--mck-gray-900);
@@ -431,6 +586,220 @@
         .insight-item.good {
             border-left-color: var(--mck-green);
             background: #f4fbf4;
+        }
+
+        .inline-alerts {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .inline-alert {
+            border-radius: 7px;
+            padding: 7px 9px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(245, 124, 0, 0.45);
+            background: #fffbf3;
+            color: #925100;
+            font-weight: 600;
+        }
+
+        .inline-alert.ok {
+            border-color: rgba(46, 125, 50, 0.35);
+            background: #f4fbf4;
+            color: #2e7d32;
+        }
+
+        .action-card-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .action-card {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 9px;
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .priority-badge {
+            min-width: 34px;
+            text-align: center;
+            border-radius: 999px;
+            padding: 4px 7px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .priority-badge.p1 {
+            color: #c62828;
+            background: #fff2f2;
+            border-color: rgba(198, 40, 40, 0.35);
+        }
+
+        .priority-badge.p2 {
+            color: #8a5800;
+            background: #fff9ec;
+            border-color: rgba(245, 124, 0, 0.35);
+        }
+
+        .priority-badge.p3 {
+            color: #2e7d32;
+            background: #f2faf2;
+            border-color: rgba(46, 125, 50, 0.35);
+        }
+
+        .action-title {
+            font-size: 0.88rem;
+            color: var(--mck-blue-900);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .action-text {
+            color: var(--mck-gray-600);
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+
+        .action-meta {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .metric-badge {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 999px;
+            padding: 3px 7px;
+            font-size: 0.73rem;
+            color: var(--mck-blue-800);
+            background: #f8fbff;
+            font-weight: 600;
+        }
+
+        .metric-link {
+            font-size: 0.75rem;
+            color: var(--mck-blue-700);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .metric-link:hover { text-decoration: underline; }
+
+        .action-status {
+            border-radius: 999px;
+            padding: 3px 7px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            border: 1px solid var(--mck-gray-300);
+            color: var(--mck-gray-600);
+            background: #f8f9fa;
+            white-space: nowrap;
+        }
+
+        .action-status.in-progress {
+            color: #8a5800;
+            background: #fff9ec;
+            border-color: rgba(245, 124, 0, 0.35);
+        }
+
+        .action-status.new {
+            color: #c62828;
+            background: #fff2f2;
+            border-color: rgba(198, 40, 40, 0.35);
+        }
+
+        .action-status.done {
+            color: #2e7d32;
+            background: #f2faf2;
+            border-color: rgba(46, 125, 50, 0.35);
+        }
+
+        .chip-filter {
+            margin-top: 8px;
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            background: #fff;
+            color: var(--mck-blue-800);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .chip-btn:hover {
+            border-color: var(--mck-blue-500);
+            color: var(--mck-blue-900);
+        }
+
+        .chip-btn.active {
+            border-color: var(--mck-blue-700);
+            background: #edf6fd;
+            color: var(--mck-blue-900);
+        }
+
+        .bottleneck-line {
+            margin-top: 8px;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            color: var(--mck-gray-600);
+            background: #f8fbff;
+        }
+
+        .data-footer {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            background: #fff;
+            padding: 12px;
+        }
+
+        .data-footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .data-footer-block h3 {
+            color: var(--mck-blue-800);
+            font-size: 0.9rem;
+            margin-bottom: 7px;
+        }
+
+        .footer-thresholds {
+            display: grid;
+            gap: 7px;
+        }
+
+        .footer-threshold-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 9px;
+            background: #f8fbff;
+            font-size: 0.79rem;
+        }
+
+        .footer-threshold-item strong {
+            color: var(--mck-blue-800);
+            display: block;
+            margin-bottom: 2px;
+            font-size: 0.82rem;
         }
 
         .data-quality {
@@ -512,17 +881,24 @@
             padding: 0;
         }
         body.embed-mode .header,
+        body.embed-mode .hero-summary,
+        body.embed-mode .section-nav,
         body.embed-mode .filter-bar,
         body.embed-mode .category-disclaimer,
         body.embed-mode .kpi-grid,
+        body.embed-mode .data-footer,
         body.embed-mode .footer-note,
         body.embed-mode .card:not(.embed-active) {
             display: none !important;
         }
-        body.embed-mode .layout-grid {
-            display: block;
-            padding: 0;
-            margin: 0;
+        body.embed-mode .dashboard-section {
+            display: none !important;
+        }
+        body.embed-mode .dashboard-section.embed-section {
+            display: block !important;
+        }
+        body.embed-mode .dashboard-section.embed-section .section-head {
+            display: none !important;
         }
         body.embed-mode .card.embed-active {
             border-radius: 0;
@@ -541,6 +917,12 @@
             .filter-bar {
                 grid-template-columns: repeat(3, minmax(130px, 1fr));
             }
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+            .data-footer-grid {
+                grid-template-columns: 1fr;
+            }
             .span-8, .span-6, .span-4 {
                 grid-column: span 12;
             }
@@ -556,11 +938,23 @@
             .kpi-grid {
                 grid-template-columns: repeat(2, minmax(120px, 1fr));
             }
+            .hero-topline {
+                grid-template-columns: 1fr;
+            }
+            .section-nav {
+                position: static;
+            }
             .category-grid {
                 grid-template-columns: 1fr;
             }
             .mini-bar {
                 grid-template-columns: 120px 1fr 60px;
+            }
+            .action-card {
+                grid-template-columns: 1fr;
+            }
+            .data-quality {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -650,47 +1044,112 @@
             </div>
         </section>
 
+        <section class="hero-summary">
+            <div class="hero-topline">
+                <article class="hero-kpi-card" id="heroCostCard">
+                    <h3>Затраты</h3>
+                    <div class="hero-kpi-value" id="heroCostValue">—</div>
+                    <div class="hero-kpi-state" id="heroCostState">—</div>
+                </article>
+                <article class="hero-kpi-card" id="heroSpeedCard">
+                    <h3>Скорость</h3>
+                    <div class="hero-kpi-value" id="heroSpeedValue">—</div>
+                    <div class="hero-kpi-state" id="heroSpeedState">—</div>
+                </article>
+                <article class="hero-kpi-card" id="heroQualityCard">
+                    <h3>Качество</h3>
+                    <div class="hero-kpi-value" id="heroQualityValue">—</div>
+                    <div class="hero-kpi-state" id="heroQualityState">—</div>
+                </article>
+            </div>
+            <div class="hero-insight" id="heroInsight">Перерасход в направлении Удержание.</div>
+        </section>
+
         <section class="kpi-grid" id="kpiGrid"></section>
 
-        <section class="layout-grid">
-            <article class="card span-8" id="widget-cost-structure" data-widget="cost-structure">
-                <div class="section-label">Финансовая эффективность</div>
-                <h2 id="financialTitle">Затраты распределены по фазам Discovery с доминированием исследований</h2>
-                <p class="subtitle">Структура затрат по фазам проверки: прямые и косвенные расходы.</p>
-                <div class="chart-wrap tall"><canvas id="costWaterfall"></canvas></div>
-            </article>
+        <nav class="section-nav" aria-label="Навигация по разделам">
+            <a class="section-link" href="#section-actions">Действия</a>
+            <a class="section-link" href="#section-finance">Финансы</a>
+            <a class="section-link" href="#section-operations">Операции</a>
+            <a class="section-link" href="#section-strategy">Портфель</a>
+            <a class="section-link" href="#section-data">Качество данных</a>
+        </nav>
 
-            <article class="card span-4" id="widget-cost" data-widget="cost">
-                <div class="section-label">Контроль бюджета</div>
-                <h2 id="costPerValidatedTitle">Блок ответа: где перерасход стоимости подтверждённой гипотезы и насколько</h2>
-                <p class="subtitle">Сравнение по направлениям: факт, порог и отклонение.</p>
-                <div class="chart-wrap"><canvas id="costPerValidatedChart"></canvas></div>
-                <div class="cost-readout" id="costPerValidatedReadout"></div>
-            </article>
+        <section class="dashboard-section" id="section-actions">
+            <div class="section-head">
+                <h2>🎯 Actionable recommendations</h2>
+                <p>Список приоритетов с привязкой к конкретной метрике и статусом выполнения.</p>
+            </div>
+            <div class="action-card-list" id="actionCardList"></div>
+        </section>
 
-            <article class="card span-6" id="widget-throughput" data-widget="throughput">
-                <div class="section-label">Операционная динамика</div>
-                <h2 id="throughputTitle">Темп исследований и проверок стабилен, но ниже планового в двух неделях</h2>
-                <p class="subtitle">Еженедельный поток: завершённые исследования и эксперименты.</p>
-                <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
-            </article>
+        <section class="dashboard-section" id="section-finance">
+            <div class="section-head">
+                <h2>💰 Финансовая эффективность</h2>
+                <p id="financialContext">Из ₽5.17M на проверку наибольшая доля приходится на этапы «Данные» и «Действие».</p>
+            </div>
+            <div class="section-grid">
+                <article class="card section-card" id="widget-cost-structure" data-widget="cost-structure">
+                    <div class="section-label">Финансовая эффективность</div>
+                    <h2 id="financialTitle">Затраты распределены по фазам Discovery с доминированием исследований</h2>
+                    <p class="subtitle">Структура затрат по фазам проверки: прямые и косвенные расходы.</p>
+                    <div class="chart-wrap tall"><canvas id="costWaterfall"></canvas></div>
+                </article>
 
-            <article class="card span-6" id="widget-cycle" data-widget="cycle">
-                <div class="section-label">Скорость цикла</div>
-                <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между этапами действия и анализа данных</h2>
-                <p class="subtitle">Медианное время исследования и эксперимента + вклад ожиданий.</p>
-                <div class="chart-wrap"><canvas id="cycleTimeChart"></canvas></div>
-                <div class="mini-bars" id="waitingBars"></div>
-            </article>
+                <article class="card section-card" id="widget-cost" data-widget="cost">
+                    <div class="section-label">Контроль бюджета</div>
+                    <h2 id="costPerValidatedTitle">Блок ответа: где перерасход стоимости подтверждённой гипотезы и насколько</h2>
+                    <p class="subtitle">Сравнение по направлениям: факт, порог и отклонение.</p>
+                    <div class="inline-alerts" id="financeInlineAlerts"></div>
+                    <div class="chart-wrap"><canvas id="costPerValidatedChart"></canvas></div>
+                    <div class="cost-readout" id="costPerValidatedReadout"></div>
+                </article>
+            </div>
+        </section>
 
-            <article class="card span-6" id="widget-funnel" data-widget="funnel">
-                <div class="section-label">Качество результата</div>
+        <section class="dashboard-section" id="section-operations">
+            <div class="section-head">
+                <h2>⚙️ Операционная динамика</h2>
+                <p>Скорость исследований, bottleneck-анализ и воронка инициатив в одном контуре процесса.</p>
+            </div>
+            <div class="section-grid">
+                <article class="card section-card" id="widget-throughput" data-widget="throughput">
+                    <div class="section-label">Операционная динамика</div>
+                    <h2 id="throughputTitle">Темп исследований и проверок стабилен, но ниже планового в двух неделях</h2>
+                    <p class="subtitle">Еженедельный поток: завершённые исследования и эксперименты.</p>
+                    <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
+                </article>
+
+                <article class="card section-card" id="widget-cycle" data-widget="cycle">
+                    <div class="section-label">Скорость цикла</div>
+                    <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между этапами действия и анализа данных</h2>
+                    <p class="subtitle">Медианное время исследования и эксперимента + вклад ожиданий.</p>
+                    <div class="chart-wrap"><canvas id="cycleTimeChart"></canvas></div>
+                    <div class="mini-bars" id="waitingBars"></div>
+                    <div class="bottleneck-line" id="bottleneckLine">Bottleneck: 1.4 дн. → 2.1 дн. → 1.2 дн.</div>
+                </article>
+            </div>
+            <article class="card section-card" id="widget-funnel" data-widget="funnel" style="margin-top:12px;">
+                <div class="section-label">Воронка инициатив</div>
                 <h2 id="funnelTitle">Конверсия портфеля показывает, сколько гипотез доходит до подтверждения и внедрения</h2>
-                <p class="subtitle">Воронка: сформулировано → приоритизировано → эксперимент → подтверждено/отклонено → внедрено.</p>
+                <p class="subtitle">Связь с timeline процесса: сформулировано → приоритизировано → эксперимент → подтверждено/отклонено → внедрено.</p>
                 <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
             </article>
+        </section>
 
-            <article class="card span-6" id="widget-matrix" data-widget="matrix">
+        <section class="dashboard-section" id="section-strategy">
+            <div class="section-head">
+                <h2>🧭 Стратегический портфель</h2>
+                <p>Матрица 2x2 с деталями по hover и фильтрами по направлениям.</p>
+                <div class="chip-filter" id="strategicCategoryFilters">
+                    <button class="chip-btn active" data-category="all">Все</button>
+                    <button class="chip-btn" data-category="growth">Рост</button>
+                    <button class="chip-btn" data-category="value">Ценность</button>
+                    <button class="chip-btn" data-category="retention">Удержание</button>
+                    <button class="chip-btn" data-category="efficiency">Эффективность</button>
+                </div>
+            </div>
+            <article class="card section-card" id="widget-matrix" data-widget="matrix">
                 <div class="section-label">Стратегическая приоритизация</div>
                 <h2 id="matrixTitle">Портфель смещён в высокое effort поле; quick wins присутствуют, но недоинвестированы</h2>
                 <p class="subtitle">Матрица 2x2: уверенность vs сложность, размер точки = охват, цвет = статус.</p>
@@ -701,31 +1160,24 @@
                     <span><span class="dot" style="background:#147bbc;"></span>В работе</span>
                 </div>
             </article>
-
-            <article class="card span-8">
-                <div class="section-label">Рекомендации для руководителей</div>
-                <h2 id="recommendationTitle">Рекомендации: где снизить расходы и ускорить цикл в следующем квартале</h2>
-                <p class="subtitle">Риски и действия для управленческого решения на C-level.</p>
-                <div class="insight-list" id="insightList"></div>
-            </article>
-
-            <article class="card span-4">
-                <div class="section-label">Пороги и качество данных</div>
-                <h2>Пороговые значения эффективности команды</h2>
-                <p class="subtitle">На начальных этапах время выше, затем должно последовательно сокращаться.</p>
-                <div class="threshold-grid" id="thresholdGrid"></div>
-                <p class="subtitle" style="margin-top:10px;">Флаги качества данных, влияющие на доверие к метрикам.</p>
-                <div class="data-quality" id="qualityGrid"></div>
-                <div class="footer-note" style="margin-top:14px;">
-                    <span><strong>Порог алертов:</strong> перерасход бюджета &gt; 10%, ухудшение скорости &gt; 20%, доля подтверждения ниже цели</span>
-                </div>
-            </article>
         </section>
 
-        <div class="footer-note">
-            <span>Источник: внутренний Discovery tracker (синтетический набор данных), 2026</span>
-            <span id="lastUpdated">Обновлено: —</span>
-        </div>
+        <section class="data-footer" id="section-data">
+            <div class="data-footer-grid">
+                <div class="data-footer-block">
+                    <h3>Пороги и сигналы</h3>
+                    <div class="footer-thresholds" id="thresholdFooterGrid"></div>
+                </div>
+                <div class="data-footer-block">
+                    <h3>Качество данных</h3>
+                    <div class="data-quality" id="qualityGrid"></div>
+                </div>
+            </div>
+            <div class="footer-note">
+                <span><strong>Порог алертов:</strong> перерасход бюджета &gt; 10%, ухудшение скорости &gt; 20%, доля подтверждения ниже цели</span>
+                <span id="lastUpdated">Обновлено: —</span>
+            </div>
+        </section>
     </div>
 
     <script>
@@ -1013,6 +1465,64 @@
                 validationSignal + " (" + formatDays(metrics.validationVelocityDays) + ").";
         }
 
+        function applyHeroStatus(cardId, valueId, stateId, valueText, stateText, statusClass) {
+            const card = document.getElementById(cardId);
+            const valueEl = document.getElementById(valueId);
+            const stateEl = document.getElementById(stateId);
+            if (!card || !valueEl || !stateEl) return;
+            card.classList.remove("status-danger", "status-warn", "status-ok");
+            card.classList.add(statusClass);
+            valueEl.textContent = valueText;
+            stateEl.textContent = stateText;
+        }
+
+        function renderHero(metrics, quality, target, costDiagnostics) {
+            const costStatus = metrics.budgetGap > 0.1 ? "status-danger" : metrics.budgetGap > 0.03 ? "status-warn" : "status-ok";
+            const speedGap = Number.isFinite(metrics.validationVelocityDays) && target.validationDays
+                ? (metrics.validationVelocityDays - target.validationDays) / target.validationDays
+                : null;
+            const speedStatus = speedGap !== null && speedGap > 0.2 ? "status-danger" : speedGap !== null && speedGap > 0 ? "status-warn" : "status-ok";
+
+            const qualityRisk = quality.missingDatesPct > 0.1 || quality.missingCostPct > 0.1 || quality.duplicatePct > 0;
+            const qualityStatus = metrics.successRate < target.successRate ? (qualityRisk ? "status-danger" : "status-warn") : (qualityRisk ? "status-warn" : "status-ok");
+
+            applyHeroStatus(
+                "heroCostCard",
+                "heroCostValue",
+                "heroCostState",
+                formatCurrency(metrics.totalCost),
+                costStatus === "status-danger" ? "Тревога: бюджет превышен" : costStatus === "status-warn" ? "Риск отклонения от бюджета" : "Норма",
+                costStatus
+            );
+            applyHeroStatus(
+                "heroSpeedCard",
+                "heroSpeedValue",
+                "heroSpeedState",
+                formatDays(metrics.validationVelocityDays),
+                speedStatus === "status-danger" ? "Тревога: скорость ниже цели" : speedStatus === "status-warn" ? "Близко к порогу" : "Норма",
+                speedStatus
+            );
+            applyHeroStatus(
+                "heroQualityCard",
+                "heroQualityValue",
+                "heroQualityState",
+                formatPct(metrics.successRate),
+                qualityStatus === "status-danger" ? "Тревога: качество ниже цели" : qualityStatus === "status-warn" ? "Зона внимания" : "Норма",
+                qualityStatus
+            );
+
+            const insightEl = document.getElementById("heroInsight");
+            if (!insightEl) return;
+            const overrun = costDiagnostics.filter(item => item.delta > 0).sort((a, b) => b.delta - a.delta);
+            if (overrun.length) {
+                const worst = overrun[0];
+                insightEl.textContent = "Перерасход в направлении " + getCategoryLabel(worst.category) +
+                    ": +" + formatCurrency(worst.delta) + " к порогу.";
+            } else {
+                insightEl.textContent = "Критичного перерасхода по направлениям нет: бюджетный коридор соблюдается.";
+            }
+        }
+
         function renderKpis(currentMetrics, previousMetrics, target) {
             const grid = document.getElementById("kpiGrid");
             grid.innerHTML = "";
@@ -1119,6 +1629,18 @@
             });
         }
 
+        function getCostDiagnostics(data, maturityKey) {
+            const target = maturityTargets[maturityKey].costPerValidated;
+            return getCostPerValidatedByCategory(data)
+                .map(item => ({
+                    ...item,
+                    target,
+                    delta: item.value - target,
+                    ratio: target > 0 ? (item.value - target) / target : 0
+                }))
+                .filter(item => item.value > 0);
+        }
+
         function weekLabel(date) {
             const d = new Date(date);
             return `${d.getDate().toString().padStart(2, "0")}.${(d.getMonth() + 1).toString().padStart(2, "0")}`;
@@ -1191,7 +1713,7 @@
             }
         }
 
-        function renderFinancialCharts(filteredData, metrics, maturityKey) {
+        function renderFinancialCharts(filteredData, metrics, maturityKey, categoryFilter) {
             const phaseCosts = getPhaseCosts(filteredData);
             destroyChart("costWaterfall");
             charts.costWaterfall = new Chart(document.getElementById("costWaterfall"), {
@@ -1238,9 +1760,9 @@
                 }
             });
 
-            const byCategory = getCostPerValidatedByCategory(filteredData);
+            const byCategory = getCostDiagnostics(filteredData, maturityKey);
             const target = maturityTargets[maturityKey].costPerValidated;
-            const barColors = byCategory.map(item => item.value > target ? "rgba(198,40,40,0.72)" : "rgba(46,125,50,0.72)");
+            const barColors = byCategory.map(item => item.delta > 0 ? "rgba(198,40,40,0.72)" : "rgba(46,125,50,0.72)");
             destroyChart("costPerValidatedChart");
             charts.costPerValidatedChart = new Chart(document.getElementById("costPerValidatedChart"), {
                 data: {
@@ -1293,17 +1815,15 @@
                 "Из общих затрат на проверку гипотез " + formatCurrency(metrics.totalCost) +
                 " на эксперименты и анализ данных уходит " + formatCurrency(actionAndDataCost) +
                 " (" + formatPct(actionAndDataShare) + ").";
+            document.getElementById("financialContext").textContent =
+                "Из " + formatCurrency(metrics.totalCost) + " на проверку на этапы «Действие + Данные» приходится " +
+                formatCurrency(actionAndDataCost) + " (" + formatPct(actionAndDataShare) + ").";
 
             const readout = document.getElementById("costPerValidatedReadout");
             readout.innerHTML = "";
-
-            const withValues = byCategory
-                .map(item => ({
-                    ...item,
-                    delta: item.value - target,
-                    ratio: target > 0 ? (item.value - target) / target : 0
-                }))
-                .filter(item => item.value > 0);
+            const alertsEl = document.getElementById("financeInlineAlerts");
+            alertsEl.innerHTML = "";
+            const withValues = byCategory;
 
             if (!withValues.length || !Number.isFinite(metrics.costPerValidated)) {
                 document.getElementById("costPerValidatedTitle").textContent =
@@ -1326,6 +1846,20 @@
             const sortedByDelta = [...withValues].sort((a, b) => b.delta - a.delta);
             const worst = sortedByDelta[0];
 
+            if (overrun.length) {
+                overrun.slice(0, 3).forEach(item => {
+                    const alert = document.createElement("div");
+                    alert.className = "inline-alert";
+                    alert.textContent = "⚠️ " + getCategoryLabel(item.category) + ": +" + formatCurrency(item.delta) + " к порогу";
+                    alertsEl.appendChild(alert);
+                });
+            } else {
+                const alert = document.createElement("div");
+                alert.className = "inline-alert ok";
+                alert.textContent = "✓ Все направления укладываются в порог стоимости подтверждённой гипотезы";
+                alertsEl.appendChild(alert);
+            }
+
             if (overrun.length > 0) {
                 document.getElementById("costPerValidatedTitle").textContent =
                     "В перерасходе " + overrun.length + " из " + withValues.length +
@@ -1346,6 +1880,10 @@
                     : "Ниже порога: " + formatCurrency(Math.abs(item.delta)) + " (" + formatPct(Math.abs(item.ratio)) + ")";
 
                 row.className = "cost-row";
+                row.classList.add("clickable");
+                if (categoryFilter === item.category) {
+                    row.classList.add("active");
+                }
                 row.innerHTML = `
                     <div>
                         <div class="cost-main">${getCategoryLabel(item.category)}: ${formatCurrency(item.value)}</div>
@@ -1353,6 +1891,14 @@
                     </div>
                     <div class="cost-status ${statusClass}">${deltaText}</div>
                 `;
+                row.addEventListener("click", () => {
+                    const categorySelect = document.getElementById("categoryFilter");
+                    if (!categorySelect) return;
+                    categorySelect.value = item.category;
+                    render();
+                    const section = document.getElementById("section-finance");
+                    if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
                 readout.appendChild(row);
             });
         }
@@ -1459,6 +2005,11 @@
                 `;
                 waitingEl.appendChild(row);
             });
+            const bottleneckEl = document.getElementById("bottleneckLine");
+            if (bottleneckEl) {
+                bottleneckEl.textContent =
+                    "Bottleneck-анализ (дни ожидания): 1.4дн → 2.1дн → 1.2дн. Узкое место: переход «Действие → Данные».";
+            }
 
             document.getElementById("throughputTitle").textContent =
                 "Поток исследований и экспериментов стабилен: завершено " + metrics.researchCount +
@@ -1498,7 +2049,10 @@
                 r: Math.max(4, Math.round(item.reach / 12)),
                 status: item.status,
                 title: item.title,
-                id: item.id
+                id: item.id,
+                team: item.team,
+                category: item.category,
+                cost: item.costDirect + item.costIndirect
             }));
 
             destroyChart("matrixChart");
@@ -1524,10 +2078,13 @@
                             callbacks: {
                                 label: function(context) {
                                     const p = context.raw;
-                                    return `${p.id}: ${p.title} | Уверенность ${p.x}% | Сложность ${p.y}`;
+                                    return `${p.id}: ${p.title} | Уверенность ${p.x}% | Сложность ${p.y} | Команда ${p.team} | ${getCategoryLabel(p.category)} | ${formatCurrency(p.cost)}`;
                                 }
                             }
                         }
+                    },
+                    onHover: (event, elements) => {
+                        event.native.target.style.cursor = elements.length ? "pointer" : "default";
                     },
                     scales: {
                         x: {
@@ -1556,81 +2113,116 @@
                 "Матрица приоритизации показывает долю быстрых побед и дорогих гипотез в портфеле.";
         }
 
-        function renderInsights(currentMetrics, quality, maturityKey) {
+        function renderActionCards(currentMetrics, quality, maturityKey, costDiagnostics) {
             const target = maturityTargets[maturityKey];
-            const insightList = document.getElementById("insightList");
-            insightList.innerHTML = "";
+            const actionList = document.getElementById("actionCardList");
+            actionList.innerHTML = "";
 
-            const alerts = [];
-            if (currentMetrics.budgetGap > 0.1) {
-                alerts.push({
-                    className: "risk",
-                    text: "Риск перерасхода: TVC выше бюджетного коридора более чем на 10%. Рекомендуется приостановить низкоуверенные гипотезы на этапе приоритизации."
+            const actions = [];
+            const overrun = costDiagnostics.filter(item => item.delta > 0).sort((a, b) => b.delta - a.delta);
+            if (overrun.length) {
+                const worst = overrun[0];
+                actions.push({
+                    priority: "P1",
+                    title: "Снизить перерасход в направлении «" + getCategoryLabel(worst.category) + "»",
+                    text: "Стоимость подтверждённой гипотезы выше порога на " + formatCurrency(worst.delta) + ". Пересмотреть дизайн экспериментов и размер выборки.",
+                    metric: "Стоимость подтверждённой гипотезы",
+                    link: "#section-finance",
+                    status: "new",
+                    statusText: "Новая"
                 });
             } else {
-                alerts.push({
-                    className: "good",
-                    text: "Бюджет под контролем: TVC находится в допустимом диапазоне относительно планового уровня."
-                });
-            }
-
-            if (currentMetrics.experimentVelocityDays && currentMetrics.experimentVelocityDays > target.experimentDays * 1.2) {
-                alerts.push({
-                    className: "warn",
-                    text: "Время на эксперименты выше порога более чем на 20%. Рекомендуется выделить выделенный слот аналитиков и стандартизировать сценарии экспериментов."
-                });
-            } else {
-                alerts.push({
-                    className: "good",
-                    text: "Время на эксперименты в целевом коридоре: команда наращивает компетенции и повышает повторяемость процесса."
-                });
-            }
-
-            if (currentMetrics.successRate < target.successRate) {
-                alerts.push({
-                    className: "risk",
-                    text: "Доля подтверждения гипотез ниже целевого порога. Усильте входной контроль: формулировка гипотезы, критерии успеха и дизайн эксперимента до старта разработки."
-                });
-            } else {
-                alerts.push({
-                    className: "good",
-                    text: "Доля подтверждения гипотез выше целевого уровня. Масштабируйте подходы из успешных кейсов в соседние продуктовые направления."
+                actions.push({
+                    priority: "P3",
+                    title: "Зафиксировать бюджетные практики",
+                    text: "Перерасхода по направлениям нет. Масштабируйте подходы, которые удерживают стоимость в целевом коридоре.",
+                    metric: "Контроль бюджета",
+                    link: "#section-finance",
+                    status: "done",
+                    statusText: "Стабильно"
                 });
             }
 
             if (currentMetrics.validationVelocityDays && currentMetrics.validationVelocityDays > target.validationDays) {
-                alerts.push({
-                    className: "warn",
-                    text: "Время проверки гипотез выше порога зрелости. Сократите ожидания между этапами «Действие» и «Данные» и зафиксируйте SLA на аналитику."
+                actions.push({
+                    priority: "P1",
+                    title: "Сократить цикл проверки гипотез",
+                    text: "Текущее время проверки " + formatDays(currentMetrics.validationVelocityDays) + " против целевых " + formatDays(target.validationDays) + ".",
+                    metric: "Время проверки гипотез",
+                    link: "#section-operations",
+                    status: "in-progress",
+                    statusText: "В работе"
                 });
-            } else {
-                alerts.push({
-                    className: "good",
-                    text: "Время проверки гипотез соответствует порогу: команда становится эффективнее и быстрее проходит полный цикл проверки."
+            }
+
+            if (currentMetrics.experimentVelocityDays && currentMetrics.experimentVelocityDays > target.experimentDays) {
+                actions.push({
+                    priority: "P2",
+                    title: "Убрать bottleneck между «Действие» и «Данные»",
+                    text: "Критичная задержка в цепочке 1.4дн → 2.1дн → 1.2дн. Зафиксировать SLA на аналитику и готовые шаблоны экспериментов.",
+                    metric: "Время на эксперименты",
+                    link: "#section-operations",
+                    status: "in-progress",
+                    statusText: "В работе"
+                });
+            }
+
+            if (currentMetrics.successRate < target.successRate) {
+                actions.push({
+                    priority: "P2",
+                    title: "Поднять долю подтверждения гипотез",
+                    text: "Success rate " + formatPct(currentMetrics.successRate) + " ниже порога " + formatPct(target.successRate) + ". Усилить pre-check гипотез перед запуском.",
+                    metric: "Доля подтверждения гипотез",
+                    link: "#section-strategy",
+                    status: "new",
+                    statusText: "Новая"
                 });
             }
 
             if (quality.missingDatesPct > 0.1 || quality.missingCostPct > 0.1 || quality.duplicatePct > 0) {
-                alerts.push({
-                    className: "warn",
-                    text: "Качество данных влияет на доверие к KPI. Необходимо закрыть пропуски дат/стоимости и исключить дубли идентификаторов."
-                });
-            } else {
-                alerts.push({
-                    className: "good",
-                    text: "Качество данных достаточное для решений C-level: критичных пропусков и дублей не обнаружено."
+                actions.push({
+                    priority: "P2",
+                    title: "Улучшить качество источника данных",
+                    text: "Есть пропуски и/или дубли, что снижает доверие к KPI. Требуется зачистка tracker перед следующей итерацией отчёта.",
+                    metric: "Качество данных",
+                    link: "#section-data",
+                    status: "new",
+                    statusText: "Новая"
                 });
             }
 
-            alerts.slice(0, 5).forEach(item => {
-                const el = document.createElement("div");
-                el.className = "insight-item " + item.className;
-                el.textContent = item.text;
-                insightList.appendChild(el);
-            });
+            if (!actions.length) {
+                actions.push({
+                    priority: "P3",
+                    title: "Поддерживать текущий операционный ритм",
+                    text: "Ключевые метрики находятся в целевом коридоре. Следующий шаг — масштабирование практик на все продуктовые направления.",
+                    metric: "Общий статус",
+                    link: "#section-finance",
+                    status: "done",
+                    statusText: "Стабильно"
+                });
+            }
 
-            document.getElementById("recommendationTitle").textContent =
-                "Управленческие действия на следующий квартал: контроль бюджета, ускорение исследований и экспериментов, снижение времени проверки гипотез.";
+            const priorityRank = { P1: 1, P2: 2, P3: 3 };
+            actions.sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority]);
+
+            actions.slice(0, 5).forEach(item => {
+                const card = document.createElement("article");
+                card.className = "action-card";
+                card.innerHTML = `
+                    <div class="priority-badge ${item.priority.toLowerCase()}">${item.priority}</div>
+                    <div>
+                        <div class="action-title">${item.title}</div>
+                        <div class="action-text">${item.text}</div>
+                        <div class="action-meta">
+                            <span class="metric-badge">Метрика: ${item.metric}</span>
+                            <a class="metric-link" href="${item.link}">Перейти к блоку ↗</a>
+                        </div>
+                    </div>
+                    <div class="action-status ${item.status}">${item.statusText}</div>
+                `;
+                actionList.appendChild(card);
+            });
         }
 
         function renderQuality(quality) {
@@ -1649,63 +2241,67 @@
             });
         }
 
-        function renderThresholds(metrics, target) {
-            const thresholdGrid = document.getElementById("thresholdGrid");
+        function renderFooterThresholds(metrics, target) {
+            const thresholdGrid = document.getElementById("thresholdFooterGrid");
             thresholdGrid.innerHTML = "";
 
             const rows = [
                 {
-                    label: "Количество исследований",
-                    value: metrics.researchCount,
-                    targetValue: target.minResearchCount,
-                    mode: "min",
-                    displayValue: formatNumber(metrics.researchCount),
-                    displayTarget: "≥ " + formatNumber(target.minResearchCount)
-                },
-                {
-                    label: "Время на исследование",
-                    value: metrics.researchVelocityDays,
-                    targetValue: target.researchDays,
+                    label: "Бюджет",
+                    value: metrics.totalCost,
+                    targetValue: target.total,
                     mode: "max",
-                    displayValue: formatDays(metrics.researchVelocityDays),
-                    displayTarget: "≤ " + formatDays(target.researchDays)
+                    displayValue: formatCurrency(metrics.totalCost),
+                    displayTarget: "≤ " + formatCurrency(target.total)
                 },
                 {
-                    label: "Количество экспериментов",
-                    value: metrics.experimentCount,
-                    targetValue: target.minExperimentCount,
-                    mode: "min",
-                    displayValue: formatNumber(metrics.experimentCount),
-                    displayTarget: "≥ " + formatNumber(target.minExperimentCount)
-                },
-                {
-                    label: "Время на эксперименты",
-                    value: metrics.experimentVelocityDays,
-                    targetValue: target.experimentDays,
-                    mode: "max",
-                    displayValue: formatDays(metrics.experimentVelocityDays),
-                    displayTarget: "≤ " + formatDays(target.experimentDays)
-                },
-                {
-                    label: "Время проверки гипотез",
+                    label: "Скорость проверки",
                     value: metrics.validationVelocityDays,
                     targetValue: target.validationDays,
                     mode: "max",
                     displayValue: formatDays(metrics.validationVelocityDays),
                     displayTarget: "≤ " + formatDays(target.validationDays)
+                },
+                {
+                    label: "Доля подтверждения",
+                    value: metrics.successRate,
+                    targetValue: target.successRate,
+                    mode: "min",
+                    displayValue: formatPct(metrics.successRate),
+                    displayTarget: "≥ " + formatPct(target.successRate)
                 }
             ];
 
             rows.forEach(row => {
                 const state = evaluateThreshold(row.value, row.targetValue, row.mode);
                 const el = document.createElement("div");
-                el.className = "threshold-item";
+                el.className = "footer-threshold-item";
                 el.innerHTML = `
                     <strong>${row.label}</strong>
                     Факт: ${row.displayValue} • Порог: ${row.displayTarget}<br>
                     <span class="kpi-state ${state.className}">${state.text}</span>
                 `;
                 thresholdGrid.appendChild(el);
+            });
+        }
+
+        function syncStrategicFilters(selectedCategory) {
+            const chips = document.querySelectorAll("#strategicCategoryFilters .chip-btn");
+            chips.forEach(chip => {
+                chip.classList.toggle("active", chip.dataset.category === selectedCategory);
+            });
+        }
+
+        function setupStrategicCategoryFilters() {
+            const chips = document.querySelectorAll("#strategicCategoryFilters .chip-btn");
+            chips.forEach(chip => {
+                chip.addEventListener("click", () => {
+                    const category = chip.dataset.category || "all";
+                    const select = document.getElementById("categoryFilter");
+                    if (!select) return;
+                    select.value = category;
+                    render();
+                });
             });
         }
 
@@ -1725,16 +2321,19 @@
             const currentMetrics = computeMetrics(currentFiltered, range, maturityKey);
             const previousMetrics = computeMetrics(previousFiltered, previousRange, maturityKey);
             const quality = computeDataQuality(currentFiltered);
+            const costDiagnostics = getCostDiagnostics(currentFiltered, maturityKey);
 
             const target = maturityTargets[maturityKey];
             document.getElementById("actionTitle").textContent = buildActionTitle(currentMetrics, target);
+            renderHero(currentMetrics, quality, target, costDiagnostics);
             renderKpis(currentMetrics, previousMetrics, target);
-            renderFinancialCharts(currentFiltered, currentMetrics, maturityKey);
+            renderActionCards(currentMetrics, quality, maturityKey, costDiagnostics);
+            renderFinancialCharts(currentFiltered, currentMetrics, maturityKey, category);
             renderOperationalCharts(currentFiltered, range, currentMetrics, maturityKey);
             renderOutcomeCharts(currentFiltered);
-            renderInsights(currentMetrics, quality, maturityKey);
-            renderThresholds(currentMetrics, target);
+            renderFooterThresholds(currentMetrics, target);
             renderQuality(quality);
+            syncStrategicFilters(category);
 
             const now = new Date();
             document.getElementById("lastUpdated").textContent = "Обновлено: " + now.toLocaleString("ru-RU");
@@ -1773,12 +2372,17 @@
 
             target.classList.add("embed-active", "span-12");
             target.classList.remove("span-8", "span-6", "span-4");
+            const parentSection = target.closest(".dashboard-section");
+            if (parentSection) {
+                parentSection.classList.add("embed-section");
+            }
         }
 
         fillTeamFilter();
         ["periodFilter", "categoryFilter", "teamFilter", "statusFilter", "benchmarkMode"].forEach(id => {
             document.getElementById(id).addEventListener("change", render);
         });
+        setupStrategicCategoryFilters();
         setupPageTransitions();
         render();
         setupEmbedMode();
