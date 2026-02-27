@@ -276,6 +276,7 @@
         .phase-main {
             display: grid;
             gap: 14px;
+            max-width: 860px;
         }
 
         .panel {
@@ -437,14 +438,21 @@
             overflow-x: auto;
             border-top: 1px solid var(--mck-gray-200);
             padding-top: 10px;
+            max-width: 860px;
+            margin: 0 auto;
         }
 
         .mermaid {
-            min-width: 620px;
+            min-width: 0;
             background: var(--mck-white);
             padding: 10px;
             border: 1px solid var(--mck-gray-200);
             border-radius: 4px;
+        }
+
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
         }
 
         .table-wrap {
@@ -658,6 +666,7 @@
             <div class="page-links">
                 <a class="page-link" href="hypothesis-digest.html">Дайджест гипотез</a>
                 <a class="page-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
+                <a class="page-link" href="drawio/README.md">Диаграммы в draw.io</a>
             </div>
             <select id="phaseSelect" class="phase-select" aria-label="Навигация по фазам">
                 <option value="phase-1">Фаза 1: Исследование</option>
@@ -691,6 +700,7 @@
             <article class="macro-card">
                 <h2 class="block-action-title">Action Title: трехфазный pipeline ускоряет выпуск и защищает бюджет от неверных продуктовых решений.</h2>
                 <p class="block-subtitle">Кликните на узел фазы, чтобы перейти к детальному блоку.</p>
+                <p class="block-subtitle" style="margin-top:-2px;">Для корпоративной работы доступны исходники диаграмм в формате <a href="drawio/README.md" style="color:#0066CC;font-weight:600;text-decoration:none;">draw.io</a>.</p>
                 <div class="mermaid-shell">
                     <div class="mermaid">
 flowchart LR
