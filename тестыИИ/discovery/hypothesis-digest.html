@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Дайджест проверки гипотез</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дайджест проверки гипотез</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="feedback-widget.js"></script>
+<style>
         :root {
             --bg-page: #f8fafc;
             --accent: #1e3a5f;
@@ -277,6 +278,7 @@
                     <a href="visualization.html" class="back-link nav-link">Процесс Discovery</a>
                     <a href="hypothesis-digest.html" class="back-link nav-link">Дайджест проверки гипотез</a>
                     <a href="executive-dashboard.html" class="back-link nav-link">Дайджест процесса Discovery</a>
+                    <a href="framework-selection.html" class="back-link nav-link">Выбор фреймворка реализации</a>
                 </div>
             </div>
             <h1>🧪 Дайджест проверки гипотез</h1>
@@ -437,6 +439,10 @@
                 navigateTo(href);
             });
         });
+
+        if (window.initFeedbackWidget) {
+            window.initFeedbackWidget('hypothesis-digest');
+        }
     </script>
 </body>
 </html>

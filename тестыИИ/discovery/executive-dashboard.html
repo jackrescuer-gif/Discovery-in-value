@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="feedback-widget.js"></script>
     <style>
         :root {
             --mck-blue-900: #051c2c;
@@ -967,6 +968,7 @@
                     <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
                     <a class="back-link nav-link" href="hypothesis-digest.html">Дайджест проверки гипотез</a>
                     <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
+                    <a class="back-link nav-link" href="framework-selection.html">Выбор фреймворка реализации</a>
                 </div>
                 <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
             </div>
@@ -2386,6 +2388,9 @@
         setupPageTransitions();
         render();
         setupEmbedMode();
+        if (window.initFeedbackWidget) {
+            window.initFeedbackWidget('executive-dashboard');
+        }
     </script>
 </body>
 </html>
