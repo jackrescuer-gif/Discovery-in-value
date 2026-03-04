@@ -146,6 +146,19 @@
          UNIVERSAL PAGE HERO — auto-applied to all page headers
          ============================================= */
 
+      /* Gap between nav and page headers */
+      .page-hero,
+      header.header {
+        margin-top: 20px !important;
+      }
+
+      @media (max-width: 768px) {
+        .page-hero,
+        header.header {
+          margin-top: 14px !important;
+        }
+      }
+
       /* Auto-apply unified style to common header patterns */
       .page-hero,
       .hero-section,
@@ -246,12 +259,17 @@
 
   /* Compensate for body padding */
   const bodyStyles = window.getComputedStyle(document.body);
+  const bodyPaddingTop = parseFloat(bodyStyles.paddingTop) || 0;
   const bodyPaddingLeft = parseFloat(bodyStyles.paddingLeft) || 0;
   const bodyPaddingRight = parseFloat(bodyStyles.paddingRight) || 0;
-  const needsCompensation = bodyPaddingLeft > 0 || bodyPaddingRight > 0;
+  const needsCompensation = bodyPaddingTop > 0 || bodyPaddingLeft > 0 || bodyPaddingRight > 0;
+
+  const navStyle = needsCompensation
+    ? ` style="margin-top:-${bodyPaddingTop}px;margin-left:-${bodyPaddingLeft}px;margin-right:-${bodyPaddingRight}px;padding-left:${bodyPaddingLeft}px;padding-right:${bodyPaddingRight}px;"`
+    : '';
 
   const navHtml = `
-    <nav class="global-nav"${needsCompensation ? ` style="margin-left:-${bodyPaddingLeft}px;margin-right:-${bodyPaddingRight}px;padding-left:${bodyPaddingLeft}px;padding-right:${bodyPaddingRight}px;"` : ''}>
+    <nav class="global-nav"${navStyle}>
       <div class="global-nav-inner">
         <a href="visualization.html" class="global-nav-brand nav-link">Discovery Process</a>
         <div class="global-nav-links">
@@ -313,14 +331,17 @@
       const nav = placeholder.querySelector(".global-nav");
       if (!nav) return;
       const bs = window.getComputedStyle(document.body);
+      const pt = parseFloat(bs.paddingTop) || 0;
       const pl = parseFloat(bs.paddingLeft) || 0;
       const pr = parseFloat(bs.paddingRight) || 0;
-      if (pl > 0 || pr > 0) {
+      if (pt > 0 || pl > 0 || pr > 0) {
+        nav.style.marginTop = `-${pt}px`;
         nav.style.marginLeft = `-${pl}px`;
         nav.style.marginRight = `-${pr}px`;
         nav.style.paddingLeft = `${pl}px`;
         nav.style.paddingRight = `${pr}px`;
       } else {
+        nav.style.marginTop = "";
         nav.style.marginLeft = "";
         nav.style.marginRight = "";
         nav.style.paddingLeft = "";
