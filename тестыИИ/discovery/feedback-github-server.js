@@ -8,6 +8,17 @@ import fetch from 'node-fetch';
 const app = express();
 app.use(express.json());
 
+// Простейший CORS, чтобы можно было вызывать сервер из file:// и localhost-страниц
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 const {
   GITHUB_TOKEN,
   GITHUB_OWNER,
@@ -19,6 +30,18 @@ if (!GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
   console.warn('[feedback-server] Не заданы GITHUB_TOKEN / GITHUB_OWNER / GITHUB_REPO. Сервер поднимется, но запросы будут падать.');
 }
 
+// Маппинг страниц на дополнительные лейблы и ассайни
+const pageConfig = {
+  visualization: {
+    extraLabels: ['area:discovery-flow'],
+    assignees: ['jackrescuer-gif']
+  },
+  'framework-selection': {
+    extraLabels: ['area:framework'],
+    assignees: ['jackrescuer-gif']
+  }
+};
+
 app.post('/api/feedback', async (req, res) => {
   const { pageId, url, text, author, isTask } = req.body || {};
 
@@ -27,13 +50,14 @@ app.post('/api/feedback', async (req, res) => {
   }
 
   const safePage = pageId || 'unknown';
-  const titlePrefix = isTask ? '[TASK]' : '[COMMENT]';
-  const title = `${titlePrefix} ${safePage}: ${text.slice(0, 60)}`;
+  const kind = isTask ? 'TASK' : 'COMMENT';
+  const title = `[DISCOVERY][${kind}][${safePage}] ${text.slice(0, 80)}`;
 
   const bodyLines = [
     `**Страница:** ${safePage}`,
     url ? `**URL:** ${url}` : '',
     author ? `**Автор:** ${author}` : '',
+    `**Тип:** ${isTask ? 'Task' : 'Comment'}`,
     '',
     '---',
     '',
@@ -46,6 +70,14 @@ app.post('/api/feedback', async (req, res) => {
   }
 
   try {
+    const cfg = pageConfig[safePage] || { extraLabels: [], assignees: [] };
+    const labels = [
+      'feedback',
+      isTask ? 'task' : 'comment',
+      `page:${safePage}`,
+      ...cfg.extraLabels
+    ];
+
     const ghResp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`, {
       method: 'POST',
       headers: {
@@ -57,11 +89,8 @@ app.post('/api/feedback', async (req, res) => {
       body: JSON.stringify({
         title,
         body: bodyLines.join('\n'),
-        labels: [
-          'feedback',
-          isTask ? 'task' : 'comment',
-          `page:${safePage}`
-        ]
+        labels,
+        assignees: cfg.assignees
       })
     });
 

@@ -682,6 +682,7 @@ tr:hover td { background:#fff; }
 
 </div><!-- /container -->
 
+<script src="feedback-widget.js"></script>
 <script>const CURRENT_PAGE = 'framework-selection.html';</script>
 <script src="nav.js"></script>
 <script>
@@ -729,6 +730,9 @@ function setupPageTransitions() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupPageTransitions();
+  if (window.initFeedbackWidget) {
+    window.initFeedbackWidget('framework-selection');
+  }
 });
 
 /* ── FLOWCHART ── */

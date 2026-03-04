@@ -170,6 +170,7 @@
             }
         }
     </style>
+    <script src="feedback-widget.js"></script>
 </head>
 <body>
     <div class="header">
@@ -466,5 +467,11 @@
     <div class="footer">
         <p>Процесс Discovery инициатив | Версия 1.0 | Дата: 2026</p>
     </div>
+
+    <script>
+        if (window.initFeedbackWidget) {
+            window.initFeedbackWidget('pdf-export');
+        }
+    </script>
 </body>
 </html>
