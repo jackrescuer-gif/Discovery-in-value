@@ -208,6 +208,38 @@ header p { font-size: 0.95rem; opacity: 0.9; }
   font-weight: 500;
 }
 
+/* PROJECT DEFINITION BLOCK */
+.def-block {
+  background: rgba(30,58,95,0.04);
+  border: 1px solid rgba(30,58,95,0.18);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--card-radius);
+  padding: 20px 24px;
+}
+.def-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+.def-elements {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+.def-el {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.def-el-icon { font-size: 1.2rem; flex-shrink: 0; }
+.def-el-title { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.def-el-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
 /* CRITERIA */
 .section-title {
   font-size: 1rem;
@@ -220,6 +252,9 @@ header p { font-size: 0.95rem; opacity: 0.9; }
   grid-template-columns: repeat(4,1fr);
   gap: 12px;
   margin-bottom: 28px;
+}
+.crit-grid-6 {
+  grid-template-columns: repeat(3,1fr);
 }
 .crit {
   background: #fff;
@@ -360,15 +395,19 @@ tr:hover td { background:#fff; }
 /* RESPONSIVE */
 @media(max-width:1024px){
   .crit-grid { grid-template-columns:1fr 1fr; }
+  .crit-grid-6 { grid-template-columns:1fr 1fr; }
   .fw-grid { grid-template-columns:1fr 1fr; }
   .io-grid { grid-template-columns:1fr; }
+  .def-elements { grid-template-columns:1fr 1fr; }
   header { padding:28px; }
   .content { padding:24px; }
 }
 @media(max-width:600px){
   .crit-grid { grid-template-columns:1fr 1fr; }
+  .crit-grid-6 { grid-template-columns:1fr 1fr; }
   .fw-grid { grid-template-columns:1fr; }
   .fior { grid-template-columns:1fr; }
+  .def-elements { grid-template-columns:1fr; }
   header { padding:20px; }
   header h1 { font-size:1.3rem; }
   .content { padding:16px; }
@@ -376,6 +415,7 @@ tr:hover td { background:#fff; }
 }
 @media(max-width:375px){
   .crit-grid { grid-template-columns:1fr; }
+  .crit-grid-6 { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -438,32 +478,66 @@ tr:hover td { background:#fff; }
       </div>
     </div>
 
-    <!-- Criteria -->
-    <div class="section-title">Критерии выбора фреймворка</div>
-    <div class="crit-grid">
-      <div class="crit"><div class="crit-icon">🎯</div><div class="crit-name">Тип результата</div><div class="crit-desc">Разовый чёткий результат vs непрерывное развитие продукта</div></div>
-      <div class="crit"><div class="crit-icon">⏱</div><div class="crit-name">Длительность и объём</div><div class="crit-desc">Чел/дни, временны́е рамки, выделенный бюджет</div></div>
-      <div class="crit"><div class="crit-icon">👥</div><div class="crit-name">Команда и ресурсы</div><div class="crit-desc">Кросс-функциональная сборка или существующая команда</div></div>
-      <div class="crit"><div class="crit-icon">🔄</div><div class="crit-name">Тип изменений</div><div class="crit-desc">Разовое/уникальное vs регулярная операционная активность</div></div>
+    <!-- Project Definition Block (п.2.2) -->
+    <div class="section-title">Что такое Проект</div>
+    <div class="def-block" style="margin-bottom:28px">
+      <div class="def-text">
+        <strong>Проект</strong> — ограниченный по времени и стоимости комплекс мероприятий по созданию <strong>уникальных продуктов, сервисов и услуг</strong>, направленных на создание ценности и предполагающих существенную модернизацию инфраструктуры и/или программного обеспечения.
+      </div>
+      <div class="def-elements">
+        <div class="def-el">
+          <div class="def-el-icon">🎯</div>
+          <div>
+            <div class="def-el-title">Результат</div>
+            <div class="def-el-desc">Продукт, сервис или услуга с критериями достижения, которые можно подтвердить при закрытии проекта</div>
+          </div>
+        </div>
+        <div class="def-el">
+          <div class="def-el-icon">📊</div>
+          <div>
+            <div class="def-el-title">Ценности и метрики</div>
+            <div class="def-el-desc">Измеримые бизнес-выгоды с оцифрованными метриками и методикой расчёта — фиксируются в паспорте и финансовой модели проекта</div>
+          </div>
+        </div>
+        <div class="def-el">
+          <div class="def-el-icon">⚙️</div>
+          <div>
+            <div class="def-el-title">Параметры</div>
+            <div class="def-el-desc">Ограничения проекта: срок, бюджет, лимит финансирования, контрольно-ключевые вехи, организационная структура</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Criteria (п.2.4) -->
+    <div class="section-title">Рекомендации по выбору проектного фреймворка</div>
+    <div class="crit-grid crit-grid-6">
+      <div class="crit"><div class="crit-icon">🎯</div><div class="crit-name">Значимый результат и ценности</div><div class="crit-desc">Чёткий конечный результат, ценности и метрики, определяемые на начальных стадиях или по итогам фазы оценки</div></div>
+      <div class="crit"><div class="crit-icon">⏱</div><div class="crit-name">Срочность / ограниченность по времени</div><div class="crit-desc">Чёткие временные рамки реализации, фиксированный дедлайн</div></div>
+      <div class="crit"><div class="crit-icon">🔧</div><div class="crit-name">Комплексность и сложность решения</div><div class="crit-desc">Большое количество взаимосвязанных изменений в ИТ-ландшафте и интеграций</div></div>
+      <div class="crit"><div class="crit-icon">👥</div><div class="crit-name">Много участников и стейкхолдеров</div><div class="crit-desc">Широкий круг участников и заинтересованных сторон, требующих координации</div></div>
+      <div class="crit"><div class="crit-icon">🧑‍💼</div><div class="crit-name">Выделенный Проектный менеджер</div><div class="crit-desc">Необходима дополнительная административная координация в лице выделенного PM</div></div>
+      <div class="crit"><div class="crit-icon">📋</div><div class="crit-name">Прозрачный мониторинг</div><div class="crit-desc">Оперативный статус, мониторинг здоровья и параметров для стейкхолдеров и коллегиальных органов</div></div>
     </div>
 
     <!-- FW cards -->
     <div class="section-title">Фреймворки реализации</div>
     <div class="fw-grid">
       <div class="fwc pr">
-        <div class="fwh"><div class="fwi">🏗</div><div><div class="fwtl">ПРОЕКТ</div><div class="fwst">Временная структура с выделенным управлением</div></div></div>
+        <div class="fwh"><div class="fwi">🏗</div><div><div class="fwtl">ПРОЕКТ</div><div class="fwst">Ограниченный по времени и стоимости комплекс мероприятий по созданию уникальных продуктов, сервисов и услуг</div></div></div>
         <div class="fwb">
-          <div class="fbx"><div class="fll">Когда выбираем</div>
-            <div class="fit"><div class="fd"></div>Чёткий конечный результат с датой и бюджетом</div>
-            <div class="fit"><div class="fd"></div>Нужна кросс-функциональная команда под задачу</div>
-            <div class="fit"><div class="fd"></div>Разовое/уникальное изменение</div>
-            <div class="fit"><div class="fd"></div>Высокие зависимости между командами</div>
-            <div class="fit"><div class="fd"></div>Объём выше порогового значения</div>
+          <div class="fbx"><div class="fll">Когда выбираем (п.2.4)</div>
+            <div class="fit"><div class="fd"></div>Значимый результат, ценности и метрики определены или определяются в фазе оценки</div>
+            <div class="fit"><div class="fd"></div>Срочность или ограниченность во времени</div>
+            <div class="fit"><div class="fd"></div>Высокая комплексность: много взаимосвязанных изменений в ИТ и интеграций</div>
+            <div class="fit"><div class="fd"></div>Большое количество участников и заинтересованных сторон</div>
+            <div class="fit"><div class="fd"></div>Нужна административная координация — выделенный Проектный менеджер</div>
+            <div class="fit"><div class="fd"></div>Необходим оперативный мониторинг параметров для стейкхолдеров и коллегиальных органов</div>
           </div>
           <div><div class="fll">Вход / Выход</div>
             <div class="fior">
               <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Бизнес-кейс / цели</div><div class="fioi">Предв. скоуп</div><div class="fioi">Стейкхолдеры</div></div>
-              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Устав проекта</div><div class="fioi">Roadmap / план</div><div class="fioi">Команда проекта</div><div class="fioi">Утв. бюджет</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Паспорт проекта</div><div class="fioi">Roadmap / план</div><div class="fioi">Команда + PM</div><div class="fioi">Утв. бюджет</div></div>
             </div>
           </div>
           <div><div class="fll">Результат Delivery</div><div class="fbdg">📦 Сдача → закрытие проекта</div></div>
@@ -515,21 +589,22 @@ tr:hover td { background:#fff; }
     <div class="section-title">Матрица решений</div>
     <div class="diagram-container">
       <table>
-        <thead><tr><th>Критерий</th><th>Проект</th><th>БФ-Команда</th><th>Не проектные</th></tr></thead>
+        <thead><tr><th>Критерий</th><th>🏗 Проект</th><th>⚙️ БФ-Команда</th><th>✅ Не проектные</th></tr></thead>
         <tbody>
-          <tr><td>Конечный результат</td><td><span class="bp">✓ Обязательно</span></td><td><span class="bx">Необязательно</span></td><td><span class="bx">Необязательно</span></td></tr>
-          <tr><td>Объём работ</td><td><span class="bp">Крупный</span></td><td><span class="bt">Средний и выше</span></td><td><span class="bn">Малый</span></td></tr>
-          <tr><td>Тип изменения</td><td><span class="bp">Разовое / уникальное</span></td><td><span class="bt">Постоянное развитие</span></td><td><span class="bn">Операционное</span></td></tr>
-          <tr><td>Зависимости</td><td><span class="bp">Кросс-командные</span></td><td><span class="bt">Внутри домена</span></td><td><span class="bn">Нет</span></td></tr>
-          <tr><td>Команда</td><td><span class="bp">Собирается под задачу</span></td><td><span class="bt">Существующая</span></td><td><span class="bn">Один исполнитель</span></td></tr>
-          <tr><td>Отдельный бюджет</td><td><span class="bp">Да</span></td><td><span class="bx">Бюджет команды</span></td><td><span class="bx">Бюджет команды</span></td></tr>
-          <tr><td>Итог Delivery</td><td><span class="bp">Закрытие проекта</span></td><td><span class="bt">Релизы в продукт</span></td><td><span class="bn">Задача → спринт</span></td></tr>
+          <tr><td>Результат и ценности</td><td><span class="bp">✓ Значимый результат, ценности и метрики фиксируются в паспорте</span></td><td><span class="bx">Продуктовые цели и метрики</span></td><td><span class="bx">Задача выполнена</span></td></tr>
+          <tr><td>Срочность / время</td><td><span class="bp">Ограничено: фиксированная дата и бюджет</span></td><td><span class="bt">Итеративно, без даты закрытия</span></td><td><span class="bn">В рамках спринта</span></td></tr>
+          <tr><td>Комплексность решения</td><td><span class="bp">Высокая: много ИТ-изменений и интеграций</span></td><td><span class="bt">Средняя: развитие домена</span></td><td><span class="bn">Низкая: типовая задача</span></td></tr>
+          <tr><td>Участники и стейкхолдеры</td><td><span class="bp">Много: кросс-командные зависимости</span></td><td><span class="bt">Внутри домена</span></td><td><span class="bn">Один исполнитель / команда</span></td></tr>
+          <tr><td>Управление</td><td><span class="bp">Выделенный Проектный менеджер</span></td><td><span class="bt">Владелец продукта</span></td><td><span class="bn">Тимлид / исполнитель</span></td></tr>
+          <tr><td>Мониторинг и отчётность</td><td><span class="bp">Регулярная: для стейкхолдеров и коллег. органов</span></td><td><span class="bt">Спринт-ревью, OKR</span></td><td><span class="bn">Статус в задаче</span></td></tr>
+          <tr><td>Бюджет</td><td><span class="bp">Отдельный, утверждённый</span></td><td><span class="bx">Бюджет команды</span></td><td><span class="bx">Бюджет команды</span></td></tr>
+          <tr><td>Итог Delivery</td><td><span class="bp">Паспорт + закрытие проекта</span></td><td><span class="bt">Инкрементальные релизы</span></td><td><span class="bn">Задача → спринт</span></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="note">
-      <strong>Ключевое правило:</strong> Решение о фреймворке принимается на <strong>финале Discovery</strong> — когда есть оценка объёма, зависимостей и валидированные гипотезы. Если в ходе Delivery параметры существенно меняются — возможен пересмотр фреймворка.
+      <strong>Ключевое правило:</strong> Решение о фреймворке принимается на <strong>финале Discovery</strong> — когда есть оценка объёма, зависимостей и валидированные гипотезы. Ценности и метрики фиксируются в паспорте проекта; для фазы оценки (предпроекта) допускается их отсутствие. Если в ходе Delivery параметры существенно меняются — возможен пересмотр фреймворка.
     </div>
 
   </div>
