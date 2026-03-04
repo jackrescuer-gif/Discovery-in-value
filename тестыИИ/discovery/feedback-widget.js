@@ -2,7 +2,7 @@
 // который уже создаёт GitHub Issues.
 
 (function () {
-  const FEEDBACK_API_URL = 'https://your-feedback-endpoint.example.com/api/feedback'; // ← поменяй под свой backend
+  const FEEDBACK_API_URL = 'http://localhost:4000/api/feedback'; // для локального теста; для продакшена поменяй URL
 
   function createEl(tag, attrs, children) {
     const el = document.createElement(tag);
