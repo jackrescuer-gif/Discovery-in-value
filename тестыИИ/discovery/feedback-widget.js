@@ -2,7 +2,12 @@
 // который уже создаёт GitHub Issues.
 
 (function () {
-  const FEEDBACK_API_URL = 'http://localhost:4000/api/feedback'; // для локального теста; для продакшена поменяй URL
+  const isLocal =
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
+  const FEEDBACK_API_URL = isLocal
+    ? 'http://localhost:4000/api/feedback'
+    : '/api/feedback';
 
   function createEl(tag, attrs, children) {
     const el = document.createElement(tag);
