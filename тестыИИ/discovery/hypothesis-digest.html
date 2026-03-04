@@ -271,16 +271,9 @@
     </style>
 </head>
 <body>
+    <div id="nav-placeholder"></div>
     <div class="container">
         <header>
-            <div class="header-top">
-                <div class="nav-links">
-                    <a href="visualization.html" class="back-link nav-link">Процесс Discovery</a>
-                    <a href="hypothesis-digest.html" class="back-link nav-link">Дайджест проверки гипотез</a>
-                    <a href="executive-dashboard.html" class="back-link nav-link">Дайджест процесса Discovery</a>
-                    <a href="framework-selection.html" class="back-link nav-link">Выбор фреймворка реализации</a>
-                </div>
-            </div>
             <h1>🧪 Дайджест проверки гипотез</h1>
             <p class="subtitle">Короткий weekly-снимок: что проверили, какие сигналы получили и какие решения приняли.</p>
             <div class="meta">Обновлено: <span id="updatedAt">—</span></div>
@@ -414,6 +407,8 @@
         </footer>
     </div>
 
+    <script>const CURRENT_PAGE = 'hypothesis-digest.html';</script>
+    <script src="nav.js"></script>
     <script>
         const updatedAt = document.getElementById('updatedAt');
         const now = new Date();

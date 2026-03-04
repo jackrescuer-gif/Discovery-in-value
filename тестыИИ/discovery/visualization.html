@@ -660,6 +660,7 @@
     </style>
 </head>
 <body>
+    <div id="nav-placeholder"></div>
     <header class="sticky-header">
         <div class="header-inner">
             <div class="brand">Discovery Process</div>
@@ -1080,6 +1081,8 @@
         </div>
     </div>
 
+    <script>const CURRENT_PAGE = 'visualization.html';</script>
+    <script src="nav.js"></script>
     <script>
         function buildDrawioViewerUrl(filePath) {
             const absoluteFileUrl = new URL(filePath, window.location.href).href;

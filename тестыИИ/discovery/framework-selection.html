@@ -381,15 +381,11 @@ tr:hover td { background:#fff; }
 </head>
 <body data-page-id="framework-selection">
 
+<div id="nav-placeholder"></div>
 <div class="container">
 
   <header>
     <div class="header-top">
-      <div class="header-nav">
-        <a class="back-link" onclick="goBack()">← Назад</a>
-        <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
-        <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
-      </div>
       <div class="audience-pill">⑂ Развилка · Discovery</div>
     </div>
     <h1>Выбор фреймворка реализации</h1>
@@ -561,10 +557,9 @@ tr:hover td { background:#fff; }
 
 </div><!-- /container -->
 
+<script>const CURRENT_PAGE = 'framework-selection.html';</script>
+<script src="nav.js"></script>
 <script>
-/* NAV */
-function goBack() { history.length > 1 ? history.back() : window.location.href = 'index.html'; }
-
 /* TABS */
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));

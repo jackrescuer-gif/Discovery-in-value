@@ -961,15 +961,10 @@
     </style>
 </head>
 <body>
+    <div id="nav-placeholder"></div>
     <div class="page">
         <header class="header">
             <div class="header-top">
-                <div class="header-nav">
-                    <a class="back-link nav-link" href="visualization.html">Процесс Discovery</a>
-                    <a class="back-link nav-link" href="hypothesis-digest.html">Дайджест проверки гипотез</a>
-                    <a class="back-link nav-link" href="executive-dashboard.html">Дайджест процесса Discovery</a>
-                    <a class="back-link nav-link" href="framework-selection.html">Выбор фреймворка реализации</a>
-                </div>
                 <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
             </div>
             <h1>Дайджест процесса Discovery</h1>
@@ -1182,6 +1177,8 @@
         </section>
     </div>
 
+    <script>const CURRENT_PAGE = 'executive-dashboard.html';</script>
+    <script src="nav.js"></script>
     <script>
         const hypothesisData = [
             { id: "H-001", title: "Новый онбординг с прогрессом", category: "growth", product: "Core Web", team: "Alpha", status: "implemented", confidence: 89, effort: 2, reach: 82, costDirect: 182000, costIndirect: 74000, createdAt: "2026-01-05", prioritizedAt: "2026-01-07", researchStart: "2026-01-08", researchEnd: "2026-01-13", decisionAt: "2026-01-15" },
