@@ -208,12 +208,48 @@ header p { font-size: 0.95rem; opacity: 0.9; }
   font-weight: 500;
 }
 
+/* ACCORDION */
+.acc-wrap {
+  border: 1px solid rgba(30,58,95,0.18);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+.acc-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 20px;
+  background: rgba(30,58,95,0.04);
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: left;
+  transition: background 0.18s;
+}
+.acc-header:hover { background: rgba(30,58,95,0.08); }
+.acc-chevron {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+}
+.acc-header[aria-expanded="true"] .acc-chevron { transform: rotate(180deg); }
+.acc-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease, padding 0.2s;
+}
+.acc-body:not([hidden]) { max-height: 600px; }
+.acc-body[hidden] { display: block !important; max-height: 0; }
+
 /* PROJECT DEFINITION BLOCK */
 .def-block {
-  background: rgba(30,58,95,0.04);
-  border: 1px solid rgba(30,58,95,0.18);
+  background: rgba(30,58,95,0.02);
   border-left: 4px solid var(--accent);
-  border-radius: var(--card-radius);
   padding: 20px 24px;
 }
 .def-text {
@@ -478,9 +514,14 @@ tr:hover td { background:#fff; }
       </div>
     </div>
 
-    <!-- Project Definition Block (п.2.2) -->
-    <div class="section-title">Что такое Проект</div>
-    <div class="def-block" style="margin-bottom:28px">
+    <!-- Project Definition Block (п.2.2) — accordion -->
+    <div class="acc-wrap" style="margin-bottom:28px">
+      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
+        <span>Что такое Проект</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" hidden>
+    <div class="def-block">
       <div class="def-text">
         <strong>Проект</strong> — ограниченный по времени и стоимости комплекс мероприятий по созданию <strong>уникальных продуктов, сервисов и услуг</strong>, направленных на создание ценности и предполагающих существенную модернизацию инфраструктуры и/или программного обеспечения.
       </div>
@@ -508,6 +549,8 @@ tr:hover td { background:#fff; }
         </div>
       </div>
     </div>
+      </div><!-- /acc-body -->
+    </div><!-- /acc-wrap -->
 
     <!-- Criteria (п.2.4) -->
     <div class="section-title">Рекомендации по выбору проектного фреймворка</div>
@@ -635,6 +678,18 @@ tr:hover td { background:#fff; }
 <script>const CURRENT_PAGE = 'framework-selection.html';</script>
 <script src="nav.js"></script>
 <script>
+/* ACCORDION */
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const open = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !open);
+  if (open) {
+    body.setAttribute('hidden', '');
+  } else {
+    body.removeAttribute('hidden');
+  }
+}
+
 /* TABS */
 function switchTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
