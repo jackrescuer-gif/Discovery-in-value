@@ -1248,6 +1248,10 @@
             if (updated) {
                 updated.textContent = "Updated: " + now.toLocaleString("ru-RU");
             }
+
+            if (window.initFeedbackWidget) {
+                window.initFeedbackWidget('visualization');
+            }
         });
 
         window.addEventListener("scroll", updateProgressBar, { passive: true });
