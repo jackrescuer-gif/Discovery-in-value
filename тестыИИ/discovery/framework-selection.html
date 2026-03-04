@@ -552,8 +552,13 @@ tr:hover td { background:#fff; }
       </div><!-- /acc-body -->
     </div><!-- /acc-wrap -->
 
-    <!-- Criteria (п.2.4) -->
-    <div class="section-title">Рекомендации по выбору проектного фреймворка</div>
+    <!-- Criteria (п.2.4) — accordion -->
+    <div class="acc-wrap" style="margin-bottom:28px">
+      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
+        <span>Рекомендации по выбору проектного фреймворка</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" hidden>
     <div class="crit-grid crit-grid-6">
       <div class="crit"><div class="crit-icon">🎯</div><div class="crit-name">Значимый результат и ценности</div><div class="crit-desc">Чёткий конечный результат, ценности и метрики, определяемые на начальных стадиях или по итогам фазы оценки</div></div>
       <div class="crit"><div class="crit-icon">⏱</div><div class="crit-name">Срочность / ограниченность по времени</div><div class="crit-desc">Чёткие временные рамки реализации, фиксированный дедлайн</div></div>
@@ -562,6 +567,8 @@ tr:hover td { background:#fff; }
       <div class="crit"><div class="crit-icon">🧑‍💼</div><div class="crit-name">Выделенный Проектный менеджер</div><div class="crit-desc">Необходима дополнительная административная координация в лице выделенного PM</div></div>
       <div class="crit"><div class="crit-icon">📋</div><div class="crit-name">Прозрачный мониторинг</div><div class="crit-desc">Оперативный статус, мониторинг здоровья и параметров для стейкхолдеров и коллегиальных органов</div></div>
     </div>
+      </div><!-- /acc-body -->
+    </div><!-- /acc-wrap -->
 
     <!-- FW cards -->
     <div class="section-title">Фреймворки реализации</div>
