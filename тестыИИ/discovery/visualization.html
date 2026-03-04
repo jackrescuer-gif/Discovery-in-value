@@ -21,6 +21,9 @@
             --mck-gray-800: #343A40;
             --mck-white: #FFFFFF;
             --mck-yellow: #FFB81C;
+            --mck-blue-900: #1e3a5f;
+            --mck-blue-800: #2c5282;
+            --shadow-soft: 0 2px 12px rgba(5, 28, 44, 0.08);
         }
 
         * {
@@ -153,8 +156,11 @@
 
         .hero-section {
             padding: 28px 32px;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+            background: linear-gradient(135deg, var(--mck-blue-900), var(--mck-blue-800));
             color: #ffffff;
+            border-radius: 14px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 14px;
         }
 
         .hero-title {
