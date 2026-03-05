@@ -534,10 +534,18 @@
             flex-wrap: wrap;
         }
 
+        /* Переопределяем позицию кнопки обратной связи только на этой странице */
+        .fb-floating-btn {
+            left: 20px !important;
+            right: auto !important;
+            top: 90px !important;
+            bottom: auto !important;
+        }
+
         .fab-top {
             position: fixed;
             right: 22px;
-            bottom: 22px;
+            top: 140px;
             width: 44px;
             height: 44px;
             border-radius: 50%;
@@ -548,6 +556,7 @@
             cursor: pointer;
             box-shadow: 0 6px 14px rgba(0, 51, 102, 0.16);
             display: none;
+            z-index: 1090;
         }
 
         .fab-top.visible {

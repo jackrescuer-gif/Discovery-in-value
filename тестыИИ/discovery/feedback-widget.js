@@ -148,8 +148,8 @@
   const css = `
   .fb-floating-btn {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    left: 20px;
+    top: 90px;
     z-index: 1100;
     border-radius: 999px;
     border: 1px solid rgba(30,58,95,0.18);
@@ -274,8 +274,8 @@
   }
   @media (max-width: 600px) {
     .fb-floating-btn {
-      right: 12px;
-      bottom: 12px;
+      left: 12px;
+      top: 80px;
       padding: 7px 12px;
       font-size: 0.8rem;
     }
