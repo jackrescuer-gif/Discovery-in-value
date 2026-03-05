@@ -243,7 +243,7 @@ header p { font-size: 0.95rem; opacity: 0.9; }
   max-height: 0;
   transition: max-height 0.3s ease, padding 0.2s;
 }
-.acc-body:not([hidden]) { max-height: 600px; }
+.acc-body:not([hidden]) { max-height: 3000px; }
 .acc-body[hidden] { display: block !important; max-height: 0; }
 
 /* PROJECT DEFINITION BLOCK */
@@ -768,6 +768,68 @@ tr:hover td { background:#fff; }
                 <li>Фокус: непрерывная ценность для клиента и бизнеса, а не разовая сдача проекта.</li>
                 <li>Бэклог и метрики команды связаны со стратегическими целями стрима.</li>
               </ul>
+            </div>
+          </div>
+
+          <div class="section-title">Типы БФ-команд</div>
+          <div class="diagram-container" style="margin-bottom:16px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Тип</th>
+                  <th>Определение</th>
+                  <th>Фокус</th>
+                  <th>Ключевые метрики</th>
+                  <th>Признаки</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color:#0369a1">ПРОДУКТ</strong></td>
+                  <td>Решение с подтверждённой ценностью для внешнего клиента и измеримым бизнес-эффектом. Управляется на основе данных, гипотез и обратной связи.</td>
+                  <td>Создание, развитие и монетизация клиентской ценности</td>
+                  <td>Доход, удержание клиентов, NPS, активность пользователей, ROI</td>
+                  <td>Есть внешний клиент, приносит доход, развивается через гипотезы и итерации</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:#0369a1">КАНАЛ</strong></td>
+                  <td>Средство взаимодействия внешнего клиента с продуктами организации: доступ, информирование, оформление и получение ценности.</td>
+                  <td>Клиентский путь и опыт взаимодействия с продуктами</td>
+                  <td>MAU/DAU, конверсия, CTR, CSI, вовлечённость</td>
+                  <td>Не создаёт самостоятельной ценности, но обеспечивает доступ к продуктам и влияет на клиентский опыт</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:#0369a1">СЕРВИС</strong></td>
+                  <td>Автономная функциональная единица, обеспечивающая выполнение бизнес-операций, обработку данных и поддержку продуктов или каналов. Имеет SLA и чёткие границы ответственности.</td>
+                  <td>Операционная эффективность, надёжность и качество выполнения функций</td>
+                  <td>SLA, Uptime, Latency, Error rate, MTTR, производительность</td>
+                  <td>Нет внешнего клиента, критичен для внутренних операций, измеряется через SLA и операционные метрики</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="section-title">Состав команды</div>
+          <div class="bf-metrics">
+            <div class="bf-metric">
+              <div class="bf-metric-title">Product Owner — 20%</div>
+              <div class="bf-metric-desc">Единственный владелец бэклога, определяет приоритеты.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Разработчики (FE/BE) — 50%</div>
+              <div class="bf-metric-desc">Frontend и Backend: реализуют функциональность.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Дизайнер (UX/UI) — 20%</div>
+              <div class="bf-metric-desc">Отвечает за пользовательский опыт.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Архитектор — 30%</div>
+              <div class="bf-metric-desc">Обеспечивает техническую целостность решения.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Scrum Master</div>
+              <div class="bf-metric-desc">Соблюдение процессов и операционных ритмов.</div>
             </div>
           </div>
 
