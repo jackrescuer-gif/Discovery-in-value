@@ -691,10 +691,10 @@ tr:hover td { background:#fff; }
       </div>
     </div>
 
-    <!-- Project Definition Block (п.2.2) — accordion -->
+    <!-- Project Definition + Criteria — объединённый accordion (#17) -->
     <div class="acc-wrap" style="margin-bottom:28px">
       <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
-        <span>Что такое Проект</span>
+        <span>Что такое Проект и рекомендации по выбору фреймворка</span>
         <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="acc-body" hidden>
@@ -726,16 +726,8 @@ tr:hover td { background:#fff; }
         </div>
       </div>
     </div>
-      </div><!-- /acc-body -->
-    </div><!-- /acc-wrap -->
-
-    <!-- Criteria (п.2.4) — accordion -->
-    <div class="acc-wrap" style="margin-bottom:28px">
-      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
-        <span>Рекомендации по выбору проектного фреймворка</span>
-        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="acc-body" hidden>
+    <div style="margin-top:20px">
+      <div style="font-size:0.85rem;font-weight:600;color:var(--accent);margin-bottom:12px;">Признаки проекта — когда выбираем проектный фреймворк</div>
     <div class="crit-grid crit-grid-6">
       <div class="crit"><div class="crit-icon">🎯</div><div class="crit-name">Значимый результат и ценности</div><div class="crit-desc">Чёткий конечный результат, ценности и метрики, определяемые на начальных стадиях или по итогам фазы оценки</div></div>
       <div class="crit"><div class="crit-icon">⏱</div><div class="crit-name">Срочность / ограниченность по времени</div><div class="crit-desc">Чёткие временные рамки реализации, фиксированный дедлайн</div></div>
@@ -743,6 +735,7 @@ tr:hover td { background:#fff; }
       <div class="crit"><div class="crit-icon">👥</div><div class="crit-name">Много участников и стейкхолдеров</div><div class="crit-desc">Широкий круг участников и заинтересованных сторон, требующих координации</div></div>
       <div class="crit"><div class="crit-icon">🧑‍💼</div><div class="crit-name">Выделенный Проектный менеджер</div><div class="crit-desc">Необходима дополнительная административная координация в лице выделенного PM</div></div>
       <div class="crit"><div class="crit-icon">📋</div><div class="crit-name">Прозрачный мониторинг</div><div class="crit-desc">Оперативный статус, мониторинг здоровья и параметров для стейкхолдеров и коллегиальных органов</div></div>
+    </div>
     </div>
       </div><!-- /acc-body -->
     </div><!-- /acc-wrap -->
@@ -880,7 +873,7 @@ tr:hover td { background:#fff; }
       <div class="fwc pr">
         <div class="fwh"><div class="fwi">🏗</div><div><div class="fwtl">ПРОЕКТ</div><div class="fwst">Ограниченный по времени и стоимости комплекс мероприятий по созданию уникальных продуктов, сервисов и услуг</div></div></div>
         <div class="fwb">
-          <div class="fbx"><div class="fll">Когда выбираем (п.2.4)</div>
+          <div class="fbx"><div class="fll">Когда выбираем</div>
             <div class="fit"><div class="fd"></div>Значимый результат, ценности и метрики определены или определяются в фазе оценки</div>
             <div class="fit"><div class="fd"></div>Срочность или ограниченность во времени</div>
             <div class="fit"><div class="fd"></div>Высокая комплексность: много взаимосвязанных изменений в ИТ и интеграций</div>
