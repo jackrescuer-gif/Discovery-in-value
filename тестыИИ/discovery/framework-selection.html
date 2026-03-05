@@ -924,17 +924,18 @@ tr:hover td { background:#fff; }
           <div class="fbx"><div class="fll">Когда выбираем</div>
             <div class="fit"><div class="fd"></div>Малый объём — ниже порогового значения</div>
             <div class="fit"><div class="fd"></div>Нет зависимостей между командами</div>
-            <div class="fit"><div class="fd"></div>Типовая / повторяющаяся активность</div>
-            <div class="fit"><div class="fd"></div>Решение принимает одна команда</div>
-            <div class="fit"><div class="fd"></div>Не требует отдельного управления</div>
+            <div class="fit"><div class="fd"></div>Типовая / повторяющаяся активность без отдельного контура метрик</div>
+            <div class="fit"><div class="fd"></div>Решение и исполнение в рамках одной команды</div>
+            <div class="fit"><div class="fd"></div>Не требует выделенного управления и отдельного фреймворка</div>
+            <div class="fit"><div class="fd"></div>При росте объёма или появлении кросс-командных зависимостей переводится в БФ-команду/проект</div>
           </div>
           <div><div class="fll">Вход / Выход</div>
             <div class="fior">
-              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Описание задачи</div><div class="fioi">Ответственный</div></div>
-              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Задача в бэклоге</div><div class="fioi">Оценка (SP / дни)</div><div class="fioi">Приоритет в спринте</div></div>
+              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI / операционная потребность</div><div class="fioi">Описание задачи</div><div class="fioi">Ответственный</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Задача в бэклоге</div><div class="fioi">Оценка (SP / дни)</div><div class="fioi">Приоритет в спринте</div><div class="fioi">Критерий пересмотра фреймворка</div></div>
             </div>
           </div>
-          <div><div class="fll">Результат Delivery</div><div class="fbdg">⚡ Выполнение в спринте</div></div>
+          <div><div class="fll">Результат Delivery</div><div class="fbdg">⚡ Выполнение в спринте без отдельного трека</div></div>
         </div>
       </div>
     </div>
@@ -960,7 +961,9 @@ tr:hover td { background:#fff; }
     </div>
 
     <div class="note">
-      <strong>Ключевое правило:</strong> Решение о фреймворке принимается на <strong>финале Discovery</strong> — когда есть оценка объёма, зависимостей и валидированные гипотезы. Ценности и метрики фиксируются в паспорте проекта; для фазы оценки (предпроекта) допускается их отсутствие. Если в ходе Delivery параметры существенно меняются — возможен пересмотр фреймворка.
+      <strong>Ключевое правило:</strong> Решение о фреймворке принимается на <strong>финале Discovery</strong> — когда есть оценка объёма, зависимостей и валидированные гипотезы.
+      Если нужен уникальный результат с фиксированными сроком/бюджетом — это <strong>Проект</strong>. Если объект управления — <strong>продукт, канал или сервис</strong> с операционными ритмами и системой метрик — это <strong>БФ-команда</strong>.
+      Если задача типовая, локальная и без кросс-командных зависимостей — это <strong>не проектные задачи</strong>. При изменении параметров в Delivery или на квартальном пересмотре фреймворк обновляется.
     </div>
 
     <div style="margin-top:20px;font-size:0.85rem;color:#64748b;">
