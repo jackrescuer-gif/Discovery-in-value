@@ -31,7 +31,7 @@
     const btn = createEl('button', {
       class: 'fb-floating-btn',
       type: 'button'
-    }, ['✉️ Фидбек']);
+    }, ['✉️ Обратная связь']);
 
     const overlay = createEl('div', { class: 'fb-overlay', 'aria-hidden': 'true' });
     const dialog = createEl('div', { class: 'fb-dialog', role: 'dialog', 'aria-modal': 'true' });

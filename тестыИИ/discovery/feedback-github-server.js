@@ -1,4 +1,4 @@
-// Мини-сервер для приёма фидбека с сайта и создания GitHub Issues.
+// Мини-сервер для приёма обратной связи с сайта и создания GitHub Issues.
 // Запуск:
 //   GITHUB_TOKEN=... GITHUB_OWNER=... GITHUB_REPO=... node feedback-github-server.js
 
