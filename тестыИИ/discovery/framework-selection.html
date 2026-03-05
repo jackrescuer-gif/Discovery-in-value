@@ -453,6 +453,30 @@ tr:hover td { background:#fff; }
   .crit-grid { grid-template-columns:1fr; }
   .crit-grid-6 { grid-template-columns:1fr; }
 }
+
+/* Back-to-top button (унифицировано с visualization.html) */
+.fab-top {
+  position: fixed;
+  right: 22px;
+  top: 140px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #1e3a5f;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.22);
+  display: none;
+  z-index: 1090;
+}
+
+.fab-top.visible {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
 </head>
 <body data-page-id="framework-selection">
@@ -689,6 +713,8 @@ tr:hover td { background:#fff; }
 
 </div><!-- /container -->
 
+<button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
+
 <script src="feedback-widget.js"></script>
 <script>const CURRENT_PAGE = 'framework-selection.html';</script>
 <script src="nav.js"></script>
@@ -735,8 +761,26 @@ function setupPageTransitions() {
   });
 }
 
+function updateBackToTopVisibility() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const fab = document.getElementById('backToTop');
+  if (!fab) return;
+  fab.classList.toggle('visible', scrollTop > 500);
+}
+
+function setupBackToTop() {
+  const button = document.getElementById('backToTop');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  updateBackToTopVisibility();
+  window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   setupPageTransitions();
+  setupBackToTop();
   if (window.initFeedbackWidget) {
     window.initFeedbackWidget('framework-selection');
   }

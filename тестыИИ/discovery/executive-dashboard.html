@@ -958,6 +958,30 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Back-to-top button (унифицировано с visualization.html) */
+        .fab-top {
+            position: fixed;
+            right: 22px;
+            top: 140px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.22);
+            display: none;
+            z-index: 1090;
+        }
+
+        .fab-top.visible {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -1183,6 +1207,8 @@
             <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Apage%3Aexecutive-dashboard" target="_blank">обратная связь по дашборду</a>
         </section>
     </div>
+
+    <button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
 
     <script>const CURRENT_PAGE = 'executive-dashboard.html';</script>
     <script src="nav.js"></script>
@@ -2353,6 +2379,23 @@
             }, 140);
         }
 
+        function updateBackToTopVisibility() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const fab = document.getElementById("backToTop");
+            if (!fab) return;
+            fab.classList.toggle("visible", scrollTop > 500);
+        }
+
+        function setupBackToTop() {
+            const button = document.getElementById("backToTop");
+            if (!button) return;
+            button.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+            updateBackToTopVisibility();
+            window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
+        }
+
         function setupPageTransitions() {
             const links = document.querySelectorAll("a.nav-link");
             links.forEach(link => {
@@ -2390,6 +2433,7 @@
         });
         setupStrategicCategoryFilters();
         setupPageTransitions();
+        setupBackToTop();
         render();
         setupEmbedMode();
         if (window.initFeedbackWidget) {

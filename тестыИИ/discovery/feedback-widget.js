@@ -149,7 +149,7 @@
   .fb-floating-btn {
     position: fixed;
     left: 20px;
-    top: 90px;
+    bottom: 20px;
     z-index: 1100;
     border-radius: 999px;
     border: 1px solid rgba(30,58,95,0.18);
@@ -275,7 +275,7 @@
   @media (max-width: 600px) {
     .fb-floating-btn {
       left: 12px;
-      top: 80px;
+      bottom: 12px;
       padding: 7px 12px;
       font-size: 0.8rem;
     }
