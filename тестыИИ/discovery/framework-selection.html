@@ -947,12 +947,14 @@ tr:hover td { background:#fff; }
         <tbody>
           <tr><td>Результат и ценности</td><td><span class="bp">✓ Значимый результат, ценности и метрики фиксируются в паспорте</span></td><td><span class="bx">Продуктовые цели и метрики</span></td><td><span class="bx">Задача выполнена</span></td></tr>
           <tr><td>Срочность / время</td><td><span class="bp">Ограничено: фиксированная дата и бюджет</span></td><td><span class="bt">Итеративно, без даты закрытия</span></td><td><span class="bn">В рамках спринта</span></td></tr>
-          <tr><td>Комплексность решения</td><td><span class="bp">Высокая: много ИТ-изменений и интеграций</span></td><td><span class="bt">Средняя: развитие домена</span></td><td><span class="bn">Низкая: типовая задача</span></td></tr>
-          <tr><td>Участники и стейкхолдеры</td><td><span class="bp">Много: кросс-командные зависимости</span></td><td><span class="bt">Внутри домена</span></td><td><span class="bn">Один исполнитель / команда</span></td></tr>
-          <tr><td>Управление</td><td><span class="bp">Выделенный Проектный менеджер</span></td><td><span class="bt">Владелец продукта</span></td><td><span class="bn">Тимлид / исполнитель</span></td></tr>
-          <tr><td>Мониторинг и отчётность</td><td><span class="bp">Регулярная: для стейкхолдеров и коллег. органов</span></td><td><span class="bt">Спринт-ревью, OKR</span></td><td><span class="bn">Статус в задаче</span></td></tr>
+          <tr><td>Комплексность решения</td><td><span class="bp">Высокая: много ИТ-изменений и интеграций</span></td><td><span class="bt">Средняя: развитие домена/стрима</span></td><td><span class="bn">Низкая: типовая задача</span></td></tr>
+          <tr><td>Объект управления</td><td><span class="bp">Уникальный результат проекта</span></td><td><span class="bt">Продукт, канал или сервис</span></td><td><span class="bn">Отдельная операционная задача</span></td></tr>
+          <tr><td>Участники и стейкхолдеры</td><td><span class="bp">Много: кросс-командные зависимости</span></td><td><span class="bt">Стрим (до 12 БФ-команд) + поддерживающие подразделения</span></td><td><span class="bn">Один исполнитель / команда</span></td></tr>
+          <tr><td>Управление</td><td><span class="bp">Выделенный Проектный менеджер</span></td><td><span class="bt">PO/лид команды + операционные ритмы</span></td><td><span class="bn">Тимлид / исполнитель</span></td></tr>
+          <tr><td>Мониторинг и отчётность</td><td><span class="bp">Регулярная: для стейкхолдеров и коллег. органов</span></td><td><span class="bt">Продуктовые, процессные, стратегические и технические метрики</span></td><td><span class="bn">Статус в задаче</span></td></tr>
+          <tr><td>Операционные ритмы</td><td><span class="bp">Контрольные точки и статусные комитеты</span></td><td><span class="bt">Планирование, демо, ретро, квартальные стратегические сессии</span></td><td><span class="bn">Ритм спринта / операционный цикл</span></td></tr>
           <tr><td>Бюджет</td><td><span class="bp">Отдельный, утверждённый</span></td><td><span class="bx">Бюджет команды</span></td><td><span class="bx">Бюджет команды</span></td></tr>
-          <tr><td>Итог Delivery</td><td><span class="bp">Паспорт + закрытие проекта</span></td><td><span class="bt">Инкрементальные релизы</span></td><td><span class="bn">Задача → спринт</span></td></tr>
+          <tr><td>Итог Delivery</td><td><span class="bp">Паспорт + закрытие проекта</span></td><td><span class="bt">MVP, инкрементальные релизы и масштабирование</span></td><td><span class="bn">Задача → спринт</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -975,7 +977,8 @@ tr:hover td { background:#fff; }
     <p class="fc-hint">
       Этапы 1–5 из README (инициализация, исследование, формулирование и валидация гипотез, прототипирование решения)
       сводятся в блок <strong>Discovery</strong>. На этой схеме показано, как по итогам Discovery и оценки объёма/зависимостей
-      мы принимаем решение о формате реализации перед входом в <strong>Delivery</strong> (этапы 7–9).
+      мы принимаем решение о формате реализации перед входом в <strong>Delivery</strong> (этапы 7–9): проект, БФ-команда
+      (продукт/канал/сервис в ритмах и метриках стрима) или не проектные задачи.
     </p>
     <p class="fc-hint" style="margin-top:4px;">
       Перетащите схему или используйте +/− для масштаба. На мобильном — щипок для зума.
@@ -1198,7 +1201,7 @@ function buildFC() {
   // ── Q3 ──
   const Y3=Y2+DH+70;
   diamond(CX,Y3,DW,DH,'rgba(0,212,170,0.07)','#00d4aa');
-  multiTxt(['Объём > порога','команды?'],CX,Y3+DH/2,{s:10.5,c:C.accent,w:'500'});
+  multiTxt(['Продукт/канал/сервис','в ритмах и метриках стрима?'],CX,Y3+DH/2,{s:10.5,c:C.accent,w:'500'});
 
   // YES down → BF TEAM
   line(CX,Y3+DH,CX,Y3+DH+60,C.team,'mtm');
@@ -1223,14 +1226,14 @@ function buildFC() {
   fcG.appendChild(svgEl('rect',{x:CX-FW/2,y:YFR,width:FW,height:FH,rx:10,fill:'rgba(14,165,233,0.07)',stroke:C.team,'stroke-width':'2'}));
   fcG.appendChild(svgEl('rect',{x:CX-FW/2,y:YFR,width:FW,height:6,rx:3,fill:C.team}));
   txt('⚙️ БФ-КОМАНДА',CX,YFR+22,{s:12,c:C.team,w:'700'});
-  multiTxt(['Эпики в бэклог','Существующая команда'],CX,YFR+48,{s:9,c:C.muted});
-  txt('→ Инкрем. релизы',CX,YFR+FH-12,{s:9,c:C.team,w:'500'});
+  multiTxt(['Стрим + операционные ритмы','Метрики и бэклог команды'],CX,YFR+48,{s:9,c:C.muted});
+  txt('→ MVP и инкрем. релизы',CX,YFR+FH-12,{s:9,c:C.team,w:'500'});
 
   // НЕ ПРОЕКТНЫЕ (left)
   fcG.appendChild(svgEl('rect',{x:XL-FW/2,y:YFR,width:FW,height:FH,rx:10,fill:'rgba(139,92,246,0.07)',stroke:C.task,'stroke-width':'2'}));
   fcG.appendChild(svgEl('rect',{x:XL-FW/2,y:YFR,width:FW,height:6,rx:3,fill:C.task}));
   txt('✅ НЕ ПРОЕКТНЫЕ',XL,YFR+22,{s:12,c:C.task,w:'700'});
-  multiTxt(['Задача в бэклог','Один исполнитель'],XL,YFR+48,{s:9,c:C.muted});
+  multiTxt(['Типовая задача в бэклог','Локальное исполнение'],XL,YFR+48,{s:9,c:C.muted});
   txt('→ Выполнение в спринте',XL,YFR+FH-12,{s:9,c:C.task,w:'500'});
 
   // ── DELIVERY ──
