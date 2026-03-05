@@ -402,6 +402,154 @@ tr:hover td { background:#fff; }
 }
 .note strong { color: var(--accent); }
 
+/* BF TEAM EXPANDED MODEL */
+.bf-block {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 20px;
+}
+.bf-intro {
+  background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.86rem;
+  color: #0f172a;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.bf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.bf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.bf-card-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 8px;
+}
+.bf-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bf-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+.bf-list li:last-child { margin-bottom: 0; }
+.bf-list li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+.bf-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.bf-ti {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 12px;
+}
+.bf-ti-stage {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 6px;
+}
+.bf-ti-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+.bf-steps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.bf-step {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: #fff;
+}
+.bf-step-title {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.bf-step-result {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: #0f766e;
+  background: rgba(0,212,170,0.08);
+  border: 1px solid rgba(0,212,170,0.3);
+  border-radius: 8px;
+  padding: 8px 10px;
+  line-height: 1.45;
+}
+.bf-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.bf-metric {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: var(--surface);
+}
+.bf-metric-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.bf-metric-desc {
+  font-size: 0.79rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.bf-rhythms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.bf-rhythm {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text-primary);
+}
+
 /* FLOWCHART TAB */
 .fc-wrap {
   background: var(--surface);
@@ -435,6 +583,10 @@ tr:hover td { background:#fff; }
   .fw-grid { grid-template-columns:1fr 1fr; }
   .io-grid { grid-template-columns:1fr; }
   .def-elements { grid-template-columns:1fr 1fr; }
+  .bf-grid { grid-template-columns:1fr; }
+  .bf-timeline { grid-template-columns:1fr 1fr; }
+  .bf-steps { grid-template-columns:1fr; }
+  .bf-metrics { grid-template-columns:1fr; }
   header { padding:28px; }
   .content { padding:24px; }
 }
@@ -444,6 +596,7 @@ tr:hover td { background:#fff; }
   .fw-grid { grid-template-columns:1fr; }
   .fior { grid-template-columns:1fr; }
   .def-elements { grid-template-columns:1fr; }
+  .bf-timeline { grid-template-columns:1fr; }
   header { padding:20px; }
   header h1 { font-size:1.3rem; }
   .content { padding:16px; }
@@ -594,6 +747,133 @@ tr:hover td { background:#fff; }
       </div><!-- /acc-body -->
     </div><!-- /acc-wrap -->
 
+    <!-- BF Team Expanded Block -->
+    <div class="acc-wrap" style="margin-bottom:28px">
+      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
+        <span>БФ-команды и стрим: расширенное описание фреймворка</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" hidden>
+        <div class="bf-block">
+          <div class="bf-intro">
+            БФ-фреймворк применяется, когда инициативу нужно развивать итеративно в продуктовой логике: через стримы, стабильные команды, единые операционные ритмы и прозрачные метрики.
+          </div>
+
+          <div class="bf-grid">
+            <div class="bf-card">
+              <div class="bf-card-title">Стрим и состав</div>
+              <ul class="bf-list">
+                <li>Стрим может содержать до 12 бизнес-функциональных команд.</li>
+                <li>Поддерживающие подразделения могут входить в состав стрима.</li>
+                <li>Примеры стримов: цифровые финансовые активы, информационные сервисы, коллективные инвестиции.</li>
+              </ul>
+            </div>
+            <div class="bf-card">
+              <div class="bf-card-title">Объект управления</div>
+              <ul class="bf-list">
+                <li>Объект управления: продукт, канал или сервис.</li>
+                <li>Фокус: непрерывная ценность для клиента и бизнеса, а не разовая сдача проекта.</li>
+                <li>Бэклог и метрики команды связаны со стратегическими целями стрима.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="section-title">Жизненный цикл продукта</div>
+          <div class="bf-timeline">
+            <div class="bf-ti"><div class="bf-ti-stage">Kick Off</div><div class="bf-ti-desc">Настройка операционных ритмов.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Исследование</div><div class="bf-ti-desc">Lean Canvas, user flow, процессы TO BE.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Планирование</div><div class="bf-ti-desc">Формирование бэклога и разработка MVP.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Реализация</div><div class="bf-ti-desc">Разработка и тестирование MVP.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Выпуск</div><div class="bf-ti-desc">Вывод в продуктив, включение в каталог.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Оценка</div><div class="bf-ti-desc">Анализ результатов MVP, P&amp;L и мониторинг успеха.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Масштабирование</div><div class="bf-ti-desc">Новые user stories, улучшения, итерации.</div></div>
+          </div>
+
+          <div class="section-title">Жизненный цикл БФ-команды</div>
+          <div class="bf-steps">
+            <div class="bf-step">
+              <div class="bf-step-title">1. Подготовка к запуску команды</div>
+              <ul class="bf-list">
+                <li>Определение цели, ролей, продуктовых и бизнес-метрик.</li>
+                <li>Формирование high-level бэклога и оценка ресурсов.</li>
+                <li>Подбор участников по компетенциям и орг-диагностика.</li>
+                <li>Подготовка материалов для утверждения.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> утверждены материалы, создание команды и целевые метрики.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">2. Старт работы команды</div>
+              <ul class="bf-list">
+                <li>Комплектование команды и внесение данных в учётные системы.</li>
+                <li>Настройка доступов и погружение участников во фреймворк.</li>
+                <li>Запуск мониторинга метрик и плана операционных ритмов.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> команда укомплектована, доступы получены, мониторинг и события запланированы.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">3. Работа команды</div>
+              <ul class="bf-list">
+                <li>Реализация задач бэклога и актуализация данных в системах.</li>
+                <li>Регулярный мониторинг метрик и проведение ритмов.</li>
+                <li>Планирование, демо и ретроспектива на постоянной основе.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> функциональность выведена в продуктив, команда стабилизирована.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">4. Закрытие или продление команды</div>
+              <ul class="bf-list">
+                <li>Подготовка отчёта по целям, метрикам и результатам.</li>
+                <li>Согласование с руководством и решение по аллокации.</li>
+                <li>Закрытие команды в системах или продление с новым контуром задач.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> отчёт подготовлен, решение по ресурсам принято, статус команды зафиксирован.</div>
+            </div>
+          </div>
+
+          <div class="section-title">Метрики: измерение продвижения к целям</div>
+          <div class="bf-intro" style="margin-bottom:12px;">
+            Метрики не существуют изолированно: запаздывающие отражают факт результата, опережающие помогают заранее скорректировать действия.
+          </div>
+          <div class="bf-metrics">
+            <div class="bf-metric">
+              <div class="bf-metric-title">Продуктовые и бизнес-метрики</div>
+              <div class="bf-metric-desc">P&amp;L, LTV, ROI, CIR, NPS, CSI, AARRR — финансовая успешность и ценность продукта.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Процессные метрики</div>
+              <div class="bf-metric-desc">T2M, Lead Time, Cycle Time, Velocity, предсказуемость, spillover — эффективность исполнения и загрузка.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Стратегические метрики</div>
+              <div class="bf-metric-desc">% достижения OKR, вовлечённость сотрудников, продуктовая и техническая зрелость — потенциал роста.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Технические метрики</div>
+              <div class="bf-metric-desc">Defect Leakage, доступность, Flow Distribution, Technical Debt, DORA, покрытие и автоматизация тестов.</div>
+            </div>
+          </div>
+
+          <div class="section-title">Инструменты управления и ритмы</div>
+          <div class="diagram-container" style="margin-bottom:10px;">
+            <table>
+              <thead><tr><th>Действие</th><th>Период</th><th>Результат</th><th>Участники</th><th>Частота</th></tr></thead>
+              <tbody>
+                <tr><td>Анализ квартала</td><td>Квартал</td><td>Оценка прогресса и выводы</td><td>Заинтересованные стороны</td><td>3 раза в квартал</td></tr>
+                <tr><td>Планирование квартала</td><td>Квартал</td><td>Актуализированный бэклог стрима</td><td>Заинтересованные стороны</td><td>3 раза в квартал, 4 часа</td></tr>
+                <tr><td>Перепланирование квартала</td><td>Квартал</td><td>Корректировка по продуктовым основаниям</td><td>Заинтересованные стороны</td><td>3 раза в квартал</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bf-rhythms">
+            <span class="bf-rhythm">Еженедельное планирование</span>
+            <span class="bf-rhythm">Демонстрация результатов</span>
+            <span class="bf-rhythm">Ретроспектива</span>
+            <span class="bf-rhythm">Ежеквартальная стратегическая сессия</span>
+          </div>
+        </div>
+      </div><!-- /acc-body -->
+    </div><!-- /acc-wrap -->
+
     <!-- FW cards -->
     <div class="section-title">Фреймворки реализации</div>
     <div class="fw-grid">
@@ -622,19 +902,19 @@ tr:hover td { background:#fff; }
         <div class="fwh"><div class="fwi">⚙️</div><div><div class="fwtl">БФ-КОМАНДА</div><div class="fwst">Постоянная продуктовая команда с бэклогом</div></div></div>
         <div class="fwb">
           <div class="fbx"><div class="fll">Когда выбираем</div>
-            <div class="fit"><div class="fd"></div>Развитие существующего продукта / домена</div>
-            <div class="fit"><div class="fd"></div>Итеративная поставка без даты закрытия</div>
-            <div class="fit"><div class="fd"></div>Команда уже существует с бэклогом</div>
-            <div class="fit"><div class="fd"></div>Зависимости внутри домена</div>
-            <div class="fit"><div class="fd"></div>Объём вписывается в текущую команду</div>
+            <div class="fit"><div class="fd"></div>Управление продуктом, каналом или сервисом в рамках стрима</div>
+            <div class="fit"><div class="fd"></div>Итеративная поставка без фиксированной даты закрытия</div>
+            <div class="fit"><div class="fd"></div>Работа в операционных ритмах: планирование, демо, ретро</div>
+            <div class="fit"><div class="fd"></div>Объём работ покрывается ресурсами БФ-команды и стрима</div>
+            <div class="fit"><div class="fd"></div>Решение требует прозрачного мониторинга продуктовых и процессных метрик</div>
           </div>
           <div><div class="fll">Вход / Выход</div>
             <div class="fior">
-              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Цели и метрики</div><div class="fioi">Описание ценности</div><div class="fioi">Контекст</div></div>
-              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Эпики / фичи</div><div class="fioi">Приоритезация</div><div class="fioi">Definition of Done</div><div class="fioi">Критерии успеха</div></div>
+              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Цели и метрики</div><div class="fioi">High-level бэклог</div><div class="fioi">Роли и компетенции</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Эпики / фичи / user stories</div><div class="fioi">План операционных ритмов</div><div class="fioi">Мониторинг метрик</div><div class="fioi">Отчёт по целям и аллокации</div></div>
             </div>
           </div>
-          <div><div class="fll">Результат Delivery</div><div class="fbdg">🔄 Инкрементальные релизы</div></div>
+          <div><div class="fll">Результат Delivery</div><div class="fbdg">🔄 MVP и инкрементальные релизы</div></div>
         </div>
       </div>
 
