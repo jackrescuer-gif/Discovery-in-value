@@ -415,8 +415,10 @@
               Дискавери <span class="nav-arrow">▾</span>
             </span>
             <div class="global-nav-dropdown-menu">
+              <a href="visualization.html" class="global-nav-dropdown-item nav-link" data-page="visualization.html">Процесс Дискавери</a>
               <a href="hypothesis-digest.html" class="global-nav-dropdown-item nav-link" data-page="hypothesis-digest.html">Дайджест проверки гипотез</a>
               <a href="executive-dashboard.html" class="global-nav-dropdown-item nav-link" data-page="executive-dashboard.html">Дайджест процесса Дискавери</a>
+              <a href="framework-selection.html" class="global-nav-dropdown-item nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
             </div>
           </div>
 
