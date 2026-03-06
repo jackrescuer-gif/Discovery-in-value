@@ -398,7 +398,8 @@
     "executive-dashboard.html",
     "visualization.html",
     "framework-selection.html",
-    "process-board.html"
+    "process-board.html",
+    "cross-process.html"
   ];
 
   const normalizedCurrent = currentPage.split("?")[0].split("#")[0];
@@ -421,6 +422,7 @@
               <a href="executive-dashboard.html" class="global-nav-dropdown-item nav-link" data-page="executive-dashboard.html">Дайджест процесса Дискавери</a>
               <a href="framework-selection.html" class="global-nav-dropdown-item nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
               <a href="process-board.html" class="global-nav-dropdown-item nav-link" data-page="process-board.html">Схема процесса (Holst Board)</a>
+              <a href="cross-process.html" class="global-nav-dropdown-item nav-link" data-page="cross-process.html">Сквозной процесс</a>
             </div>
           </div>
 
