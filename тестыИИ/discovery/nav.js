@@ -41,6 +41,7 @@
           <a href="delivery.html" class="global-nav-link nav-link" data-page="delivery.html">Delivery</a>
           <a href="holst-process-diagram.html" class="global-nav-link nav-link" data-page="holst-process-diagram.html">Holst диаграмма</a>
           <a href="cross-process.html" class="global-nav-link nav-link" data-page="cross-process.html">Кросс-процесс</a>
+          <a href="process-board.html" class="global-nav-link nav-link" data-page="process-board.html">Схема процесса</a>
         </div>
       </div>
     </nav>
