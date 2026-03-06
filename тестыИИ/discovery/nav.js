@@ -84,6 +84,7 @@
         gap: 8px;
         justify-content: center;
         flex: 1;
+        align-items: center;
       }
 
       .global-nav-link {
@@ -126,6 +127,123 @@
         color: #1e3a5f !important;
       }
 
+      /* =============================================
+         DROPDOWN — Discovery sub-tabs
+         ============================================= */
+
+      .global-nav-dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .global-nav-dropdown-toggle {
+        text-decoration: none !important;
+        color: #e5e7eb !important;
+        padding: 6px 12px !important;
+        border-radius: 999px !important;
+        font-size: 0.85rem !important;
+        font-weight: 500 !important;
+        border: 1px solid transparent !important;
+        background: transparent !important;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        cursor: pointer;
+        margin: 0 !important;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      .global-nav-dropdown-toggle:visited {
+        color: #e5e7eb !important;
+      }
+
+      .global-nav-dropdown-toggle:hover,
+      .global-nav-dropdown-toggle:focus,
+      .global-nav-dropdown:hover .global-nav-dropdown-toggle {
+        background: rgba(255, 255, 255, 0.14) !important;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        border: 1px solid transparent !important;
+      }
+
+      .global-nav-dropdown-toggle.active,
+      .global-nav-dropdown-toggle.active:visited {
+        background: #ffffff !important;
+        color: #1e3a5f !important;
+        border: 1px solid rgba(15, 23, 42, 0.16) !important;
+      }
+
+      .global-nav-dropdown-toggle.active:hover {
+        background: #ffffff !important;
+        color: #1e3a5f !important;
+      }
+
+      .global-nav-dropdown-toggle .nav-arrow {
+        font-size: 0.65rem !important;
+        opacity: 0.8;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .global-nav-dropdown:hover .nav-arrow,
+      .global-nav-dropdown.open .nav-arrow {
+        transform: rotate(180deg);
+      }
+
+      .global-nav-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18), 0 2px 8px rgba(15, 23, 42, 0.08);
+        min-width: 220px;
+        padding: 6px;
+        z-index: 2000;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+      }
+
+      .global-nav-dropdown:hover .global-nav-dropdown-menu,
+      .global-nav-dropdown.open .global-nav-dropdown-menu {
+        display: block;
+      }
+
+      .global-nav-dropdown-item {
+        display: block !important;
+        text-decoration: none !important;
+        color: #1e3a5f !important;
+        padding: 9px 14px !important;
+        border-radius: 8px !important;
+        font-size: 0.85rem !important;
+        font-weight: 500 !important;
+        border: none !important;
+        background: transparent !important;
+        transition: background 0.15s ease, color 0.15s ease;
+        margin: 1px 0 !important;
+        white-space: nowrap;
+      }
+
+      .global-nav-dropdown-item:visited {
+        color: #1e3a5f !important;
+      }
+
+      .global-nav-dropdown-item:hover,
+      .global-nav-dropdown-item:focus {
+        background: #f0f4ff !important;
+        color: #1e3a5f !important;
+        text-decoration: none !important;
+      }
+
+      .global-nav-dropdown-item.active {
+        background: #e8eeff !important;
+        color: #1e3a5f !important;
+        font-weight: 600 !important;
+      }
+
       @media (max-width: 640px) {
         .global-nav-inner {
           padding: 8px 12px;
@@ -136,9 +254,15 @@
         .global-nav-brand {
           font-size: 0.95rem !important;
         }
-        .global-nav-link {
+        .global-nav-link,
+        .global-nav-dropdown-toggle {
           font-size: 0.8rem !important;
           padding: 5px 10px !important;
+        }
+        .global-nav-dropdown-menu {
+          left: 0;
+          transform: none;
+          min-width: 190px;
         }
       }
 
@@ -268,16 +392,35 @@
     ? ` style="margin-top:-${bodyPaddingTop}px;margin-left:-${bodyPaddingLeft}px;margin-right:-${bodyPaddingRight}px;padding-left:${bodyPaddingLeft}px;padding-right:${bodyPaddingRight}px;"`
     : '';
 
+  // Discovery sub-pages for active state detection
+  const discoveryPages = [
+    "hypothesis-digest.html",
+    "executive-dashboard.html",
+    "visualization.html",
+    "framework-selection.html"
+  ];
+
+  const normalizedCurrent = currentPage.split("?")[0].split("#")[0];
+  const isDiscoveryActive = discoveryPages.includes(normalizedCurrent);
+
   const navHtml = `
     <nav class="global-nav"${navStyle}>
       <div class="global-nav-inner">
-        <a href="visualization.html" class="global-nav-brand nav-link">Discovery Process</a>
+        <a href="filtration.html" class="global-nav-brand nav-link">Поток создания ценности</a>
         <div class="global-nav-links">
-          <a href="visualization.html" class="global-nav-link nav-link" data-page="visualization.html">Процесс Discovery</a>
-          <a href="hypothesis-digest.html" class="global-nav-link nav-link" data-page="hypothesis-digest.html">Дайджест гипотез</a>
-          <a href="executive-dashboard.html" class="global-nav-link nav-link" data-page="executive-dashboard.html">Дайджест процесса Discovery</a>
-          <a href="framework-selection.html" class="global-nav-link nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
-          <a href="delivery.html" class="global-nav-link nav-link" data-page="delivery.html">Delivery</a>
+          <a href="filtration.html" class="global-nav-link nav-link" data-page="filtration.html">Фильтрация</a>
+
+          <div class="global-nav-dropdown" id="discovery-dropdown">
+            <span class="global-nav-dropdown-toggle${isDiscoveryActive ? ' active' : ''}">
+              Дискавери <span class="nav-arrow">▾</span>
+            </span>
+            <div class="global-nav-dropdown-menu">
+              <a href="hypothesis-digest.html" class="global-nav-dropdown-item nav-link" data-page="hypothesis-digest.html">Дайджест проверки гипотез</a>
+              <a href="executive-dashboard.html" class="global-nav-dropdown-item nav-link" data-page="executive-dashboard.html">Дайджест процесса Дискавери</a>
+            </div>
+          </div>
+
+          <a href="delivery.html" class="global-nav-link nav-link" data-page="delivery.html">Деливери</a>
         </div>
       </div>
     </nav>
@@ -285,7 +428,7 @@
 
   placeholder.innerHTML = navHtml;
 
-  const normalizedCurrent = currentPage.split("?")[0].split("#")[0];
+  // Mark active top-level links
   placeholder.querySelectorAll(".global-nav-link").forEach((link) => {
     const href = link.getAttribute("href") || "";
     const file = href.split("?")[0].split("#")[0];
@@ -294,6 +437,28 @@
     }
   });
 
+  // Mark active dropdown items
+  placeholder.querySelectorAll(".global-nav-dropdown-item").forEach((item) => {
+    const href = item.getAttribute("href") || "";
+    const file = href.split("?")[0].split("#")[0];
+    if (file === normalizedCurrent) {
+      item.classList.add("active");
+    }
+  });
+
+  // Toggle dropdown on click (for touch devices)
+  const dropdown = placeholder.querySelector("#discovery-dropdown");
+  if (dropdown) {
+    const toggle = dropdown.querySelector(".global-nav-dropdown-toggle");
+    toggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      dropdown.classList.toggle("open");
+    });
+    document.addEventListener("click", function () {
+      dropdown.classList.remove("open");
+    });
+  }
+
   /* AUTO-WRAP HEADERS: automatically wrap page headers that aren't inside proper containers */
   function autoWrapHeaders() {
     const headerSelectors = [
@@ -301,12 +466,11 @@
       'section.hero-section:not(.wrapped)',
       '.page-hero:not(.wrapped)'
     ];
-    
+
     headerSelectors.forEach(selector => {
       const headers = document.querySelectorAll(selector);
       headers.forEach(header => {
         if (!header.closest('.page-hero-wrap, .auto-hero-wrap, .page, .container')) {
-          // Header is not wrapped properly, let's wrap it
           const wrapper = document.createElement('div');
           wrapper.className = 'auto-hero-wrap';
           header.parentNode.insertBefore(wrapper, header);
