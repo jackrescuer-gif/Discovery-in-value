@@ -37,6 +37,10 @@
           <a href="hypothesis-digest.html" class="global-nav-link nav-link" data-page="hypothesis-digest.html">Дайджест гипотез</a>
           <a href="executive-dashboard.html" class="global-nav-link nav-link" data-page="executive-dashboard.html">Дайджест процесса Discovery</a>
           <a href="framework-selection.html" class="global-nav-link nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
+          <a href="filtration.html" class="global-nav-link nav-link" data-page="filtration.html">Фильтрация</a>
+          <a href="delivery.html" class="global-nav-link nav-link" data-page="delivery.html">Delivery</a>
+          <a href="holst-process-diagram.html" class="global-nav-link nav-link" data-page="holst-process-diagram.html">Holst диаграмма</a>
+          <a href="cross-process.html" class="global-nav-link nav-link" data-page="cross-process.html">Кросс-процесс</a>
         </div>
       </div>
     </nav>
