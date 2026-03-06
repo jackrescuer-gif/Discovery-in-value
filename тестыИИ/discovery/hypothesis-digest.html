@@ -303,16 +303,87 @@
     <div id="nav-placeholder"></div>
     <div class="container">
         <header class="page-hero">
-            <h1>Дайджест проверки гипотез</h1>
-            <p class="subtitle">Короткий weekly-снимок: что проверили, какие сигналы получили и какие решения приняли.</p>
+            <h1>Гипотезы в Value Creation Stream</h1>
+            <p class="subtitle">Гипотезы используются во всех типах discovery (Product, Project, Operational, Strategic, Experimentation). Короткий weekly-снимок: какие гипотезы проверили, какие сигналы получили и какие решения приняли.</p>
             <div class="meta">Обновлено: <span id="updatedAt">—</span></div>
         </header>
 
         <main>
             <section class="section">
                 <div class="note">
-                    Используйте страницу как шаблон для еженедельного синка Discovery-команды: фиксируйте результаты экспериментов, решения по гипотезам и фокус на следующую неделю.
+                    Используйте страницу как шаблон для еженедельного синка Discovery-команды (независимо от выбранного framework). Фиксируйте результаты проверки гипотез, полученные сигналы и решения по итогам недели.
                 </div>
+            </section>
+
+            <section class="section">
+                <h2>Четыре типа гипотез в Discovery</h2>
+                <p style="color: #64748b; margin-bottom: 16px;">Во всех типах discovery используются разные типы гипотез. Вот четыре основные категории:</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <article style="background: #e3f2fd; padding: 16px; border-radius: 6px; border-left: 4px solid #1565c0;">
+                        <h3 style="color: #0d47a1; font-size: 1rem; margin-bottom: 8px;">1. Value Hypothesis</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;"><strong>«Будет ли это решение создавать ценность для клиента/бизнеса?»</strong></p>
+                        <p style="font-size: 0.85rem; color: #555;">Примеры: «Сокращение checkout на 30% повысит конверсию на 15%» | «Автоматизация этого процесса сэкономит 20% времени»</p>
+                    </article>
+
+                    <article style="background: #f3e5f5; padding: 16px; border-radius: 6px; border-left: 4px solid #512da8;">
+                        <h3 style="color: #4a148c; font-size: 1rem; margin-bottom: 8px;">2. Problem Hypothesis</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;"><strong>«Существует ли реальная проблема, которую мы хотим решить?»</strong></p>
+                        <p style="font-size: 0.85rem; color: #555;">Примеры: «30% пользователей бросают checkout из-за сложности» | «Процесс approval требует среднего 5 дней»</p>
+                    </article>
+
+                    <article style="background: #e8f5e9; padding: 16px; border-radius: 6px; border-left: 4px solid #2e7d32;">
+                        <h3 style="color: #1b5e20; font-size: 1rem; margin-bottom: 8px;">3. Solution Hypothesis</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;"><strong>«Будет ли это конкретное решение работать?»</strong></p>
+                        <p style="font-size: 0.85rem; color: #555;">Примеры: «Одностраничный checkout улучшит конверсию» | «Workflow automation инструмент сократит время»</p>
+                    </article>
+
+                    <article style="background: #fff3e0; padding: 16px; border-radius: 6px; border-left: 4px solid #e65100;">
+                        <h3 style="color: #bf360c; font-size: 1rem; margin-bottom: 8px;">4. Impact Hypothesis</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;"><strong>«Какой будет масштаб воздействия?»</strong></p>
+                        <p style="font-size: 0.85rem; color: #555;">Примеры: «Это затронет 50K пользователей в месяц» | «Улучшение повысит revenue на ₽2M в год»</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Гипотезы по типам Discovery Frameworks</h2>
+                <p style="color: #64748b; margin-bottom: 16px;">Разные frameworks фокусируются на разных гипотезах:</p>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 12px;">
+                    <thead>
+                        <tr style="background: #f5f5f5; border-bottom: 2px solid #ddd;">
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Framework</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Основной фокус</th>
+                            <th style="padding: 12px; text-align: left; font-weight: 600;">Типичные гипотезы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; color: #1565c0; font-weight: 600;">Product Discovery</td>
+                            <td style="padding: 12px;">Customer value & Problem</td>
+                            <td style="padding: 12px; font-size: 0.9rem;">Problem Hypothesis, Value Hypothesis, Solution Hypothesis</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; color: #2e7d32; font-weight: 600;">Project Initiation</td>
+                            <td style="padding: 12px;">Requirements & Feasibility</td>
+                            <td style="padding: 12px; font-size: 0.9rem;">Technical Feasibility, Scope Hypothesis, Resource Hypothesis</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; color: #e65100; font-weight: 600;">Operational Improvement</td>
+                            <td style="padding: 12px;">Process & ROI</td>
+                            <td style="padding: 12px; font-size: 0.9rem;">Cost Reduction Hypothesis, Efficiency Hypothesis, Impact Hypothesis</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px; color: #6a1b9a; font-weight: 600;">Strategic Exploration</td>
+                            <td style="padding: 12px;">Market & Strategy</td>
+                            <td style="padding: 12px; font-size: 0.9rem;">Market Hypothesis, Competitive Hypothesis, Strategic Hypothesis</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; color: #d32f2f; font-weight: 600;">Experimentation</td>
+                            <td style="padding: 12px;">Learning & Validation</td>
+                            <td style="padding: 12px; font-size: 0.9rem;">Quick Learning Hypothesis, Rapid Validation Hypothesis</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
 
             <section class="section">
