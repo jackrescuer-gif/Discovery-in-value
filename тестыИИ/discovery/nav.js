@@ -397,7 +397,8 @@
     "hypothesis-digest.html",
     "executive-dashboard.html",
     "visualization.html",
-    "framework-selection.html"
+    "framework-selection.html",
+    "process-board.html"
   ];
 
   const normalizedCurrent = currentPage.split("?")[0].split("#")[0];
@@ -419,6 +420,7 @@
               <a href="hypothesis-digest.html" class="global-nav-dropdown-item nav-link" data-page="hypothesis-digest.html">Дайджест проверки гипотез</a>
               <a href="executive-dashboard.html" class="global-nav-dropdown-item nav-link" data-page="executive-dashboard.html">Дайджест процесса Дискавери</a>
               <a href="framework-selection.html" class="global-nav-dropdown-item nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
+              <a href="process-board.html" class="global-nav-dropdown-item nav-link" data-page="process-board.html">Схема процесса (Holst Board)</a>
             </div>
           </div>
 
