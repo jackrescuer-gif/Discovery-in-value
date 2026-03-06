@@ -651,7 +651,8 @@ tr:hover td { background:#fff; }
   </header>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('overview',this)">Обзор</button>
+    <button class="tab active" onclick="switchTab('overview',this)">Обзор Framework Selection</button>
+    <button class="tab" onclick="switchTab('delivery-package',this)">📦 Delivery Package</button>
     <button class="tab" onclick="switchTab('flowchart',this)">Схема развилки</button>
   </div>
 
@@ -1115,7 +1116,142 @@ tr:hover td { background:#fff; }
 
   </div>
 
-  <!-- TAB 2: FLOWCHART -->
+  <!-- TAB 2: DELIVERY PACKAGE -->
+  <div class="tab-content" id="tab-delivery-package" style="display: none;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h2 style="font-size: 1.5rem; color: #1e3a5f; margin-bottom: 16px;">📦 Delivery Package: стандартный выход Discovery</h2>
+
+      <p style="color: #64748b; margin-bottom: 20px; line-height: 1.6;">
+        <strong>Delivery Package</strong> — это комплексный артефакт, который создаётся после завершения Discovery независимо от выбранного framework. Это стандартный, структурированный выход, который передаётся из Discovery Governance в Delivery Execution.
+      </p>
+
+      <div style="background: #f3e5f5; border-left: 4px solid #7b1fa2; padding: 16px; margin-bottom: 24px; border-radius: 4px;">
+        <p style="color: #4a148c; margin: 0; font-weight: 600;">💡 Ключевой принцип:</p>
+        <p style="color: #6a1b9a; margin: 8px 0 0 0;">Независимо от того, был ли Discovery выполнен через Product Discovery, Project Initiation, Operational Improvement, Strategic Exploration или Experimentation — выход ВСЕГДА имеет одинаковую структуру: Delivery Package.</p>
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: #1e3a5f; margin-top: 24px; margin-bottom: 12px;">📋 Структура Delivery Package</h3>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+        <article style="background: #e3f2fd; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #1565c0; margin-bottom: 10px;">1. Problem Statement & Opportunity</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Чётко сформулированная проблема или возможность<br/>
+            • Данные и доказательства, подтверждающие проблему<br/>
+            • Бизнес-контекст и стратегическое обоснование<br/>
+            • Целевая аудитория и их боли
+          </p>
+        </article>
+
+        <article style="background: #e8f5e9; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #2e7d32; margin-bottom: 10px;">2. Solution Concept</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Описание предложенного решения<br/>
+            • Как решение решает проблему<br/>
+            • Ключевые фичи и компоненты<br/>
+            • Валидация концепции (если применимо)
+          </p>
+        </article>
+
+        <article style="background: #fff3e0; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #e65100; margin-bottom: 10px;">3. Scope Definition</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • What's IN scope (что входит)<br/>
+            • What's OUT of scope (что не входит)<br/>
+            • Зависимости от других инициатив<br/>
+            • Ограничения и constraints
+          </p>
+        </article>
+
+        <article style="background: #fce4ec; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #c2185b; margin-bottom: 10px;">4. Implementation Approach</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Архитектура решения<br/>
+            • Технологический стек (если relevant)<br/>
+            • Интеграции и взаимодействия<br/>
+            • Риски и mitigation strategies
+          </p>
+        </article>
+
+        <article style="background: #e0f2f1; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #00695c; margin-bottom: 10px;">5. Delivery Roadmap</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Фазы реализации<br/>
+            • Сроки и вехи<br/>
+            • Приоритизация функционала<br/>
+            • MVP и итерации (если applicable)
+          </p>
+        </article>
+
+        <article style="background: #f1f8e9; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #558b2f; margin-bottom: 10px;">6. Team Model & Governance</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Предлагаемая модель команды<br/>
+            • Ролевые назначения<br/>
+            • Коммуникационные каналы<br/>
+            • Управление и reporting структура
+          </p>
+        </article>
+
+        <article style="background: #ede7f6; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #512da8; margin-bottom: 10px;">7. Success Metrics (KPIs)</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Measurable KPIs (как мы знаем, что это успех)<br/>
+            • Baseline data (текущее состояние)<br/>
+            • Target (целевое значение)<br/>
+            • Мониторинг и reporting
+          </p>
+        </article>
+
+        <article style="background: #efebe9; border-radius: 6px; padding: 16px;">
+          <h4 style="color: #4e342e; margin-bottom: 10px;">8. Budget & Resources</h4>
+          <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+            • Оценка затрат (Development, Testing, Ops)<br/>
+            • Требуемые ресурсы<br/>
+            • Временные затраты<br/>
+            • ROI и финансовое обоснование
+          </p>
+        </article>
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: #1e3a5f; margin-top: 24px; margin-bottom: 12px;">🔄 Различия между Delivery Packages для разных Frameworks</h3>
+
+      <div style="background: #f5f5f5; padding: 16px; border-radius: 6px; margin-bottom: 24px;">
+        <p style="color: #333; margin-bottom: 12px; font-weight: 600;">Хотя структура Delivery Package одинакова, содержание варьируется в зависимости от framework:</p>
+
+        <ul style="color: #555; line-height: 2;">
+          <li><strong>Product Discovery:</strong> Delivery Package содержит подробные данные о customer research, validated value prop и prototype feedback</li>
+          <li><strong>Project Initiation:</strong> Package фокусируется на requirements, architecture documentation и detailed project charter</li>
+          <li><strong>Operational Improvement:</strong> Package включает процесс mapping, улучшения и ROI analysis</li>
+          <li><strong>Strategic Exploration:</strong> Package содержит scenario analysis, strategic options и рекомендуемый путь</li>
+          <li><strong>Experimentation:</strong> Package фокусируется на hypothesis validation результатах и insights</li>
+        </ul>
+      </div>
+
+      <h3 style="font-size: 1.1rem; color: #1e3a5f; margin-top: 24px; margin-bottom: 12px;">✅ Delivery Package Readiness Checklist</h3>
+
+      <div style="background: white; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px;">
+        <p style="color: #333; margin-bottom: 12px; font-weight: 600;">Перед передачей в GO/NO-GO Review убедитесь:</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <ul style="color: #555; line-height: 1.8;">
+            <li>☑ Problem Statement ясен и подтверждён</li>
+            <li>☑ Solution Concept валидирован</li>
+            <li>☑ Scope чётко определён (IN/OUT)</li>
+            <li>☑ Все stakeholders согласованы</li>
+          </ul>
+          <ul style="color: #555; line-height: 1.8;">
+            <li>☑ KPIs измеримы и realistic</li>
+            <li>☑ Team model чёткая</li>
+            <li>☑ Бюджет оценен</li>
+            <li>☑ Риски идентифицированы</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: FLOWCHART -->
   <div class="tab-content" id="tab-flowchart">
     <p class="fc-hint">
       Этапы 1–5 из README (инициализация, исследование, формулирование и валидация гипотез, прототипирование решения)
