@@ -179,3 +179,4 @@ python3 -m http.server 8004
 - **Прототипирование**: Figma, Sketch, InVision, HTML/CSS прототипы
 - **Валидация**: A/B тесты, usability testing, метрики аналитики
 - **Документация**: Confluence, Notion, Miro, GitHub Wiki
+# Build cache bust
