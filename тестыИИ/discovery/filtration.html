@@ -1,114 +1,295 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Фильтрация — Поток создания ценности</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script>var CURRENT_PAGE = 'filtration.html';</script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Фильтрация — Discovery Process</title>
+<meta name="description" content="Поток создания ценности: стадия Фильтрации. Формулирование бизнес-ценности инициатив — критерии, роли, артефакты, скоринг и принятие решений.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/shared.css">
+<link rel="stylesheet" href="css/nav.css">
+<script src="nav.js" defer></script>
+<script src="feedback-widget.js" defer></script>
+<style>
+:root {
+  --filter-main: #1e3a5f;
+  --filter-accent: #00d4aa;
+}
 
-    body {
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      background: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-    }
+body { padding: 20px; opacity: 1; transition: opacity 0.18s ease; }
+body.page-leaving { opacity: 0; }
 
-    .page-wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 20px 60px;
-    }
+.container { max-width: 1280px; margin: 0 auto; }
 
-    .page-hero {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
-      color: #fff;
-      padding: 40px 40px 36px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(30, 58, 95, 0.15);
-      margin-bottom: 32px;
-    }
+header {
+  background: linear-gradient(135deg, var(--filter-main) 0%, #2c5282 100%);
+  color: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(30,58,95,0.15);
+  margin-bottom: 24px;
+}
 
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #fff;
-      margin-bottom: 16px;
-    }
+header h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
 
-    .page-hero h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 10px;
-      letter-spacing: -0.02em;
-      line-height: 1.25;
-    }
+header p { color: rgba(255,255,255,0.88); font-size: 1rem; line-height: 1.6; max-width: 820px; }
 
-    .page-hero p {
-      color: rgba(255,255,255,0.88);
-      font-size: 1rem;
-      line-height: 1.55;
-      max-width: 680px;
-    }
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 14px;
+}
 
-    .coming-soon-block {
-      background: #fff;
-      border-radius: 16px;
-      border: 2px dashed #c7d7f0;
-      padding: 80px 40px;
-      text-align: center;
-      color: #64748b;
-    }
+.section { margin-bottom: 28px; }
+.section h2 { font-size: 1.5rem; color: var(--filter-main); margin-bottom: 16px; border-bottom: 2px solid var(--filter-accent); padding-bottom: 12px; }
 
-    .coming-soon-block .icon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
+.sub-section { margin-bottom: 20px; padding: 20px; background: #f8fafc; border-radius: 12px; border-left: 4px solid var(--filter-accent); }
+.sub-section h3 { font-size: 1.1rem; color: var(--filter-main); margin-bottom: 12px; }
+.sub-section p { font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 8px; }
+.sub-section ul { margin-left: 20px; font-size: 0.95rem; color: #475569; }
+.sub-section li { margin-bottom: 8px; line-height: 1.6; }
 
-    .coming-soon-block h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #334155;
-      margin-bottom: 8px;
-    }
+.criteria-block { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.criteria-block h4 { color: var(--filter-main); margin-bottom: 12px; font-size: 1rem; }
+.criteria-list { display: flex; flex-direction: column; gap: 10px; }
+.criteria-item { display: flex; gap: 12px; align-items: flex-start; font-size: 0.95rem; }
+.criteria-item::before { content: "☐"; font-size: 1.2rem; color: var(--filter-accent); font-weight: bold; flex-shrink: 0; }
+.criteria-item span { color: #475569; line-height: 1.5; }
 
-    .coming-soon-block p {
-      font-size: 0.95rem;
-      color: #94a3b8;
-    }
-  </style>
+.role-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.role-table th { background: #f1f5f9; padding: 12px 16px; text-align: left; font-weight: 600; color: var(--filter-main); border-bottom: 2px solid var(--filter-accent); }
+.role-table td { padding: 12px 16px; border-bottom: 1px solid #e2e8f0; }
+.role-table tr:last-child td { border-bottom: none; }
+.role-table tr:nth-child(even) { background: #f9fafb; }
+
+.input-output { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.io-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+.io-card h4 { color: var(--filter-main); margin-bottom: 12px; }
+.io-card ul { margin-left: 20px; }
+.io-card li { font-size: 0.95rem; color: #475569; margin-bottom: 10px; line-height: 1.5; }
+
+.decision-box { background: linear-gradient(135deg, rgba(0,212,170,0.08) 0%, rgba(30,58,95,0.08) 100%); border: 2px solid var(--filter-accent); border-radius: 12px; padding: 20px; margin: 20px 0; }
+.decision-box h4 { color: var(--filter-main); margin-bottom: 12px; }
+.decision-box p { color: #475569; font-size: 0.95rem; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  header { padding: 24px; }
+  header h1 { font-size: 1.5rem; }
+  .input-output { grid-template-columns: 1fr; }
+  .role-table { font-size: 0.9rem; }
+  .role-table th, .role-table td { padding: 10px 12px; }
+}
+</style>
 </head>
 <body>
-  <div id="nav-placeholder"></div>
+<div id="nav-placeholder"></div>
 
-  <div class="page-wrap">
-    <div class="page-hero wrapped">
-      <div class="hero-pill">Поток создания ценности</div>
-      <h1>Фильтрация</h1>
-      <p>Раздел находится в разработке.</p>
+<div class="container">
+  <header>
+    <div class="hero-pill">Поток создания ценности</div>
+    <h1>Фильтрация</h1>
+    <p>Стадия формулирования бизнес-ценности инициатив. Определение эффекта, границ работ, оценки и зависимостей для принятия решения о приоритизации.</p>
+  </header>
+
+  <div class="section">
+    <h2>Назначение стадии</h2>
+    <div class="sub-section">
+      <h3>Кому</h3>
+      <p>Бизнес, клиенты внутренние и внешние</p>
     </div>
-
-    <div class="coming-soon-block">
-      <div class="icon">🔍</div>
-      <h2>Раздел в разработке</h2>
-      <p>Содержимое будет добавлено позже.</p>
+    <div class="sub-section">
+      <h3>Зачем</h3>
+      <p>Проявить влияние на уровне стратегии и драйверов. На какую цель влияем на уровне МОЕХ (стратегических фокусов)</p>
+    </div>
+    <div class="sub-section">
+      <h3>Финансовые показатели</h3>
+      <ul>
+        <li><strong>Сколько принесет:</strong> доход или экономия, какими метриками управляем</li>
+        <li><strong>Сколько готовы потратить:</strong> оценка стоимости по каждому изменению</li>
+      </ul>
     </div>
   </div>
 
-  <script src="nav.js"></script>
+  <div class="section">
+    <h2>Роли и ответственности</h2>
+    <table class="role-table">
+      <thead>
+        <tr>
+          <th>Уровень</th>
+          <th>Роль</th>
+          <th>Задача</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Команда</strong></td>
+          <td>СРО, СТО, РО и все входящие в команду</td>
+          <td>Груминг и декомпозиция инициатив/задач, взятие на себя обязательств и ответственности за результат. Оценка влияния кросс-задач/инициатив на ключевые показатели бизнеса и реализацию инициатив.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Правление</strong></td>
+          <td>Члены правления</td>
+          <td>Подкрепление корректного фокуса внимания, что мы действительно идем в нужном направлении. Решение блокаторов, кросс-функциональных конфликтов/зависимостей. Принятие сложных и непопулярных решений. Целеполагание и формирование вектора развития на разных горизонтах планирования (от годового до квартального).</td>
+        </tr>
+        <tr>
+          <td><strong>3. Центры компетенций</strong></td>
+          <td>Финансы, стратегия, комплаенс и др.</td>
+          <td>Связь со стратегией и бизнес-планом. Подтверждение, что ЦК готовы обеспечить реализацию в указанные сроки и в соответствии с бизнес-целью.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Критерии допуска (on entry)</h2>
+    <div class="criteria-block">
+      <h4>Бизнес-ценность (обязательно)</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span><strong>Ожидаемый эффект:</strong> сформулирован явно и измеримо</span></div>
+        <div class="criteria-item"><span><strong>Метрика:</strong> указана или определена прокси-метрика</span></div>
+        <div class="criteria-item"><span><strong>Связь со стратегией:</strong> понятно, как инициатива влияет на стратегический фокус периода</span></div>
+        <div class="criteria-item"><span><strong>Правило 60 секунд:</strong> эффект можно объяснить за 60 секунд</span></div>
+      </div>
+    </div>
+
+    <div class="criteria-block">
+      <h4>Границы PP / инициативы (обязательно)</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span><strong>Входящие эпики:</strong> понятно, какие эпики (задачи) входят в инициативу</span></div>
+        <div class="criteria-item"><span><strong>Исключающие критерии:</strong> четко определено, что не входит</span></div>
+        <div class="criteria-item"><span><strong>Скрытые объемы:</strong> нет скрытых "потом добавим еще"</span></div>
+        <div class="criteria-item"><span><strong>Правило размывания:</strong> если границы размыты — скоринг некорректен</span></div>
+      </div>
+    </div>
+
+    <div class="criteria-block">
+      <h4>Верхнеуровневая оценка (обязательно)</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span><strong>Серая оценка:</strong> есть приблизительная оценка инициативы</span></div>
+        <div class="criteria-item"><span><strong>Неизвестный объем:</strong> нет неизвестного объема более 30–40%</span></div>
+        <div class="criteria-item"><span><strong>Согласованность:</strong> оценка согласована на уровне понимания масштаба (не точность, а порядок)</span></div>
+      </div>
+    </div>
+
+    <div class="criteria-block">
+      <h4>Верхнеуровневые зависимости (обязательно)</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span><strong>Критические блокеры:</strong> указаны зависимости инициативы от других инициатив</span></div>
+        <div class="criteria-item"><span><strong>Влияние на других:</strong> указано, блокирует ли эта инициатива другие</span></div>
+        <div class="criteria-item"><span><strong>Отсутствие зависимостей:</strong> если зависимостей нет — это явно подтверждено</span></div>
+      </div>
+    </div>
+
+    <div class="criteria-block">
+      <h4>Скоринг валиден</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span><strong>Полнота параметров:</strong> все параметры модели скоринга заполнены</span></div>
+        <div class="criteria-item"><span><strong>Обоснование экстремумов:</strong> при экстремальных значениях есть краткое обоснование</span></div>
+        <div class="criteria-item"><span><strong>Отражение ценности:</strong> скоринг отражает ценность инициативы, а не отдельного эпика</span></div>
+      </div>
+    </div>
+
+    <div class="decision-box">
+      <h4>Минимальный порог допуска</h4>
+      <p>Инициатива участвует в формировании общего рейтинга только если:</p>
+      <div style="margin-left: 20px; margin-top: 10px; color: #475569; font-size: 0.95rem;">
+        <p>✔ Есть явный эффект</p>
+        <p>✔ Есть скоринг</p>
+        <p>✔ Есть первичная оценка</p>
+        <p>✔ Понятны границы инициативы</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Что НЕ требуется на Pre-PI/PI</h2>
+    <div class="sub-section">
+      <ul>
+        <li>Декомпозиция эпиков до задач</li>
+        <li>Детальная архитектура</li>
+        <li>Подтвержденная загрузка команд</li>
+        <li>Разложение по спринтам</li>
+        <li>Финальный релизный план</li>
+      </ul>
+      <p style="margin-top: 12px; color: #64748b; font-style: italic;">Это все — предмет планирования на PI и спринтовом уровне.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Инструменты и артефакты</h2>
+    <div class="criteria-block">
+      <h4>Инструменты</h4>
+      <div class="criteria-list">
+        <div class="criteria-item"><span>PI планирование</span></div>
+        <div class="criteria-item"><span>Jira (управление инициативами и эпиками)</span></div>
+        <div class="criteria-item"><span>Скоринг и модели приоритизации</span></div>
+        <div class="criteria-item"><span>Оценка (серая оценка, story points)</span></div>
+        <div class="criteria-item"><span>Коллегиальные органы (КПП, КПК, Правление и т.д.)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Входные и выходные данные</h2>
+    <div class="input-output">
+      <div class="io-card">
+        <h4>На входе</h4>
+        <ul>
+          <li>Ресурсная емкость (капасити) команд</li>
+          <li>Технический долг (техдолг)</li>
+          <li>Стратегические цели</li>
+          <li>Бэклог инициатив (первый уровень от ДЦ)</li>
+          <li>Бизнес-ценность (обязательно)</li>
+        </ul>
+      </div>
+      <div class="io-card">
+        <h4>На выходе</h4>
+        <ul>
+          <li>Единое целеполагание</li>
+          <li>Понимание эффекта и метрик</li>
+          <li>Ответственные за результат</li>
+          <li>Оценка загруженности команд</li>
+          <li>Структура приоритизированного бэклога</li>
+          <li>Выявленные блокаторы и зависимости</li>
+          <li>Технологические риски</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Процесс принятия решений</h2>
+    <div class="sub-section">
+      <h3>Точки контроля</h3>
+      <p>Решения принимаются по итогам:</p>
+      <ul>
+        <li>Ревью команд</li>
+        <li>Вывода инкремента</li>
+        <li>Завершения спринта</li>
+        <li>Pre-PI/PI планирования</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="feedback-widget"></div>
 </body>
 </html>
