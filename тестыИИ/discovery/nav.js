@@ -277,6 +277,7 @@
           <a href="hypothesis-digest.html" class="global-nav-link nav-link" data-page="hypothesis-digest.html">Дайджест гипотез</a>
           <a href="executive-dashboard.html" class="global-nav-link nav-link" data-page="executive-dashboard.html">Дайджест процесса Discovery</a>
           <a href="framework-selection.html" class="global-nav-link nav-link" data-page="framework-selection.html">Выбор фреймворка</a>
+          <a href="delivery.html" class="global-nav-link nav-link" data-page="delivery.html">Delivery</a>
         </div>
       </div>
     </nav>
