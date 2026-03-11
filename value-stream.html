@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Value Stream — этапы процесса</title>
+  <meta name="description" content="Поток создания ценности: три слоя, семь стадий — детальное описание этапов от фильтрации до реализации.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <script src="nav.js" defer></script>
+  <script src="feedback-widget.js" defer></script>
+  <style>
+    :root {
+      --mck-blue: #0066CC;
+      --mck-blue-dark: #003366;
+      --mck-gray-200: #E9ECEF;
+      --mck-gray-600: #6C757D;
+      --mck-gray-800: #343A40;
+      --mck-white: #FFFFFF;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --surface: #f1f5f9;
+      --layer-1: #0d9488;
+      --layer-1-dim: rgba(13,148,136,0.08);
+      --layer-2: #1e3a5f;
+      --layer-2-dim: rgba(30,58,95,0.08);
+      --layer-3: #7c3aed;
+      --layer-3-dim: rgba(124,58,237,0.08);
+      --card-radius: 12px;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+      background: var(--mck-white);
+      padding: 40px 20px;
+      line-height: 1.55;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    @media (min-width: 1024px) {
+      .value-stream-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+      .value-stream-sidebar { position: sticky; top: 24px; }
+      .value-stream-main { min-width: 0; }
+    }
+
+    .hero {
+      padding: 40px 32px;
+      background: radial-gradient(circle at top left, #ffffff 0%, #e6f2ff 40%, #dbeafe 100%);
+      border-radius: 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(30, 58, 95, 0.08);
+      border: 1px solid rgba(30, 58, 95, 0.08);
+    }
+    .hero-main { max-width: 720px; margin: 0 auto; text-align: center; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 102, 204, 0.08);
+      color: var(--mck-blue-dark);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(0, 102, 204, 0.2);
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--mck-blue-dark);
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .toc {
+      padding: 24px 28px;
+      background: radial-gradient(circle at top left, #ffffff 0%, #e6f2ff 38%, #dbeafe 100%);
+      border-radius: 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(30, 58, 95, 0.08);
+      border: 1px solid rgba(30, 58, 95, 0.08);
+    }
+    .toc h2 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--mck-blue-dark);
+      margin-bottom: 14px;
+    }
+    .toc ul { list-style: none; }
+    .toc > ul > li { margin-bottom: 12px; }
+    .toc ul ul {
+      padding-left: 16px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      border-left: 2px solid rgba(0, 102, 204, 0.2);
+    }
+    .toc ul ul li { margin-bottom: 4px; }
+    .toc li.toc-section > a {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .toc ul ul a { font-size: 0.875rem; }
+    .toc a {
+      color: var(--mck-blue);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .toc a:hover { text-decoration: underline; }
+    .toc a.active { font-weight: 600; color: var(--mck-blue-dark); }
+
+    /* ═══ Этап 3: Табы по слоям ═══ */
+    .layer-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .layer-tab {
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .layer-tab:hover {
+      background: var(--mck-white);
+      color: var(--text-primary);
+    }
+    .layer-tab.active {
+      background: var(--mck-white);
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+      font-weight: 600;
+    }
+    .layer-tab[data-tab="l1"].active { border-color: var(--layer-1); color: var(--layer-1); }
+    .layer-tab[data-tab="l2"].active { border-color: var(--layer-2); color: var(--layer-2); }
+    .layer-tab[data-tab="l3"].active { border-color: var(--layer-3); color: var(--layer-3); }
+    .layer-panel { display: none; }
+    .layer-panel.active { display: block; }
+
+    .layer-section {
+      margin-bottom: 40px;
+      padding-top: 8px;
+    }
+    .layer-section-header {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid;
+    }
+    .layer-section-header.layer-1 { border-bottom-color: var(--layer-1); }
+    .layer-section-header.layer-2 { border-bottom-color: var(--layer-2); }
+    .layer-section-header.layer-3 { border-bottom-color: var(--layer-3); }
+    .layer-section-intro {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .stage-card {
+      background: var(--mck-white);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .stage-card-header {
+      padding: 16px 20px;
+      border-top: 4px solid;
+    }
+    .stage-card.layer-1 .stage-card-header { border-top-color: var(--layer-1); }
+    .stage-card.layer-2 .stage-card-header { border-top-color: var(--layer-2); }
+    .stage-card.layer-3 .stage-card-header { border-top-color: var(--layer-3); }
+    .stage-card-header .stage-num {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .stage-card.layer-1 .stage-num { color: var(--layer-1); }
+    .stage-card.layer-2 .stage-num { color: var(--layer-2); }
+    .stage-card.layer-3 .stage-num { color: var(--layer-3); }
+    .stage-card-header h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .stage-card-header .layer-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+    }
+    .stage-card.layer-1 .layer-badge { background: var(--layer-1-dim); color: var(--layer-1); }
+    .stage-card.layer-2 .layer-badge { background: var(--layer-2-dim); color: var(--layer-2); }
+    .stage-card.layer-3 .layer-badge { background: var(--layer-3-dim); color: var(--layer-3); }
+
+    .stage-body { padding: 16px 20px 20px; }
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin: 16px 0 8px;
+    }
+    .stage-body .section-title:first-child { margin-top: 0; }
+    .stage-body p {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+    .stage-body ul {
+      list-style: none;
+      margin-bottom: 8px;
+    }
+    .stage-body ul li {
+      font-size: 0.9rem;
+      padding-left: 1em;
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .stage-body ul li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--text-secondary);
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .tag {
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .delivery-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px 0 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--layer-3);
+    }
+    .delivery-flow span.arrow { color: var(--text-secondary); }
+    .delivery-phase {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .delivery-phase:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+    .delivery-phase h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .delivery-phase .phase-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .tag.role-main { background: rgba(30,58,95,0.07); color: var(--layer-2); border: 1px solid rgba(30,58,95,0.12); }
+    .note-block {
+      background: rgba(124,58,237,0.04);
+      border-left: 3px solid var(--layer-3);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+    .gate-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .gate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+    }
+    .gate-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; flex-shrink: 0; }
+    .gaps-block {
+      background: #fffbeb;
+      border: 1.5px solid #f59e0b;
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+    }
+    .gaps-block h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gaps-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .gaps-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: #78350f;
+      line-height: 1.5;
+    }
+    .gaps-list .gap-num {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #f59e0b;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .monitoring-footer {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border: 1px solid #6ee7b7;
+      border-radius: 12px;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #065f46;
+      font-weight: 500;
+    }
+    .monitoring-footer .mon-icon { font-size: 1.2rem; }
+    .governance-banner {
+      background: linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0.1) 100%);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: var(--layer-3);
+      font-weight: 500;
+    }
+    .governance-banner .gov-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* ═══ Этап 1: Аккордеоны ═══ */
+    .stage-card-header {
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .stage-card-header:focus {
+      outline: 2px solid var(--mck-blue);
+      outline-offset: 2px;
+    }
+    .stage-card-header .stage-card-toggle {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: transform 0.2s ease;
+    }
+    .stage-card.expanded .stage-card-header .stage-card-toggle {
+      transform: rotate(180deg);
+    }
+    .stage-summary {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-top: 6px;
+      padding-right: 28px;
+    }
+    .stage-card.expanded .stage-summary { display: none; }
+    .stage-card-details {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s ease;
+    }
+    .stage-card.expanded .stage-card-details {
+      grid-template-rows: 1fr;
+    }
+    .stage-card-details > .stage-body {
+      overflow: hidden;
+      min-height: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+  <div class="container">
+
+    <header class="hero">
+      <div class="hero-main">
+        <div class="hero-badge">Поток создания ценности</div>
+        <h1>Детальное описание этапов процесса</h1>
+      </div>
+    </header>
+
+    <div class="value-stream-layout">
+      <aside class="value-stream-sidebar">
+        <nav class="toc" aria-label="Содержание">
+          <h2>Содержание</h2>
+          <ul>
+            <li class="toc-section">
+              <a href="#layer-1" data-panel="l1">Фильтрация</a>
+              <ul>
+                <li><a href="#stage-1">1. Фильтрация</a></li>
+                <li><a href="#stage-2">2. PI-планирование</a></li>
+                <li><a href="#stage-3">3. Портфель инициатив</a></li>
+              </ul>
+            </li>
+            <li class="toc-section">
+              <a href="#layer-2" data-panel="l2">Дискавери</a>
+              <ul>
+                <li><a href="#discovery-overview">Discovery — обзор</a></li>
+                <li><a href="#stage-4">4. Центр управления ценностью</a></li>
+                <li><a href="#stage-5">5. Выбор фреймворка</a></li>
+                <li><a href="#stage-6">6. Переход в Деливери</a></li>
+              </ul>
+            </li>
+            <li class="toc-section">
+              <a href="#layer-3" data-panel="l3">Деливери</a>
+              <ul>
+                <li><a href="#stage-7">7. Реализация и достижение ценности</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="value-stream-main">
+        <div class="layer-tabs" role="tablist" aria-label="Слои процесса">
+          <button type="button" class="layer-tab active" role="tab" aria-selected="true" data-tab="l1" id="tab-l1">Фильтрация</button>
+          <button type="button" class="layer-tab" role="tab" aria-selected="false" data-tab="l2" id="tab-l2">Дискавери</button>
+          <button type="button" class="layer-tab" role="tab" aria-selected="false" data-tab="l3" id="tab-l3">Деливери</button>
+        </div>
+    <section id="layer-1" class="layer-section layer-panel active" role="tabpanel" aria-labelledby="tab-l1" data-tab="l1">
+      <!-- Stage 1: Фильтрация (полный контент от заказчика) -->
+      <article id="stage-1" class="stage-card layer-1">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-1-body" id="stage-1-header">
+          <div>
+            <div class="stage-num">Стадия 1</div>
+            <h3>Фильтрация</h3>
+            <p class="stage-summary">Сформулировать измеримую бизнес-ценность инициатив и критерии допуска в рейтинг.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-1-body">
+        <div class="stage-body">
+          <p class="section-title">Цель</p>
+          <p>Сформулировать измеримую бизнес-ценность инициатив (PP) и понять, какие из них действительно влияют на стратегические цели и драйверы роста.</p>
+
+          <p class="section-title">Входы</p>
+          <ul>
+            <li>Ресурсная ёмкость (capacity) команд</li>
+            <li>Текущий техдолг</li>
+            <li>Цели периода</li>
+            <li>Бэклог инициатив первого уровня (от стратегии / OKR)</li>
+          </ul>
+
+          <p class="section-title">Ключевые вопросы</p>
+          <ul>
+            <li>На какой стратегический фокус и драйверы влияет инициатива?</li>
+            <li>Какой ожидается эффект (доход / экономия / снижение рисков)?</li>
+            <li>Какими метриками будем управлять?</li>
+            <li>Сколько готовы вложить ресурсов?</li>
+          </ul>
+
+          <p class="section-title">Критерии допуска инициативы (PP)</p>
+          <ul>
+            <li>Есть сформулированный ожидаемый эффект</li>
+            <li>Указана метрика или прокси-метрика</li>
+            <li>Понятно, как инициатива поддерживает стратегический фокус периода</li>
+            <li>Понятны границы PP (что входит / не входит, без «потом добавим ещё»)</li>
+            <li>Есть верхнеуровневая оценка объёма (без неизвестного объёма 30–40%)</li>
+            <li>Описаны ключевые зависимости от других PP или явно подтверждено их отсутствие</li>
+            <li>Скоринг заполнен и отражает ценность PP в целом, а не отдельных эпиков</li>
+          </ul>
+          <p><strong>Минимальный порог</strong> участия PP в общем рейтинге: есть эффект, есть скоринг, есть первичная оценка, понятны границы инициативы.</p>
+          <p><strong>На этом этапе не требуется:</strong> детальная техразметка и архитектура, декомпозиция до задач, привязка к конкретным спринтам и релизам — всё это предмет Pre-PI/PI.</p>
+
+          <p class="section-title">Выходы</p>
+          <p>Единое целеполагание по инициативам, понимание ожидаемого эффекта и ответственных, прозрачная загрузка команд и корректность использования ресурса, понятная структура бэклога и ключевых зависимостей/рисков.</p>
+
+          <p class="section-title">Роли</p>
+          <ul>
+            <li><strong>Команда (PO/BO/RO и ключевые участники)</strong> — груминг и декомпозиция инициатив, оценка влияния на бизнес-показатели, взятие ответственности за результат</li>
+            <li><strong>Уровень управления / правление</strong> — подтверждение фокуса, снятие блокаторов и кросс-функциональных конфликтов, принятие сложных решений, целеполагание на разных горизонтах</li>
+            <li><strong>Центры компетенций (финансы, стратегия, риск, комплаенс и др.)</strong> — связь со стратегией и бизнес-планом, подтверждение реализуемости в заданных сроках и ресурсах</li>
+          </ul>
+
+          <p class="section-title">Инструменты</p>
+          <p>PI-планирование, Jira, модели скоринга и оценки, коллегиальные органы (CPM, CPC, правление и др.).</p>
+        </div>
+        </div>
+      </article>
+
+      <!-- Stage 2: PI Planning (плейсхолдер) -->
+      <article id="stage-2" class="stage-card layer-1">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-2-body">
+          <div>
+            <div class="stage-num">Стадия 2</div>
+            <h3>PI-планирование</h3>
+            <p class="stage-summary">Планирование инкремента, укрупнённые оценки, согласование приоритетов.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-2-body">
+        <div class="stage-body">
+          <p class="section-title">Назначение</p>
+          <p>Планирование инкремента, укрупнённые оценки, согласование приоритетов.</p>
+          <p class="section-title">Входы / Выходы / Роли</p>
+          <p>[Описание будет добавлено]</p>
+        </div>
+        </div>
+      </article>
+
+      <!-- Stage 3: Initiative Portfolio (плейсхолдер) -->
+      <article id="stage-3" class="stage-card layer-1">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-3-body">
+          <div>
+            <div class="stage-num">Стадия 3</div>
+            <h3>Портфель инициатив</h3>
+            <p class="stage-summary">Формирование и сопровождение портфеля одобренных инициатив.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-3-body">
+        <div class="stage-body">
+          <p class="section-title">Назначение</p>
+          <p>Формирование и сопровождение портфеля одобренных инициатив.</p>
+          <p>[Описание будет добавлено]</p>
+        </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="layer-2" class="layer-section layer-panel" role="tabpanel" aria-labelledby="tab-l2" data-tab="l2">
+      <!-- Discovery — обзор этапа (цели, входы/выходы, метрики, VDO) -->
+      <article id="discovery-overview" class="stage-card layer-2">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="discovery-overview-body">
+          <div>
+            <div class="stage-num">Обзор</div>
+            <h3>Этап Discovery</h3>
+            <p class="stage-summary">Превратить идею в валидированную гипотезу и выбрать формат реализации (проект / БФ‑команда / flow).</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="discovery-overview-body">
+        <div class="stage-body">
+          <p class="section-title">Цель этапа</p>
+          <p>Превратить отфильтрованную идею в валидированную гипотезу решения и подобрать оптимальный формат реализации (проект, бизнес‑функциональная команда, потоковые задачи flow‑команд).</p>
+
+          <p class="section-title">Задача этапа</p>
+          <p>На основании приоритизированных инициатив после PI‑планирования провести исследования и экспертизу, чтобы для каждой инициативы:</p>
+          <ul>
+            <li>уточнить проблему и целевую аудиторию;</li>
+            <li>сформировать концепцию решения;</li>
+            <li>определить метрики успеха и ожидаемый эффект;</li>
+            <li>выбрать формат реализации: проект, БФ‑команда или задачи flow‑команд.</li>
+          </ul>
+
+          <p class="section-title">Входы и выходы Discovery</p>
+          <p><strong>Входы:</strong></p>
+          <ul>
+            <li>Приоритизированные идеи и инициативы, прошедшие фильтрацию и PI‑планирование.</li>
+          </ul>
+          <p><strong>Выходы:</strong></p>
+          <ul>
+            <li>Описанная и согласованная проблема и целевая аудитория.</li>
+            <li>Выбранная и обоснованная концепция решения.</li>
+            <li>Набор критериев успешности и ожидаемый эффект (бизнес‑, продуктовые, операционные метрики).</li>
+            <li>Рекомендованный формат реализации инициативы (проект / БФ‑команда / flow‑команда).</li>
+          </ul>
+
+          <p class="section-title">Метрики этапа</p>
+          <ul>
+            <li>Доля гипотез, признанных перспективными (после валидации).</li>
+            <li>Время discovery‑цикла от попадания инициативы в Discovery до выбора формата реализации и фиксации гипотезы.</li>
+          </ul>
+
+          <p class="section-title">Статусы инициатив в Discovery</p>
+          <ul>
+            <li><strong>В работе</strong> – инициатива в анализе, уточняются проблема, ЦА, контекст.</li>
+            <li><strong>Валидация</strong> – проводятся исследования, эксперименты, проверки гипотез.</li>
+            <li><strong>Подтверждена</strong> – гипотеза жизнеспособна, выбран формат реализации и метрики успеха.</li>
+            <li><strong>Отклонена</strong> – инициатива или гипотеза признаны неперспективными (с обоснованием причин).</li>
+          </ul>
+
+          <p class="section-title">Роль Центра управления ценностью (ЦУЦ)</p>
+          <p>Центр управления ценностью (ЦУЦ, VDO) – единая точка экспертизы и принятия решений по формату реализации инициатив. ЦУЦ:</p>
+          <ul>
+            <li>проводит исследования и экспертизу инициатив, прошедших фильтрацию;</li>
+            <li>проверяет инициативы по набору критериев: критерии для проектного формата, критерии для бизнес‑функциональных команд, критерии для задач flow‑команд;</li>
+            <li>принимает решение о формате реализации каждой инициативы на основе критериев и метрик;</li>
+            <li>работает с метриками инициатив: учитывает уже сформированные метрики, дополняет инициативы необходимыми метриками успешности реализации, формирует требования к сбору данных и отчётности;</li>
+            <li>собирает и агрегирует отчёты по метрикам и прогрессу реализации инициатив.</li>
+          </ul>
+
+          <p class="section-title">Состав Центра управления ценностью</p>
+          <p>В состав ЦУЦ входят:</p>
+          <ul>
+            <li>представители проектного офиса;</li>
+            <li>представители офиса развития продуктовых практик;</li>
+            <li>представители ITG;</li>
+            <li>Старший управляющий директор по информационным технологиям;</li>
+            <li>Старший управляющий директор по операционной эффективности;</li>
+            <li>представитель департамента стратегического развития.</li>
+          </ul>
+
+          <p class="section-title">Итоговое значение этапа Discovery</p>
+          <p>Discovery – это единый «зонтичный» этап после фильтрации инициатив, в рамках которого через работу ЦУЦ каждая инициатива:</p>
+          <ul>
+            <li>получает ясное описание проблемы и ЦА;</li>
+            <li>обретает валидированную гипотезу решения и метрики успеха;</li>
+            <li>получает оптимальный формат реализации и понятный маршрут дальше – в проект, бизнес‑функциональную команду или в потоковые/операционные задачи.</li>
+          </ul>
+          <p><a href="framework-selection.html">Подробнее: выбор фреймворка и пакет для доставки →</a></p>
+        </div>
+        </div>
+      </article>
+
+      <article id="stage-4" class="stage-card layer-2">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-4-body">
+          <div>
+            <div class="stage-num">Стадия 4</div>
+            <h3>Центр управления ценностью</h3>
+            <p class="stage-summary">Функция управления Discovery: классификация инициативы, тип неопределённости и ресурсы.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-4-body">
+        <div class="stage-body">
+          <p class="section-title">Назначение</p>
+          <p>Функция управления Discovery. Классифицирует инициативу, определяет тип неопределённости и ресурсы.</p>
+          <p>[Описание будет добавлено]</p>
+        </div>
+        </div>
+      </article>
+
+      <article id="stage-5" class="stage-card layer-2">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-5-body">
+          <div>
+            <div class="stage-num">Стадия 5</div>
+            <h3>Выбор фреймворка</h3>
+            <p class="stage-summary">Выбор формата реализации: проект, БФ-команда или задачи потоковых команд.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-5-body">
+        <div class="stage-body">
+          <p class="section-title">Назначение</p>
+          <p>Выбор одного из форматов реализации: <strong>проект</strong>, <strong>БФ-команда</strong> или <strong>задачи потоковых команд</strong>. Решение принимается по итогам Discovery с учётом объёма, зависимостей и характера инициативы.</p>
+          <p><a href="framework-selection.html">Подробнее: выбор фреймворка →</a></p>
+        </div>
+        </div>
+      </article>
+
+      <article id="stage-6" class="stage-card layer-2">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-6-body">
+          <div>
+            <div class="stage-num">Стадия 6</div>
+            <h3>Переход в Деливери</h3>
+            <p class="stage-summary">По итогам этапа Discovery в команды передаются артефакты для входа в Деливери и результат PI-планирования.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-6-body">
+        <div class="stage-body">
+          <p class="section-title">Назначение</p>
+          <p>Переход из этапа Discovery в Деливери. По итогам этапа Discovery в команды передаются следующие артефакты:</p>
+
+          <p class="section-title">Артефакты, передаваемые командам</p>
+          <ul>
+            <li><strong>Решение «идти или не идти»</strong> — зафиксированное GO/NO-GO по инициативе</li>
+            <li><strong>Зарегистрированная задача в Системе трекинга задач (Скоуп)</strong></li>
+            <li><strong>Скоринговый балл (приоритет)</strong></li>
+            <li><strong>Первичный набор требований</strong></li>
+            <li><strong>Первичный набор эпиков</strong></li>
+            <li><strong>Проведение сессии по задаче для входа в Деливери</strong></li>
+            <li><strong>Результат PI-планирования</strong></li>
+          </ul>
+
+          <p>Эти артефакты позволяют командам Деливери начать работу без повторного discovery.</p>
+        </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="layer-3" class="layer-section layer-panel" role="tabpanel" aria-labelledby="tab-l3" data-tab="l3">
+      <div class="governance-banner governance-banner-l3" role="note">
+        <span class="gov-icon" aria-hidden="true">🎯</span>
+        <span>Управление ресурсами, бюджетом и инициативами через <strong>Дерево целей Заказчика</strong></span>
+      </div>
+
+      <article id="stage-7" class="stage-card layer-3">
+        <div class="stage-card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="stage-7-body">
+          <div>
+            <div class="stage-num">Стадия 7</div>
+            <h3>Реализация и достижение ценности</h3>
+            <p class="stage-summary">Разработка → Приёмочное тестирование → Внедрение.</p>
+          </div>
+          <span class="stage-card-toggle" aria-hidden="true">▼</span>
+        </div>
+        <div class="stage-card-details" id="stage-7-body">
+        <div class="stage-body">
+          <p class="section-title">Этап Delivery</p>
+          <div class="delivery-flow">
+            <span>Разработка</span>
+            <span class="arrow">→</span>
+            <span>Приёмочное тестирование</span>
+            <span class="arrow">→</span>
+            <span>Внедрение</span>
+          </div>
+
+          <div class="delivery-phase" id="delivery-phase-1">
+            <h4>Этап 1. Разработка</h4>
+            <p class="phase-badge">Синхронизация с Регламентом SDLC · Этап Реализации и Тестирования</p>
+            <p class="section-title">Роли</p>
+            <div class="tag-list">
+              <span class="tag role-main">Деливери-менеджер / РО</span>
+              <span class="tag role-main">Разработчики</span>
+              <span class="tag role-main">Тестировщик (ручные и авто-тесты)</span>
+              <span class="tag role-main">Аналитик (t-shape)</span>
+              <span class="tag role-main">Тест-менеджер</span>
+              <span class="tag role-main">Менеджер по тестированию</span>
+            </div>
+            <div class="note-block">
+              До слэша — тип роли для классического процесса SDLC. После слэша — для продуктового подхода. Ответственное лицо определяется Матрицей типов фреймворков Регламента SDLC.
+            </div>
+            <p class="section-title">Артефакты</p>
+            <p><strong>↓ Вход на этап</strong></p>
+            <ul>
+              <li>Детальный набор эпиков (не более квартала)</li>
+              <li>User Story — не более спринта</li>
+              <li>Архитектурное решение</li>
+              <li>ТЗ, ЧТЗ / Детальное тех. задание</li>
+              <li>Оценка трудозатрат / Story Points</li>
+              <li>План Релиза и состав плана квартала</li>
+            </ul>
+            <p><strong>↑ Выход с этапа</strong></p>
+            <ul>
+              <li>Готовый протестированный код</li>
+              <li>Готовая фича</li>
+              <li>Отчёты по тестированию</li>
+            </ul>
+            <p class="section-title">Метрики</p>
+            <ul>
+              <li>Cycle-time</li>
+              <li>Lead time</li>
+              <li>Flow Efficiency (эффективность потока)</li>
+              <li>Defect containment</li>
+              <li>Throughput</li>
+              <li>Количество дефектов на этапе тестирования</li>
+            </ul>
+            <p class="section-title">Инструменты и церемонии</p>
+            <div class="tag-list" style="margin-bottom:8px">
+              <span class="tag">Jira</span>
+              <span class="tag">Confluence</span>
+              <span class="tag">РК</span>
+              <span class="tag">CI/CD</span>
+              <span class="tag">TestOps</span>
+            </div>
+            <ul>
+              <li>Проведение дейликов</li>
+              <li>Планирование спринтов</li>
+              <li>Код-ревью</li>
+              <li>Retrospective (после релиза)</li>
+            </ul>
+          </div>
+
+          <div class="delivery-phase" id="delivery-phase-2">
+            <h4>Этап 2. Приёмочное тестирование</h4>
+            <p class="phase-badge">Синхронизация с Регламентом SDLC · Этап тестирования</p>
+            <p class="section-title">Гейты</p>
+            <div class="gate-row">
+              <span class="gate-badge"><span class="dot"></span>РК</span>
+              <span class="gate-badge"><span class="dot"></span>Управление изменениями</span>
+            </div>
+            <p class="section-title">Роли</p>
+            <div class="tag-list">
+              <span class="tag role-main">Заказчик</span>
+              <span class="tag role-main">Бизнес-аналитик / Технолог</span>
+              <span class="tag role-main">Деливери</span>
+              <span class="tag role-main">РО</span>
+              <span class="tag role-main">Менеджер по приёмочному тестированию</span>
+            </div>
+            <p class="section-title">Артефакты</p>
+            <p><strong>↓ Вход на этап</strong></p>
+            <ul>
+              <li>Готовый протестированный код</li>
+              <li>Готовая фича</li>
+              <li>Отчёты по тестированию</li>
+            </ul>
+            <p><strong>↑ Выход с этапа</strong></p>
+            <ul>
+              <li>Готовый к внедрению согласованный код</li>
+              <li>Решение о внедрении на основании РК/КИ</li>
+              <li>Отчёт по результатам приёмочного тестирования</li>
+            </ul>
+            <p class="section-title">Метрики</p>
+            <ul>
+              <li>Количество найденных дефектов / количество критических дефектов</li>
+              <li>% прохождения UAT</li>
+              <li>Гейт прохождения UAT</li>
+            </ul>
+            <p class="section-title">Инструменты и церемонии</p>
+            <div class="tag-list" style="margin-bottom:8px">
+              <span class="tag">Jira</span>
+              <span class="tag">Confluence</span>
+              <span class="tag">РК (тестовые активности)</span>
+            </div>
+            <ul>
+              <li>Дейлики в части планирования</li>
+              <li>Демо-сессия / Review с заказчиком — демонстрация функциональности</li>
+            </ul>
+          </div>
+
+          <div class="delivery-phase" id="delivery-phase-3">
+            <h4>Этап 3. Внедрение</h4>
+            <p class="phase-badge">Синхронизация с Регламентом SDLC · Регламент процесса управления вводом систем в эксплуатацию</p>
+            <p class="section-title">Роли</p>
+            <div class="tag-list">
+              <span class="tag role-main">ИТ-Лидер Сопровождения</span>
+              <span class="tag role-main">Администратор сопровождения стендов</span>
+              <span class="tag role-main">Корпоративный архитектор</span>
+              <span class="tag role-main">Менеджер процесса управления конфигурациями</span>
+            </div>
+            <p class="section-title">Артефакты</p>
+            <p><strong>↓ Вход на этап</strong></p>
+            <ul>
+              <li>Готовый к внедрению согласованный код</li>
+              <li>Решение о внедрении на основании РК/КИ</li>
+              <li>Отчёт по результатам приёмочного тестирования</li>
+            </ul>
+            <p><strong>↑ Выход с этапа</strong></p>
+            <ul>
+              <li>Комплект эксплуатационной документации / Релиз-ноты</li>
+              <li>Акт о вводе системы в эксплуатацию</li>
+              <li>Карточка в CMDB, паспорт в ЕАМ</li>
+              <li>Закрытые задачи в Jira</li>
+            </ul>
+            <p class="section-title">Метрики</p>
+            <ul>
+              <li>Акт о вводе системы в эксплуатацию</li>
+              <li>Заполненная карточка системы в CMDB</li>
+              <li>Паспорт системы в ЕАМ</li>
+            </ul>
+            <p class="section-title">Инструменты и церемонии</p>
+            <div class="tag-list" style="margin-bottom:8px">
+              <span class="tag">Jira</span>
+              <span class="tag">Confluence</span>
+              <span class="tag">CMDB</span>
+              <span class="tag">EAM</span>
+            </div>
+            <ul>
+              <li>Церемонии в соответствии с фреймворком команд</li>
+            </ul>
+            <p style="margin-top:12px"><a href="delivery.html">Подробнее: страница Delivery →</a></p>
+          </div>
+        </div>
+        </div>
+      </article>
+
+      <div class="gaps-block" id="delivery-gaps">
+        <h3>⚠️ GAPs — выявленные пробелы</h3>
+        <ul class="gaps-list">
+          <li>
+            <span class="gap-num">1</span>
+            <span>Отсутствие синхронизации ролей, артефактов и церемоний, детализированного описания этапов SDLC для каждого типа фреймворка команд</span>
+          </li>
+          <li>
+            <span class="gap-num">2</span>
+            <span>Словарь — все термины и определения, используемые в потоке</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="monitoring-footer">
+        <span class="mon-icon" aria-hidden="true">🟢</span>
+        <span><strong>Мониторинг, постконтроль</strong> — Инспекция и адаптация</span>
+      </div>
+    </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    if (window.initFeedbackWidget) {
+      window.initFeedbackWidget('value-stream');
+    }
+    (function() {
+      document.querySelectorAll('.stage-card-header[role="button"]').forEach(function(header) {
+        header.addEventListener('click', function() {
+          var card = this.closest('.stage-card');
+          var expanded = card.classList.toggle('expanded');
+          this.setAttribute('aria-expanded', expanded);
+        });
+        header.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+      function switchTab(tabId) {
+        document.querySelectorAll('.layer-tab').forEach(function(t) {
+          var isActive = t.getAttribute('data-tab') === tabId;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive);
+        });
+        document.querySelectorAll('.layer-panel').forEach(function(p) {
+          p.classList.toggle('active', p.getAttribute('data-tab') === tabId);
+        });
+        document.querySelectorAll('.toc a[data-panel]').forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('data-panel') === tabId);
+        });
+      }
+      document.querySelectorAll('.layer-tab').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          switchTab(this.getAttribute('data-tab'));
+        });
+      });
+      document.querySelectorAll('.toc a[data-panel]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+          var panel = this.getAttribute('data-panel');
+          if (panel) {
+            e.preventDefault();
+            switchTab(panel);
+            var targetId = this.getAttribute('href').slice(1);
+            setTimeout(function() {
+              var el = document.getElementById(targetId);
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

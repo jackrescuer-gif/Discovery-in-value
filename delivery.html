@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Этап Delivery — Discovery Process</title>
+<meta name="description" content="Поток создания ценности: этап Delivery. Разработка, приёмочное тестирование, внедрение — роли, артефакты, метрики, инструменты и GAPs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-page: #f8fafc;
+  --accent: #1e3a5f;
+  --accent-end: #2c5282;
+  --accent-teal: #00d4aa;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --card-radius: 12px;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --border: #e2e8f0;
+  --surface: #f1f5f9;
+  --dev: #0ea5e9;
+  --dev-dim: rgba(14,165,233,0.08);
+  --test: #f97316;
+  --test-dim: rgba(249,115,22,0.08);
+  --deploy: #8b5cf6;
+  --deploy-dim: rgba(139,92,246,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { min-height:100%; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+body.page-leaving { opacity: 0; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+header.header {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-end) 100%);
+  color: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(30,58,95,0.15);
+  margin-bottom: 24px;
+}
+header.header h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+header.header p {
+  color: rgba(255,255,255,0.88);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 820px;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 14px;
+}
+
+/* ── GOVERNANCE BANNER ── */
+.governance-banner {
+  background: linear-gradient(135deg, rgba(30,58,95,0.06) 0%, rgba(44,82,130,0.06) 100%);
+  border: 1px solid rgba(30,58,95,0.15);
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+.governance-banner .gov-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── FLOW HEADER ── */
+.flow-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.flow-arrow {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.flow-stage-pill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.flow-stage-pill.dev   { background: var(--dev-dim); color: var(--dev); border: 1px solid rgba(14,165,233,0.2); }
+.flow-stage-pill.test  { background: var(--test-dim); color: var(--test); border: 1px solid rgba(249,115,22,0.2); }
+.flow-stage-pill.deploy{ background: var(--deploy-dim); color: var(--deploy); border: 1px solid rgba(139,92,246,0.2); }
+
+/* ── STAGES GRID ── */
+.stages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+@media (max-width: 1024px) { .stages-grid { grid-template-columns: 1fr; } }
+
+/* ── STAGE CARD ── */
+.stage-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-card-header {
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.stage-card-header .stage-num {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.stage-card-header h2 {
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.stage-sdlc-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-top: 2px;
+}
+
+/* Color themes per stage */
+.stage-card.dev .stage-card-header   { border-top: 4px solid var(--dev); }
+.stage-card.dev .stage-num           { color: var(--dev); }
+.stage-card.dev .stage-sdlc-badge    { background: var(--dev-dim); color: var(--dev); }
+
+.stage-card.test .stage-card-header  { border-top: 4px solid var(--test); }
+.stage-card.test .stage-num          { color: var(--test); }
+.stage-card.test .stage-sdlc-badge   { background: var(--test-dim); color: var(--test); }
+
+.stage-card.deploy .stage-card-header{ border-top: 4px solid var(--deploy); }
+.stage-card.deploy .stage-num        { color: var(--deploy); }
+.stage-card.deploy .stage-sdlc-badge { background: var(--deploy-dim); color: var(--deploy); }
+
+/* ── SECTIONS INSIDE CARD ── */
+.stage-body {
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.section-block {}
+.section-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+}
+.stage-card.dev   .section-title::before { background: var(--dev); }
+.stage-card.test  .section-title::before { background: var(--test); }
+.stage-card.deploy .section-title::before { background: var(--deploy); }
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tag {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.tag.role-main  { background: rgba(30,58,95,0.07); color: var(--accent); border-color: rgba(30,58,95,0.12); }
+
+.list-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.list-items li {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+  padding-left: 14px;
+  position: relative;
+}
+.list-items li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--text-secondary);
+}
+.list-items.compact li {
+  font-size: 0.8rem;
+  padding-left: 12px;
+  line-height: 1.35;
+}
+.list-items.compact li::before {
+  font-size: 0.6rem;
+}
+
+/* ── COMPACT STAGE BODY ── */
+.stage-body .section-block {
+  margin-bottom: 0;
+}
+.section-divider {
+  margin: 2px 0;
+}
+
+/* ── ARTIFACTS FLOW ── */
+.artifacts-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.artifacts-flow.artifacts-row {
+  flex-direction: row;
+  gap: 12px;
+}
+.artifacts-flow.artifacts-row .artifact-group {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 640px) {
+  .artifacts-flow.artifacts-row { flex-direction: column; }
+}
+.artifact-group {
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.artifact-group.input  { background: rgba(100,116,139,0.06); border: 1px solid rgba(100,116,139,0.15); }
+.artifact-group.output { border: 1px solid; }
+.stage-card.dev   .artifact-group.output { background: var(--dev-dim); border-color: rgba(14,165,233,0.2); }
+.stage-card.test  .artifact-group.output { background: var(--test-dim); border-color: rgba(249,115,22,0.2); }
+.stage-card.deploy .artifact-group.output { background: var(--deploy-dim); border-color: rgba(139,92,246,0.2); }
+
+.artifact-group-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+.artifact-group.output .artifact-group-label {
+  color: inherit;
+  opacity: 0.75;
+}
+.stage-card.dev   .artifact-group.output .artifact-group-label { color: var(--dev); }
+.stage-card.test  .artifact-group.output .artifact-group-label { color: var(--test); }
+.stage-card.deploy .artifact-group.output .artifact-group-label { color: var(--deploy); }
+
+/* ── GATE BADGES ── */
+.gate-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.gate-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+}
+.gate-badge .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  flex-shrink: 0;
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ── GAPS BLOCK ── */
+.gaps-block {
+  background: #fffbeb;
+  border: 1.5px solid #f59e0b;
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.gaps-block h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gaps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gaps-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: #78350f;
+  line-height: 1.5;
+}
+.gaps-list .gap-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* ── MONITORING FOOTER ── */
+.monitoring-footer {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  border: 1px solid #6ee7b7;
+  border-radius: 12px;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: #065f46;
+  font-weight: 500;
+}
+.monitoring-footer .mon-icon { font-size: 1.2rem; }
+
+/* ── NOTE BLOCK ── */
+.note-block {
+  background: rgba(30,58,95,0.04);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.note-details {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.note-details summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--accent);
+  list-style: none;
+  display: inline;
+}
+.note-details summary::-webkit-details-marker { display: none; }
+.note-details[open] summary { margin-bottom: 6px; display: block; }
+.note-details .note-inner {
+  padding: 8px 0 0;
+  line-height: 1.45;
+}
+
+/* ── METRICS PILLS ── */
+.metrics-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.metrics-pills li, .metrics-pills span {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.stage-card.dev   .metrics-pills span { background: var(--dev-dim); border-color: rgba(14,165,233,0.2); color: var(--dev); }
+.stage-card.test  .metrics-pills span { background: var(--test-dim); border-color: rgba(249,115,22,0.2); color: var(--test); }
+.stage-card.deploy .metrics-pills span { background: var(--deploy-dim); border-color: rgba(139,92,246,0.2); color: var(--deploy); }
+
+/* ── PAGE TRANSITION ── */
+a.nav-link { }
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="hero-pill">⚙️ Поток создания ценности</div>
+    <h1>Этап Delivery</h1>
+    <p>Вход: Validated Opportunity после GO/NO-GO. Реализация от разработки до внедрения. Роли, артефакты, метрики и инструменты.</p>
+  </header>
+
+  <!-- GOVERNANCE BANNER -->
+  <div class="governance-banner">
+    <span class="gov-icon">🎯</span>
+    <span>Управление ресурсами, бюджетом и инициативами через <strong>Дерево целей Заказчика</strong></span>
+  </div>
+
+  <!-- FLOW INDICATOR -->
+  <div class="flow-header">
+    <span class="flow-stage-pill dev">Разработка</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-stage-pill test">Приёмочное тестирование</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-stage-pill deploy">Внедрение</span>
+  </div>
+
+  <!-- STAGES -->
+  <div class="stages-grid">
+
+    <!-- ═══ STAGE 1: РАЗРАБОТКА ═══ -->
+    <div class="stage-card dev">
+      <div class="stage-card-header">
+        <div class="stage-num">Этап 1</div>
+        <h2>Разработка</h2>
+        <span class="stage-sdlc-badge">SDLC: Реализация и тестирование</span>
+      </div>
+      <div class="stage-body">
+
+        <!-- Роли -->
+        <div class="section-block">
+          <div class="section-title">Роли</div>
+          <div class="tag-list">
+            <span class="tag role-main">Деливери-менеджер / РО</span>
+            <span class="tag role-main">Разработчики</span>
+            <span class="tag role-main">Тестировщик (ручные и авто-тесты)</span>
+            <span class="tag role-main">Аналитик (t-shape)</span>
+            <span class="tag role-main">Тест-менеджер</span>
+            <span class="tag role-main">Менеджер по тестированию</span>
+          </div>
+          <details class="note-details">
+            <summary>Про обозначение ролей</summary>
+            <div class="note-inner">До слэша — тип роли для классического SDLC, после слэша — для продуктового подхода. Ответственное лицо по Матрице типов фреймворков Регламента SDLC.</div>
+          </details>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Артефакты -->
+        <div class="section-block">
+          <div class="section-title">Артефакты</div>
+          <div class="artifacts-flow artifacts-row">
+            <div class="artifact-group input">
+              <div class="artifact-group-label">↓ Вход</div>
+              <ul class="list-items compact">
+                <li>Эпики (до квартала), User Story (спринт)</li>
+                <li>Архитектурное решение, ТЗ/ЧТЗ</li>
+                <li>Оценка / Story Points, план релиза</li>
+              </ul>
+            </div>
+            <div class="artifact-group output">
+              <div class="artifact-group-label">↑ Выход</div>
+              <ul class="list-items compact">
+                <li>Протестированный код, фича</li>
+                <li>Отчёты по тестированию</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Метрики -->
+        <div class="section-block">
+          <div class="section-title">Метрики</div>
+          <div class="metrics-pills">
+            <span>Cycle-time</span><span>Lead time</span><span>Flow Efficiency</span><span>Defect containment</span><span>Throughput</span><span>Дефекты на тестировании</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Инструменты и церемонии -->
+        <div class="section-block">
+          <div class="section-title">Инструменты и церемонии</div>
+          <div class="tag-list" style="margin-bottom:6px">
+            <span class="tag">Jira</span>
+            <span class="tag">Confluence</span>
+            <span class="tag">РК</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">TestOps</span>
+          </div>
+          <ul class="list-items compact">
+            <li>Дейлики, планирование спринтов, код-ревью, ретро после релиза</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══ STAGE 2: ПРИЁМОЧНОЕ ТЕСТИРОВАНИЕ ═══ -->
+    <div class="stage-card test">
+      <div class="stage-card-header">
+        <div class="stage-num">Этап 2</div>
+        <h2>Приёмочное тестирование</h2>
+        <span class="stage-sdlc-badge">SDLC: Тестирование</span>
+      </div>
+      <div class="stage-body">
+
+        <!-- Гейты -->
+        <div class="section-block">
+          <div class="section-title">Гейты</div>
+          <div class="gate-row">
+            <span class="gate-badge"><span class="dot"></span>РК</span>
+            <span class="gate-badge"><span class="dot"></span>Управление изменениями</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Роли -->
+        <div class="section-block">
+          <div class="section-title">Роли</div>
+          <div class="tag-list">
+            <span class="tag role-main">Заказчик</span>
+            <span class="tag role-main">Бизнес-аналитик / Технолог</span>
+            <span class="tag role-main">Деливери</span>
+            <span class="tag role-main">РО</span>
+            <span class="tag role-main">Менеджер по приёмочному тестированию</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Артефакты -->
+        <div class="section-block">
+          <div class="section-title">Артефакты</div>
+          <div class="artifacts-flow artifacts-row">
+            <div class="artifact-group input">
+              <div class="artifact-group-label">↓ Вход</div>
+              <ul class="list-items compact">
+                <li>Код, фича, отчёты по тестированию</li>
+              </ul>
+            </div>
+            <div class="artifact-group output">
+              <div class="artifact-group-label">↑ Выход</div>
+              <ul class="list-items compact">
+                <li>Код к внедрению, решение РК/КИ</li>
+                <li>Отчёт по приёмочному тестированию</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Метрики -->
+        <div class="section-block">
+          <div class="section-title">Метрики</div>
+          <div class="metrics-pills">
+            <span>Дефекты / критические</span><span>% UAT</span><span>Гейт UAT</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Инструменты и церемонии -->
+        <div class="section-block">
+          <div class="section-title">Инструменты и церемонии</div>
+          <div class="tag-list" style="margin-bottom:6px">
+            <span class="tag">Jira</span>
+            <span class="tag">Confluence</span>
+            <span class="tag">РК</span>
+          </div>
+          <ul class="list-items compact">
+            <li>Дейлики, демо/Review с заказчиком</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══ STAGE 3: ВНЕДРЕНИЕ ═══ -->
+    <div class="stage-card deploy">
+      <div class="stage-card-header">
+        <div class="stage-num">Этап 3</div>
+        <h2>Внедрение</h2>
+        <span class="stage-sdlc-badge">SDLC: Ввод в эксплуатацию</span>
+      </div>
+      <div class="stage-body">
+
+        <!-- Роли -->
+        <div class="section-block">
+          <div class="section-title">Роли</div>
+          <div class="tag-list">
+            <span class="tag role-main">ИТ-Лидер Сопровождения</span>
+            <span class="tag role-main">Администратор сопровождения стендов</span>
+            <span class="tag role-main">Корпоративный архитектор</span>
+            <span class="tag role-main">Менеджер процесса управления конфигурациями</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Артефакты -->
+        <div class="section-block">
+          <div class="section-title">Артефакты</div>
+          <div class="artifacts-flow artifacts-row">
+            <div class="artifact-group input">
+              <div class="artifact-group-label">↓ Вход</div>
+              <ul class="list-items compact">
+                <li>Код к внедрению, решение РК/КИ, отчёт UAT</li>
+              </ul>
+            </div>
+            <div class="artifact-group output">
+              <div class="artifact-group-label">↑ Выход</div>
+              <ul class="list-items compact">
+                <li>Эксплуатационная документация, релиз-ноты</li>
+                <li>Акт ввода в эксплуатацию, CMDB, ЕАМ, Jira</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Метрики -->
+        <div class="section-block">
+          <div class="section-title">Метрики</div>
+          <div class="metrics-pills">
+            <span>Акт ввода в эксплуатацию</span><span>Карточка CMDB</span><span>Паспорт ЕАМ</span>
+          </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Инструменты и церемонии -->
+        <div class="section-block">
+          <div class="section-title">Инструменты и церемонии</div>
+          <div class="tag-list" style="margin-bottom:6px">
+            <span class="tag">Jira</span>
+            <span class="tag">Confluence</span>
+            <span class="tag">CMDB</span>
+            <span class="tag">EAM</span>
+          </div>
+          <ul class="list-items compact">
+            <li>Церемонии по фреймворку команд</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /stages-grid -->
+
+  <!-- GAPS -->
+  <div class="gaps-block">
+    <h3>⚠️ GAPs — выявленные пробелы</h3>
+    <ul class="gaps-list">
+      <li>
+        <span class="gap-num">1</span>
+        <span>Отсутствие синхронизации ролей, артефактов и церемоний, детализированного описания этапов SDLC для каждого типа фреймворка команд</span>
+      </li>
+      <li>
+        <span class="gap-num">2</span>
+        <span>Словарь — все термины и определения, используемые в потоке</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- MONITORING FOOTER -->
+  <div class="monitoring-footer">
+    <span class="mon-icon">🟢</span>
+    <span><strong>Мониторинг, постконтроль</strong> — Инспекция и адаптация</span>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  document.querySelectorAll('a.nav-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && !href.startsWith('#') && !href.startsWith('javascript')) {
+        e.preventDefault();
+        document.body.classList.add('page-leaving');
+        setTimeout(() => { window.location.href = href; }, 180);
+      }
+    });
+  });
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
