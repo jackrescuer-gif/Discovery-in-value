@@ -1,0 +1,85 @@
+/* =====================================================
+   CSS Variables — Color & Typography System
+   ===================================================== */
+
+:root {
+  /* ━━ Colors — Primary ━━ */
+  --color-primary-dark: #1e3a5f;
+  --color-primary-medium: #2c5282;
+  --color-primary-light: #3b6fb5;
+  --color-primary-lighter: #e0f2fe;
+
+  /* ━━ Colors — Accent ━━ */
+  --color-accent-teal: #00d4aa;
+  --color-accent-orange: #f97316;
+  --color-accent-cyan: #0ea5e9;
+  --color-accent-purple: #8b5cf6;
+
+  /* ━━ Colors — Neutral ━━ */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* ━━ Colors — Semantic ━━ */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* ━━ Typography ━━ */
+  --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-family-heading: "Georgia", serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ━━ Spacing ━━ */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ━━ Shadows ━━ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --shadow-nav: 0 1px 4px rgba(15, 23, 42, 0.35);
+
+  /* ━━ Border Radius ━━ */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 999px;
+
+  /* ━━ Z-Index ━━ */
+  --z-nav: 1050;
+  --z-modal: 1100;
+  --z-tooltip: 1200;
+}

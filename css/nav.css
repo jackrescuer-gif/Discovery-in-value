@@ -1,0 +1,304 @@
+/* =====================================================
+   Navigation Component Styles
+   ===================================================== */
+
+@import "./variables.css";
+
+/* ━━ Navigation Container ━━ */
+#nav-placeholder {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.global-nav,
+.global-nav *,
+.global-nav *::before,
+.global-nav *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family-base) !important;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.global-nav {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-medium) 100%);
+  color: var(--color-white);
+  box-shadow: var(--shadow-nav);
+  width: 100%;
+  position: relative;
+  z-index: var(--z-nav);
+  margin: 0;
+  border: none;
+}
+
+/* ━━ Navigation Inner ━━ */
+.global-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ━━ Brand ━━ */
+.global-nav-brand {
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: 1rem !important;
+  color: var(--color-white) !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  border: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.global-nav-brand:hover,
+.global-nav-brand:focus,
+.global-nav-brand:visited {
+  color: var(--color-white) !important;
+  text-decoration: none !important;
+  border: none !important;
+}
+
+/* ━━ Links Container ━━ */
+.global-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.global-nav-links > a,
+.global-nav-links > .nav-dropdown {
+  flex: 0 0 auto;
+}
+
+/* ━━ Navigation Links ━━ */
+.global-nav-links > .global-nav-link,
+.global-nav-links > .nav-dropdown {
+  align-self: center;
+}
+
+.global-nav-link {
+  text-decoration: none !important;
+  color: var(--color-gray-200) !important;
+  padding: 6px 12px !important;
+  border-radius: var(--radius-full) !important;
+  font-size: 0.85rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  display: inline-block;
+  cursor: pointer;
+  margin: 0 !important;
+  width: auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.global-nav-link:visited {
+  color: var(--color-gray-200) !important;
+}
+
+.global-nav-link:hover,
+.global-nav-link:focus {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: var(--color-white) !important;
+  text-decoration: none !important;
+  border: 1px solid transparent !important;
+}
+
+.global-nav-link.active,
+.global-nav-link.active:visited {
+  background: var(--color-white) !important;
+  color: var(--color-primary-dark) !important;
+  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+}
+
+.global-nav-link.active:hover,
+.global-nav-link.active:focus {
+  background: var(--color-white) !important;
+  color: var(--color-primary-dark) !important;
+}
+
+/* ━━ Dropdown «Ещё» ━━ */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.nav-dropdown-trigger {
+  display: inline-block;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  line-height: 1.4;
+  text-decoration: none !important;
+  color: var(--color-gray-200) !important;
+  padding: 6px 12px !important;
+  border-radius: var(--radius-full) !important;
+  font-size: 0.85rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  font-family: inherit;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+.nav-dropdown-trigger::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+.nav-dropdown-trigger:hover,
+.nav-dropdown-trigger:focus {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: var(--color-white) !important;
+  border-color: transparent !important;
+}
+
+.nav-dropdown-trigger.active,
+.nav-dropdown-trigger.active:hover {
+  background: var(--color-white) !important;
+  color: var(--color-primary-dark) !important;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin: 4px 0 0;
+  padding: 6px 0;
+  min-width: 180px;
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+  list-style: none;
+  z-index: calc(var(--z-nav) + 10);
+  display: none;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.nav-dropdown-menu.is-open {
+  display: block;
+}
+
+.nav-dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-dropdown-link {
+  display: block;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary-dark) !important;
+  text-decoration: none !important;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-dropdown-link:hover,
+.nav-dropdown-link:focus {
+  background: var(--color-gray-50);
+  color: var(--color-primary-dark) !important;
+}
+
+.nav-dropdown-link.active {
+  background: var(--color-primary-lighter);
+  color: var(--color-primary-dark) !important;
+}
+
+/* ━━ Responsive ━━ */
+@media (max-width: 640px) {
+  .global-nav-inner {
+    padding: 8px 12px;
+  }
+
+  .global-nav-links {
+    justify-content: flex-start;
+  }
+
+  .global-nav-brand {
+    font-size: 0.95rem !important;
+  }
+
+  .global-nav-link {
+    font-size: 0.8rem !important;
+    padding: 5px 10px !important;
+  }
+}
+
+/* ━━ Universal Page Hero ━━ */
+.page-hero,
+header.header {
+  margin-top: 20px !important;
+}
+
+@media (max-width: 768px) {
+  .page-hero,
+  header.header {
+    margin-top: 14px !important;
+  }
+}
+
+/* Auto-apply unified style to common header patterns */
+.page-hero,
+.hero-section,
+header.header,
+section.hero-section {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-medium) 100%) !important;
+  color: var(--color-white) !important;
+  padding: 32px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(30, 58, 95, 0.15) !important;
+  margin-bottom: 20px !important;
+  font-family: var(--font-family-base) !important;
+}
+
+/* Universal h1 styling for page headers */
+.page-hero h1,
+.hero-section h1,
+header.header h1,
+section.hero-section h1 {
+  font-family: var(--font-family-heading) !important;
+  font-size: 2rem !important;
+  font-weight: 600 !important;
+  color: var(--color-white) !important;
+  margin-bottom: 12px !important;
+  letter-spacing: -0.02em !important;
+  max-width: 1000px !important;
+  font-style: normal !important;
+  line-height: 1.25 !important;
+}
+
+/* Universal subtitle/description styling */
+.page-hero .hero-subtitle,
+.page-hero p:not(.hero-pill):not(.hero-meta),
+.hero-section .hero-subtitle,
+.hero-section p:not(.hero-pill):not(.hero-meta),
+header.header p:not(.hero-pill):not(.hero-meta),
+section.hero-section p:not(.hero-pill):not(.hero-meta) {
+  color: rgba(255, 255, 255, 0.92) !important;
+  max-width: 1000px !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+}

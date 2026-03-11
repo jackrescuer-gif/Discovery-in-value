@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Схема процесса Discovery — Holst Board</title>
+  <script>const CURRENT_PAGE = "process-board.html";</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, 'Inter', 'Segoe UI', sans-serif;
+      background: #1a1b2e;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────── */
+    #top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; gap: 0;
+      background: #1a1b2e;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #nav-placeholder { flex: 1; }
+
+    /* ── CANVAS ──────────────────────────────────────────── */
+    #board {
+      position: fixed;
+      top: 44px; left: 0; right: 0; bottom: 0;
+      background: #f0f2f5;
+      overflow: hidden;
+      cursor: grab;
+    }
+    #board.dragging { cursor: grabbing; }
+
+    #board svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ── ZOOM CONTROLS ───────────────────────────────────── */
+    #zoom-panel {
+      position: fixed;
+      bottom: 28px; right: 24px;
+      display: flex; flex-direction: column; gap: 6px;
+      z-index: 300;
+    }
+
+    .zoom-btn {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #343a40;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+      line-height: 1;
+    }
+    .zoom-btn:hover { background: #f1f3f5; transform: scale(1.06); }
+    .zoom-btn:active { transform: scale(0.96); }
+    .zoom-btn.fit { font-size: 14px; font-weight: 700; color: #1971c2; }
+
+    #zoom-label {
+      background: rgba(255,255,255,0.92);
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #495057;
+      text-align: center;
+      padding: 4px 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── MINI TIPS ───────────────────────────────────────── */
+    #tips {
+      position: fixed;
+      bottom: 28px; left: 20px;
+      background: rgba(26, 27, 46, 0.80);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      line-height: 1.8;
+      z-index: 300;
+      backdrop-filter: blur(8px);
+    }
+    #tips kbd {
+      background: rgba(255,255,255,0.15);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 10px;
+      color: #fff;
+      font-family: monospace;
+    }
+
+    /* ── INSTRUCTIONS DRAWER ─────────────────────────────── */
+    #instructions-toggle {
+      position: fixed;
+      bottom: 28px; left: 50%; transform: translateX(-50%);
+      background: #1971c2;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(25, 113, 194, 0.45);
+      z-index: 300;
+      transition: background 0.15s;
+    }
+    #instructions-toggle:hover { background: #1864ab; }
+
+    #instructions-drawer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      max-height: 0;
+      overflow: hidden;
+      background: #fff;
+      z-index: 400;
+      border-top: 2px solid #1971c2;
+      transition: max-height 0.35s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 -8px 32px rgba(0,0,0,0.15);
+    }
+    #instructions-drawer.open { max-height: 480px; }
+
+    #drawer-content {
+      padding: 24px 32px 32px;
+      overflow-y: auto;
+      max-height: 478px;
+    }
+
+    #drawer-content h2 {
+      font-size: 17px; font-weight: 700; color: #1a1b2e;
+      margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+    }
+    #drawer-content h3 {
+      font-size: 13px; font-weight: 700; color: #1971c2;
+      margin-bottom: 10px; margin-top: 20px;
+      text-transform: uppercase; letter-spacing: 0.6px;
+    }
+
+    .drawer-close {
+      margin-left: auto; background: none; border: none;
+      font-size: 20px; cursor: pointer; color: #868e96;
+      padding: 0 4px; line-height: 1;
+    }
+    .drawer-close:hover { color: #212529; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid #4dabf7;
+    }
+    .step-num {
+      font-size: 11px; font-weight: 700; color: #4dabf7;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+    .step-title {
+      font-size: 13px; font-weight: 600; color: #212529;
+      margin-bottom: 5px;
+    }
+    .step-text {
+      font-size: 12px; color: #495057; line-height: 1.55;
+    }
+    .step-text code {
+      background: #e9ecef; padding: 1px 5px; border-radius: 4px;
+      font-size: 11px; color: #1971c2;
+    }
+
+    .tip-box {
+      background: #fff3bf; border-radius: 8px;
+      padding: 11px 14px; font-size: 12px; color: #7c5200;
+      margin-top: 16px; line-height: 1.55;
+      border-left: 3px solid #f59f00;
+    }
+
+    .holst-colors {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+    }
+    .hc {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11px; color: #495057;
+    }
+    .hc-dot {
+      width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR with shared nav -->
+<div id="top-bar">
+  <div id="nav-placeholder"></div>
+</div>
+
+<!-- INFINITE CANVAS BOARD -->
+<div id="board">
+  <svg id="diagram-svg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#868e96"/>
+      </marker>
+      <marker id="ah-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#e03131"/>
+      </marker>
+      <marker id="ah-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#2f9e44"/>
+      </marker>
+      <filter id="sh" x="-8%" y="-8%" width="116%" height="116%">
+        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.09"/>
+      </filter>
+      <filter id="sh2" x="-6%" y="-6%" width="112%" height="112%">
+        <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.07"/>
+      </filter>
+    </defs>
+
+    <!-- All diagram content is inside this group — transform applied here for zoom/pan -->
+    <g id="scene">
+
+      <!-- ══ BACKGROUND GRID (Holst-style dot grid) ══ -->
+      <defs>
+        <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="#c8ccd0" opacity="0.45"/>
+        </pattern>
+      </defs>
+      <rect x="-5000" y="-5000" width="15000" height="15000" fill="url(#grid)"/>
+
+      <!-- ══ PHASE BACKGROUND ZONES ══ -->
+      <!-- Phase 1: Research + Hypotheses (blue) -->
+      <rect x="208" y="145" width="890" height="510" rx="14"
+            fill="#e7f5ff" stroke="#74c0fc" stroke-width="1.5" opacity="0.75"/>
+
+      <!-- Phase 2: Validation + Prototyping (purple) -->
+      <rect x="1116" y="145" width="1390" height="510" rx="14"
+            fill="#f3d9fa" stroke="#cc5de8" stroke-width="1.5" opacity="0.70"/>
+
+      <!-- MVP Track (orange) -->
+      <rect x="2524" y="135" width="910" height="190" rx="10"
+            fill="#fff4e6" stroke="#fd7e14" stroke-width="1.5" opacity="0.85"/>
+
+      <!-- Standard Track (yellow) -->
+      <rect x="2524" y="530" width="910" height="190" rx="10"
+            fill="#fffde7" stroke="#f59f00" stroke-width="1.5" opacity="0.85"/>
+
+      <!-- Phase 3: Deploy + Ops (green) -->
+      <rect x="3454" y="145" width="1360" height="510" rx="14"
+            fill="#ebfbee" stroke="#51cf66" stroke-width="1.5" opacity="0.70"/>
+
+      <!-- ══ PHASE LABELS ══ -->
+      <text x="220" y="168" font-size="11" font-weight="700" fill="#1864ab"
+            font-family="'Inter',system-ui,sans-serif" letter-spacing="0.9">
+        ФАЗ 1 · ИССЛЕДОВАНИЕ &amp; ГИПОТЕЗЫ
+      </text>
+      <text x="1128" y="168" font-size="11" font-weight="700" fill="#6741d9"
+            font-family="'Inter',system-ui,sans-serif" letter-spacing="0.9">
+        ФАЗ 2 · ВАЛИДАЦИЯ &amp; ПРОТОТИПИРОВАНИЕ
+      </text>
+      <text x="2536" y="157" font-size="10" font-weight="700" fill="#d9480f"
+            font-family="'Inter',system-ui,sans-serif" letter-spacing="0.8">
+        ПУТЬ А · MVP (ускоренный)
+      </text>
+      <text x="2536" y="552" font-size="10" font-weight="700" fill="#7c5200"
+            font-family="'Inter',system-ui,sans-serif" letter-spacing="0.8">
+        ПУТЬ Б · СТАНДАРТНЫЙ
+      </text>
+      <text x="3466" y="168" font-size="11" font-weight="700" fill="#2b8a3e"
+            font-family="'Inter',system-ui,sans-serif" letter-spacing="0.9">
+        ФАЗ 3 · РАЗВЕРТЫВАНИЕ &amp; ЭКСПЛУАТАЦИЯ
+      </text>
+
+      <!-- ══ MAIN FLOW NODES ══ -->
+
+      <!-- START -->
+      <ellipse cx="112" cy="400" rx="90" ry="36" fill="#1971c2" stroke="#1864ab" stroke-width="2.5" filter="url(#sh)"/>
+      <text x="112" y="395" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="'Inter',system-ui,sans-serif">Инициатива</text>
+      <text x="112" y="412" text-anchor="middle" font-size="10" fill="#a5d8ff" font-family="'Inter',system-ui,sans-serif">PI Planning</text>
+
+      <!-- N1: Init Discovery -->
+      <rect x="228" y="372" width="185" height="56" rx="8" fill="#d0ebff" stroke="#4dabf7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="320" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#1864ab" font-family="'Inter',system-ui,sans-serif">Инициализация</text>
+      <text x="320" y="413" text-anchor="middle" font-size="10" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">Discovery</text>
+
+      <!-- N2: Research -->
+      <rect x="455" y="372" width="185" height="56" rx="8" fill="#d0ebff" stroke="#4dabf7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="547" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#1864ab" font-family="'Inter',system-ui,sans-serif">Исследование</text>
+      <text x="547" y="413" text-anchor="middle" font-size="10" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">проблемы</text>
+
+      <!-- N3: Hypotheses -->
+      <rect x="682" y="372" width="185" height="56" rx="8" fill="#d0ebff" stroke="#4dabf7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="774" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#1864ab" font-family="'Inter',system-ui,sans-serif">Формулирование</text>
+      <text x="774" y="413" text-anchor="middle" font-size="10" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">гипотез</text>
+
+      <!-- N4: Prioritize -->
+      <rect x="909" y="372" width="185" height="56" rx="8" fill="#d0ebff" stroke="#4dabf7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="1001" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#1864ab" font-family="'Inter',system-ui,sans-serif">Приоритизация</text>
+      <text x="1001" y="413" text-anchor="middle" font-size="10" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">гипотез</text>
+
+      <!-- N5: Quick test -->
+      <rect x="1136" y="372" width="185" height="56" rx="8" fill="#f3d9fa" stroke="#cc5de8" stroke-width="2" filter="url(#sh2)"/>
+      <text x="1228" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">Быстрое</text>
+      <text x="1228" y="413" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">тестирование</text>
+
+      <!-- N6: Low-fi -->
+      <rect x="1363" y="372" width="185" height="56" rx="8" fill="#f3d9fa" stroke="#cc5de8" stroke-width="2" filter="url(#sh2)"/>
+      <text x="1455" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">Low-fi</text>
+      <text x="1455" y="413" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">прототипы</text>
+
+      <!-- N7: User testing -->
+      <rect x="1590" y="372" width="185" height="56" rx="8" fill="#f3d9fa" stroke="#cc5de8" stroke-width="2" filter="url(#sh2)"/>
+      <text x="1682" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">User testing</text>
+      <text x="1682" y="413" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">с пользователями</text>
+
+      <!-- D1: Validated? -->
+      <polygon points="1845,355 1913,400 1845,445 1777,400" fill="#fff3bf" stroke="#e67700" stroke-width="2" filter="url(#sh2)"/>
+      <text x="1845" y="395" text-anchor="middle" font-size="10" font-weight="600" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">Гипотеза</text>
+      <text x="1845" y="409" text-anchor="middle" font-size="10" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">валидирована?</text>
+
+      <!-- N8: High-fi -->
+      <rect x="1945" y="372" width="185" height="56" rx="8" fill="#e6fcf5" stroke="#20c997" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2037" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#0b7285" font-family="'Inter',system-ui,sans-serif">High-fi</text>
+      <text x="2037" y="413" text-anchor="middle" font-size="10" fill="#099268" font-family="'Inter',system-ui,sans-serif">прототипы</text>
+
+      <!-- N9: Tech proto -->
+      <rect x="2172" y="372" width="190" height="56" rx="8" fill="#e6fcf5" stroke="#20c997" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2267" y="396" text-anchor="middle" font-size="11" font-weight="600" fill="#0b7285" font-family="'Inter',system-ui,sans-serif">Tech</text>
+      <text x="2267" y="413" text-anchor="middle" font-size="10" fill="#099268" font-family="'Inter',system-ui,sans-serif">прототипирование</text>
+
+      <!-- D2: MVP or standard? -->
+      <polygon points="2435,352 2510,400 2435,448 2360,400" fill="#fff3bf" stroke="#e67700" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2435" y="394" text-anchor="middle" font-size="10" font-weight="600" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">MVP или</text>
+      <text x="2435" y="408" text-anchor="middle" font-size="10" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">стандарт?</text>
+
+      <!-- ══ MVP PATH ══ -->
+      <rect x="2540" y="182" width="215" height="56" rx="8" fill="#ffe8cc" stroke="#fd7e14" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2647" y="207" text-anchor="middle" font-size="11" font-weight="600" fill="#7c2d05" font-family="'Inter',system-ui,sans-serif">MVP тест</text>
+      <text x="2647" y="224" text-anchor="middle" font-size="10" fill="#c2410c" font-family="'Inter',system-ui,sans-serif">10% пользователей</text>
+
+      <polygon points="2840,168 2904,210 2840,252 2776,210" fill="#fff3bf" stroke="#e67700" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2840" y="204" text-anchor="middle" font-size="10" font-weight="600" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">MVP</text>
+      <text x="2840" y="218" text-anchor="middle" font-size="10" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">успешен?</text>
+
+      <rect x="2920" y="182" width="215" height="56" rx="8" fill="#ffe8cc" stroke="#fd7e14" stroke-width="2" filter="url(#sh2)"/>
+      <text x="3027" y="207" text-anchor="middle" font-size="11" font-weight="600" fill="#7c2d05" font-family="'Inter',system-ui,sans-serif">Масштабирование</text>
+      <text x="3027" y="224" text-anchor="middle" font-size="10" fill="#c2410c" font-family="'Inter',system-ui,sans-serif">инфраструктуры</text>
+
+      <rect x="3175" y="182" width="215" height="56" rx="8" fill="#ffe8cc" stroke="#fd7e14" stroke-width="2" filter="url(#sh2)"/>
+      <text x="3282" y="207" text-anchor="middle" font-size="11" font-weight="600" fill="#7c2d05" font-family="'Inter',system-ui,sans-serif">Нагрузочное</text>
+      <text x="3282" y="224" text-anchor="middle" font-size="10" fill="#c2410c" font-family="'Inter',system-ui,sans-serif">тестирование</text>
+
+      <!-- ══ STANDARD PATH ══ -->
+      <rect x="2540" y="572" width="215" height="56" rx="8" fill="#e5dbff" stroke="#845ef7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2647" y="597" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">Валидация</text>
+      <text x="2647" y="614" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">решения</text>
+
+      <polygon points="2840,558 2904,600 2840,642 2776,600" fill="#fff3bf" stroke="#e67700" stroke-width="2" filter="url(#sh2)"/>
+      <text x="2840" y="594" text-anchor="middle" font-size="10" font-weight="600" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">Решение</text>
+      <text x="2840" y="608" text-anchor="middle" font-size="10" fill="#7c4c00" font-family="'Inter',system-ui,sans-serif">готово?</text>
+
+      <rect x="2920" y="572" width="215" height="56" rx="8" fill="#e5dbff" stroke="#845ef7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="3027" y="597" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">Документация</text>
+      <text x="3027" y="614" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">и оценка</text>
+
+      <rect x="3175" y="572" width="215" height="56" rx="8" fill="#e5dbff" stroke="#845ef7" stroke-width="2" filter="url(#sh2)"/>
+      <text x="3282" y="597" text-anchor="middle" font-size="11" font-weight="600" fill="#6741d9" font-family="'Inter',system-ui,sans-serif">Handoff</text>
+      <text x="3282" y="614" text-anchor="middle" font-size="10" fill="#845ef7" font-family="'Inter',system-ui,sans-serif">→ Dev Team</text>
+
+      <!-- ══ DEPLOY & OPS ══ -->
+      <rect x="3474" y="368" width="220" height="64" rx="8" fill="#b2f2bb" stroke="#37b24d" stroke-width="2" filter="url(#sh)"/>
+      <text x="3584" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Развертывание</text>
+      <text x="3584" y="408" text-anchor="middle" font-size="10" fill="#2b8a3e" font-family="'Inter',system-ui,sans-serif">в Production</text>
+      <text x="3584" y="423" text-anchor="middle" font-size="9" fill="#40c057" font-family="'Inter',system-ui,sans-serif">deploy</text>
+
+      <rect x="3744" y="368" width="230" height="64" rx="8" fill="#b2f2bb" stroke="#37b24d" stroke-width="2" filter="url(#sh)"/>
+      <text x="3859" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Запуск</text>
+      <text x="3859" y="408" text-anchor="middle" font-size="10" fill="#2b8a3e" font-family="'Inter',system-ui,sans-serif">25% → 50% → 100%</text>
+      <text x="3859" y="423" text-anchor="middle" font-size="9" fill="#40c057" font-family="'Inter',system-ui,sans-serif">rollout</text>
+
+      <rect x="4024" y="368" width="215" height="64" rx="8" fill="#b2f2bb" stroke="#37b24d" stroke-width="2" filter="url(#sh)"/>
+      <text x="4131" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Мониторинг</text>
+      <text x="4131" y="408" text-anchor="middle" font-size="10" fill="#2b8a3e" font-family="'Inter',system-ui,sans-serif">и стабилизация</text>
+      <text x="4131" y="423" text-anchor="middle" font-size="9" fill="#40c057" font-family="'Inter',system-ui,sans-serif">monitoring</text>
+
+      <rect x="4289" y="368" width="215" height="64" rx="8" fill="#b2f2bb" stroke="#37b24d" stroke-width="2" filter="url(#sh)"/>
+      <text x="4396" y="392" text-anchor="middle" font-size="11" font-weight="700" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Эксплуатация</text>
+      <text x="4396" y="408" text-anchor="middle" font-size="10" fill="#2b8a3e" font-family="'Inter',system-ui,sans-serif">Production</text>
+      <text x="4396" y="423" text-anchor="middle" font-size="9" fill="#40c057" font-family="'Inter',system-ui,sans-serif">operations</text>
+
+      <!-- END -->
+      <ellipse cx="4680" cy="400" rx="125" ry="38" fill="#2b8a3e" stroke="#1a6e2c" stroke-width="2.5" filter="url(#sh)"/>
+      <text x="4680" y="395" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="'Inter',system-ui,sans-serif">Решение работает</text>
+      <text x="4680" y="412" text-anchor="middle" font-size="10" fill="#b2f2bb" font-family="'Inter',system-ui,sans-serif">в Production</text>
+
+      <!-- ══ MAIN FLOW ARROWS ══ -->
+      <path d="M 202 400 L 228 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 413 400 L 455 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 640 400 L 682 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 867 400 L 909 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 1094 400 L 1136 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 1321 400 L 1363 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 1548 400 L 1590 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 1775 400 L 1777 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 1913 400 L 1945 400" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <text x="1920" y="393" font-size="9" fill="#2b8a3e" font-weight="700" font-family="'Inter',system-ui,sans-serif">Да</text>
+      <path d="M 2130 400 L 2172 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 2362 400 L 2360 400" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+
+      <!-- ══ PIVOT: d1 NO → back to Hypotheses ══ -->
+      <path d="M 1845 445 L 1845 495 L 774 495 L 774 428"
+            stroke="#e03131" stroke-width="2" fill="none" stroke-dasharray="6,3" marker-end="url(#ah-red)"/>
+      <rect x="1238" y="481" width="132" height="18" rx="4" fill="#fff5f5" opacity="0.92"/>
+      <text x="1304" y="494" text-anchor="middle" font-size="9" fill="#c92a2a" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет → Пивот / Итерация</text>
+      <text x="1858" y="464" font-size="9" fill="#e03131" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет</text>
+
+      <!-- ══ FORK: d2 → MVP and Standard ══ -->
+      <path d="M 2435 352 L 2435 210 L 2540 210"
+            stroke="#fd7e14" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <rect x="2440" y="270" width="80" height="17" rx="3" fill="#fff4e6" opacity="0.95"/>
+      <text x="2480" y="282" text-anchor="middle" font-size="9" fill="#d9480f" font-weight="700" font-family="'Inter',system-ui,sans-serif">Да (MVP)</text>
+      <text x="2417" y="346" font-size="9" fill="#d9480f" font-weight="700" font-family="'Inter',system-ui,sans-serif">MVP</text>
+
+      <path d="M 2435 448 L 2435 600 L 2540 600"
+            stroke="#845ef7" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <rect x="2440" y="513" width="97" height="17" rx="3" fill="#fffde7" opacity="0.95"/>
+      <text x="2488" y="525" text-anchor="middle" font-size="9" fill="#5c4000" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет (Стандарт)</text>
+      <text x="2395" y="462" font-size="9" fill="#5c4000" font-weight="700" font-family="'Inter',system-ui,sans-serif">Стандарт</text>
+
+      <!-- ══ MVP TRACK ARROWS ══ -->
+      <path d="M 2755 210 L 2776 210" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 2904 210 L 2920 210" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <text x="2908" y="204" font-size="9" fill="#2b8a3e" font-weight="700" font-family="'Inter',system-ui,sans-serif">Да</text>
+      <path d="M 3135 210 L 3175 210" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <!-- d3 NO loop -->
+      <path d="M 2840 252 L 2840 288 L 2647 288 L 2647 238"
+            stroke="#e03131" stroke-width="2" fill="none" stroke-dasharray="5,3" marker-end="url(#ah-red)"/>
+      <rect x="2700" y="275" width="87" height="16" rx="3" fill="#fff5f5" opacity="0.9"/>
+      <text x="2743" y="287" text-anchor="middle" font-size="9" fill="#c92a2a" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет / Итерация</text>
+      <text x="2848" y="262" font-size="9" fill="#e03131" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет</text>
+      <!-- loadtest → deploy -->
+      <path d="M 3390 210 C 3450 210 3474 300 3474 368"
+            stroke="#2f9e44" stroke-width="2.5" fill="none" marker-end="url(#ah-green)"/>
+      <rect x="3405" y="265" width="62" height="15" rx="3" fill="#ebfbee" opacity="0.95"/>
+      <text x="3436" y="276" text-anchor="middle" font-size="9" fill="#2b8a3e" font-weight="700" font-family="'Inter',system-ui,sans-serif">→ Deploy</text>
+
+      <!-- ══ STANDARD TRACK ARROWS ══ -->
+      <path d="M 2755 600 L 2776 600" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <path d="M 2904 600 L 2920 600" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <text x="2908" y="594" font-size="9" fill="#2b8a3e" font-weight="700" font-family="'Inter',system-ui,sans-serif">Да</text>
+      <path d="M 3135 600 L 3175 600" stroke="#868e96" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+      <!-- d4 NO loop to hifi -->
+      <path d="M 2840 642 L 2840 705 L 2037 705 L 2037 428"
+            stroke="#e03131" stroke-width="2" fill="none" stroke-dasharray="5,3" marker-end="url(#ah-red)"/>
+      <rect x="2350" y="692" width="100" height="16" rx="3" fill="#fff5f5" opacity="0.9"/>
+      <text x="2400" y="704" text-anchor="middle" font-size="9" fill="#c92a2a" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет / Итерация</text>
+      <text x="2848" y="657" font-size="9" fill="#e03131" font-weight="700" font-family="'Inter',system-ui,sans-serif">Нет</text>
+      <!-- handoff → deploy -->
+      <path d="M 3390 600 C 3450 600 3474 500 3474 432"
+            stroke="#845ef7" stroke-width="2.5" fill="none" marker-end="url(#ah)"/>
+      <rect x="3398" y="532" width="62" height="15" rx="3" fill="#fffde7" opacity="0.95"/>
+      <text x="3429" y="543" text-anchor="middle" font-size="9" fill="#5c4000" font-weight="700" font-family="'Inter',system-ui,sans-serif">→ Deploy</text>
+
+      <!-- ══ DEPLOY ARROWS ══ -->
+      <path d="M 3694 400 L 3744 400" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <path d="M 3974 400 L 4024 400" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <path d="M 4239 400 L 4289 400" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+      <path d="M 4504 400 L 4555 400" stroke="#2f9e44" stroke-width="2" fill="none" marker-end="url(#ah-green)"/>
+
+      <!-- ══ INPUT / OUTPUT LABELS ══ -->
+      <rect x="10" y="332" width="82" height="46" rx="7" fill="#d0ebff" stroke="#4dabf7" stroke-width="1.2" opacity="0.92"/>
+      <text x="51" y="348" text-anchor="middle" font-size="9" fill="#1864ab" font-weight="700" font-family="'Inter',system-ui,sans-serif">ВХОД</text>
+      <text x="51" y="362" text-anchor="middle" font-size="8" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">Инициатива</text>
+      <text x="51" y="374" text-anchor="middle" font-size="8" fill="#1c7ed6" font-family="'Inter',system-ui,sans-serif">+ бизнес-цели</text>
+
+      <rect x="4820" y="332" width="82" height="46" rx="7" fill="#b2f2bb" stroke="#37b24d" stroke-width="1.2" opacity="0.92"/>
+      <text x="4861" y="348" text-anchor="middle" font-size="9" fill="#2b8a3e" font-weight="700" font-family="'Inter',system-ui,sans-serif">ВЫХОД</text>
+      <text x="4861" y="362" text-anchor="middle" font-size="8" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Решение в</text>
+      <text x="4861" y="374" text-anchor="middle" font-size="8" fill="#1a6e2c" font-family="'Inter',system-ui,sans-serif">Production</text>
+
+      <!-- ══ ROLE LABELS ══ -->
+      <text x="615" y="655" text-anchor="middle" font-size="9" fill="#495057" font-family="'Inter',system-ui,sans-serif">PM · UX Researcher · Data Analyst</text>
+      <text x="1811" y="655" text-anchor="middle" font-size="9" fill="#495057" font-family="'Inter',system-ui,sans-serif">UX Researcher · Designer · Tech Lead</text>
+      <text x="2267" y="655" text-anchor="middle" font-size="9" fill="#495057" font-family="'Inter',system-ui,sans-serif">Designer · Tech Lead</text>
+      <text x="2847" y="315" text-anchor="middle" font-size="9" fill="#7c5200" font-family="'Inter',system-ui,sans-serif">PM · DevOps · Data Analyst</text>
+      <text x="2847" y="730" text-anchor="middle" font-size="9" fill="#5c4000" font-family="'Inter',system-ui,sans-serif">PM · Designer · Dev Team</text>
+      <text x="4134" y="655" text-anchor="middle" font-size="9" fill="#495057" font-family="'Inter',system-ui,sans-serif">DevOps · Operations Team · PM</text>
+
+      <!-- ══ DIAGRAM TITLE ══ -->
+      <text x="14" y="44" font-size="18" font-weight="800" fill="#1a1b2e" font-family="'Inter',system-ui,sans-serif" letter-spacing="-0.3">Discovery Process</text>
+      <text x="14" y="66" font-size="11" fill="#868e96" font-family="'Inter',system-ui,sans-serif">Инициатива → Исследование → Валидация → Прототипирование → Деплой → Эксплуатация</text>
+      <line x1="14" y1="74" x2="720" y2="74" stroke="#dee2e6" stroke-width="1"/>
+
+    </g><!-- /scene -->
+  </svg>
+</div>
+
+<!-- ZOOM CONTROLS -->
+<div id="zoom-panel">
+  <button class="zoom-btn" onclick="zoomIn()" title="Приблизить (или колесо мыши вверх)">+</button>
+  <button class="zoom-btn" onclick="zoomOut()" title="Отдалить (или колесо мыши вниз)">−</button>
+  <button class="zoom-btn fit" onclick="fitToScreen()" title="По размеру экрана (F)">Fit</button>
+  <button class="zoom-btn" onclick="resetZoom()" title="100%">1×</button>
+  <div id="zoom-label">100%</div>
+</div>
+
+<!-- KEYBOARD TIPS -->
+<div id="tips">
+  <kbd>scroll</kbd> · <kbd>+</kbd> <kbd>-</kbd> зум&nbsp;&nbsp;
+  <kbd>drag</kbd> панорама&nbsp;&nbsp;
+  <kbd>F</kbd> по экрану&nbsp;&nbsp;
+  <kbd>dbl-click</kbd> фокус
+</div>
+
+<!-- INSTRUCTIONS BUTTON -->
+<button id="instructions-toggle" onclick="toggleDrawer()">
+  Как перенести в Холст →
+</button>
+
+<!-- INSTRUCTIONS DRAWER -->
+<div id="instructions-drawer">
+  <div id="drawer-content">
+    <h2>
+      Как перенести схему в Holst вручную
+      <button class="drawer-close" onclick="toggleDrawer()">×</button>
+    </h2>
+    <p style="margin-bottom:1em;">
+      <strong>Полный гайд для Miro и Holst:</strong> <a href="MIRO-HOLST-EXPORT.md" target="_blank" rel="noopener">MIRO-HOLST-EXPORT.md</a> — все карточки, связи и цвета; для Miro — <a href="miro-bulk-cards.txt" target="_blank" rel="noopener">miro-bulk-cards.txt</a> (Bulk mode).
+    </p>
+
+    <h3>Способ 1 — Быстро: вставить как изображение</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Шаг 1</div>
+        <div class="step-title">Сохрани страницу как PNG</div>
+        <div class="step-text">
+          В браузере нажми <code>Ctrl+P</code> → выбери «Сохранить как PDF» → открой PDF →
+          сделай скриншот нужной части. Или используй расширение «Full Page Screenshot».
+          Файл PNG уже есть: <code>holst-process-diagram.png</code> в репозитории.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Шаг 2</div>
+        <div class="step-title">Открой Holst и создай новый борд</div>
+        <div class="step-text">
+          Перейди на <code>app.holst.so</code> → «New board» или открой существующий.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Шаг 3</div>
+        <div class="step-title">Вставь изображение</div>
+        <div class="step-text">
+          Перетащи PNG-файл прямо на борд, или нажми <code>+</code> → «Image» → загрузи файл.
+          Увеличь до нужного размера.
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      Файл PNG лежит в репозитории: <code>тестыИИ/discovery/holst-process-diagram.png</code>
+      — скачай его и перетащи на борд.
+    </div>
+
+    <h3>Способ 2 — Правильно: воссоздать нативными элементами Холста</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Шаг 1</div>
+        <div class="step-title">Создай фоновые зоны фаз</div>
+        <div class="step-text">
+          Инструмент «Rectangle» → нарисуй 5 прямоугольников под каждую фазу.
+          Заливка с низкой прозрачностью (~20%), цветная рамка.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Шаг 2</div>
+        <div class="step-title">Добавь карточки процесса</div>
+        <div class="step-text">
+          «Rectangle» с закруглёнными углами для каждого шага. Надписи через двойной клик.
+          Для старта/финиша — «Ellipse». Цвета — см. легенду ниже.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Шаг 3</div>
+        <div class="step-title">Добавь ромбы-решения</div>
+        <div class="step-text">
+          «Diamond» (или «Rhombus») для точек решений. Заливка <code>#fff3bf</code>,
+          рамка <code>#e67700</code>.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">Шаг 4</div>
+        <div class="step-title">Соедини стрелками</div>
+        <div class="step-text">
+          Инструмент «Connector» / «Arrow». Для успешного пути — зелёный,
+          для итераций/пивотов — красный пунктир.
+        </div>
+      </div>
+    </div>
+
+    <h3>Цвета для карточек</h3>
+    <div class="holst-colors">
+      <div class="hc"><div class="hc-dot" style="background:#d0ebff;border:2px solid #4dabf7"></div>Исследование</div>
+      <div class="hc"><div class="hc-dot" style="background:#f3d9fa;border:2px solid #cc5de8"></div>Валидация</div>
+      <div class="hc"><div class="hc-dot" style="background:#e6fcf5;border:2px solid #20c997"></div>Прототипирование</div>
+      <div class="hc"><div class="hc-dot" style="background:#ffe8cc;border:2px solid #fd7e14"></div>MVP путь</div>
+      <div class="hc"><div class="hc-dot" style="background:#e5dbff;border:2px solid #845ef7"></div>Стандартный путь</div>
+      <div class="hc"><div class="hc-dot" style="background:#b2f2bb;border:2px solid #37b24d"></div>Развертывание</div>
+      <div class="hc"><div class="hc-dot" style="background:#fff3bf;border:2px solid #e67700;transform:rotate(45deg)"></div>&nbsp;&nbsp;Решение</div>
+    </div>
+  </div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+  // ── CANVAS STATE ─────────────────────────────────────────
+  const DIAGRAM_W = 4950;
+  const DIAGRAM_H = 760;
+
+  let scale = 1;
+  let tx = 0, ty = 0;
+  let isDragging = false;
+  let lastX = 0, lastY = 0;
+
+  const board  = document.getElementById('board');
+  const svg    = document.getElementById('diagram-svg');
+  const scene  = document.getElementById('scene');
+  const label  = document.getElementById('zoom-label');
+
+  function applyTransform() {
+    scene.setAttribute('transform', `translate(${tx},${ty}) scale(${scale})`);
+    label.textContent = Math.round(scale * 100) + '%';
+  }
+
+  function fitToScreen() {
+    const bw = board.clientWidth;
+    const bh = board.clientHeight;
+    const pad = 40;
+    scale = Math.min((bw - pad * 2) / DIAGRAM_W, (bh - pad * 2) / DIAGRAM_H);
+    tx = (bw - DIAGRAM_W * scale) / 2;
+    ty = (bh - DIAGRAM_H * scale) / 2;
+    applyTransform();
+  }
+
+  function resetZoom() {
+    scale = 1;
+    const bw = board.clientWidth;
+    const bh = board.clientHeight;
+    tx = (bw - DIAGRAM_W) / 2;
+    ty = (bh - DIAGRAM_H) / 2;
+    applyTransform();
+  }
+
+  function zoomIn()  { zoomAt(board.clientWidth / 2, board.clientHeight / 2,  1.25); }
+  function zoomOut() { zoomAt(board.clientWidth / 2, board.clientHeight / 2, 1/1.25); }
+
+  function zoomAt(mx, my, factor) {
+    const sx = (mx - tx) / scale;
+    const sy = (my - ty) / scale;
+    scale = Math.min(5, Math.max(0.08, scale * factor));
+    tx = mx - sx * scale;
+    ty = my - sy * scale;
+    applyTransform();
+  }
+
+  // ── MOUSE WHEEL ZOOM ──────────────────────────────────────
+  board.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = board.getBoundingClientRect();
+    zoomAt(e.clientX - rect.left, e.clientY - rect.top, e.deltaY < 0 ? 1.12 : 1/1.12);
+  }, { passive: false });
+
+  // ── DRAG PAN ─────────────────────────────────────────────
+  board.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isDragging = true;
+    lastX = e.clientX; lastY = e.clientY;
+    board.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    tx += e.clientX - lastX;
+    ty += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    board.classList.remove('dragging');
+  });
+
+  // ── DOUBLE CLICK TO ZOOM IN ───────────────────────────────
+  board.addEventListener('dblclick', (e) => {
+    const rect = board.getBoundingClientRect();
+    zoomAt(e.clientX - rect.left, e.clientY - rect.top, 1.8);
+  });
+
+  // ── TOUCH PINCH ──────────────────────────────────────────
+  let lastTouchDist = null;
+  let lastTouchMid  = null;
+
+  board.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      lastTouchDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      lastTouchMid = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2
+      };
+    } else if (e.touches.length === 1) {
+      isDragging = true;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  board.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 2 && lastTouchDist !== null) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const rect = board.getBoundingClientRect();
+      const mid  = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top
+      };
+      zoomAt(mid.x, mid.y, dist / lastTouchDist);
+      lastTouchDist = dist;
+    } else if (e.touches.length === 1 && isDragging) {
+      tx += e.touches[0].clientX - lastX;
+      ty += e.touches[0].clientY - lastY;
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+      applyTransform();
+    }
+  }, { passive: false });
+
+  board.addEventListener('touchend', () => {
+    lastTouchDist = null;
+    isDragging = false;
+  });
+
+  // ── KEYBOARD SHORTCUTS ────────────────────────────────────
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'f' || e.key === 'F') fitToScreen();
+    if (e.key === '=' || e.key === '+') zoomIn();
+    if (e.key === '-')  zoomOut();
+    if (e.key === '0')  resetZoom();
+  });
+
+  // ── INSTRUCTIONS DRAWER ───────────────────────────────────
+  function toggleDrawer() {
+    document.getElementById('instructions-drawer').classList.toggle('open');
+  }
+
+  // ── INIT ─────────────────────────────────────────────────
+  fitToScreen();
+</script>
+
+</body>
+</html>

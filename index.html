@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поток создания ценности — Полная визуализация</title>
+  <meta name="description" content="Поток создания ценности: от фильтрации идей до доставки решения. Портфель управления, Value Design Office, выбор форматов реализации.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <script src="nav.js" defer></script>
+  <script src="feedback-widget.js" defer></script>
+  <style>
+    :root {
+      --mck-blue: #0066CC;
+      --mck-blue-dark: #003366;
+      --mck-blue-light: #E6F2FF;
+      --mck-gray-50: #F8F9FA;
+      --mck-gray-100: #F5F5F5;
+      --mck-gray-200: #E9ECEF;
+      --mck-gray-400: #ADB5BD;
+      --mck-gray-600: #6C757D;
+      --mck-gray-800: #343A40;
+      --mck-white: #FFFFFF;
+      --mck-yellow: #FFB81C;
+      --mck-blue-900: #1e3a5f;
+      --mck-blue-800: #2c5282;
+      --shadow-soft: 0 2px 12px rgba(5, 28, 44, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      color: var(--mck-gray-800);
+      background: var(--mck-white);
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+      padding: 40px 32px;
+      background: radial-gradient(circle at top left, #ffffff 0%, #e6f2ff 40%, #dbeafe 100%);
+      border-radius: 16px;
+      margin: 32px 0 40px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-main {
+      font-family: "Inter", "Helvetica Neue", -apple-system, sans-serif;
+    }
+
+    .hero-main h1 {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--mck-blue-dark);
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .hero-main p {
+      font-size: 18px;
+      color: #334155;
+      font-weight: 500;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 102, 204, 0.08);
+      color: var(--mck-blue-dark);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-bullets {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero-bullets li {
+      font-size: 15px;
+      color: #334155;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .hero-meta {
+      font-size: 13px;
+      color: var(--mck-gray-600);
+      line-height: 1.5;
+      border-left: 2px solid rgba(0, 51, 102, 0.3);
+      padding-left: 14px;
+    }
+
+    .hero-meta strong {
+      color: var(--mck-blue-dark);
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.3fr);
+      gap: 24px;
+      align-items: stretch;
+      margin: 0 0 28px;
+    }
+
+    .page-section {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 12px;
+      padding: 18px 20px 16px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+
+    .page-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .page-section h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      margin: 12px 0 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .page-section ul {
+      margin-left: 18px;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+
+    .page-section li + li {
+      margin-top: 4px;
+    }
+
+    .page-section p {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #e0edff;
+      color: #0d47a1;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .link-card {
+      padding: 20px;
+      background: var(--mck-white);
+      border: 1px solid var(--mck-gray-200);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--mck-blue);
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .link-card:hover {
+      border-color: var(--mck-blue);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+    }
+
+    .link-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--mck-blue-dark);
+    }
+
+    .link-card p {
+      font-size: 14px;
+      color: var(--mck-gray-600);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 28px 20px;
+        text-align: left;
+      }
+
+      .hero-main h1 {
+        font-size: 28px;
+      }
+
+      .hero-main p {
+        font-size: 16px;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="nav-placeholder"></div>
+
+  <div class="container">
+    <div class="hero">
+      <div class="hero-main">
+        <div class="hero-badge">Поток создания ценности</div>
+        <h1>От идеи до измеримой ценности</h1>
+        <p>Единый поток решений для CEO, C‑board и команд: от стратегических фокусов до внедрённого результата.</p>
+        <ul class="hero-bullets">
+          <li><strong>Один язык для всех:</strong> как инициативы связаны со стратегией, ресурсами и командами.</li>
+          <li><strong>Жёсткий governance:</strong> прозрачные решения GO/NO‑GO и выбор формата реализации.</li>
+          <li><strong>Предсказуемый Delivery:</strong> команды заранее знают, что и в каком виде получают.</li>
+        </ul>
+      </div>
+    </div>
+
+    <main>
+      <div class="page-grid">
+        <section class="page-section">
+          <h2>Три слоя управления потоком</h2>
+          <ul>
+            <li><strong>Initiative Governance</strong> — какие инициативы запускаем и в каком порядке.</li>
+            <li><strong>Discovery Governance (VDO)</strong> — во что именно инвестируем и как лучше реализовать.</li>
+            <li><strong>Delivery Execution</strong> — как реализуем и подтверждаем эффект.</li>
+          </ul>
+          <div class="pill-list">
+            <div class="pill">Фильтрация идей</div>
+            <div class="pill">Портфель инициатив</div>
+            <div class="pill">VDO / Discovery</div>
+            <div class="pill">Delivery &amp; Value</div>
+          </div>
+        </section>
+
+        <section class="page-section">
+          <h2>Value Design Office — сердце Discovery</h2>
+          <ul>
+            <li>Единая точка входа для инициатив.</li>
+            <li>Формулирует проблему, ценность и метрики.</li>
+            <li>Решает: проект, бизнес‑функциональная команда или потоковые задачи.</li>
+            <li>Готовит стандартизированный вход в Delivery.</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="page-grid">
+        <section class="page-section">
+          <h2>Три формата реализации инициатив</h2>
+          <h3>Форматы</h3>
+          <ul>
+            <li><strong>Проект</strong> — разовые крупные изменения с отдельным контуром управления.</li>
+            <li><strong>Бизнес‑функциональная команда</strong> — развитие продукта или функции в стабильной команде.</li>
+            <li><strong>Задачи потоковых команд</strong> — небольшие изменения в существующих потоках.</li>
+          </ul>
+          <p><strong>Формат выбирается после Discovery, исходя из ценности, риска и сложности управления.</strong></p>
+        </section>
+
+        <section class="page-section">
+          <h2>Что меняется для заказчиков</h2>
+          <h3>Для бизнес‑заказчиков</h3>
+          <ul>
+            <li>Понятный маршрут: от идеи до решения «как реализуем».</li>
+            <li>Прозрачное обоснование приоритета и формата реализации.</li>
+            <li>Один вход вместо «обхода» всей организации.</li>
+          </ul>
+          <h3>Для Delivery и команд</h3>
+          <ul>
+            <li>Чёткий Delivery Package вместо «найти контекст».</li>
+            <li>Ясный scope и критерии успеха.</li>
+            <li>Меньше переделок и скрытого Discovery в разработке.</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="page-grid">
+        <section class="page-section">
+          <h2>Как мы меряем успех потока</h2>
+          <ul>
+            <li>Скорость решений GO/NO‑GO.</li>
+            <li>Доля инициатив, проходящих через VDO.</li>
+            <li>Конверсия инициатив в измеримую ценность.</li>
+            <li>Предсказуемость потока задач для команд.</li>
+          </ul>
+        </section>
+
+        <section class="page-section">
+          <h2>Куда идти глубже</h2>
+          <ul>
+            <li><a href="value-stream.html"><strong>Value Stream подробно</strong></a> — три слоя, семь стадий, роли и точки принятия решений.</li>
+            <li><strong>Value Design Office и Discovery Governance</strong> — как устроен VDO, критерии отбора и принципы работы.</li>
+            <li><strong>Delivery Routing и форматы реализации</strong> — как выбираем между проектом, BF‑командой и потоковыми задачами.</li>
+            <li><strong>Метрики и дашборды</strong> — какие вопросы задаём к данным и как видим эффективность потока.</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    if (window.initFeedbackWidget) {
+      window.initFeedbackWidget('index');
+    }
+  </script>
+</body>
+</html>

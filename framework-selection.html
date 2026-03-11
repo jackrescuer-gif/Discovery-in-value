@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выбор фреймворка реализации — Discovery Process</title>
+<meta name="description" content="Value Design Office выбирает формат реализации для каждой инициативы: проект, БФ-команда или задачи потоковых команд. Критерии выбора и схема развилки.">
+<meta property="og:title" content="Выбор фреймворка реализации — Discovery Process">
+<meta property="og:description" content="Как Value Design Office выбирает формат реализации по итогам Discovery: проект, БФ-команда или задачи потоковых команд. Схема развилки и критерии.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/shared.css">
+<link rel="stylesheet" href="css/nav.css">
+<script src="nav.js" defer></script>
+<script src="feedback-widget.js" defer></script>
+<style>
+:root {
+  --bg-page: #f8fafc;
+  --accent: #1e3a5f;
+  --accent-end: #2c5282;
+  --accent-teal: #00d4aa;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --card-radius: 12px;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  --border: #e2e8f0;
+  --surface: #f1f5f9;
+  --project: #f97316;
+  --project-dim: rgba(249,115,22,0.08);
+  --team: #0ea5e9;
+  --team-dim: rgba(14,165,233,0.08);
+  --task: #8b5cf6;
+  --task-dim: rgba(139,92,246,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { min-height:100%; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+body.page-leaving { opacity: 0; }
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+/* HEADER — унифицированный hero-блок */
+header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+  color: white;
+  padding: 28px 32px;
+  text-align: left;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.header-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.back-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.92;
+  border: 1px solid rgba(255,255,255,0.45);
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.back-link:hover { background: rgba(255,255,255,0.12); }
+.audience-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.95);
+}
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+header p { font-size: 0.95rem; opacity: 0.9; }
+
+/* TABS */
+.tabs {
+  display: flex;
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tab {
+  padding: 14px 28px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  font-family: 'Inter', sans-serif;
+}
+.tab:hover { background: #e2e8f0; color: var(--text-primary); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); background: white; }
+
+.content { padding: 40px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ACCORDION */
+.acc-wrap {
+  border: 1px solid rgba(30,58,95,0.18);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+.acc-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 20px;
+  background: rgba(30,58,95,0.04);
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: left;
+  transition: background 0.18s;
+}
+.acc-header:hover { background: rgba(30,58,95,0.08); }
+.acc-chevron {
+  flex-shrink: 0;
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+}
+.acc-header[aria-expanded="true"] .acc-chevron { transform: rotate(180deg); }
+.acc-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease, padding 0.2s;
+}
+.acc-body:not([hidden]) { max-height: 3000px; }
+.acc-body[hidden] { display: block !important; max-height: 0; }
+
+/* PROJECT DEFINITION BLOCK */
+.def-block {
+  background: rgba(30,58,95,0.02);
+  border-left: 4px solid var(--accent);
+  padding: 20px 24px;
+}
+.def-text {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+.def-elements {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+.def-el {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.def-el-icon { font-size: 1.2rem; flex-shrink: 0; }
+.def-el-title { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.def-el-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* CRITERIA */
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.crit-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.crit-grid-6 {
+  grid-template-columns: repeat(3,1fr);
+}
+.crit {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 16px;
+  transition: box-shadow 0.2s;
+}
+.crit:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.crit-icon { font-size: 1.3rem; margin-bottom: 8px; }
+.crit-name { font-size: 0.875rem; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); }
+.crit-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* FW CARDS */
+.fw-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.fwc {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: var(--card-shadow);
+}
+.fwc:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.fwc.pr { border-top: 3px solid var(--project); }
+.fwc.tm { border-top: 3px solid var(--team); }
+.fwc.tk { border-top: 3px solid var(--task); }
+
+.fwh { padding: 18px 20px 12px; display: flex; align-items: flex-start; gap: 12px; }
+.fwi {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.pr .fwi { background: var(--project-dim); }
+.tm .fwi { background: var(--team-dim); }
+.tk .fwi { background: var(--task-dim); }
+.fwtl { font-size: 0.875rem; font-weight: 700; margin-bottom: 2px; }
+.pr .fwtl { color: var(--project); }
+.tm .fwtl { color: var(--team); }
+.tk .fwtl { color: var(--task); }
+.fwst { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
+
+.fwb { padding: 0 20px 18px; flex:1; display:flex; flex-direction:column; gap:10px; }
+.fll {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--text-secondary); text-transform: uppercase; margin-bottom: 5px;
+}
+.fbx { background: var(--surface); border-radius: 8px; padding: 12px; }
+.fit { display:flex; gap:6px; align-items:flex-start; font-size:0.8rem; line-height:1.5; margin-bottom:4px; color:var(--text-primary); }
+.fit:last-child { margin-bottom:0; }
+.fd { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+.pr .fd { background:var(--project); }
+.tm .fd { background:var(--team); }
+.tk .fd { background:var(--task); }
+
+.fior { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.fiob { background:var(--surface); border-radius:8px; padding:10px 12px; }
+.fioi { font-size:0.75rem; color:var(--text-secondary); line-height:1.6; }
+
+.fbdg {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 12px; border-radius:20px; font-size:0.78rem; font-weight:500;
+}
+.pr .fbdg { background:var(--project-dim); color:var(--project); border:1px solid rgba(249,115,22,.2); }
+.tm .fbdg { background:var(--team-dim); color:var(--team); border:1px solid rgba(14,165,233,.2); }
+.tk .fbdg { background:var(--task-dim); color:var(--task); border:1px solid rgba(139,92,246,.2); }
+
+/* MATRIX */
+.diagram-container {
+  background: var(--surface);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  margin-bottom: 28px;
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+th {
+  text-align:left; padding:10px 14px;
+  background:#fff; border:1px solid var(--border);
+  font-size:0.72rem; font-weight:700;
+  letter-spacing:0.06em; color:var(--text-secondary);
+  text-transform:uppercase;
+}
+td { padding:10px 14px; border:1px solid var(--border); line-height:1.4; }
+tr:hover td { background:#fff; }
+.bp { color:var(--project); font-weight:600; }
+.bt { color:var(--team); font-weight:600; }
+.bn { color:var(--task); font-weight:600; }
+.bx { color:var(--text-secondary); }
+
+/* NOTE */
+.note {
+  background: rgba(0,212,170,0.07);
+  border: 1px solid rgba(0,212,170,0.3);
+  border-radius: var(--card-radius);
+  padding: 16px 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.note strong { color: var(--accent); }
+
+/* BF TEAM EXPANDED MODEL */
+.bf-block {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 20px;
+}
+.bf-intro {
+  background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.86rem;
+  color: #0f172a;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.bf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.bf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.bf-card-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 8px;
+}
+.bf-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bf-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+.bf-list li:last-child { margin-bottom: 0; }
+.bf-list li::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+/* Project block variant (orange accent) */
+.acc-wrap-project {
+  border-color: rgba(249,115,22,0.35);
+}
+.acc-wrap-project .acc-header {
+  background: rgba(249,115,22,0.06);
+  border-left: 4px solid var(--project);
+}
+.acc-wrap-project .acc-header:hover {
+  background: rgba(249,115,22,0.12);
+}
+.acc-wrap-project .acc-chevron { color: var(--project); }
+.project-block {
+  border-left: 4px solid var(--project);
+  border-color: rgba(249,115,22,0.25);
+}
+.project-block .bf-intro {
+  background: var(--project-dim);
+  border-color: rgba(249,115,22,0.4);
+  border-left: 4px solid var(--project);
+}
+.project-block .section-title { color: var(--project); font-weight: 700; }
+.project-block .bf-card {
+  border-color: rgba(249,115,22,0.25);
+  border-left: 3px solid var(--project);
+}
+.project-block .bf-card-title { color: #c2410c; }
+.project-block .bf-list li::before { background: var(--project); }
+.project-block strong { color: var(--project); font-weight: 700; }
+
+/* Team/BFK block variant (blue accent) */
+.acc-wrap-team {
+  border-color: rgba(14,165,233,0.35);
+}
+.acc-wrap-team .acc-header {
+  background: rgba(14,165,233,0.06);
+  border-left: 4px solid var(--team);
+}
+.acc-wrap-team .acc-header:hover {
+  background: rgba(14,165,233,0.12);
+}
+.acc-wrap-team .acc-chevron { color: var(--team); }
+.team-block {
+  border-left: 4px solid var(--team);
+  border-color: rgba(14,165,233,0.25);
+}
+.team-block .bf-intro {
+  background: var(--team-dim);
+  border-color: rgba(14,165,233,0.4);
+  border-left: 4px solid var(--team);
+}
+.team-block .section-title { color: #0369a1; font-weight: 700; }
+.team-block .bf-card {
+  border-color: rgba(14,165,233,0.25);
+  border-left: 3px solid var(--team);
+}
+.team-block .bf-card-title { color: #0369a1; }
+.team-block .bf-list li::before { background: var(--team); }
+.team-block strong { color: #0369a1; font-weight: 700; }
+.bf-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.bf-ti {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 12px;
+}
+.bf-ti-stage {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 6px;
+}
+.bf-ti-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+.bf-steps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.bf-step {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: #fff;
+}
+.bf-step-title {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.bf-step-result {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: #0f766e;
+  background: rgba(0,212,170,0.08);
+  border: 1px solid rgba(0,212,170,0.3);
+  border-radius: 8px;
+  padding: 8px 10px;
+  line-height: 1.45;
+}
+.bf-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.bf-metric {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  background: var(--surface);
+}
+.bf-metric-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.bf-metric-desc {
+  font-size: 0.79rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.bf-rhythms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.bf-rhythm {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text-primary);
+}
+
+/* FLOWCHART TAB */
+.fc-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+  margin-bottom: 20px;
+}
+#fc-svg { display:block; cursor:grab; user-select:none; }
+#fc-svg:active { cursor:grabbing; }
+.fc-hint {
+  font-size:0.8rem; color:var(--text-secondary);
+  margin-bottom: 12px;
+}
+.fc-zbtns { position:absolute; bottom:12px; right:12px; display:flex; gap:6px; }
+.fc-zbtn {
+  width:32px; height:32px; border-radius:8px;
+  background:#fff; border:1px solid var(--border);
+  color:var(--text-primary); font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:background .15s; box-shadow:var(--card-shadow);
+}
+.fc-zbtn:hover { background:var(--surface); }
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .crit-grid { grid-template-columns:1fr 1fr; }
+  .crit-grid-6 { grid-template-columns:1fr 1fr; }
+  .fw-grid { grid-template-columns:1fr 1fr; }
+  .def-elements { grid-template-columns:1fr 1fr; }
+  .bf-grid { grid-template-columns:1fr; }
+  .bf-timeline { grid-template-columns:1fr 1fr; }
+  .bf-steps { grid-template-columns:1fr; }
+  .bf-metrics { grid-template-columns:1fr; }
+  header { padding:28px; }
+  .content { padding:24px; }
+}
+@media(max-width:600px){
+  .crit-grid { grid-template-columns:1fr 1fr; }
+  .crit-grid-6 { grid-template-columns:1fr 1fr; }
+  .fw-grid { grid-template-columns:1fr; }
+  .fior { grid-template-columns:1fr; }
+  .def-elements { grid-template-columns:1fr; }
+  .bf-timeline { grid-template-columns:1fr; }
+  header { padding:20px; }
+  header h1 { font-size:1.3rem; }
+  .content { padding:16px; }
+  .tab { padding:12px 16px; font-size:0.85rem; }
+}
+@media(max-width:375px){
+  .crit-grid { grid-template-columns:1fr; }
+  .crit-grid-6 { grid-template-columns:1fr; }
+}
+
+/* Back-to-top button */
+.fab-top {
+  position: fixed;
+  left: 20px;
+  bottom: 76px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #1e3a5f;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.22);
+  display: none;
+  z-index: 1090;
+}
+
+.fab-top.visible {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+</head>
+<body data-page-id="framework-selection">
+
+<div id="nav-placeholder"></div>
+<div class="container">
+
+  <header class="page-hero">
+    <div class="header-top">
+      <div class="audience-pill">🎯 Discovery Governance · Value Design Office</div>
+    </div>
+    <h1>Выбор фреймворка реализации</h1>
+    <p>VDO выбирает один из трёх форматов реализации на основе характера инициативы и оценки объёма: <strong>проект</strong>, <strong>БФ-команда</strong> или <strong>задачи потоковых команд</strong>. Каждый формат заполняет VDO Board → Validated Opportunity → GO/NO-GO → Delivery Routing.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('overview',this)">Обзор</button>
+    <button class="tab" onclick="switchTab('flowchart',this)">Схема развилки</button>
+  </div>
+
+  <!-- TAB 1: ОБЗОР -->
+  <div class="content">
+  <div class="tab-content active" id="tab-overview">
+
+    <!-- FW cards -->
+    <div class="section-title">Фреймворки реализации</div>
+    <div class="fw-grid">
+      <div class="fwc pr">
+        <div class="fwh"><div class="fwi">🏗</div><div><div class="fwtl">ПРОЕКТ</div><div class="fwst">Ограниченный по времени и стоимости комплекс мероприятий по созданию уникальных продуктов, сервисов и услуг</div></div></div>
+        <div class="fwb">
+          <div class="fbx"><div class="fll">Когда выбираем</div>
+            <div class="fit"><div class="fd"></div>Значимый результат, ценности и метрики определены или определяются в фазе оценки</div>
+            <div class="fit"><div class="fd"></div>Срочность или ограниченность во времени</div>
+            <div class="fit"><div class="fd"></div>Высокая комплексность: много взаимосвязанных изменений в ИТ и интеграций</div>
+            <div class="fit"><div class="fd"></div>Большое количество участников и заинтересованных сторон</div>
+            <div class="fit"><div class="fd"></div>Нужна административная координация — выделенный Проектный менеджер</div>
+            <div class="fit"><div class="fd"></div>Необходим оперативный мониторинг параметров для стейкхолдеров и коллегиальных органов</div>
+          </div>
+          <div><div class="fll">Вход / Выход</div>
+            <div class="fior">
+              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Бизнес-кейс / цели</div><div class="fioi">Предв. скоуп</div><div class="fioi">Стейкхолдеры</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Паспорт проекта</div><div class="fioi">Roadmap / план</div><div class="fioi">Команда + PM</div><div class="fioi">Утв. бюджет</div></div>
+            </div>
+          </div>
+          <div><div class="fll">Результат Delivery</div><div class="fbdg">📦 Сдача → закрытие проекта</div></div>
+        </div>
+      </div>
+
+      <div class="fwc tm">
+        <div class="fwh"><div class="fwi">⚙️</div><div><div class="fwtl">БФ-КОМАНДА</div><div class="fwst">Постоянная продуктовая команда с бэклогом</div></div></div>
+        <div class="fwb">
+          <div class="fbx"><div class="fll">Когда выбираем</div>
+            <div class="fit"><div class="fd"></div>Управление продуктом, каналом или сервисом в рамках стрима</div>
+            <div class="fit"><div class="fd"></div>Итеративная поставка без фиксированной даты закрытия</div>
+            <div class="fit"><div class="fd"></div>Работа в операционных ритмах: планирование, демо, ретро</div>
+            <div class="fit"><div class="fd"></div>Объём работ покрывается ресурсами БФ-команды и стрима</div>
+            <div class="fit"><div class="fd"></div>Решение требует прозрачного мониторинга продуктовых и процессных метрик</div>
+          </div>
+          <div><div class="fll">Вход / Выход</div>
+            <div class="fior">
+              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI</div><div class="fioi">Цели и метрики</div><div class="fioi">High-level бэклог</div><div class="fioi">Роли и компетенции</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Эпики / фичи / user stories</div><div class="fioi">План операционных ритмов</div><div class="fioi">Мониторинг метрик</div><div class="fioi">Отчёт по целям и аллокации</div></div>
+            </div>
+          </div>
+          <div><div class="fll">Результат Delivery</div><div class="fbdg">🔄 MVP и инкрементальные релизы</div></div>
+        </div>
+      </div>
+
+      <div class="fwc tk">
+        <div class="fwh"><div class="fwi">✅</div><div><div class="fwtl">ЗАДАЧИ ПОТОКОВЫХ КОМАНД</div><div class="fwst">Операционные задачи — прямо в бэклог команды</div></div></div>
+        <div class="fwb">
+          <div class="fbx"><div class="fll">Когда выбираем</div>
+            <div class="fit"><div class="fd"></div>Малый объём — ниже порогового значения</div>
+            <div class="fit"><div class="fd"></div>Не требует выделенного управления и отдельного фреймворка</div>
+            <div class="fit"><div class="fd"></div>При росте объёма или появлении кросс-командных зависимостей переводится в БФ-команду/проект</div>
+          </div>
+          <div><div class="fll">Вход / Выход</div>
+            <div class="fior">
+              <div class="fiob"><div class="fll">Вход</div><div class="fioi">Инициатива PI / операционная потребность</div><div class="fioi">Описание задачи</div><div class="fioi">Ответственный</div></div>
+              <div class="fiob"><div class="fll">Выход</div><div class="fioi">Задача в бэклоге</div><div class="fioi">Оценка (SP / дни)</div><div class="fioi">Приоритет в спринте</div><div class="fioi">Критерий пересмотра фреймворка</div></div>
+            </div>
+          </div>
+          <div><div class="fll">Результат Delivery</div><div class="fbdg">⚡ Выполнение в спринте без отдельного трека</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project definition and framework recommendations -->
+    <div class="acc-wrap acc-wrap-project" style="margin-bottom:28px">
+      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
+        <span>Что такое проект и рекомендации по выбору фреймворка</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" hidden>
+        <div class="bf-block project-block">
+          <div class="bf-intro">
+            Проект в Компании определяется как <strong>ограниченный по времени и стоимости</strong> комплекс мероприятий по созданию <strong>уникальных продуктов, сервисов и услуг</strong>, направленных на <strong>создание ценности</strong> и предполагающих существенную <strong>модернизацию инфраструктуры и/или программного обеспечения</strong>.
+          </div>
+          <div class="section-title">Ключевые и определяющие элементы проекта</div>
+          <div class="bf-grid">
+            <div class="bf-card">
+              <div class="bf-card-title">Результат</div>
+              <ul class="bf-list">
+                <li>Продукт, сервис или услуга, получаемые по итогам реализации проекта.</li>
+                <li>Результат обладает <strong>завершенностью и критериями достижения</strong>, которые возможно подтвердить <strong>при закрытии проекта</strong>.</li>
+              </ul>
+            </div>
+            <div class="bf-card">
+              <div class="bf-card-title">Ценности и метрики</div>
+              <ul class="bf-list">
+                <li><strong>Измеримые бизнес и иные выгоды</strong>, которые получает Компания в результате реализации проекта.</li>
+                <li>Ценности имеют <strong>оцифрованные метрики и порядок расчёта</strong> для подтверждения достижения при закрытии проекта и в отложенном периоде.</li>
+                <li>Фиксируются в <strong>паспорте проекта</strong> с текущими и плановыми значениями и методикой расчёта; числовые расчёты отражаются в доходной части финансовой модели.</li>
+                <li><strong>Количественные метрики — измеримые, качественные — наблюдаемые</strong>. Допускается отсутствие ценностей и метрик на <strong>фазе оценки (предпроекта)</strong>.</li>
+              </ul>
+            </div>
+            <div class="bf-card">
+              <div class="bf-card-title">Параметры</div>
+              <ul class="bf-list">
+                <li><strong>Ограничения проекта</strong>, в рамках которых выполняется результат в целях достижения заявленных ценностей и метрик.</li>
+                <li>Ключевые фиксируемые параметры: <strong>срок, бюджет, лимит финансирования, контрольно-ключевые вехи, организационная структура</strong> проекта.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="section-title">Рекомендации по выбору проектного фреймворка</div>
+          <ul class="bf-list" style="margin-bottom:0;">
+            <li>Наличие <strong>значимого результата, ценностей и метрик</strong>, которые можно определить на начальных стадиях реализации или в результате фазы оценки (предпроекта);</li>
+            <li><strong>Срочность или ограниченность во времени</strong>;</li>
+            <li><strong>Комплексность и сложность решения</strong>, характеризующаяся большим количеством взаимосвязанных изменений в ИТ-ландшафте и интеграций;</li>
+            <li>Большое количество участников и заинтересованных сторон;</li>
+            <li>Необходимость в дополнительной административной координации в лице выделенного <strong>Проектного менеджера</strong>;</li>
+            <li>Необходимость в <strong>оперативном и прозрачном статусе</strong>, мониторинге здоровья и параметров проекта для внутренних и внешних заинтересованных лиц и коллегиальных органов.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- BF Team Expanded Block -->
+    <div class="acc-wrap acc-wrap-team" style="margin-bottom:28px">
+      <button class="acc-header" onclick="toggleAcc(this)" aria-expanded="false">
+        <span>Что такое бизнес-функциональная команда и рекомендации по выбору фреймворка</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="acc-body" hidden>
+        <div class="bf-block team-block">
+          <div class="bf-intro">
+            БФ-фреймворк применяется, когда инициативу нужно развивать <strong>итеративно в продуктовой логике</strong>: через <strong>стримы</strong>, стабильные команды, <strong>единые операционные ритмы</strong> и <strong>прозрачные метрики</strong>.
+          </div>
+          <div class="bf-grid">
+            <div class="bf-card">
+              <div class="bf-card-title">Стрим и состав</div>
+              <ul class="bf-list">
+                <li>Стрим может содержать до <strong>12 бизнес-функциональных команд</strong>.</li>
+                <li>Поддерживающие подразделения могут входить в состав стрима.</li>
+                <li>Примеры стримов: цифровые финансовые активы, информационные сервисы, коллективные инвестиции.</li>
+              </ul>
+            </div>
+            <div class="bf-card">
+              <div class="bf-card-title">Объект управления</div>
+              <ul class="bf-list">
+                <li>Объект управления: <strong>продукт, канал или сервис</strong>.</li>
+                <li>Фокус: <strong>непрерывная ценность</strong> для клиента и бизнеса, а не разовая сдача проекта.</li>
+                <li>Бэклог и метрики команды связаны со <strong>стратегическими целями стрима</strong>.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="section-title">Типы БФ-команд</div>
+          <div class="diagram-container" style="margin-bottom:16px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Тип</th>
+                  <th>Определение</th>
+                  <th>Фокус</th>
+                  <th>Ключевые метрики</th>
+                  <th>Признаки</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color:#0369a1">ПРОДУКТ</strong></td>
+                  <td>Решение с подтверждённой ценностью для внешнего клиента и измеримым бизнес-эффектом. Управляется на основе данных, гипотез и обратной связи.</td>
+                  <td>Создание, развитие и монетизация клиентской ценности</td>
+                  <td>Доход, удержание клиентов, NPS, активность пользователей, ROI</td>
+                  <td>Есть внешний клиент, приносит доход, развивается через гипотезы и итерации</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:#0369a1">КАНАЛ</strong></td>
+                  <td>Средство взаимодействия внешнего клиента с продуктами организации: доступ, информирование, оформление и получение ценности.</td>
+                  <td>Клиентский путь и опыт взаимодействия с продуктами</td>
+                  <td>MAU/DAU, конверсия, CTR, CSI, вовлечённость</td>
+                  <td>Не создаёт самостоятельной ценности, но обеспечивает доступ к продуктам и влияет на клиентский опыт</td>
+                </tr>
+                <tr>
+                  <td><strong style="color:#0369a1">СЕРВИС</strong></td>
+                  <td>Автономная функциональная единица, обеспечивающая выполнение бизнес-операций, обработку данных и поддержку продуктов или каналов. Имеет SLA и чёткие границы ответственности.</td>
+                  <td>Операционная эффективность, надёжность и качество выполнения функций</td>
+                  <td>SLA, Uptime, Latency, Error rate, MTTR, производительность</td>
+                  <td>Нет внешнего клиента, критичен для внутренних операций, измеряется через SLA и операционные метрики</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="section-title">Состав команды</div>
+          <div class="bf-metrics">
+            <div class="bf-metric">
+              <div class="bf-metric-title">Product Owner — 20%</div>
+              <div class="bf-metric-desc">Единственный владелец бэклога, определяет приоритеты.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Разработчики (FE/BE) — 50%</div>
+              <div class="bf-metric-desc">Frontend и Backend: реализуют функциональность.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Дизайнер (UX/UI) — 20%</div>
+              <div class="bf-metric-desc">Отвечает за пользовательский опыт.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Архитектор — 30%</div>
+              <div class="bf-metric-desc">Обеспечивает техническую целостность решения.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Scrum Master</div>
+              <div class="bf-metric-desc">Соблюдение процессов и операционных ритмов.</div>
+            </div>
+          </div>
+          <div class="section-title">Жизненный цикл продукта</div>
+          <div class="bf-timeline">
+            <div class="bf-ti"><div class="bf-ti-stage">Kick Off</div><div class="bf-ti-desc">Настройка операционных ритмов.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Исследование</div><div class="bf-ti-desc">Lean Canvas, user flow, процессы TO BE.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Планирование</div><div class="bf-ti-desc">Формирование бэклога и разработка MVP.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Реализация</div><div class="bf-ti-desc">Разработка и тестирование MVP.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Выпуск</div><div class="bf-ti-desc">Вывод в продуктив, включение в каталог.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Оценка</div><div class="bf-ti-desc">Анализ результатов MVP, P&amp;L и мониторинг успеха.</div></div>
+            <div class="bf-ti"><div class="bf-ti-stage">Масштабирование</div><div class="bf-ti-desc">Новые user stories, улучшения, итерации.</div></div>
+          </div>
+          <div class="section-title">Жизненный цикл БФ-команды</div>
+          <div class="bf-steps">
+            <div class="bf-step">
+              <div class="bf-step-title">1. Подготовка к запуску команды</div>
+              <ul class="bf-list">
+                <li>Определение цели, ролей, продуктовых и бизнес-метрик.</li>
+                <li>Формирование high-level бэклога и оценка ресурсов.</li>
+                <li>Подбор участников по компетенциям и орг-диагностика.</li>
+                <li>Подготовка материалов для утверждения.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> утверждены материалы, создание команды и целевые метрики.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">2. Старт работы команды</div>
+              <ul class="bf-list">
+                <li>Комплектование команды и внесение данных в учётные системы.</li>
+                <li>Настройка доступов и погружение участников во фреймворк.</li>
+                <li>Запуск мониторинга метрик и плана операционных ритмов.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> команда укомплектована, доступы получены, мониторинг и события запланированы.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">3. Работа команды</div>
+              <ul class="bf-list">
+                <li>Реализация задач бэклога и актуализация данных в системах.</li>
+                <li>Регулярный мониторинг метрик и проведение ритмов.</li>
+                <li>Планирование, демо и ретроспектива на постоянной основе.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> функциональность выведена в продуктив, команда стабилизирована.</div>
+            </div>
+            <div class="bf-step">
+              <div class="bf-step-title">4. Закрытие или продление команды</div>
+              <ul class="bf-list">
+                <li>Подготовка отчёта по целям, метрикам и результатам.</li>
+                <li>Согласование с руководством и решение по аллокации.</li>
+                <li>Закрытие команды в системах или продление с новым контуром задач.</li>
+              </ul>
+              <div class="bf-step-result"><strong>Результат:</strong> отчёт подготовлен, решение по ресурсам принято, статус команды зафиксирован.</div>
+            </div>
+          </div>
+          <div class="section-title">Метрики: измерение продвижения к целям</div>
+          <div class="bf-intro" style="margin-bottom:12px;">
+            Метрики не существуют изолированно: запаздывающие отражают факт результата, опережающие помогают заранее скорректировать действия.
+          </div>
+          <div class="bf-metrics">
+            <div class="bf-metric">
+              <div class="bf-metric-title">Продуктовые и бизнес-метрики</div>
+              <div class="bf-metric-desc">P&amp;L, LTV, ROI, CIR, NPS, CSI, AARRR — финансовая успешность и ценность продукта.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Процессные метрики</div>
+              <div class="bf-metric-desc">T2M, Lead Time, Cycle Time, Velocity, предсказуемость, spillover — эффективность исполнения и загрузка.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Стратегические метрики</div>
+              <div class="bf-metric-desc">% достижения OKR, вовлечённость сотрудников, продуктовая и техническая зрелость — потенциал роста.</div>
+            </div>
+            <div class="bf-metric">
+              <div class="bf-metric-title">Технические метрики</div>
+              <div class="bf-metric-desc">Defect Leakage, доступность, Flow Distribution, Technical Debt, DORA, покрытие и автоматизация тестов.</div>
+            </div>
+          </div>
+          <div class="section-title">Инструменты управления и ритмы</div>
+          <div class="diagram-container" style="margin-bottom:10px;">
+            <table>
+              <thead><tr><th>Действие</th><th>Период</th><th>Результат</th><th>Участники</th><th>Частота</th></tr></thead>
+              <tbody>
+                <tr><td>Анализ квартала</td><td>Квартал</td><td>Оценка прогресса и выводы</td><td>Заинтересованные стороны</td><td>3 раза в квартал</td></tr>
+                <tr><td>Планирование квартала</td><td>Квартал</td><td>Актуализированный бэклог стрима</td><td>Заинтересованные стороны</td><td>3 раза в квартал, 4 часа</td></tr>
+                <tr><td>Перепланирование квартала</td><td>Квартал</td><td>Корректировка по продуктовым основаниям</td><td>Заинтересованные стороны</td><td>3 раза в квартал</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bf-rhythms">
+            <span class="bf-rhythm">Еженедельное планирование</span>
+            <span class="bf-rhythm">Демонстрация результатов</span>
+            <span class="bf-rhythm">Ретроспектива</span>
+            <span class="bf-rhythm">Ежеквартальная стратегическая сессия</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Ключевое правило:</strong> Решение о фреймворке принимается на <strong>финале Discovery</strong> — когда есть оценка объёма, зависимостей и валидированные гипотезы.
+      Если нужен уникальный результат с фиксированными сроком/бюджетом — это <strong>Проект</strong>. Если объект управления — <strong>продукт, канал или сервис</strong> с операционными ритмами и системой метрик — это <strong>БФ-команда</strong>.
+      Если задача типовая, локальная и без кросс-командных зависимостей — это <strong>задачи потоковых команд</strong>. При изменении параметров в Delivery или на квартальном пересмотре фреймворк обновляется.
+    </div>
+
+    <div style="margin-top:20px;font-size:0.85rem;color:#64748b;">
+      <strong>Как разбирать обратную связь по этой странице:</strong>
+      <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback" target="_blank" style="margin-left:8px;">вся обратная связь</a> ·
+      <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Atask" target="_blank">только задачи</a> ·
+      <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Apage%3Aframework-selection" target="_blank">обратная связь по развилке фреймворка</a>
+    </div>
+
+  </div>
+
+  <!-- TAB 2: FLOWCHART -->
+  <div class="tab-content" id="tab-flowchart">
+    <p class="fc-hint">
+      Этапы 1–5 из README (инициализация, исследование, формулирование и валидация гипотез, прототипирование решения)
+      сводятся в блок <strong>Discovery</strong>. На этой схеме показано, как по итогам Discovery и оценки объёма/зависимостей
+      мы принимаем решение о формате реализации перед входом в <strong>Delivery</strong> (стадия 7): проект, БФ-команда
+      (продукт/канал/сервис в ритмах и метриках стрима) или задачи потоковых команд.
+    </p>
+    <p class="fc-hint" style="margin-top:4px;">
+      Перетащите схему или используйте +/− для масштаба. На мобильном — щипок для зума.
+    </p>
+    <div class="fc-wrap" id="fc-cont">
+      <svg id="fc-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="fc-zbtns">
+        <div class="fc-zbtn" onclick="fcZoom(1.2)">+</div>
+        <div class="fc-zbtn" onclick="fcZoom(0.83)">−</div>
+        <div class="fc-zbtn" onclick="fcReset()" style="font-size:10px">⌂</div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /content -->
+
+</div><!-- /container -->
+
+<button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
+
+<script src="feedback-widget.js"></script>
+<script>const CURRENT_PAGE = 'framework-selection.html';</script>
+<script src="nav.js"></script>
+<script>
+/* ACCORDION */
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const open = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !open);
+  if (open) {
+    body.setAttribute('hidden', '');
+  } else {
+    body.removeAttribute('hidden');
+  }
+}
+
+/* TABS */
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'flowchart') setTimeout(initFC, 40);
+}
+
+/* PAGE TRANSITIONS (в едином стиле с другими страницами) */
+function navigateTo(url) {
+  if (!url) return;
+  document.body.classList.add('page-leaving');
+  setTimeout(() => {
+    window.location.href = url;
+  }, 140);
+}
+
+function setupPageTransitions() {
+  const links = document.querySelectorAll('a.nav-link');
+  links.forEach(link => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('http')) return;
+      event.preventDefault();
+      navigateTo(href);
+    });
+  });
+}
+
+function updateBackToTopVisibility() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const fab = document.getElementById('backToTop');
+  if (!fab) return;
+  fab.classList.toggle('visible', scrollTop > 500);
+}
+
+function setupBackToTop() {
+  const button = document.getElementById('backToTop');
+  if (!button) return;
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  updateBackToTopVisibility();
+  window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupPageTransitions();
+  setupBackToTop();
+  if (window.initFeedbackWidget) {
+    window.initFeedbackWidget('framework-selection');
+  }
+});
+
+/* ── FLOWCHART ── */
+let fcReady = false, fcSc = 1, fcTx = 0, fcTy = 0;
+let fcDrag = false, fcPX = 0, fcPY = 0, fcG = null;
+const NS = 'http://www.w3.org/2000/svg';
+
+function svgEl(tag, attrs) {
+  const e = document.createElementNS(NS, tag);
+  Object.entries(attrs).forEach(([k,v]) => e.setAttribute(k,v));
+  return e;
+}
+
+function buildFC() {
+  const svg = document.getElementById('fc-svg');
+  svg.innerHTML = '';
+
+  const W = 880, H = 1020;
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+
+  // Colors matching project palette
+  const C = {
+    accent: '#1e3a5f', accentEnd: '#2c5282', teal: '#00d4aa',
+    project: '#f97316', team: '#0ea5e9', task: '#8b5cf6',
+    border: '#e2e8f0', surface: '#f1f5f9', text: '#1e293b',
+    muted: '#64748b', white: '#ffffff'
+  };
+
+  const defs = svgEl('defs', {});
+  // Gradient for header box
+  const grad = svgEl('linearGradient', { id:'hgrad', x1:'0%', y1:'0%', x2:'100%', y2:'100%' });
+  grad.appendChild(svgEl('stop', { offset:'0%', 'stop-color':'#1e3a5f' }));
+  grad.appendChild(svgEl('stop', { offset:'100%', 'stop-color':'#2c5282' }));
+  defs.appendChild(grad);
+  // Markers
+  function mkM(id, col) {
+    const m = svgEl('marker', { id, markerWidth:'8', markerHeight:'8', refX:'7', refY:'3', orient:'auto' });
+    m.appendChild(svgEl('path', { d:'M0,0 L0,6 L8,3 z', fill:col }));
+    defs.appendChild(m);
+  }
+  mkM('mdef', C.border); mkM('macc', C.teal);
+  mkM('mpr', C.project); mkM('mtm', C.team); mkM('mtk', C.task);
+  svg.appendChild(defs);
+
+  fcG = svgEl('g', { id:'fcg' });
+  svg.appendChild(fcG);
+
+  const CX = 440;
+  function line(x1,y1,x2,y2,col,mk) {
+    fcG.appendChild(svgEl('path',{d:`M${x1},${y1}L${x2},${y2}`,stroke:col||C.border,'stroke-width':'1.5',fill:'none','marker-end':`url(#${mk||'mdef'})`}));
+  }
+  function bend(pts,col,mk) {
+    const d='M'+pts.map(([x,y])=>x+','+y).join('L');
+    fcG.appendChild(svgEl('path',{d,stroke:col||C.border,'stroke-width':'1.5',fill:'none','marker-end':`url(#${mk||'mdef'})`}));
+  }
+  function rect(x,y,w,h,fill,stroke,rx=10) {
+    fcG.appendChild(svgEl('rect',{x:x-w/2,y,width:w,height:h,rx,ry:rx,fill,stroke,'stroke-width':'1.5'}));
+  }
+  function diamond(x,y,w,h,fill,stroke) {
+    const hw=w/2,hh=h/2;
+    fcG.appendChild(svgEl('polygon',{points:`${x},${y} ${x+hw},${y+hh} ${x},${y+h} ${x-hw},${y+hh}`,fill,stroke,'stroke-width':'1.5'}));
+  }
+  function txt(t,x,y,opts={}) {
+    const e=svgEl('text',{x,y,'text-anchor':opts.a||'middle','dominant-baseline':'middle','font-family':'Inter,sans-serif','font-size':opts.s||11,fill:opts.c||C.text,'font-weight':opts.w||'400','pointer-events':'none'});
+    e.textContent=t; fcG.appendChild(e);
+  }
+  function multiTxt(lines,x,y,opts={}) {
+    const lh=(opts.s||11)+3;
+    const sy=y-(lines.length-1)*lh/2;
+    lines.forEach((l,i)=>{
+      const e=svgEl('text',{x,y:sy+i*lh,'text-anchor':opts.a||'middle','dominant-baseline':'middle','font-family':'Inter,sans-serif','font-size':opts.s||11,fill:opts.c||C.text,'font-weight':opts.w||'400','pointer-events':'none'});
+      e.textContent=l; fcG.appendChild(e);
+    });
+  }
+  function lbl(x,y,t,col) {
+    fcG.appendChild(svgEl('rect',{x:x-24,y:y-10,width:48,height:20,rx:5,fill:C.white,'pointer-events':'none'}));
+    const e=svgEl('text',{x,y:y+1,'text-anchor':'middle','dominant-baseline':'middle','font-family':'Inter,sans-serif','font-size':9,fill:col||C.muted,'font-weight':'600','pointer-events':'none'});
+    e.textContent=t; fcG.appendChild(e);
+  }
+
+  const BW=200,BH=44, DW=200,DH=54;
+  const XR=660, XL=220;
+
+  // ── START ──
+  rect(CX,30,BW+20,BH,'url(#hgrad)','none',10);
+  txt('Инициатива с PI Planning',CX,30+BH/2,{c:'#fff',w:'500'});
+  txt('Вход в Discovery (стадии 1–3)',CX,30+BH/2+18,{s:9,c:'#e5e7eb'});
+
+  line(CX,30+BH,CX,120,C.teal,'macc');
+
+  // ── DISCOVERY ──
+  fcG.appendChild(svgEl('rect',{x:CX-130,y:120,width:260,height:60,rx:10,fill:'rgba(30,58,95,0.06)',stroke:'rgba(30,58,95,0.35)','stroke-width':'1.5'}));
+  txt('Discovery (этапы 2–5)',CX,138,{s:13,c:C.accent,w:'600'});
+  txt('Исследование · Гипотезы · Валидация · Прототипирование',CX,159,{s:8.5,c:C.muted});
+
+  line(CX,172,CX,240,C.teal,'macc');
+
+  // ── Q1 ──
+  const Y1=240;
+  diamond(CX,Y1,DW,DH,'rgba(0,212,170,0.07)','#00d4aa');
+  multiTxt(['Разовый результат','+ чёткий срок?'],CX,Y1+DH/2,{s:10.5,c:C.accent,w:'500'});
+
+  // YES right → Q2 branch
+  bend([[CX+DW/2,Y1+DH/2],[XR,Y1+DH/2],[XR,Y1+DH+10]],C.border);
+  lbl(CX+DW/2+34,Y1+DH/2,'Да →','#16a34a');
+
+  // NO down
+  line(CX,Y1+DH,CX,Y1+DH+70,C.border);
+  lbl(CX-20,Y1+DH+20,'Нет','#dc2626');
+
+  // ── Q2 (right branch) ──
+  const Y2r=Y1+DH+10;
+  diamond(XR,Y2r,DW,DH,'rgba(249,115,22,0.07)','rgba(249,115,22,0.6)');
+  multiTxt(['Кросс-командные','зависимости?'],XR,Y2r+DH/2,{s:10.5,c:'#9a3412',w:'500'});
+  // YES right → PROJECT
+  bend([[XR+DW/2,Y2r+DH/2],[XR+DW/2+40,Y2r+DH/2],[XR+DW/2+40,Y2r+DH+50]],C.project,'mpr');
+  lbl(XR+DW/2+68,Y2r+DH/2,'Да','#16a34a');
+
+  // ── Q2 main (center) ──
+  const Y2=Y1+DH+70;
+  diamond(CX,Y2,DW,DH,'rgba(0,212,170,0.07)','#00d4aa');
+  multiTxt(['Кросс-командные','зависимости?'],CX,Y2+DH/2,{s:10.5,c:C.accent,w:'500'});
+
+  // YES right → PROJECT
+  bend([[CX+DW/2,Y2+DH/2],[XR-10,Y2+DH/2],[XR-10,Y2+DH+30]],C.project,'mpr');
+  lbl(CX+DW/2+34,Y2+DH/2,'Да','#16a34a');
+
+  // NO down
+  line(CX,Y2+DH,CX,Y2+DH+70,C.border);
+  lbl(CX-20,Y2+DH+20,'Нет','#dc2626');
+
+  // ── Q3 ──
+  const Y3=Y2+DH+70;
+  diamond(CX,Y3,DW,DH,'rgba(0,212,170,0.07)','#00d4aa');
+  multiTxt(['Продукт/канал/сервис','в ритмах и метриках стрима?'],CX,Y3+DH/2,{s:10.5,c:C.accent,w:'500'});
+
+  // YES down → BF TEAM
+  line(CX,Y3+DH,CX,Y3+DH+60,C.team,'mtm');
+  lbl(CX-20,Y3+DH+22,'Да','#16a34a');
+
+  // NO left → TASK
+  bend([[CX-DW/2,Y3+DH/2],[XL,Y3+DH/2],[XL,Y3+DH+60]],C.task,'mtk');
+  lbl(CX-DW/2-34,Y3+DH/2,'Нет','#dc2626');
+
+  // ── FRAMEWORK BOXES ──
+  const FW=185, FH=96, YFR=Y3+DH+60;
+
+  // ПРОЕКТ (right)
+  const YPR = Y2+DH+30;
+  fcG.appendChild(svgEl('rect',{x:XR-FW/2,y:YPR,width:FW,height:FH,rx:10,fill:'rgba(249,115,22,0.07)',stroke:C.project,'stroke-width':'2'}));
+  fcG.appendChild(svgEl('rect',{x:XR-FW/2,y:YPR,width:FW,height:6,rx:3,fill:C.project}));
+  txt('🏗 ПРОЕКТ',XR,YPR+22,{s:12,c:C.project,w:'700'});
+  multiTxt(['Устав + Roadmap','Кросс-команда · Бюджет'],XR,YPR+48,{s:9,c:C.muted});
+  txt('→ Закрытие проекта',XR,YPR+FH-12,{s:9,c:C.project,w:'500'});
+
+  // БФ-КОМАНДА (center)
+  fcG.appendChild(svgEl('rect',{x:CX-FW/2,y:YFR,width:FW,height:FH,rx:10,fill:'rgba(14,165,233,0.07)',stroke:C.team,'stroke-width':'2'}));
+  fcG.appendChild(svgEl('rect',{x:CX-FW/2,y:YFR,width:FW,height:6,rx:3,fill:C.team}));
+  txt('⚙️ БФ-КОМАНДА',CX,YFR+22,{s:12,c:C.team,w:'700'});
+  multiTxt(['Стрим + операционные ритмы','Метрики и бэклог команды'],CX,YFR+48,{s:9,c:C.muted});
+  txt('→ MVP и инкрем. релизы',CX,YFR+FH-12,{s:9,c:C.team,w:'500'});
+
+  // ЗАДАЧИ ПОТОКОВЫХ КОМАНД (left)
+  fcG.appendChild(svgEl('rect',{x:XL-FW/2,y:YFR,width:FW,height:FH,rx:10,fill:'rgba(139,92,246,0.07)',stroke:C.task,'stroke-width':'2'}));
+  fcG.appendChild(svgEl('rect',{x:XL-FW/2,y:YFR,width:FW,height:6,rx:3,fill:C.task}));
+  multiTxt(['✅ ЗАДАЧИ ПОТОКОВЫХ','КОМАНД'],XL,YFR+22,{s:10.5,c:C.task,w:'700'});
+  multiTxt(['Типовая задача в бэклог','Локальное исполнение'],XL,YFR+48,{s:9,c:C.muted});
+  txt('→ Выполнение в спринте',XL,YFR+FH-12,{s:9,c:C.task,w:'500'});
+
+  // ── DELIVERY ──
+  const YD=YFR+FH+50;
+  const convY=YD-10;
+  // Converge lines
+  bend([[XR,YPR+FH],[XR,convY],[CX,convY],[CX,YD]],C.border);
+  bend([[CX,YFR+FH],[CX,convY]],C.border);
+  bend([[XL,YFR+FH],[XL,convY],[CX,convY]],C.border);
+  line(CX,convY,CX,YD,C.border,'mdef');
+
+  fcG.appendChild(svgEl('rect',{x:CX-120,y:YD,width:240,height:BH,rx:10,fill:'rgba(30,58,95,0.06)',stroke:'rgba(30,58,95,0.35)','stroke-width':'1.5'}));
+  txt('Delivery (стадия 7)',CX,YD+BH/2-6,{s:13,c:C.accent,w:'600'});
+  txt('Подготовка к развертыванию, запуск и эксплуатация',CX,YD+BH/2+11,{s:8.5,c:C.muted});
+
+  // Update SVG height
+  svg.setAttribute('height', YD+BH+30);
+  applyFC(); fitFC();
+}
+
+function applyFC() { if(fcG) fcG.setAttribute('transform',`translate(${fcTx},${fcTy}) scale(${fcSc})`); }
+
+function fitFC() {
+  const cont = document.getElementById('fc-cont');
+  const svg = document.getElementById('fc-svg');
+  const sw = parseFloat(svg.getAttribute('width')||880);
+  const sh = parseFloat(svg.getAttribute('height')||1000);
+  const cw = cont.clientWidth || 800;
+  const ch = Math.max(460, Math.round(window.innerHeight * 0.74));
+  cont.style.height = ch + 'px';
+  fcSc = Math.min((cw-20)/sw, (ch-20)/sh);
+  fcTx = (cw - sw*fcSc)/2;
+  fcTy = (ch - sh*fcSc)/2;
+  applyFC();
+}
+
+function fcZoom(f) { fcSc=Math.min(Math.max(fcSc*f,0.1),4); applyFC(); }
+function fcReset() { fitFC(); }
+
+function initFC() {
+  if (!fcReady) { fcReady=true; buildFC(); }
+  else fitFC();
+  const svg = document.getElementById('fc-svg');
+  if (svg._li) return; svg._li=true;
+  svg.addEventListener('mousedown',e=>{if(e.button!==0)return;fcDrag=true;fcPX=e.clientX;fcPY=e.clientY;e.preventDefault();});
+  window.addEventListener('mousemove',e=>{if(!fcDrag)return;fcTx+=e.clientX-fcPX;fcTy+=e.clientY-fcPY;fcPX=e.clientX;fcPY=e.clientY;applyFC();});
+  window.addEventListener('mouseup',()=>{fcDrag=false;});
+  let t0d=0,t0x=0,t0y=0;
+  svg.addEventListener('touchstart',e=>{if(e.touches.length===1){fcPX=e.touches[0].clientX;fcPY=e.touches[0].clientY;}if(e.touches.length===2){t0d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);t0x=(e.touches[0].clientX+e.touches[1].clientX)/2;t0y=(e.touches[0].clientY+e.touches[1].clientY)/2;}},{passive:true});
+  svg.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1){fcTx+=e.touches[0].clientX-fcPX;fcTy+=e.touches[0].clientY-fcPY;fcPX=e.touches[0].clientX;fcPY=e.touches[0].clientY;}if(e.touches.length===2){const nd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(t0d)fcSc=Math.min(Math.max(fcSc*(nd/t0d),0.1),4);t0d=nd;const nx=(e.touches[0].clientX+e.touches[1].clientX)/2,ny=(e.touches[0].clientY+e.touches[1].clientY)/2;fcTx+=nx-t0x;fcTy+=ny-t0y;t0x=nx;t0y=ny;}applyFC();},{passive:false});
+  svg.addEventListener('wheel',e=>{e.preventDefault();fcZoom(e.deltaY<0?1.1:0.91);},{passive:false});
+  window.addEventListener('resize',()=>{if(fcReady)fitFC();});
+}
+</script>
+</body>
+</html>
+

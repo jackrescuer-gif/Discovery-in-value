@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дайджест процесса Discovery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="nav.js" defer></script>
+    <script src="feedback-widget.js" defer></script>
+    <style>
+        :root {
+            --mck-blue-900: #1e3a5f;
+            --mck-blue-800: #2c5282;
+            --mck-blue-700: #0f4c75;
+            --mck-blue-600: #147bbc;
+            --mck-blue-500: #1e9fd9;
+            --mck-blue-300: #9dd4f2;
+            --mck-teal: #00a9b5;
+            --mck-coral: #ff6b6b;
+            --mck-gold: #ffb800;
+            --mck-green: #2e7d32;
+            --mck-gray-100: #f8f9fa;
+            --mck-gray-200: #e9ecef;
+            --mck-gray-300: #dee2e6;
+            --mck-gray-600: #6c757d;
+            --mck-gray-900: #212529;
+            --radius: 10px;
+            --shadow-soft: 0 2px 12px rgba(5, 28, 44, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--mck-gray-100);
+            color: var(--mck-gray-900);
+            line-height: 1.45;
+            padding: 18px;
+            opacity: 1;
+            transition: opacity 0.18s ease;
+        }
+        body.page-leaving { opacity: 0; }
+
+        .page {
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            opacity: 0.92;
+            transition: background 0.2s;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .audience-pill {
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--mck-blue-900), var(--mck-blue-800));
+            color: #fff;
+            border-radius: 14px;
+            box-shadow: var(--shadow-soft);
+            padding: 28px 32px;
+            margin-bottom: 14px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 1100px;
+        }
+
+        .action-title {
+            margin-top: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.93rem;
+            line-height: 1.5;
+        }
+
+        .filter-bar {
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .filter-item label {
+            font-size: 0.75rem;
+            color: var(--mck-gray-600);
+            margin-bottom: 4px;
+            display: block;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .filter-item select {
+            width: 100%;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 9px 10px;
+            background: #fff;
+            color: var(--mck-gray-900);
+            font-size: 0.86rem;
+            outline: none;
+        }
+
+        .filter-item select:focus {
+            border-color: var(--mck-blue-500);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(8, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .hero-summary {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hero-topline {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .hero-kpi-card {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .hero-kpi-card h3 {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--mck-gray-600);
+            margin-bottom: 6px;
+        }
+
+        .hero-kpi-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--mck-blue-900);
+            margin-bottom: 4px;
+        }
+
+        .hero-kpi-state {
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .hero-kpi-card.status-danger {
+            border-color: rgba(198, 40, 40, 0.45);
+            background: #fff8f8;
+        }
+        .hero-kpi-card.status-danger .hero-kpi-state { color: #c62828; }
+
+        .hero-kpi-card.status-warn {
+            border-color: rgba(245, 124, 0, 0.45);
+            background: #fffcf6;
+        }
+        .hero-kpi-card.status-warn .hero-kpi-state { color: #ad6800; }
+
+        .hero-kpi-card.status-ok {
+            border-color: rgba(46, 125, 50, 0.45);
+            background: #f4fbf4;
+        }
+        .hero-kpi-card.status-ok .hero-kpi-state { color: #2e7d32; }
+
+        .hero-insight {
+            margin-top: 10px;
+            border-radius: 9px;
+            border: 1px solid rgba(20, 123, 188, 0.26);
+            background: #f7fbff;
+            color: var(--mck-blue-800);
+            font-size: 0.86rem;
+            padding: 9px 11px;
+            font-weight: 600;
+        }
+
+        .section-nav {
+            position: sticky;
+            top: 84px;
+            z-index: 9;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(3px);
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 9px;
+            box-shadow: var(--shadow-soft);
+            padding: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .section-link {
+            text-decoration: none;
+            color: var(--mck-blue-800);
+            border: 1px solid var(--mck-gray-300);
+            background: #fff;
+            border-radius: 8px;
+            padding: 6px 9px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .section-link:hover {
+            border-color: var(--mck-blue-500);
+            color: var(--mck-blue-900);
+        }
+
+        .dashboard-section {
+            margin-bottom: 14px;
+        }
+
+        .section-head {
+            margin-bottom: 8px;
+        }
+
+        .section-head h2 {
+            color: var(--mck-blue-900);
+            font-size: 1.08rem;
+            margin-bottom: 3px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-head p {
+            font-size: 0.84rem;
+            color: var(--mck-gray-600);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .section-card {
+            min-height: 100%;
+        }
+
+        .category-disclaimer {
+            background: #fff;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+
+        .category-disclaimer h3 {
+            font-size: 0.9rem;
+            color: var(--mck-blue-800);
+            margin-bottom: 8px;
+        }
+
+        .category-disclaimer p {
+            font-size: 0.8rem;
+            color: var(--mck-gray-600);
+            margin-bottom: 10px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .category-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 9px;
+            background: #fbfdff;
+        }
+
+        .category-item strong {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--mck-blue-800);
+            font-size: 0.83rem;
+        }
+
+        .category-item span {
+            font-size: 0.77rem;
+            color: var(--mck-gray-600);
+            line-height: 1.35;
+        }
+
+        .kpi-card {
+            background: #fff;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            padding: 12px;
+            min-height: 124px;
+        }
+
+        .kpi-label {
+            font-size: 0.71rem;
+            color: var(--mck-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--mck-blue-900);
+            margin-bottom: 6px;
+        }
+
+        .kpi-delta {
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .kpi-target {
+            font-size: 0.73rem;
+            color: var(--mck-gray-600);
+        }
+
+        .kpi-state {
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .kpi-state.ok {
+            color: var(--mck-green);
+        }
+
+        .kpi-state.warn {
+            color: #c62828;
+        }
+
+        .delta-positive {
+            color: var(--mck-green);
+        }
+
+        .delta-negative {
+            color: #c62828;
+        }
+
+        .delta-neutral {
+            color: var(--mck-gray-600);
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 12px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            padding: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(20, 123, 188, 0.35);
+            box-shadow: 0 8px 24px rgba(5, 28, 44, 0.1);
+        }
+
+        .span-12 { grid-column: span 12; }
+        .span-8 { grid-column: span 8; }
+        .span-6 { grid-column: span 6; }
+        .span-4 { grid-column: span 4; }
+
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--mck-blue-600);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card h2 {
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: var(--mck-blue-800);
+            margin-bottom: 5px;
+            letter-spacing: -0.01em;
+        }
+
+        .card p.subtitle {
+            font-size: 0.85rem;
+            color: var(--mck-gray-600);
+            margin-bottom: 10px;
+        }
+
+        .chart-wrap {
+            min-height: 250px;
+            position: relative;
+        }
+
+        .chart-wrap.tall {
+            min-height: 320px;
+        }
+
+        .mini-bars {
+            display: grid;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .mini-bar {
+            display: grid;
+            grid-template-columns: 180px 1fr 72px;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+        }
+
+        .mini-track {
+            height: 9px;
+            background: var(--mck-gray-200);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .mini-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--mck-blue-600), var(--mck-blue-500));
+        }
+
+        .cost-readout {
+            display: grid;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .cost-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.81rem;
+            background: #fff;
+        }
+
+        .cost-row.clickable {
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .cost-row.clickable:hover {
+            border-color: var(--mck-blue-500);
+            background: #f8fbff;
+        }
+
+        .cost-row.active {
+            border-color: var(--mck-blue-600);
+            background: #edf6fd;
+        }
+
+        .cost-row .cost-main {
+            font-weight: 600;
+            color: var(--mck-gray-900);
+        }
+
+        .cost-row .cost-meta {
+            color: var(--mck-gray-600);
+            font-size: 0.78rem;
+            margin-top: 2px;
+        }
+
+        .cost-row .cost-status {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .cost-row .cost-status.ok {
+            color: var(--mck-green);
+        }
+
+        .cost-row .cost-status.over {
+            color: #c62828;
+        }
+
+        .insight-list {
+            margin-top: 6px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .insight-item {
+            border-left: 4px solid var(--mck-blue-500);
+            background: #f7fbff;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        .insight-item.warn {
+            border-left-color: var(--mck-gold);
+            background: #fffbf1;
+        }
+
+        .insight-item.risk {
+            border-left-color: var(--mck-coral);
+            background: #fff8f8;
+        }
+
+        .insight-item.good {
+            border-left-color: var(--mck-green);
+            background: #f4fbf4;
+        }
+
+        .inline-alerts {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .inline-alert {
+            border-radius: 7px;
+            padding: 7px 9px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(245, 124, 0, 0.45);
+            background: #fffbf3;
+            color: #925100;
+            font-weight: 600;
+        }
+
+        .inline-alert.ok {
+            border-color: rgba(46, 125, 50, 0.35);
+            background: #f4fbf4;
+            color: #2e7d32;
+        }
+
+        .action-card-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .action-card {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 9px;
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+            padding: 10px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .priority-badge {
+            min-width: 34px;
+            text-align: center;
+            border-radius: 999px;
+            padding: 4px 7px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .priority-badge.p1 {
+            color: #c62828;
+            background: #fff2f2;
+            border-color: rgba(198, 40, 40, 0.35);
+        }
+
+        .priority-badge.p2 {
+            color: #8a5800;
+            background: #fff9ec;
+            border-color: rgba(245, 124, 0, 0.35);
+        }
+
+        .priority-badge.p3 {
+            color: #2e7d32;
+            background: #f2faf2;
+            border-color: rgba(46, 125, 50, 0.35);
+        }
+
+        .action-title {
+            font-size: 0.88rem;
+            color: var(--mck-blue-900);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .action-text {
+            color: var(--mck-gray-600);
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+
+        .action-meta {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .metric-badge {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 999px;
+            padding: 3px 7px;
+            font-size: 0.73rem;
+            color: var(--mck-blue-800);
+            background: #f8fbff;
+            font-weight: 600;
+        }
+
+        .metric-link {
+            font-size: 0.75rem;
+            color: var(--mck-blue-700);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .metric-link:hover { text-decoration: underline; }
+
+        .action-status {
+            border-radius: 999px;
+            padding: 3px 7px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            border: 1px solid var(--mck-gray-300);
+            color: var(--mck-gray-600);
+            background: #f8f9fa;
+            white-space: nowrap;
+        }
+
+        .action-status.in-progress {
+            color: #8a5800;
+            background: #fff9ec;
+            border-color: rgba(245, 124, 0, 0.35);
+        }
+
+        .action-status.new {
+            color: #c62828;
+            background: #fff2f2;
+            border-color: rgba(198, 40, 40, 0.35);
+        }
+
+        .action-status.done {
+            color: #2e7d32;
+            background: #f2faf2;
+            border-color: rgba(46, 125, 50, 0.35);
+        }
+
+        .chip-filter {
+            margin-top: 8px;
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            background: #fff;
+            color: var(--mck-blue-800);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .chip-btn:hover {
+            border-color: var(--mck-blue-500);
+            color: var(--mck-blue-900);
+        }
+
+        .chip-btn.active {
+            border-color: var(--mck-blue-700);
+            background: #edf6fd;
+            color: var(--mck-blue-900);
+        }
+
+        .bottleneck-line {
+            margin-top: 8px;
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            color: var(--mck-gray-600);
+            background: #f8fbff;
+        }
+
+        .data-footer {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            background: #fff;
+            padding: 12px;
+        }
+
+        .data-footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .data-footer-block h3 {
+            color: var(--mck-blue-800);
+            font-size: 0.9rem;
+            margin-bottom: 7px;
+        }
+
+        .footer-thresholds {
+            display: grid;
+            gap: 7px;
+        }
+
+        .footer-threshold-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 8px 9px;
+            background: #f8fbff;
+            font-size: 0.79rem;
+        }
+
+        .footer-threshold-item strong {
+            color: var(--mck-blue-800);
+            display: block;
+            margin-bottom: 2px;
+            font-size: 0.82rem;
+        }
+
+        .data-quality {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .threshold-grid {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .threshold-item {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            background: #f8fbff;
+            padding: 9px;
+            font-size: 0.8rem;
+        }
+
+        .threshold-item strong {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--mck-blue-800);
+            margin-bottom: 2px;
+        }
+
+        .quality-box {
+            border: 1px solid var(--mck-gray-300);
+            border-radius: 8px;
+            padding: 9px;
+            font-size: 0.81rem;
+        }
+
+        .quality-box strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 2px;
+            color: var(--mck-blue-800);
+        }
+
+        .footer-note {
+            margin-top: 12px;
+            font-size: 0.76rem;
+            color: var(--mck-gray-600);
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .legend-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--mck-gray-600);
+            margin-top: 6px;
+        }
+
+        body.embed-mode {
+            padding: 0;
+            background: #fff;
+        }
+        body.embed-mode .page {
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body.embed-mode .header,
+        body.embed-mode .hero-summary,
+        body.embed-mode .section-nav,
+        body.embed-mode .filter-bar,
+        body.embed-mode .category-disclaimer,
+        body.embed-mode .kpi-grid,
+        body.embed-mode .data-footer,
+        body.embed-mode .footer-note,
+        body.embed-mode .card:not(.embed-active) {
+            display: none !important;
+        }
+        body.embed-mode .dashboard-section {
+            display: none !important;
+        }
+        body.embed-mode .dashboard-section.embed-section {
+            display: block !important;
+        }
+        body.embed-mode .dashboard-section.embed-section .section-head {
+            display: none !important;
+        }
+        body.embed-mode .card.embed-active {
+            border-radius: 0;
+            border: 0;
+            box-shadow: none;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 1300px) {
+            .kpi-grid {
+                grid-template-columns: repeat(4, minmax(140px, 1fr));
+            }
+            .category-grid {
+                grid-template-columns: repeat(2, minmax(150px, 1fr));
+            }
+            .filter-bar {
+                grid-template-columns: repeat(3, minmax(130px, 1fr));
+            }
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+            .data-footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .span-8, .span-6, .span-4 {
+                grid-column: span 12;
+            }
+        }
+
+        @media (max-width: 860px) {
+            body { padding: 10px; }
+            .header { padding: 18px; }
+            .filter-bar {
+                position: static;
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+            .kpi-grid {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+            .hero-topline {
+                grid-template-columns: 1fr;
+            }
+            .section-nav {
+                position: static;
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            .mini-bar {
+                grid-template-columns: 120px 1fr 60px;
+            }
+            .action-card {
+                grid-template-columns: 1fr;
+            }
+            .data-quality {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Back-to-top button */
+        .fab-top {
+            position: fixed;
+            left: 20px;
+            bottom: 76px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.22);
+            display: none;
+            z-index: 1090;
+        }
+
+        .fab-top.visible {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+    <div class="page">
+        <header class="header">
+            <div class="header-top">
+                <div class="audience-pill">Аудитория: CEO • CPO • CTO • CIO • CFO • COO</div>
+            </div>
+            <h1>Дайджест процесса Discovery</h1>
+            <div class="action-title" id="actionTitle"></div>
+        </header>
+
+        <section class="filter-bar">
+            <div class="filter-item">
+                <label for="periodFilter">Период</label>
+                <select id="periodFilter">
+                    <option value="QTD">QTD (квартал к текущей дате)</option>
+                    <option value="YTD">YTD (год к текущей дате)</option>
+                    <option value="L6M">Последние 6 месяцев</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="categoryFilter">Направление</label>
+                <select id="categoryFilter">
+                    <option value="all">Все направления</option>
+                    <option value="growth">Рост</option>
+                    <option value="value">Ценность</option>
+                    <option value="retention">Удержание</option>
+                    <option value="efficiency">Эффективность</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="teamFilter">Команда</label>
+                <select id="teamFilter">
+                    <option value="all">Все команды</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="statusFilter">Статус</label>
+                <select id="statusFilter">
+                    <option value="all">Все статусы</option>
+                    <option value="formulated">Сформулирована</option>
+                    <option value="prioritized">Приоритизирована</option>
+                    <option value="testing">В эксперименте</option>
+                    <option value="confirmed">Подтверждена</option>
+                    <option value="rejected">Отклонена</option>
+                    <option value="implemented">Внедрена</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="benchmarkMode">Этап зрелости команды</label>
+                <select id="benchmarkMode">
+                    <option value="initial">Начальный</option>
+                    <option value="developing" selected>Развивающийся</option>
+                    <option value="effective">Эффективный</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="category-disclaimer">
+            <h3>Что означают направления в дашборде</h3>
+            <p>Чтобы быстрее считывать графики: каждое направление относится к разному типу бизнес-эффекта, поэтому и пороги затрат могут отличаться.</p>
+            <div class="category-grid">
+                <div class="category-item">
+                    <strong>Рост</strong>
+                    <span>Гипотезы про привлечение новых пользователей и расширение верхней части воронки.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Ценность</strong>
+                    <span>Гипотезы про выручку, монетизацию, ARPU/LTV и ценность продукта для клиента.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Удержание</strong>
+                    <span>Гипотезы про снижение оттока, рост частоты использования и повторные сессии.</span>
+                </div>
+                <div class="category-item">
+                    <strong>Эффективность</strong>
+                    <span>Гипотезы про сокращение затрат и ускорение внутренних процессов команды.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero-summary">
+            <div class="hero-topline">
+                <article class="hero-kpi-card" id="heroCostCard">
+                    <h3>Затраты</h3>
+                    <div class="hero-kpi-value" id="heroCostValue">—</div>
+                    <div class="hero-kpi-state" id="heroCostState">—</div>
+                </article>
+                <article class="hero-kpi-card" id="heroSpeedCard">
+                    <h3>Скорость</h3>
+                    <div class="hero-kpi-value" id="heroSpeedValue">—</div>
+                    <div class="hero-kpi-state" id="heroSpeedState">—</div>
+                </article>
+                <article class="hero-kpi-card" id="heroQualityCard">
+                    <h3>Качество</h3>
+                    <div class="hero-kpi-value" id="heroQualityValue">—</div>
+                    <div class="hero-kpi-state" id="heroQualityState">—</div>
+                </article>
+            </div>
+            <div class="hero-insight" id="heroInsight">Перерасход в направлении Удержание.</div>
+        </section>
+
+        <section class="kpi-grid" id="kpiGrid"></section>
+
+        <nav class="section-nav" aria-label="Навигация по разделам">
+            <a class="section-link" href="#section-vcs-stages" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); font-weight: 600; color: #1565c0;">📊 VCS: 4 этапа</a>
+            <a class="section-link" href="#section-actions">Действия</a>
+            <a class="section-link" href="#section-finance">Финансы</a>
+            <a class="section-link" href="#section-operations">Операции</a>
+            <a class="section-link" href="#section-strategy">Портфель</a>
+            <a class="section-link" href="#section-data">Качество данных</a>
+        </nav>
+
+        <section class="dashboard-section" id="section-vcs-stages">
+            <div class="section-head">
+                <h2>📊 Value Creation Stream: 4 этапа</h2>
+                <p>Ключевые метрики по этапам управления инициативами: от фильтрации идей через портфель и discovery до решения о запуске.</p>
+            </div>
+            <div class="section-grid">
+                <article class="card section-card">
+                    <div class="section-label">Инициативы</div>
+                    <h3 style="color: #1565c0; font-size: 1.4rem; margin: 16px 0;">Filtration</h3>
+                    <p class="subtitle" style="font-size: 0.9rem;">Оценка и отбор идей по критериям ценности</p>
+                    <div style="margin: 20px 0; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">Идей под рассмотрением</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #1565c0; margin-bottom: 12px;">28</div>
+                        <div style="font-size: 0.9rem; color: #555;">
+                            <div style="margin: 4px 0;">✓ Принято в портфель: 8</div>
+                            <div style="margin: 4px 0;">⊘ Отклонено: 20</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card section-card">
+                    <div class="section-label">Инициативы</div>
+                    <h3 style="color: #512da8; font-size: 1.4rem; margin: 16px 0;">Portfolio</h3>
+                    <p class="subtitle" style="font-size: 0.9rem;">Управление активными инициативами с резервированием ресурсов</p>
+                    <div style="margin: 20px 0; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">Активных инициатив</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #512da8; margin-bottom: 12px;">12</div>
+                        <div style="font-size: 0.9rem; color: #555;">
+                            <div style="margin: 4px 0;">Готовы к Discovery: 5</div>
+                            <div style="margin: 4px 0;">На планировании: 7</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card section-card">
+                    <div class="section-label">Инициативы</div>
+                    <h3 style="color: #2e7d32; font-size: 1.4rem; margin: 16px 0;">Discovery</h3>
+                    <p class="subtitle" style="font-size: 0.9rem;">Выполнение discovery по выбранному framework</p>
+                    <div style="margin: 20px 0; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">В процессе discovery</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #2e7d32; margin-bottom: 12px;">7</div>
+                        <div style="font-size: 0.9rem; color: #555;">
+                            <div style="margin: 4px 0;">Product Discovery: 3</div>
+                            <div style="margin: 4px 0;">Strategic: 2 | Ops: 2</div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card section-card">
+                    <div class="section-label">Решения</div>
+                    <h3 style="color: #d32f2f; font-size: 1.4rem; margin: 16px 0;">GO / NO-GO</h3>
+                    <p class="subtitle" style="font-size: 0.9rem;">Governance gate перед передачей в Delivery</p>
+                    <div style="margin: 20px 0; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">На review</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #d32f2f; margin-bottom: 12px;">2</div>
+                        <div style="font-size: 0.9rem; color: #555;">
+                            <div style="margin: 4px 0;">✓ GO: ready for Delivery</div>
+                            <div style="margin: 4px 0;">Pending: 2 пересмотров</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="section-actions">
+            <div class="section-head">
+                <h2>🎯 Actionable recommendations</h2>
+                <p>Список приоритетов с привязкой к конкретной метрике и статусом выполнения.</p>
+            </div>
+            <div class="action-card-list" id="actionCardList"></div>
+        </section>
+
+        <section class="dashboard-section" id="section-finance">
+            <div class="section-head">
+                <h2>💰 Финансовая эффективность</h2>
+                <p id="financialContext">Из ₽5.17M на проверку наибольшая доля приходится на этапы «Данные» и «Действие».</p>
+            </div>
+            <div class="section-grid">
+                <article class="card section-card" id="widget-cost-structure" data-widget="cost-structure">
+                    <div class="section-label">Финансовая эффективность</div>
+                    <h2 id="financialTitle">Затраты распределены по фазам Discovery с доминированием исследований</h2>
+                    <p class="subtitle">Структура затрат по фазам проверки: прямые и косвенные расходы.</p>
+                    <div class="chart-wrap tall"><canvas id="costWaterfall"></canvas></div>
+                </article>
+
+                <article class="card section-card" id="widget-cost" data-widget="cost">
+                    <div class="section-label">Контроль бюджета</div>
+                    <h2 id="costPerValidatedTitle">Блок ответа: где перерасход стоимости подтверждённой гипотезы и насколько</h2>
+                    <p class="subtitle">Сравнение по направлениям: факт, порог и отклонение.</p>
+                    <div class="inline-alerts" id="financeInlineAlerts"></div>
+                    <div class="chart-wrap"><canvas id="costPerValidatedChart"></canvas></div>
+                    <div class="cost-readout" id="costPerValidatedReadout"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="section-operations">
+            <div class="section-head">
+                <h2>⚙️ Операционная динамика</h2>
+                <p>Скорость исследований, bottleneck-анализ и воронка инициатив в одном контуре процесса.</p>
+            </div>
+            <div class="section-grid">
+                <article class="card section-card" id="widget-throughput" data-widget="throughput">
+                    <div class="section-label">Операционная динамика</div>
+                    <h2 id="throughputTitle">Темп исследований и проверок стабилен, но ниже планового в двух неделях</h2>
+                    <p class="subtitle">Еженедельный поток: завершённые исследования и эксперименты.</p>
+                    <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
+                </article>
+
+                <article class="card section-card" id="widget-cycle" data-widget="cycle">
+                    <div class="section-label">Скорость цикла</div>
+                    <h2 id="cycleTitle">Скорость проверки гипотез ограничена ожиданием между этапами действия и анализа данных</h2>
+                    <p class="subtitle">Медианное время исследования и эксперимента + вклад ожиданий.</p>
+                    <div class="chart-wrap"><canvas id="cycleTimeChart"></canvas></div>
+                    <div class="mini-bars" id="waitingBars"></div>
+                    <div class="bottleneck-line" id="bottleneckLine">Bottleneck: 1.4 дн. → 2.1 дн. → 1.2 дн.</div>
+                </article>
+            </div>
+            <article class="card section-card" id="widget-funnel" data-widget="funnel" style="margin-top:12px;">
+                <div class="section-label">Воронка инициатив</div>
+                <h2 id="funnelTitle">Конверсия портфеля показывает, сколько гипотез доходит до подтверждения и внедрения</h2>
+                <p class="subtitle">Связь с timeline процесса: сформулировано → приоритизировано → эксперимент → подтверждено/отклонено → внедрено.</p>
+                <div class="chart-wrap"><canvas id="funnelChart"></canvas></div>
+            </article>
+        </section>
+
+        <section class="dashboard-section" id="section-strategy">
+            <div class="section-head">
+                <h2>🧭 Стратегический портфель</h2>
+                <p>Матрица 2x2 с деталями по hover и фильтрами по направлениям.</p>
+                <div class="chip-filter" id="strategicCategoryFilters">
+                    <button class="chip-btn active" data-category="all">Все</button>
+                    <button class="chip-btn" data-category="growth">Рост</button>
+                    <button class="chip-btn" data-category="value">Ценность</button>
+                    <button class="chip-btn" data-category="retention">Удержание</button>
+                    <button class="chip-btn" data-category="efficiency">Эффективность</button>
+                </div>
+            </div>
+            <article class="card section-card" id="widget-matrix" data-widget="matrix">
+                <div class="section-label">Стратегическая приоритизация</div>
+                <h2 id="matrixTitle">Портфель смещён в высокое effort поле; quick wins присутствуют, но недоинвестированы</h2>
+                <p class="subtitle">Матрица 2x2: уверенность vs сложность, размер точки = охват, цвет = статус.</p>
+                <div class="chart-wrap"><canvas id="matrixChart"></canvas></div>
+                <div class="legend-row">
+                    <span><span class="dot" style="background:#2e7d32;"></span>Подтверждено / внедрено</span>
+                    <span><span class="dot" style="background:#ff6b6b;"></span>Отклонено</span>
+                    <span><span class="dot" style="background:#147bbc;"></span>В работе</span>
+                </div>
+            </article>
+        </section>
+
+        <section class="data-footer" id="section-data">
+            <div class="data-footer-grid">
+                <div class="data-footer-block">
+                    <h3>Пороги и сигналы</h3>
+                    <div class="footer-thresholds" id="thresholdFooterGrid"></div>
+                </div>
+                <div class="data-footer-block">
+                    <h3>Качество данных</h3>
+                    <div class="data-quality" id="qualityGrid"></div>
+                </div>
+            </div>
+            <div class="footer-note">
+                <span><strong>Порог алертов:</strong> перерасход бюджета &gt; 10%, ухудшение скорости &gt; 20%, доля подтверждения ниже цели</span>
+                <span id="lastUpdated">Обновлено: —</span>
+            </div>
+        </section>
+
+        <section style="max-width:1480px;margin:8px auto 24px auto;padding:0 18px;font-size:0.85rem;color:#6c757d;">
+            <strong>Обратная связь по Discovery Toolkit в GitHub:</strong>
+            <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback" target="_blank" style="margin-left:8px;">вся обратная связь</a> ·
+            <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Atask" target="_blank">только задачи</a> ·
+            <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Apage%3Aexecutive-dashboard" target="_blank">обратная связь по дашборду</a>
+        </section>
+    </div>
+
+    <button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
+
+    <script>const CURRENT_PAGE = 'executive-dashboard.html';</script>
+    <script src="nav.js"></script>
+    <script>
+        const hypothesisData = [
+            { id: "H-001", title: "Новый онбординг с прогрессом", category: "growth", product: "Core Web", team: "Alpha", status: "implemented", confidence: 89, effort: 2, reach: 82, costDirect: 182000, costIndirect: 74000, createdAt: "2026-01-05", prioritizedAt: "2026-01-07", researchStart: "2026-01-08", researchEnd: "2026-01-13", decisionAt: "2026-01-15" },
+            { id: "H-002", title: "Сокращение полей в checkout", category: "value", product: "Payments", team: "Gamma", status: "confirmed", confidence: 84, effort: 3, reach: 74, costDirect: 164000, costIndirect: 69000, createdAt: "2026-01-06", prioritizedAt: "2026-01-08", researchStart: "2026-01-10", researchEnd: "2026-01-16", decisionAt: "2026-01-18" },
+            { id: "H-003", title: "Пакетный тариф annual", category: "value", product: "Pricing", team: "Delta", status: "rejected", confidence: 63, effort: 4, reach: 91, costDirect: 228000, costIndirect: 84000, createdAt: "2026-01-09", prioritizedAt: "2026-01-11", researchStart: "2026-01-13", researchEnd: "2026-01-22", decisionAt: "2026-01-24" },
+            { id: "H-004", title: "Умные подсказки в потоке удержания", category: "retention", product: "CRM", team: "Beta", status: "confirmed", confidence: 78, effort: 2, reach: 68, costDirect: 144000, costIndirect: 56000, createdAt: "2026-01-11", prioritizedAt: "2026-01-13", researchStart: "2026-01-15", researchEnd: "2026-01-20", decisionAt: "2026-01-23" },
+            { id: "H-005", title: "Сегментация риска оттока", category: "retention", product: "ML", team: "Beta", status: "testing", confidence: 71, effort: 4, reach: 77, costDirect: 210000, costIndirect: 93000, createdAt: "2026-01-12", prioritizedAt: "2026-01-15", researchStart: "2026-01-18", researchEnd: null, decisionAt: null },
+            { id: "H-006", title: "Автоклассификация пользовательской обратной связи", category: "efficiency", product: "Ops", team: "Omega", status: "implemented", confidence: 86, effort: 3, reach: 63, costDirect: 156000, costIndirect: 62000, createdAt: "2026-01-14", prioritizedAt: "2026-01-17", researchStart: "2026-01-20", researchEnd: "2026-01-27", decisionAt: "2026-01-29" },
+            { id: "H-007", title: "Пошаговый поиск на первой сессии", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 81, effort: 2, reach: 72, costDirect: 138000, costIndirect: 54000, createdAt: "2026-01-17", prioritizedAt: "2026-01-19", researchStart: "2026-01-22", researchEnd: "2026-01-28", decisionAt: "2026-01-31" },
+            { id: "H-008", title: "Лёгкая версия отчётов", category: "efficiency", product: "Reporting", team: "Omega", status: "rejected", confidence: 58, effort: 4, reach: 57, costDirect: 172000, costIndirect: 78000, createdAt: "2026-01-18", prioritizedAt: "2026-01-21", researchStart: "2026-01-24", researchEnd: "2026-02-01", decisionAt: "2026-02-04" },
+            { id: "H-009", title: "Платный доступ после второго инсайта", category: "value", product: "Monetization", team: "Delta", status: "confirmed", confidence: 82, effort: 3, reach: 85, costDirect: 188000, costIndirect: 82000, createdAt: "2026-01-20", prioritizedAt: "2026-01-23", researchStart: "2026-01-25", researchEnd: "2026-02-02", decisionAt: "2026-02-06" },
+            { id: "H-010", title: "Предиктивная подсказка для продаж", category: "growth", product: "CRM", team: "Beta", status: "prioritized", confidence: 67, effort: 5, reach: 79, costDirect: 92000, costIndirect: 48000, createdAt: "2026-01-23", prioritizedAt: "2026-02-01", researchStart: null, researchEnd: null, decisionAt: null },
+            { id: "H-011", title: "Подсказки в модуле оплаты", category: "value", product: "Payments", team: "Gamma", status: "implemented", confidence: 88, effort: 2, reach: 76, costDirect: 132000, costIndirect: 49000, createdAt: "2026-01-25", prioritizedAt: "2026-01-28", researchStart: "2026-01-30", researchEnd: "2026-02-05", decisionAt: "2026-02-08" },
+            { id: "H-012", title: "Письмо реактивации + оффер", category: "retention", product: "CRM", team: "Beta", status: "rejected", confidence: 54, effort: 3, reach: 66, costDirect: 146000, costIndirect: 58000, createdAt: "2026-01-27", prioritizedAt: "2026-01-30", researchStart: "2026-02-02", researchEnd: "2026-02-10", decisionAt: "2026-02-12" },
+            { id: "H-013", title: "Шаблоны для discovery briefs", category: "efficiency", product: "Ops", team: "Omega", status: "confirmed", confidence: 79, effort: 1, reach: 41, costDirect: 86000, costIndirect: 36000, createdAt: "2026-02-01", prioritizedAt: "2026-02-03", researchStart: "2026-02-04", researchEnd: "2026-02-08", decisionAt: "2026-02-09" },
+            { id: "H-014", title: "Умный fallback для API latency", category: "retention", product: "Platform", team: "Sigma", status: "testing", confidence: 69, effort: 5, reach: 83, costDirect: 236000, costIndirect: 108000, createdAt: "2026-02-02", prioritizedAt: "2026-02-05", researchStart: "2026-02-07", researchEnd: null, decisionAt: null },
+            { id: "H-015", title: "Импорт из Excel в один клик", category: "growth", product: "Core Web", team: "Alpha", status: "confirmed", confidence: 80, effort: 3, reach: 71, costDirect: 149000, costIndirect: 62000, createdAt: "2026-02-04", prioritizedAt: "2026-02-06", researchStart: "2026-02-08", researchEnd: "2026-02-14", decisionAt: "2026-02-17" },
+            { id: "H-016", title: "Новая подсветка ошибок формы", category: "value", product: "Payments", team: "Gamma", status: "implemented", confidence: 90, effort: 2, reach: 70, costDirect: 121000, costIndirect: 46000, createdAt: "2026-02-06", prioritizedAt: "2026-02-08", researchStart: "2026-02-10", researchEnd: "2026-02-14", decisionAt: "2026-02-16" },
+            { id: "H-017", title: "Адаптивные рекомендации", category: "growth", product: "AI Assist", team: "Sigma", status: "testing", confidence: 73, effort: 5, reach: 94, costDirect: 264000, costIndirect: 116000, createdAt: "2026-02-08", prioritizedAt: "2026-02-11", researchStart: "2026-02-13", researchEnd: null, decisionAt: null },
+            { id: "H-018", title: "Автоматический роутинг тикетов", category: "efficiency", product: "Ops", team: "Omega", status: "confirmed", confidence: 82, effort: 3, reach: 59, costDirect: 138000, costIndirect: 55000, createdAt: "2026-02-09", prioritizedAt: "2026-02-12", researchStart: "2026-02-14", researchEnd: "2026-02-21", decisionAt: "2026-02-23" },
+            { id: "H-019", title: "Пакет для корпоративного онбординга", category: "value", product: "Monetization", team: "Delta", status: "formulated", confidence: 61, effort: 5, reach: 88, costDirect: 54000, costIndirect: 28000, createdAt: "2026-02-11", prioritizedAt: null, researchStart: null, researchEnd: null, decisionAt: null },
+            { id: "H-020", title: "Умные SLA-оповещения", category: "retention", product: "Platform", team: "Sigma", status: "confirmed", confidence: 79, effort: 3, reach: 67, costDirect: 167000, costIndirect: 72000, createdAt: "2026-02-13", prioritizedAt: "2026-02-16", researchStart: "2026-02-18", researchEnd: "2026-02-24", decisionAt: "2026-02-26" },
+            { id: "H-021", title: "Промо-лендинг с ROI-калькулятором", category: "growth", product: "Core Web", team: "Alpha", status: "rejected", confidence: 57, effort: 2, reach: 64, costDirect: 101000, costIndirect: 43000, createdAt: "2026-02-14", prioritizedAt: "2026-02-17", researchStart: "2026-02-19", researchEnd: "2026-02-24", decisionAt: "2026-02-26" },
+            { id: "H-022", title: "Снижение шума в мониторинге", category: "efficiency", product: "Platform", team: "Sigma", status: "prioritized", confidence: 66, effort: 4, reach: 62, costDirect: 98000, costIndirect: 47000, createdAt: "2026-02-16", prioritizedAt: "2026-02-19", researchStart: null, researchEnd: null, decisionAt: null },
+            { id: "H-023", title: "Динамическая персонализация платного доступа", category: "value", product: "Pricing", team: "Delta", status: "testing", confidence: 75, effort: 4, reach: 87, costDirect: 216000, costIndirect: 94000, createdAt: "2026-02-18", prioritizedAt: "2026-02-21", researchStart: "2026-02-23", researchEnd: null, decisionAt: null },
+            { id: "H-024", title: "Встроенный коучинг для новых PM", category: "retention", product: "Core Web", team: "Beta", status: "confirmed", confidence: 83, effort: 2, reach: 55, costDirect: 112000, costIndirect: 42000, createdAt: "2026-02-19", prioritizedAt: "2026-02-21", researchStart: "2026-02-22", researchEnd: "2026-02-25", decisionAt: "2026-02-26" }
+        ];
+
+        const charts = {};
+        const maturityTargets = {
+            initial: {
+                label: "Начальный",
+                total: 4700000,
+                successRate: 0.28,
+                researchDays: 11,
+                experimentDays: 13,
+                validationDays: 16,
+                minResearchCount: 8,
+                minExperimentCount: 6,
+                costPerValidated: 620000
+            },
+            developing: {
+                label: "Развивающийся",
+                total: 4300000,
+                successRate: 0.36,
+                researchDays: 8,
+                experimentDays: 9,
+                validationDays: 11,
+                minResearchCount: 12,
+                minExperimentCount: 10,
+                costPerValidated: 480000
+            },
+            effective: {
+                label: "Эффективный",
+                total: 3900000,
+                successRate: 0.45,
+                researchDays: 5,
+                experimentDays: 6,
+                validationDays: 8,
+                minResearchCount: 16,
+                minExperimentCount: 14,
+                costPerValidated: 360000
+            }
+        };
+
+        const categoryLabels = {
+            growth: "Рост",
+            value: "Ценность",
+            retention: "Удержание",
+            efficiency: "Эффективность"
+        };
+        const categoryDescriptions = {
+            growth: "привлечение новых пользователей",
+            value: "монетизация и рост бизнес-ценности",
+            retention: "удержание и снижение оттока",
+            efficiency: "снижение затрат и ускорение процессов"
+        };
+
+        const statusDecided = ["confirmed", "rejected", "implemented"];
+        const statusPositive = ["confirmed", "implemented"];
+
+        function parseDate(dateString) {
+            return dateString ? new Date(dateString + "T00:00:00") : null;
+        }
+
+        function formatCurrency(value) {
+            if (!Number.isFinite(value)) return "—";
+            if (Math.abs(value) >= 1000000) return "₽" + (value / 1000000).toFixed(2) + "M";
+            if (Math.abs(value) >= 1000) return "₽" + (value / 1000).toFixed(0) + "K";
+            return "₽" + value.toFixed(0);
+        }
+
+        function formatNumber(value) {
+            if (!Number.isFinite(value)) return "—";
+            return value.toLocaleString("ru-RU");
+        }
+
+        function formatPct(value) {
+            if (!Number.isFinite(value)) return "—";
+            return (value * 100).toFixed(1) + "%";
+        }
+
+        function formatDays(value) {
+            if (!Number.isFinite(value)) return "—";
+            return value.toFixed(1) + " дн.";
+        }
+
+        function getCategoryLabel(key) {
+            return categoryLabels[key] || key;
+        }
+
+        function getCategoryDescription(key) {
+            return categoryDescriptions[key] || "без дополнительного описания";
+        }
+
+        function evaluateThreshold(value, target, mode) {
+            if (!Number.isFinite(value) || !Number.isFinite(target)) {
+                return { className: "warn", text: "Недостаточно данных" };
+            }
+            const ok = mode === "max" ? value <= target : value >= target;
+            return {
+                className: ok ? "ok" : "warn",
+                text: ok ? "В пределах порога" : "Требует улучшения"
+            };
+        }
+
+        function toDayDiff(start, end) {
+            if (!start || !end) return null;
+            const diff = (end - start) / (1000 * 60 * 60 * 24);
+            return diff >= 0 ? diff : null;
+        }
+
+        function getQuarterStart(date) {
+            const month = date.getMonth();
+            const quarterStart = month - (month % 3);
+            return new Date(date.getFullYear(), quarterStart, 1);
+        }
+
+        function getPeriodRange(periodKey) {
+            const now = new Date();
+            let start;
+            if (periodKey === "YTD") {
+                start = new Date(now.getFullYear(), 0, 1);
+            } else if (periodKey === "L6M") {
+                start = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+            } else {
+                start = getQuarterStart(now);
+            }
+            return { start, end: now };
+        }
+
+        function getPreviousRange(currentRange) {
+            const duration = currentRange.end.getTime() - currentRange.start.getTime();
+            const prevEnd = new Date(currentRange.start.getTime() - 1);
+            const prevStart = new Date(prevEnd.getTime() - duration);
+            return { start: prevStart, end: prevEnd };
+        }
+
+        function isInRange(date, range) {
+            if (!date) return false;
+            return date >= range.start && date <= range.end;
+        }
+
+        function intersectsRange(record, range) {
+            const points = [record.createdAt, record.prioritizedAt, record.researchStart, record.researchEnd, record.decisionAt].map(parseDate);
+            return points.some(date => isInRange(date, range));
+        }
+
+        function median(values) {
+            const filtered = values.filter(v => Number.isFinite(v)).sort((a, b) => a - b);
+            if (!filtered.length) return null;
+            const mid = Math.floor(filtered.length / 2);
+            if (filtered.length % 2 === 0) return (filtered[mid - 1] + filtered[mid]) / 2;
+            return filtered[mid];
+        }
+
+        function getWeeksBetween(start, end) {
+            const diffDays = Math.max(1, (end - start) / (1000 * 60 * 60 * 24));
+            return Math.max(1, diffDays / 7);
+        }
+
+        function fillTeamFilter() {
+            const teamSelect = document.getElementById("teamFilter");
+            const teams = Array.from(new Set(hypothesisData.map(item => item.team))).sort();
+            teams.forEach(team => {
+                const option = document.createElement("option");
+                option.value = team;
+                option.textContent = team;
+                teamSelect.appendChild(option);
+            });
+        }
+
+        function applyFilters(data, range, filters) {
+            return data.filter(item => {
+                if (filters.category !== "all" && item.category !== filters.category) return false;
+                if (filters.team !== "all" && item.team !== filters.team) return false;
+                if (filters.status !== "all" && item.status !== filters.status) return false;
+                return intersectsRange(item, range);
+            });
+        }
+
+        function computeMetrics(data, range, maturityKey) {
+            const activeStatuses = ["prioritized", "testing", "confirmed", "rejected", "implemented"];
+            const activeScope = data.filter(item => activeStatuses.includes(item.status));
+            const totalCost = activeScope.reduce((sum, item) => sum + item.costDirect + item.costIndirect, 0);
+
+            const researches = data.filter(item => isInRange(parseDate(item.researchEnd), range));
+            const tested = data.filter(item => isInRange(parseDate(item.decisionAt), range) && statusDecided.includes(item.status));
+            const confirmed = tested.filter(item => statusPositive.includes(item.status));
+
+            const validationDays = tested.map(item => toDayDiff(parseDate(item.prioritizedAt), parseDate(item.decisionAt))).filter(v => Number.isFinite(v));
+            const researchDays = researches.map(item => toDayDiff(parseDate(item.researchStart), parseDate(item.researchEnd))).filter(v => Number.isFinite(v));
+            const experimentDays = tested.map(item => toDayDiff(parseDate(item.researchStart), parseDate(item.decisionAt))).filter(v => Number.isFinite(v));
+
+            const weekCount = getWeeksBetween(range.start, range.end);
+            const researchVelocity = researches.length / weekCount;
+            const successRate = tested.length ? confirmed.length / tested.length : 0;
+            const validationMedian = median(validationDays);
+            const researchMedian = median(researchDays);
+            const experimentMedian = median(experimentDays);
+            const costPerValidated = confirmed.length ? totalCost / confirmed.length : null;
+
+            const target = maturityTargets[maturityKey];
+            const budgetGap = target.total ? (totalCost - target.total) / target.total : 0;
+            const validationGap = target.validationDays && validationMedian ? (validationMedian - target.validationDays) / target.validationDays : 0;
+            const successGap = target.successRate ? (successRate - target.successRate) / target.successRate : 0;
+
+            return {
+                totalCost,
+                researchCount: researches.length,
+                experimentCount: tested.length,
+                confirmedCount: confirmed.length,
+                testedCount: tested.length,
+                successRate,
+                researchVelocity,
+                validationVelocityDays: validationMedian,
+                researchVelocityDays: researchMedian,
+                experimentVelocityDays: experimentMedian,
+                costPerValidated,
+                budgetGap,
+                validationGap,
+                successGap
+            };
+        }
+
+        function computeDataQuality(data) {
+            const total = data.length || 1;
+            const missingDates = data.filter(item => !item.createdAt || !item.prioritizedAt).length;
+            const missingCost = data.filter(item => !Number.isFinite(item.costDirect) || !Number.isFinite(item.costIndirect)).length;
+            const duplicates = data.length - new Set(data.map(item => item.id)).size;
+            return {
+                missingDatesPct: missingDates / total,
+                missingCostPct: missingCost / total,
+                duplicatePct: duplicates / total
+            };
+        }
+
+        function getDelta(current, previous, invertGood = false) {
+            if (!Number.isFinite(current) || !Number.isFinite(previous) || previous === 0) {
+                return { text: "н/д", className: "delta-neutral" };
+            }
+            const delta = (current - previous) / previous;
+            const sign = delta > 0 ? "+" : "";
+            const label = sign + (delta * 100).toFixed(1) + "% к прошлому периоду";
+            const isGood = invertGood ? delta <= 0 : delta >= 0;
+            return { text: label, className: isGood ? "delta-positive" : "delta-negative" };
+        }
+
+        function buildActionTitle(metrics, target) {
+            const budgetSignal = metrics.budgetGap > 0.1 ? "превышает бюджет" : "держится в бюджетном коридоре";
+            const experimentSignal = metrics.experimentVelocityDays && metrics.experimentVelocityDays <= target.experimentDays
+                ? "эксперименты укладываются в целевое время"
+                : "время экспериментов выше целевого";
+            const validationSignal = metrics.validationVelocityDays && metrics.validationVelocityDays <= target.validationDays
+                ? "проверка гипотез ускоряется"
+                : "проверка гипотез требует ускорения";
+            return "Портфель гипотез " + budgetSignal +
+                ": TVC " + formatCurrency(metrics.totalCost) +
+                ", подтверждено " + metrics.confirmedCount +
+                " из " + metrics.testedCount +
+                " экспериментов; " + experimentSignal +
+                " (" + formatDays(metrics.experimentVelocityDays) + "), " +
+                validationSignal + " (" + formatDays(metrics.validationVelocityDays) + ").";
+        }
+
+        function applyHeroStatus(cardId, valueId, stateId, valueText, stateText, statusClass) {
+            const card = document.getElementById(cardId);
+            const valueEl = document.getElementById(valueId);
+            const stateEl = document.getElementById(stateId);
+            if (!card || !valueEl || !stateEl) return;
+            card.classList.remove("status-danger", "status-warn", "status-ok");
+            card.classList.add(statusClass);
+            valueEl.textContent = valueText;
+            stateEl.textContent = stateText;
+        }
+
+        function renderHero(metrics, quality, target, costDiagnostics) {
+            const costStatus = metrics.budgetGap > 0.1 ? "status-danger" : metrics.budgetGap > 0.03 ? "status-warn" : "status-ok";
+            const speedGap = Number.isFinite(metrics.validationVelocityDays) && target.validationDays
+                ? (metrics.validationVelocityDays - target.validationDays) / target.validationDays
+                : null;
+            const speedStatus = speedGap !== null && speedGap > 0.2 ? "status-danger" : speedGap !== null && speedGap > 0 ? "status-warn" : "status-ok";
+
+            const qualityRisk = quality.missingDatesPct > 0.1 || quality.missingCostPct > 0.1 || quality.duplicatePct > 0;
+            const qualityStatus = metrics.successRate < target.successRate ? (qualityRisk ? "status-danger" : "status-warn") : (qualityRisk ? "status-warn" : "status-ok");
+
+            applyHeroStatus(
+                "heroCostCard",
+                "heroCostValue",
+                "heroCostState",
+                formatCurrency(metrics.totalCost),
+                costStatus === "status-danger" ? "Тревога: бюджет превышен" : costStatus === "status-warn" ? "Риск отклонения от бюджета" : "Норма",
+                costStatus
+            );
+            applyHeroStatus(
+                "heroSpeedCard",
+                "heroSpeedValue",
+                "heroSpeedState",
+                formatDays(metrics.validationVelocityDays),
+                speedStatus === "status-danger" ? "Тревога: скорость ниже цели" : speedStatus === "status-warn" ? "Близко к порогу" : "Норма",
+                speedStatus
+            );
+            applyHeroStatus(
+                "heroQualityCard",
+                "heroQualityValue",
+                "heroQualityState",
+                formatPct(metrics.successRate),
+                qualityStatus === "status-danger" ? "Тревога: качество ниже цели" : qualityStatus === "status-warn" ? "Зона внимания" : "Норма",
+                qualityStatus
+            );
+
+            const insightEl = document.getElementById("heroInsight");
+            if (!insightEl) return;
+            const overrun = costDiagnostics.filter(item => item.delta > 0).sort((a, b) => b.delta - a.delta);
+            if (overrun.length) {
+                const worst = overrun[0];
+                insightEl.textContent = "Перерасход в направлении " + getCategoryLabel(worst.category) +
+                    ": +" + formatCurrency(worst.delta) + " к порогу.";
+            } else {
+                insightEl.textContent = "Критичного перерасхода по направлениям нет: бюджетный коридор соблюдается.";
+            }
+        }
+
+        function renderKpis(currentMetrics, previousMetrics, target) {
+            const grid = document.getElementById("kpiGrid");
+            grid.innerHTML = "";
+
+            const items = [
+                {
+                    label: "Общие затраты на проверку",
+                    value: formatCurrency(currentMetrics.totalCost),
+                    delta: getDelta(currentMetrics.totalCost, previousMetrics.totalCost, true),
+                    targetText: "Порог: ≤ " + formatCurrency(target.total),
+                    threshold: evaluateThreshold(currentMetrics.totalCost, target.total, "max")
+                },
+                {
+                    label: "Количество исследований",
+                    value: formatNumber(currentMetrics.researchCount),
+                    delta: getDelta(currentMetrics.researchCount, previousMetrics.researchCount, false),
+                    targetText: "Порог: ≥ " + formatNumber(target.minResearchCount),
+                    threshold: evaluateThreshold(currentMetrics.researchCount, target.minResearchCount, "min")
+                },
+                {
+                    label: "Время на исследование",
+                    value: formatDays(currentMetrics.researchVelocityDays),
+                    delta: getDelta(currentMetrics.researchVelocityDays, previousMetrics.researchVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.researchDays),
+                    threshold: evaluateThreshold(currentMetrics.researchVelocityDays, target.researchDays, "max")
+                },
+                {
+                    label: "Количество экспериментов",
+                    value: formatNumber(currentMetrics.experimentCount),
+                    delta: getDelta(currentMetrics.experimentCount, previousMetrics.experimentCount, false),
+                    targetText: "Порог: ≥ " + formatNumber(target.minExperimentCount),
+                    threshold: evaluateThreshold(currentMetrics.experimentCount, target.minExperimentCount, "min")
+                },
+                {
+                    label: "Время на эксперименты",
+                    value: formatDays(currentMetrics.experimentVelocityDays),
+                    delta: getDelta(currentMetrics.experimentVelocityDays, previousMetrics.experimentVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.experimentDays),
+                    threshold: evaluateThreshold(currentMetrics.experimentVelocityDays, target.experimentDays, "max")
+                },
+                {
+                    label: "Время проверки гипотез",
+                    value: formatDays(currentMetrics.validationVelocityDays),
+                    delta: getDelta(currentMetrics.validationVelocityDays, previousMetrics.validationVelocityDays, true),
+                    targetText: "Порог: ≤ " + formatDays(target.validationDays),
+                    threshold: evaluateThreshold(currentMetrics.validationVelocityDays, target.validationDays, "max")
+                },
+                {
+                    label: "Доля подтверждения гипотез",
+                    value: formatPct(currentMetrics.successRate),
+                    delta: getDelta(currentMetrics.successRate, previousMetrics.successRate, false),
+                    targetText: "Порог: ≥ " + formatPct(target.successRate),
+                    threshold: evaluateThreshold(currentMetrics.successRate, target.successRate, "min")
+                },
+                {
+                    label: "Стоимость подтверждённой гипотезы",
+                    value: formatCurrency(currentMetrics.costPerValidated),
+                    delta: getDelta(currentMetrics.costPerValidated, previousMetrics.costPerValidated, true),
+                    targetText: "Порог: ≤ " + formatCurrency(target.costPerValidated),
+                    threshold: evaluateThreshold(currentMetrics.costPerValidated, target.costPerValidated, "max")
+                }
+            ];
+
+            items.forEach(item => {
+                const card = document.createElement("article");
+                card.className = "kpi-card";
+                card.innerHTML = `
+                    <div class="kpi-label">${item.label}</div>
+                    <div class="kpi-value">${item.value}</div>
+                    <div class="kpi-delta ${item.delta.className}">${item.delta.text}</div>
+                    <div class="kpi-target">${item.targetText}</div>
+                    <div class="kpi-state ${item.threshold.className}">${item.threshold.text}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function getPhaseCosts(data) {
+            const mix = [
+                { phase: "Гипотеза", d: 0.17, i: 0.12 },
+                { phase: "Действие", d: 0.26, i: 0.22 },
+                { phase: "Данные", d: 0.33, i: 0.41 },
+                { phase: "Инсайты", d: 0.24, i: 0.25 }
+            ];
+            const totalDirect = data.reduce((sum, item) => sum + item.costDirect, 0);
+            const totalIndirect = data.reduce((sum, item) => sum + item.costIndirect, 0);
+            return mix.map(item => ({
+                phase: item.phase,
+                direct: Math.round(totalDirect * item.d),
+                indirect: Math.round(totalIndirect * item.i)
+            }));
+        }
+
+        function getCostPerValidatedByCategory(data) {
+            const categories = ["growth", "value", "retention", "efficiency"];
+            return categories.map(cat => {
+                const scoped = data.filter(item => item.category === cat);
+                const confirmed = scoped.filter(item => statusPositive.includes(item.status));
+                const cost = scoped.reduce((sum, item) => sum + item.costDirect + item.costIndirect, 0);
+                return {
+                    category: cat,
+                    value: confirmed.length ? cost / confirmed.length : 0
+                };
+            });
+        }
+
+        function getCostDiagnostics(data, maturityKey) {
+            const target = maturityTargets[maturityKey].costPerValidated;
+            return getCostPerValidatedByCategory(data)
+                .map(item => ({
+                    ...item,
+                    target,
+                    delta: item.value - target,
+                    ratio: target > 0 ? (item.value - target) / target : 0
+                }))
+                .filter(item => item.value > 0);
+        }
+
+        function weekLabel(date) {
+            const d = new Date(date);
+            return `${d.getDate().toString().padStart(2, "0")}.${(d.getMonth() + 1).toString().padStart(2, "0")}`;
+        }
+
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay() || 7;
+            d.setDate(d.getDate() - day + 1);
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
+
+        function buildWeeklySeries(data, range) {
+            const start = getWeekStart(range.start);
+            const points = [];
+            const mapResearch = {};
+            const mapTested = {};
+
+            for (let i = 0; i < 16; i++) {
+                const current = new Date(start);
+                current.setDate(start.getDate() + i * 7);
+                if (current > range.end) break;
+                const key = current.toISOString().slice(0, 10);
+                points.push({ key, label: weekLabel(current), research: 0, tested: 0 });
+            }
+
+            data.forEach(item => {
+                const researchEnd = parseDate(item.researchEnd);
+                const decision = parseDate(item.decisionAt);
+
+                if (researchEnd && isInRange(researchEnd, range)) {
+                    const key = getWeekStart(researchEnd).toISOString().slice(0, 10);
+                    mapResearch[key] = (mapResearch[key] || 0) + 1;
+                }
+                if (decision && isInRange(decision, range) && statusDecided.includes(item.status)) {
+                    const key = getWeekStart(decision).toISOString().slice(0, 10);
+                    mapTested[key] = (mapTested[key] || 0) + 1;
+                }
+            });
+
+            return points.map(point => ({
+                label: point.label,
+                research: mapResearch[point.key] || 0,
+                tested: mapTested[point.key] || 0
+            }));
+        }
+
+        function getFunnel(data) {
+            return {
+                formulated: data.filter(item => item.status === "formulated").length,
+                prioritized: data.filter(item => ["prioritized", "testing", "confirmed", "rejected", "implemented"].includes(item.status)).length,
+                testing: data.filter(item => item.status === "testing").length,
+                confirmed: data.filter(item => statusPositive.includes(item.status)).length,
+                rejected: data.filter(item => item.status === "rejected").length,
+                implemented: data.filter(item => item.status === "implemented").length
+            };
+        }
+
+        function colorByStatus(status) {
+            if (status === "rejected") return "#ff6b6b";
+            if (statusPositive.includes(status)) return "#2e7d32";
+            return "#147bbc";
+        }
+
+        function destroyChart(name) {
+            if (charts[name]) {
+                charts[name].destroy();
+                charts[name] = null;
+            }
+        }
+
+        function renderFinancialCharts(filteredData, metrics, maturityKey, categoryFilter) {
+            const phaseCosts = getPhaseCosts(filteredData);
+            destroyChart("costWaterfall");
+            charts.costWaterfall = new Chart(document.getElementById("costWaterfall"), {
+                type: "bar",
+                data: {
+                    labels: phaseCosts.map(item => item.phase),
+                    datasets: [
+                        {
+                            label: "Прямые затраты",
+                            data: phaseCosts.map(item => item.direct),
+                            backgroundColor: "#0f4c75",
+                            borderRadius: 5
+                        },
+                        {
+                            label: "Косвенные затраты",
+                            data: phaseCosts.map(item => item.indirect),
+                            backgroundColor: "#9dd4f2",
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ": " + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                callback: function(value) { return formatCurrency(value); }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const byCategory = getCostDiagnostics(filteredData, maturityKey);
+            const target = maturityTargets[maturityKey].costPerValidated;
+            const barColors = byCategory.map(item => item.delta > 0 ? "rgba(198,40,40,0.72)" : "rgba(46,125,50,0.72)");
+            destroyChart("costPerValidatedChart");
+            charts.costPerValidatedChart = new Chart(document.getElementById("costPerValidatedChart"), {
+                data: {
+                    labels: byCategory.map(item => getCategoryLabel(item.category)),
+                    datasets: [
+                        {
+                            type: "bar",
+                            label: "Факт",
+                            data: byCategory.map(item => Math.round(item.value)),
+                            backgroundColor: barColors,
+                            borderRadius: 5
+                        },
+                        {
+                            type: "line",
+                            label: "Порог",
+                            data: byCategory.map(() => target),
+                            borderColor: "#ffb800",
+                            pointRadius: 0,
+                            borderDash: [5, 4],
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ": " + formatCurrency(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { ticks: { callback: (value) => formatCurrency(value) } }
+                    }
+                }
+            });
+
+            const actionAndDataCost = phaseCosts
+                .filter(item => item.phase === "Действие" || item.phase === "Данные")
+                .reduce((sum, item) => sum + item.direct + item.indirect, 0);
+            const actionAndDataShare = metrics.totalCost > 0 ? actionAndDataCost / metrics.totalCost : 0;
+
+            document.getElementById("financialTitle").textContent =
+                "Из общих затрат на проверку гипотез " + formatCurrency(metrics.totalCost) +
+                " на эксперименты и анализ данных уходит " + formatCurrency(actionAndDataCost) +
+                " (" + formatPct(actionAndDataShare) + ").";
+            document.getElementById("financialContext").textContent =
+                "Из " + formatCurrency(metrics.totalCost) + " на проверку на этапы «Действие + Данные» приходится " +
+                formatCurrency(actionAndDataCost) + " (" + formatPct(actionAndDataShare) + ").";
+
+            const readout = document.getElementById("costPerValidatedReadout");
+            readout.innerHTML = "";
+            const alertsEl = document.getElementById("financeInlineAlerts");
+            alertsEl.innerHTML = "";
+            const withValues = byCategory;
+
+            if (!withValues.length || !Number.isFinite(metrics.costPerValidated)) {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "Недостаточно подтверждённых гипотез для оценки стоимости по направлениям.";
+
+                const row = document.createElement("div");
+                row.className = "cost-row";
+                row.innerHTML = `
+                    <div>
+                        <div class="cost-main">Нет данных для расчёта по текущему фильтру</div>
+                        <div class="cost-meta">Добавьте подтверждённые гипотезы или расширьте период.</div>
+                    </div>
+                    <div class="cost-status">—</div>
+                `;
+                readout.appendChild(row);
+                return;
+            }
+
+            const overrun = withValues.filter(item => item.delta > 0);
+            const sortedByDelta = [...withValues].sort((a, b) => b.delta - a.delta);
+            const worst = sortedByDelta[0];
+
+            if (overrun.length) {
+                overrun.slice(0, 3).forEach(item => {
+                    const alert = document.createElement("div");
+                    alert.className = "inline-alert";
+                    alert.textContent = "⚠️ " + getCategoryLabel(item.category) + ": +" + formatCurrency(item.delta) + " к порогу";
+                    alertsEl.appendChild(alert);
+                });
+            } else {
+                const alert = document.createElement("div");
+                alert.className = "inline-alert ok";
+                alert.textContent = "✓ Все направления укладываются в порог стоимости подтверждённой гипотезы";
+                alertsEl.appendChild(alert);
+            }
+
+            if (overrun.length > 0) {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "В перерасходе " + overrun.length + " из " + withValues.length +
+                    " направлений; максимальное отклонение — " + getCategoryLabel(worst.category) +
+                    " (+" + formatCurrency(worst.delta) + " к порогу).";
+            } else {
+                document.getElementById("costPerValidatedTitle").textContent =
+                    "Перерасхода нет: все " + withValues.length +
+                    " направлений укладываются в порог по стоимости подтверждённой гипотезы.";
+            }
+
+            sortedByDelta.forEach(item => {
+                const row = document.createElement("div");
+                const isOverrun = item.delta > 0;
+                const statusClass = isOverrun ? "over" : "ok";
+                const deltaText = isOverrun
+                    ? "Перерасход: +" + formatCurrency(item.delta) + " (" + formatPct(item.ratio) + ")"
+                    : "Ниже порога: " + formatCurrency(Math.abs(item.delta)) + " (" + formatPct(Math.abs(item.ratio)) + ")";
+
+                row.className = "cost-row";
+                row.classList.add("clickable");
+                if (categoryFilter === item.category) {
+                    row.classList.add("active");
+                }
+                row.innerHTML = `
+                    <div>
+                        <div class="cost-main">${getCategoryLabel(item.category)}: ${formatCurrency(item.value)}</div>
+                        <div class="cost-meta">Порог: ${formatCurrency(target)} • Фокус: ${getCategoryDescription(item.category)}</div>
+                    </div>
+                    <div class="cost-status ${statusClass}">${deltaText}</div>
+                `;
+                row.addEventListener("click", () => {
+                    const categorySelect = document.getElementById("categoryFilter");
+                    if (!categorySelect) return;
+                    categorySelect.value = item.category;
+                    render();
+                    const section = document.getElementById("section-finance");
+                    if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+                readout.appendChild(row);
+            });
+        }
+
+        function renderOperationalCharts(filteredData, range, metrics, maturityKey) {
+            const weekly = buildWeeklySeries(filteredData, range);
+            destroyChart("throughputChart");
+            charts.throughputChart = new Chart(document.getElementById("throughputChart"), {
+                type: "line",
+                data: {
+                    labels: weekly.map(item => item.label),
+                    datasets: [
+                        {
+                            label: "Завершённые исследования",
+                            data: weekly.map(item => item.research),
+                            borderColor: "#147bbc",
+                            backgroundColor: "rgba(20, 123, 188, 0.15)",
+                            fill: true,
+                            tension: 0.28,
+                            pointRadius: 3
+                        },
+                        {
+                            label: "Завершённые эксперименты",
+                            data: weekly.map(item => item.tested),
+                            borderColor: "#00a9b5",
+                            backgroundColor: "rgba(0, 169, 181, 0.1)",
+                            fill: true,
+                            tension: 0.28,
+                            pointRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, ticks: { precision: 0 } }
+                    }
+                }
+            });
+
+            const cycleData = [
+                Math.round((metrics.researchVelocityDays || 0) * 10) / 10,
+                Math.round((metrics.experimentVelocityDays || 0) * 10) / 10,
+                Math.round((metrics.validationVelocityDays || 0) * 10) / 10
+            ];
+            const targetResearch = maturityTargets[maturityKey].researchDays;
+            const targetExperiment = maturityTargets[maturityKey].experimentDays;
+            const targetValidation = maturityTargets[maturityKey].validationDays;
+
+            destroyChart("cycleTimeChart");
+            charts.cycleTimeChart = new Chart(document.getElementById("cycleTimeChart"), {
+                data: {
+                    labels: ["Время исследования", "Время эксперимента", "Время проверки гипотез"],
+                    datasets: [
+                        {
+                            type: "bar",
+                            label: "Факт, дней",
+                            data: cycleData,
+                            backgroundColor: ["#0f4c75", "#1e9fd9", "#00a9b5"],
+                            borderRadius: 5
+                        },
+                        {
+                            type: "line",
+                            label: "Порог, дней",
+                            data: [targetResearch, targetExperiment, targetValidation],
+                            borderColor: "#ffb800",
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointBackgroundColor: "#ffb800",
+                            tension: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: "bottom", labels: { boxWidth: 12, usePointStyle: true } } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            const waitingBreakdown = [
+                { label: "Между гипотезой и действием", value: 1.4 },
+                { label: "Между действием и данными", value: 2.1 },
+                { label: "Между данными и инсайтами", value: 1.2 }
+            ];
+            const maxValue = Math.max(...waitingBreakdown.map(item => item.value), 1);
+            const waitingEl = document.getElementById("waitingBars");
+            waitingEl.innerHTML = "";
+            waitingBreakdown.forEach(item => {
+                const percent = (item.value / maxValue) * 100;
+                const row = document.createElement("div");
+                row.className = "mini-bar";
+                row.innerHTML = `
+                    <span>${item.label}</span>
+                    <div class="mini-track"><div class="mini-fill" style="width:${percent}%;"></div></div>
+                    <strong>${item.value.toFixed(1)} дн.</strong>
+                `;
+                waitingEl.appendChild(row);
+            });
+            const bottleneckEl = document.getElementById("bottleneckLine");
+            if (bottleneckEl) {
+                bottleneckEl.textContent =
+                    "Bottleneck-анализ (дни ожидания): 1.4дн → 2.1дн → 1.2дн. Узкое место: переход «Действие → Данные».";
+            }
+
+            document.getElementById("throughputTitle").textContent =
+                "Поток исследований и экспериментов стабилен: завершено " + metrics.researchCount +
+                " исследований и " + metrics.experimentCount + " экспериментов.";
+            document.getElementById("cycleTitle").textContent =
+                "Время экспериментов и проверки гипотез должно сокращаться с ростом компетенций команды; текущее время проверки — " +
+                formatDays(metrics.validationVelocityDays) + ".";
+        }
+
+        function renderOutcomeCharts(filteredData) {
+            const funnel = getFunnel(filteredData);
+            destroyChart("funnelChart");
+            charts.funnelChart = new Chart(document.getElementById("funnelChart"), {
+                type: "bar",
+                data: {
+                    labels: ["Сформулировано", "Приоритизировано", "В эксперименте", "Подтверждено", "Отклонено", "Внедрено"],
+                    datasets: [
+                        {
+                            label: "Гипотезы",
+                            data: [funnel.formulated, funnel.prioritized, funnel.testing, funnel.confirmed, funnel.rejected, funnel.implemented],
+                            backgroundColor: ["#9dd4f2", "#1e9fd9", "#147bbc", "#2e7d32", "#ff6b6b", "#0a2f4c"],
+                            borderRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+
+            const points = filteredData.map(item => ({
+                x: item.confidence,
+                y: item.effort,
+                r: Math.max(4, Math.round(item.reach / 12)),
+                status: item.status,
+                title: item.title,
+                id: item.id,
+                team: item.team,
+                category: item.category,
+                cost: item.costDirect + item.costIndirect
+            }));
+
+            destroyChart("matrixChart");
+            charts.matrixChart = new Chart(document.getElementById("matrixChart"), {
+                type: "bubble",
+                data: {
+                    datasets: [
+                        {
+                            label: "Портфель гипотез",
+                            data: points,
+                            backgroundColor: points.map(point => colorByStatus(point.status)),
+                            borderColor: "#ffffff",
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const p = context.raw;
+                                    return `${p.id}: ${p.title} | Уверенность ${p.x}% | Сложность ${p.y} | Команда ${p.team} | ${getCategoryLabel(p.category)} | ${formatCurrency(p.cost)}`;
+                                }
+                            }
+                        }
+                    },
+                    onHover: (event, elements) => {
+                        event.native.target.style.cursor = elements.length ? "pointer" : "default";
+                    },
+                    scales: {
+                        x: {
+                            min: 40,
+                            max: 95,
+                            title: { display: true, text: "Уверенность, %" },
+                            grid: { color: "#e9ecef" }
+                        },
+                        y: {
+                            min: 1,
+                            max: 5,
+                            reverse: true,
+                            title: { display: true, text: "Сложность (1-5)" },
+                            ticks: { stepSize: 1 },
+                            grid: { color: "#e9ecef" }
+                        }
+                    }
+                }
+            });
+
+            document.getElementById("funnelTitle").textContent =
+                "Из " + (funnel.prioritized + funnel.formulated) +
+                " инициатив до подтверждения дошло " + funnel.confirmed +
+                ", до внедрения — " + funnel.implemented + ".";
+            document.getElementById("matrixTitle").textContent =
+                "Матрица приоритизации показывает долю быстрых побед и дорогих гипотез в портфеле.";
+        }
+
+        function renderActionCards(currentMetrics, quality, maturityKey, costDiagnostics) {
+            const target = maturityTargets[maturityKey];
+            const actionList = document.getElementById("actionCardList");
+            actionList.innerHTML = "";
+
+            const actions = [];
+            const overrun = costDiagnostics.filter(item => item.delta > 0).sort((a, b) => b.delta - a.delta);
+            if (overrun.length) {
+                const worst = overrun[0];
+                actions.push({
+                    priority: "P1",
+                    title: "Снизить перерасход в направлении «" + getCategoryLabel(worst.category) + "»",
+                    text: "Стоимость подтверждённой гипотезы выше порога на " + formatCurrency(worst.delta) + ". Пересмотреть дизайн экспериментов и размер выборки.",
+                    metric: "Стоимость подтверждённой гипотезы",
+                    link: "#section-finance",
+                    status: "new",
+                    statusText: "Новая"
+                });
+            } else {
+                actions.push({
+                    priority: "P3",
+                    title: "Зафиксировать бюджетные практики",
+                    text: "Перерасхода по направлениям нет. Масштабируйте подходы, которые удерживают стоимость в целевом коридоре.",
+                    metric: "Контроль бюджета",
+                    link: "#section-finance",
+                    status: "done",
+                    statusText: "Стабильно"
+                });
+            }
+
+            if (currentMetrics.validationVelocityDays && currentMetrics.validationVelocityDays > target.validationDays) {
+                actions.push({
+                    priority: "P1",
+                    title: "Сократить цикл проверки гипотез",
+                    text: "Текущее время проверки " + formatDays(currentMetrics.validationVelocityDays) + " против целевых " + formatDays(target.validationDays) + ".",
+                    metric: "Время проверки гипотез",
+                    link: "#section-operations",
+                    status: "in-progress",
+                    statusText: "В работе"
+                });
+            }
+
+            if (currentMetrics.experimentVelocityDays && currentMetrics.experimentVelocityDays > target.experimentDays) {
+                actions.push({
+                    priority: "P2",
+                    title: "Убрать bottleneck между «Действие» и «Данные»",
+                    text: "Критичная задержка в цепочке 1.4дн → 2.1дн → 1.2дн. Зафиксировать SLA на аналитику и готовые шаблоны экспериментов.",
+                    metric: "Время на эксперименты",
+                    link: "#section-operations",
+                    status: "in-progress",
+                    statusText: "В работе"
+                });
+            }
+
+            if (currentMetrics.successRate < target.successRate) {
+                actions.push({
+                    priority: "P2",
+                    title: "Поднять долю подтверждения гипотез",
+                    text: "Success rate " + formatPct(currentMetrics.successRate) + " ниже порога " + formatPct(target.successRate) + ". Усилить pre-check гипотез перед запуском.",
+                    metric: "Доля подтверждения гипотез",
+                    link: "#section-strategy",
+                    status: "new",
+                    statusText: "Новая"
+                });
+            }
+
+            if (quality.missingDatesPct > 0.1 || quality.missingCostPct > 0.1 || quality.duplicatePct > 0) {
+                actions.push({
+                    priority: "P2",
+                    title: "Улучшить качество источника данных",
+                    text: "Есть пропуски и/или дубли, что снижает доверие к KPI. Требуется зачистка tracker перед следующей итерацией отчёта.",
+                    metric: "Качество данных",
+                    link: "#section-data",
+                    status: "new",
+                    statusText: "Новая"
+                });
+            }
+
+            if (!actions.length) {
+                actions.push({
+                    priority: "P3",
+                    title: "Поддерживать текущий операционный ритм",
+                    text: "Ключевые метрики находятся в целевом коридоре. Следующий шаг — масштабирование практик на все продуктовые направления.",
+                    metric: "Общий статус",
+                    link: "#section-finance",
+                    status: "done",
+                    statusText: "Стабильно"
+                });
+            }
+
+            const priorityRank = { P1: 1, P2: 2, P3: 3 };
+            actions.sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority]);
+
+            actions.slice(0, 5).forEach(item => {
+                const card = document.createElement("article");
+                card.className = "action-card";
+                card.innerHTML = `
+                    <div class="priority-badge ${item.priority.toLowerCase()}">${item.priority}</div>
+                    <div>
+                        <div class="action-title">${item.title}</div>
+                        <div class="action-text">${item.text}</div>
+                        <div class="action-meta">
+                            <span class="metric-badge">Метрика: ${item.metric}</span>
+                            <a class="metric-link" href="${item.link}">Перейти к блоку ↗</a>
+                        </div>
+                    </div>
+                    <div class="action-status ${item.status}">${item.statusText}</div>
+                `;
+                actionList.appendChild(card);
+            });
+        }
+
+        function renderQuality(quality) {
+            const qualityGrid = document.getElementById("qualityGrid");
+            qualityGrid.innerHTML = "";
+            const items = [
+                { label: "Пропуски дат", value: formatPct(quality.missingDatesPct) },
+                { label: "Пропуски затрат", value: formatPct(quality.missingCostPct) },
+                { label: "Дубли ID", value: formatPct(quality.duplicatePct) }
+            ];
+            items.forEach(item => {
+                const el = document.createElement("div");
+                el.className = "quality-box";
+                el.innerHTML = `<strong>${item.value}</strong>${item.label}`;
+                qualityGrid.appendChild(el);
+            });
+        }
+
+        function renderFooterThresholds(metrics, target) {
+            const thresholdGrid = document.getElementById("thresholdFooterGrid");
+            thresholdGrid.innerHTML = "";
+
+            const rows = [
+                {
+                    label: "Бюджет",
+                    value: metrics.totalCost,
+                    targetValue: target.total,
+                    mode: "max",
+                    displayValue: formatCurrency(metrics.totalCost),
+                    displayTarget: "≤ " + formatCurrency(target.total)
+                },
+                {
+                    label: "Скорость проверки",
+                    value: metrics.validationVelocityDays,
+                    targetValue: target.validationDays,
+                    mode: "max",
+                    displayValue: formatDays(metrics.validationVelocityDays),
+                    displayTarget: "≤ " + formatDays(target.validationDays)
+                },
+                {
+                    label: "Доля подтверждения",
+                    value: metrics.successRate,
+                    targetValue: target.successRate,
+                    mode: "min",
+                    displayValue: formatPct(metrics.successRate),
+                    displayTarget: "≥ " + formatPct(target.successRate)
+                }
+            ];
+
+            rows.forEach(row => {
+                const state = evaluateThreshold(row.value, row.targetValue, row.mode);
+                const el = document.createElement("div");
+                el.className = "footer-threshold-item";
+                el.innerHTML = `
+                    <strong>${row.label}</strong>
+                    Факт: ${row.displayValue} • Порог: ${row.displayTarget}<br>
+                    <span class="kpi-state ${state.className}">${state.text}</span>
+                `;
+                thresholdGrid.appendChild(el);
+            });
+        }
+
+        function syncStrategicFilters(selectedCategory) {
+            const chips = document.querySelectorAll("#strategicCategoryFilters .chip-btn");
+            chips.forEach(chip => {
+                chip.classList.toggle("active", chip.dataset.category === selectedCategory);
+            });
+        }
+
+        function setupStrategicCategoryFilters() {
+            const chips = document.querySelectorAll("#strategicCategoryFilters .chip-btn");
+            chips.forEach(chip => {
+                chip.addEventListener("click", () => {
+                    const category = chip.dataset.category || "all";
+                    const select = document.getElementById("categoryFilter");
+                    if (!select) return;
+                    select.value = category;
+                    render();
+                });
+            });
+        }
+
+        function render() {
+            const period = document.getElementById("periodFilter").value;
+            const category = document.getElementById("categoryFilter").value;
+            const team = document.getElementById("teamFilter").value;
+            const status = document.getElementById("statusFilter").value;
+            const maturityKey = document.getElementById("benchmarkMode").value;
+
+            const range = getPeriodRange(period);
+            const previousRange = getPreviousRange(range);
+
+            const currentFiltered = applyFilters(hypothesisData, range, { category, team, status });
+            const previousFiltered = applyFilters(hypothesisData, previousRange, { category, team, status });
+
+            const currentMetrics = computeMetrics(currentFiltered, range, maturityKey);
+            const previousMetrics = computeMetrics(previousFiltered, previousRange, maturityKey);
+            const quality = computeDataQuality(currentFiltered);
+            const costDiagnostics = getCostDiagnostics(currentFiltered, maturityKey);
+
+            const target = maturityTargets[maturityKey];
+            document.getElementById("actionTitle").textContent = buildActionTitle(currentMetrics, target);
+            renderHero(currentMetrics, quality, target, costDiagnostics);
+            renderKpis(currentMetrics, previousMetrics, target);
+            renderActionCards(currentMetrics, quality, maturityKey, costDiagnostics);
+            renderFinancialCharts(currentFiltered, currentMetrics, maturityKey, category);
+            renderOperationalCharts(currentFiltered, range, currentMetrics, maturityKey);
+            renderOutcomeCharts(currentFiltered);
+            renderFooterThresholds(currentMetrics, target);
+            renderQuality(quality);
+            syncStrategicFilters(category);
+
+            const now = new Date();
+            document.getElementById("lastUpdated").textContent = "Обновлено: " + now.toLocaleString("ru-RU");
+        }
+
+        function navigateTo(url) {
+            if (!url) return;
+            document.body.classList.add("page-leaving");
+            setTimeout(() => {
+                window.location.href = url;
+            }, 140);
+        }
+
+        function updateBackToTopVisibility() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const fab = document.getElementById("backToTop");
+            if (!fab) return;
+            fab.classList.toggle("visible", scrollTop > 500);
+        }
+
+        function setupBackToTop() {
+            const button = document.getElementById("backToTop");
+            if (!button) return;
+            button.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+            updateBackToTopVisibility();
+            window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
+        }
+
+        function setupPageTransitions() {
+            const links = document.querySelectorAll("a.nav-link");
+            links.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    const href = link.getAttribute("href");
+                    if (!href || href.startsWith("http")) return;
+                    event.preventDefault();
+                    navigateTo(href);
+                });
+            });
+        }
+
+        function setupEmbedMode() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("embed") !== "1") return;
+
+            const widget = params.get("widget");
+            document.body.classList.add("embed-mode");
+
+            if (!widget) return;
+            const target = document.querySelector(`[data-widget="${widget}"]`);
+            if (!target) return;
+
+            target.classList.add("embed-active", "span-12");
+            target.classList.remove("span-8", "span-6", "span-4");
+            const parentSection = target.closest(".dashboard-section");
+            if (parentSection) {
+                parentSection.classList.add("embed-section");
+            }
+        }
+
+        fillTeamFilter();
+        ["periodFilter", "categoryFilter", "teamFilter", "statusFilter", "benchmarkMode"].forEach(id => {
+            document.getElementById(id).addEventListener("change", render);
+        });
+        setupStrategicCategoryFilters();
+        setupPageTransitions();
+        setupBackToTop();
+        render();
+        setupEmbedMode();
+        if (window.initFeedbackWidget) {
+            window.initFeedbackWidget('executive-dashboard');
+        }
+    </script>
+</body>
+</html>
