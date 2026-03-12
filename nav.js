@@ -41,6 +41,7 @@
             <button type="button" class="global-nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">Ещё</button>
             <ul class="nav-dropdown-menu" role="menu">
               <li><a href="executive-dashboard.html" class="nav-dropdown-link" data-page="executive-dashboard.html" role="menuitem">Аналитика процесса</a></li>
+              <li><a href="value-stream-diagram.html" class="nav-dropdown-link" data-page="value-stream-diagram.html" role="menuitem">Диаграмма процесса</a></li>
               <li><a href="holst-process-diagram.html" class="nav-dropdown-link" data-page="holst-process-diagram.html" role="menuitem">Holst диаграмма</a></li>
               <li><a href="cross-process.html" class="nav-dropdown-link" data-page="cross-process.html" role="menuitem">Кросс-процесс</a></li>
               <li><a href="process-board.html" class="nav-dropdown-link" data-page="process-board.html" role="menuitem">Схема процесса</a></li>
@@ -56,7 +57,7 @@
   // Set active link
   const links = placeholder.querySelectorAll('.nav-link:not(.nav-dropdown-trigger)');
   const dropdownLinks = placeholder.querySelectorAll('.nav-dropdown-link');
-  const dropdownPages = ['executive-dashboard.html', 'holst-process-diagram.html', 'cross-process.html', 'process-board.html'];
+  const dropdownPages = ['executive-dashboard.html', 'value-stream-diagram.html', 'holst-process-diagram.html', 'cross-process.html', 'process-board.html'];
   const isDropdownPage = dropdownPages.includes(currentPage);
 
   links.forEach((link) => {
