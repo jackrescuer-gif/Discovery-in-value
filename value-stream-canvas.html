@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh; padding: 24px; overflow-x: auto; }
-.page { min-width: 2200px; background: #f8f8f8; border: 1px solid #d0d0d0; border-radius: 4px; padding: 28px 32px 32px; position: relative; }
+.page { min-width: 2400px; background: #f8f8f8; border: 1px solid #d0d0d0; border-radius: 4px; padding: 28px 32px 32px; position: relative; }
 .top-mgmt { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #dbeafe; border: 1px solid #93c5fd; border-radius: 8px; padding: 7px 20px; font-size: 11px; color: #1e40af; text-align: center; line-height: 1.4; white-space: nowrap; }
 .stage-title { text-align: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 22px; padding-top: 10px; }
 .stage-title span { font-style: italic; }
@@ -81,44 +81,44 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
 .ph-connector .label { font-size:8px;color:#9ca3af;white-space:nowrap;margin-bottom:36px;writing-mode:initial; }
 .gate-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 3px; padding-top: 50px; gap: 3px; flex-shrink: 0; }
 .gate-label { font-size: 8px; color: #92400e; font-weight: 700; text-align: center; }
+.stage-frame { border: 2px solid; border-radius: 14px; padding: 10px 12px 14px; position: relative; }
+.stage-frame-title { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); padding: 2px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; }
+.sf-filter { border-color: #93c5fd; background: rgba(219,234,254,0.15); }
+.sf-filter .stage-frame-title { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+.sf-discovery { border-color: #f9a8d4; background: rgba(252,231,243,0.15); }
+.sf-discovery .stage-frame-title { background: #fce7f3; color: #be185d; border: 1px solid #f9a8d4; }
+.sf-delivery { border-color: #86efac; background: rgba(220,252,231,0.12); }
+.sf-delivery .stage-frame-title { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+.sf-inner { display: flex; align-items: flex-start; gap: 0; }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="top-mgmt">Управление ресурсами, бюджетом и инициативами через<br><strong>Дерево целей Заказчика</strong></div>
   <div class="stage-title">Поток создания ценности — <span>Value Stream</span></div>
-  <div style="display:flex;gap:0;margin-bottom:8px;padding-left:0;">
-    <div style="width:230px;flex-shrink:0"></div>
-    <div style="width:36px;flex-shrink:0"></div>
-    <div style="width:310px;flex-shrink:0;text-align:center;font-size:13px;font-weight:700;color:#374151;">Фильтрация</div>
-    <div style="width:36px;flex-shrink:0"></div>
-    <div style="width:310px;flex-shrink:0;text-align:center;font-size:13px;font-weight:700;color:#374151;">Проектирование</div>
-    <div style="width:36px;flex-shrink:0"></div>
-    <div style="width:370px;flex-shrink:0;text-align:center;font-size:13px;font-weight:700;color:#374151;">Разработка</div>
-    <div style="width:36px;flex-shrink:0"></div>
-    <div style="width:270px;flex-shrink:0;text-align:center;font-size:13px;font-weight:700;color:#374151;">Приёмочное тестирование</div>
-    <div style="width:36px;flex-shrink:0"></div>
-    <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:#374151;">Внедрение</div>
-  </div>
-  <div style="display:flex;align-items:flex-start;gap:0;">
-    <div style="width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;padding-top:0;">
-      <div class="card card-dashed" style="border-color:#a5b4fc;">
-        <div class="card-title" style="color:#4338ca;">Входы фильтрации</div>
-        <ul><li>Ресурсная ёмкость команд</li><li>Текущий техдолг</li><li>Цели периода / OKR</li><li>Бэклог инициатив от стратегии</li></ul>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:center;align-items:flex-end;padding:4px 0 2px;">
-        <div class="icon-box"><div class="icon-circle ic-blue">🏢</div><span>Стратегия</span></div>
-        <div class="icon-box"><div class="icon-circle ic-green">📋</div><span>OKR</span></div>
-        <div class="icon-box"><div class="icon-circle ic-yellow">👥</div><span>Команды</span></div>
-      </div>
-      <div class="card" style="background:#ede9fe;border:1px solid #c4b5fd;font-size:9.5px;">
-        <div class="card-title" style="color:#5b21b6;">Ключевые вопросы</div>
-        <ul><li>На какой стратфокус влияет инициатива?</li><li>Ожидаемый эффект (доход / риск)?</li><li>Какими метриками управляем?</li><li>Сколько ресурсов готовы вложить?</li></ul>
-      </div>
-    </div>
-    <div class="ph-connector"><div class="line"></div><div class="arrow"></div></div>
-    <div style="width:310px;flex-shrink:0;" class="phase-wrap">
-      <div class="sdlc-banner sdlc-blue" style="margin-bottom:6px;">Фильтрация инициатив · Стадии 1–3</div>
+  <div style="display:flex;align-items:flex-start;gap:0;margin-top:8px;">
+    <!-- ═══ FRAME: ФИЛЬТРАЦИЯ ═══ -->
+    <div class="stage-frame sf-filter" style="flex-shrink:0;">
+      <div class="stage-frame-title">Фильтрация</div>
+      <div class="sf-inner">
+        <div style="width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;padding-top:0;">
+          <div class="card card-dashed" style="border-color:#a5b4fc;">
+            <div class="card-title" style="color:#4338ca;">Входы фильтрации</div>
+            <ul><li>Ресурсная ёмкость команд</li><li>Текущий техдолг</li><li>Цели периода / OKR</li><li>Бэклог инициатив от стратегии</li></ul>
+          </div>
+          <div style="display:flex;gap:8px;justify-content:center;align-items:flex-end;padding:4px 0 2px;">
+            <div class="icon-box"><div class="icon-circle ic-blue">🏢</div><span>Стратегия</span></div>
+            <div class="icon-box"><div class="icon-circle ic-green">📋</div><span>OKR</span></div>
+            <div class="icon-box"><div class="icon-circle ic-yellow">👥</div><span>Команды</span></div>
+          </div>
+          <div class="card" style="background:#ede9fe;border:1px solid #c4b5fd;font-size:9.5px;">
+            <div class="card-title" style="color:#5b21b6;">Ключевые вопросы</div>
+            <ul><li>На какой стратфокус влияет инициатива?</li><li>Ожидаемый эффект (доход / риск)?</li><li>Какими метриками управляем?</li><li>Сколько ресурсов готовы вложить?</li></ul>
+          </div>
+        </div>
+        <div class="ph-connector"><div class="line"></div><div class="arrow"></div></div>
+        <div style="width:310px;flex-shrink:0;" class="phase-wrap">
+          <div class="sdlc-banner sdlc-blue" style="margin-bottom:6px;">Фильтрация инициатив · Стадии 1–3</div>
       <div class="card card-roles" style="margin-bottom:5px;">
         <div class="card-title">Роли</div>
         <ul><li><u>PO / BO / RO</u> — груминг инициатив, оценка влияния</li><li><u>Правление / CPM / CPC</u> — подтверждение фокуса</li><li><u>Центры компетенций</u> — связь со стратегией</li></ul>
@@ -140,15 +140,23 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
         <div class="card-title">Инструменты</div>
         <div class="tag-row"><span class="tag tag-blue">PI-планирование</span><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Модели скоринга</span></div>
       </div>
-    </div>
+        </div>
+      </div><!-- /sf-inner -->
+    </div><!-- /stage-frame Фильтрация -->
+
+    <!-- GO gate between Фильтрация → Дискавери -->
     <div class="gate-wrap">
       <div class="ph-connector" style="padding-top:0;gap:0;"><div class="line" style="width:6px;"></div></div>
       <div class="gate"><div class="gate-inner">GO</div></div>
       <div class="gate-label">для входа<br>в Discovery</div>
       <div class="ph-connector" style="padding-top:0;gap:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
     </div>
-    <div style="width:310px;flex-shrink:0;" class="phase-wrap">
-      <div class="sdlc-banner sdlc-pink" style="margin-bottom:6px;">Дискавери · Стадии 4–6 · ЦУЦ / VDO</div>
+
+    <!-- ═══ FRAME: ДИСКАВЕРИ ═══ -->
+    <div class="stage-frame sf-discovery" style="flex-shrink:0;">
+      <div class="stage-frame-title">Дискавери</div>
+      <div style="width:310px;flex-shrink:0;" class="phase-wrap">
+        <div class="sdlc-banner sdlc-pink" style="margin-bottom:6px;">Дискавери · Стадии 4–6 · ЦУЦ / VDO</div>
       <div class="card card-roles" style="margin-bottom:5px;">
         <div class="card-title">Роли</div>
         <ul><li><u>ЦУЦ/VDO</u> — экспертиза, решение о формате</li><li>Проектный офис</li><li>Офис продуктовых практик</li><li>ITG</li><li>Ст. УД по ИТ и опер. эффективности</li><li>Департамент стратегического развития</li></ul>
@@ -175,98 +183,108 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
         <div class="card-title">Формат реализации</div>
         <div class="tag-row"><span class="tag tag-blue">Проект</span><span class="tag tag-green">БФ-команда</span><span class="tag tag-gray">Flow-задачи</span></div>
       </div>
-    </div>
+      </div>
+    </div><!-- /stage-frame Дискавери -->
+
+    <!-- GO gate between Дискавери → Деливери -->
     <div class="gate-wrap">
       <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div></div>
       <div class="gate"><div class="gate-inner">GO</div></div>
       <div class="gate-label">для входа<br>в Деливери</div>
       <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
     </div>
-    <div style="width:370px;flex-shrink:0;" class="phase-wrap">
-      <div class="sdlc-banner sdlc-blue" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап Реализации и Тестирования</div>
-      <div class="card card-roles" style="margin-bottom:5px;">
-        <div class="card-title">Роли</div>
-        <ul><li><u>Деливери-менеджер / РО</u></li><li>Разработчики</li><li>Тестировщик (ручные и авто-тесты)</li><li>Аналитик (t-shape)</li><li>Тест-менеджер</li></ul>
-        <div class="note-box" style="margin-top:4px;">До слэша — роль для SDLC, после — для продуктового подхода</div>
-      </div>
-      <div class="card card-arts-in" style="margin-bottom:5px;">
-        <div class="art-label art-in">↓ Вход</div>
-        <ul><li>Детальный набор эпиков (≤ квартал)</li><li>User Story (≤ спринт)</li><li>Архитектурное решение</li><li>ТЗ / ЧТЗ · Детальное тех. задание</li><li>Оценка трудозатрат / Story Points</li><li>План Релиза и состав квартала</li></ul>
-      </div>
-      <div class="card card-arts" style="margin-bottom:5px;">
-        <div class="art-label art-out">↑ Выход</div>
-        <ul><li>Готовый протестированный код</li><li>Готовая фича</li><li>Отчёты по тестированию</li></ul>
-      </div>
-      <div class="card card-metrics" style="margin-bottom:5px;">
-        <div class="card-title">Метрики</div>
-        <div class="metric-chips"><span class="mchip">Cycle-time</span><span class="mchip">Lead time</span><span class="mchip">Throughput</span><span class="mchip">Flow Efficiency</span><span class="mchip">Defect containment</span></div>
-      </div>
-      <div class="card card-tools">
-        <div class="card-title">Инструменты и церемонии</div>
-        <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">CI/CD</span><span class="tag tag-gray">TestOps</span><span class="tag tag-gray">РК</span></div>
-        <ul style="margin-top:5px;"><li>Дейлики · Планирование спринтов</li><li>Код-ревью · Retrospective</li><li>Планирование Релиза и состава квартала</li></ul>
-      </div>
-    </div>
-    <div class="gate-wrap">
-      <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div></div>
-      <div class="gate"><div class="gate-inner">РК</div></div>
-      <div class="gate-label">Управление<br>изменениями</div>
-      <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
-    </div>
-    <div style="width:270px;flex-shrink:0;" class="phase-wrap">
-      <div class="sdlc-banner sdlc-orange" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап тестирования</div>
-      <div class="card card-roles" style="margin-bottom:5px;">
-        <div class="card-title">Роли</div>
-        <ul><li>Заказчик</li><li>Бизнес-аналитик / Технолог</li><li>Деливери / РО</li><li>Менеджер по приёмочному тестированию</li></ul>
-      </div>
-      <div class="card card-arts-in" style="margin-bottom:5px;">
-        <div class="art-label art-in">↓ Вход</div>
-        <ul><li>Готовый протестированный код</li><li>Готовая фича</li><li>Отчёты по тестированию</li></ul>
-      </div>
-      <div class="card card-arts" style="margin-bottom:5px;">
-        <div class="art-label art-out">↑ Выход</div>
-        <ul><li>Согласованный код к внедрению</li><li>Решение на основании РК/КИ</li><li>Отчёт по результатам UAT</li></ul>
-      </div>
-      <div class="card card-metrics" style="margin-bottom:5px;">
-        <div class="card-title">Метрики</div>
-        <div class="metric-chips"><span class="mchip">% прохождения UAT</span><span class="mchip">Гейт UAT</span><span class="mchip">Кол-во крит. дефектов</span></div>
-      </div>
-      <div class="card card-tools">
-        <div class="card-title">Инструменты и церемонии</div>
-        <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">РК</span></div>
-        <ul style="margin-top:5px;"><li>Дейлики по планированию</li><li>Демо-сессия / Review с заказчиком</li></ul>
-      </div>
-    </div>
-    <div class="gate-wrap">
-      <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div></div>
-      <div class="gate"><div class="gate-inner">РК</div></div>
-      <div class="gate-label">для перехода<br>к вводу</div>
-      <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
-    </div>
-    <div style="flex:1;min-width:310px;" class="phase-wrap">
-      <div class="sdlc-banner sdlc-purple" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Регламент ввода систем в эксплуатацию</div>
-      <div class="card card-roles" style="margin-bottom:5px;">
-        <div class="card-title">Роли</div>
-        <ul><li>ИТ-Лидер сопровождения</li><li>Администратор сопровождения стендов</li><li>Корпоративный архитектор</li><li>Менеджер управления конфигурациями</li></ul>
-      </div>
-      <div class="card card-arts-in" style="margin-bottom:5px;">
-        <div class="art-label art-in">↓ Вход</div>
-        <ul><li>Согласованный код к внедрению</li><li>Решение о внедрении (РК/КИ)</li><li>Отчёт по результатам UAT</li></ul>
-      </div>
-      <div class="card card-arts" style="margin-bottom:5px;">
-        <div class="art-label art-out">↑ Выход</div>
-        <ul><li>Комплект эксплуатационной документации</li><li>Релиз-ноты</li><li>Акт о вводе системы в эксплуатацию</li><li>Карточка в CMDB · Паспорт в ЕАМ</li><li>Закрытые задачи в Jira</li></ul>
-      </div>
-      <div class="card card-metrics" style="margin-bottom:5px;">
-        <div class="card-title">Метрики</div>
-        <div class="metric-chips"><span class="mchip">Акт ввода в эксплуатацию</span><span class="mchip">Карточка CMDB</span><span class="mchip">Паспорт ЕАМ</span></div>
-      </div>
-      <div class="card card-tools">
-        <div class="card-title">Инструменты и церемонии</div>
-        <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">CMDB</span><span class="tag tag-gray">EAM</span></div>
-        <ul style="margin-top:5px;"><li>Церемонии по фреймворку команд</li></ul>
-      </div>
-    </div>
+
+    <!-- ═══ FRAME: ДЕЛИВЕРИ ═══ -->
+    <div class="stage-frame sf-delivery" style="flex:1;">
+      <div class="stage-frame-title">Деливери</div>
+      <div class="sf-inner">
+        <div style="width:370px;flex-shrink:0;" class="phase-wrap">
+          <div class="sdlc-banner sdlc-blue" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап Реализации и Тестирования</div>
+          <div class="card card-roles" style="margin-bottom:5px;">
+            <div class="card-title">Роли</div>
+            <ul><li><u>Деливери-менеджер / РО</u></li><li>Разработчики</li><li>Тестировщик (ручные и авто-тесты)</li><li>Аналитик (t-shape)</li><li>Тест-менеджер</li></ul>
+            <div class="note-box" style="margin-top:4px;">До слэша — роль для SDLC, после — для продуктового подхода</div>
+          </div>
+          <div class="card card-arts-in" style="margin-bottom:5px;">
+            <div class="art-label art-in">↓ Вход</div>
+            <ul><li>Детальный набор эпиков (≤ квартал)</li><li>User Story (≤ спринт)</li><li>Архитектурное решение</li><li>ТЗ / ЧТЗ · Детальное тех. задание</li><li>Оценка трудозатрат / Story Points</li><li>План Релиза и состав квартала</li></ul>
+          </div>
+          <div class="card card-arts" style="margin-bottom:5px;">
+            <div class="art-label art-out">↑ Выход</div>
+            <ul><li>Готовый протестированный код</li><li>Готовая фича</li><li>Отчёты по тестированию</li></ul>
+          </div>
+          <div class="card card-metrics" style="margin-bottom:5px;">
+            <div class="card-title">Метрики</div>
+            <div class="metric-chips"><span class="mchip">Cycle-time</span><span class="mchip">Lead time</span><span class="mchip">Throughput</span><span class="mchip">Flow Efficiency</span><span class="mchip">Defect containment</span></div>
+          </div>
+          <div class="card card-tools">
+            <div class="card-title">Инструменты и церемонии</div>
+            <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">CI/CD</span><span class="tag tag-gray">TestOps</span><span class="tag tag-gray">РК</span></div>
+            <ul style="margin-top:5px;"><li>Дейлики · Планирование спринтов</li><li>Код-ревью · Retrospective</li><li>Планирование Релиза и состава квартала</li></ul>
+          </div>
+        </div>
+        <div class="gate-wrap">
+          <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div></div>
+          <div class="gate"><div class="gate-inner">РК</div></div>
+          <div class="gate-label">Управление<br>изменениями</div>
+          <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
+        </div>
+        <div style="width:270px;flex-shrink:0;" class="phase-wrap">
+          <div class="sdlc-banner sdlc-orange" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап тестирования</div>
+          <div class="card card-roles" style="margin-bottom:5px;">
+            <div class="card-title">Роли</div>
+            <ul><li>Заказчик</li><li>Бизнес-аналитик / Технолог</li><li>Деливери / РО</li><li>Менеджер по приёмочному тестированию</li></ul>
+          </div>
+          <div class="card card-arts-in" style="margin-bottom:5px;">
+            <div class="art-label art-in">↓ Вход</div>
+            <ul><li>Готовый протестированный код</li><li>Готовая фича</li><li>Отчёты по тестированию</li></ul>
+          </div>
+          <div class="card card-arts" style="margin-bottom:5px;">
+            <div class="art-label art-out">↑ Выход</div>
+            <ul><li>Согласованный код к внедрению</li><li>Решение на основании РК/КИ</li><li>Отчёт по результатам UAT</li></ul>
+          </div>
+          <div class="card card-metrics" style="margin-bottom:5px;">
+            <div class="card-title">Метрики</div>
+            <div class="metric-chips"><span class="mchip">% прохождения UAT</span><span class="mchip">Гейт UAT</span><span class="mchip">Кол-во крит. дефектов</span></div>
+          </div>
+          <div class="card card-tools">
+            <div class="card-title">Инструменты и церемонии</div>
+            <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">РК</span></div>
+            <ul style="margin-top:5px;"><li>Дейлики по планированию</li><li>Демо-сессия / Review с заказчиком</li></ul>
+          </div>
+        </div>
+        <div class="gate-wrap">
+          <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div></div>
+          <div class="gate"><div class="gate-inner">РК</div></div>
+          <div class="gate-label">для перехода<br>к вводу</div>
+          <div class="ph-connector" style="padding-top:0;"><div class="line" style="width:6px;"></div><div class="arrow"></div></div>
+        </div>
+        <div style="flex:1;min-width:310px;" class="phase-wrap">
+          <div class="sdlc-banner sdlc-purple" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Регламент ввода систем в эксплуатацию</div>
+          <div class="card card-roles" style="margin-bottom:5px;">
+            <div class="card-title">Роли</div>
+            <ul><li>ИТ-Лидер сопровождения</li><li>Администратор сопровождения стендов</li><li>Корпоративный архитектор</li><li>Менеджер управления конфигурациями</li></ul>
+          </div>
+          <div class="card card-arts-in" style="margin-bottom:5px;">
+            <div class="art-label art-in">↓ Вход</div>
+            <ul><li>Согласованный код к внедрению</li><li>Решение о внедрении (РК/КИ)</li><li>Отчёт по результатам UAT</li></ul>
+          </div>
+          <div class="card card-arts" style="margin-bottom:5px;">
+            <div class="art-label art-out">↑ Выход</div>
+            <ul><li>Комплект эксплуатационной документации</li><li>Релиз-ноты</li><li>Акт о вводе системы в эксплуатацию</li><li>Карточка в CMDB · Паспорт в ЕАМ</li><li>Закрытые задачи в Jira</li></ul>
+          </div>
+          <div class="card card-metrics" style="margin-bottom:5px;">
+            <div class="card-title">Метрики</div>
+            <div class="metric-chips"><span class="mchip">Акт ввода в эксплуатацию</span><span class="mchip">Карточка CMDB</span><span class="mchip">Паспорт ЕАМ</span></div>
+          </div>
+          <div class="card card-tools">
+            <div class="card-title">Инструменты и церемонии</div>
+            <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">CMDB</span><span class="tag tag-gray">EAM</span></div>
+            <ul style="margin-top:5px;"><li>Церемонии по фреймворку команд</li></ul>
+          </div>
+        </div>
+      </div><!-- /sf-inner -->
+    </div><!-- /stage-frame Деливери -->
   </div>
   <div class="bottom-band">📊 &nbsp;Мониторинг, постконтроль &nbsp;·&nbsp; Итерация и адаптация &nbsp;·&nbsp; Ретроспектива</div>
   <div class="gaps-block">
