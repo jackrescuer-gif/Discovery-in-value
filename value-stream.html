@@ -7,159 +7,170 @@
   <meta name="description" content="Поток создания ценности: три слоя, семь стадий — детальное описание этапов от фильтрации до реализации.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/nav.css">
   <script>const CURRENT_PAGE = "value-stream.html";</script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #1a1b2e;
-      color: #e2e8f0;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── Phase Colors (project palette from SVG diagrams) ── */
     :root {
-      --c-filter: #adb5bd;
-      --c-filter-dim: rgba(173,181,189,0.12);
-      --c-filter-card: rgba(173,181,189,0.06);
-      --c-discovery: #4dabf7;
-      --c-discovery-dim: rgba(77,171,247,0.12);
-      --c-discovery-card: rgba(77,171,247,0.06);
-      --c-delivery: #20c997;
-      --c-delivery-dim: rgba(32,201,151,0.12);
-      --c-delivery-card: rgba(32,201,151,0.06);
-      --c-purple: #845ef7;
-      --c-orange: #fd7e14;
-      --c-yellow: #ffd43b;
-      --card-bg: #212340;
-      --card-bg-hover: #262850;
-      --card-border: rgba(255,255,255,0.06);
-      --text-main: #e2e8f0;
-      --text-dim: #94a3b8;
-      --text-muted: #64748b;
-      --surface-dark: #1a1b2e;
-      --surface-card: #212340;
+      --mck-blue: #0066CC;
+      --mck-blue-dark: #003366;
+      --mck-blue-light: #E6F2FF;
+      --mck-gray-50: #F8F9FA;
+      --mck-gray-200: #E9ECEF;
+      --mck-gray-400: #ADB5BD;
+      --mck-gray-600: #6C757D;
+      --mck-gray-800: #343A40;
+      --mck-white: #FFFFFF;
+      --shadow-soft: 0 2px 12px rgba(5,28,44,0.08);
+      --c-filter: #868e96;
+      --c-discovery: #1971c2;
+      --c-delivery: #099268;
     }
 
-    /* ── Phase Tabs ──────────────────────────── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      color: var(--mck-gray-800);
+      background: var(--mck-white);
+      padding: 40px 20px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+    /* ── Hero ──────────────────────────────────── */
+    .hero {
+      padding: 36px 32px;
+      background: radial-gradient(circle at top left, #ffffff 0%, #e6f2ff 40%, #dbeafe 100%);
+      border-radius: 16px;
+      margin: 32px 0 32px;
+      box-shadow: var(--shadow-soft);
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0,102,204,0.08);
+      color: var(--mck-blue-dark);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+    .hero h1 {
+      font-family: "Inter", "Helvetica Neue", -apple-system, sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--mck-blue-dark);
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 17px;
+      color: #334155;
+      font-weight: 500;
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── Phase Tabs ───────────────────────────── */
     .phase-tabs {
       display: flex;
-      gap: 0;
-      padding: 0 20px;
-      background: #16172a;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      gap: 4px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
     }
     .phase-tab {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 24px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-dim);
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 8px;
       cursor: pointer;
-      position: relative;
-      white-space: nowrap;
-      transition: color 0.2s;
       user-select: none;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: var(--mck-gray-600);
+      transition: all 0.2s;
     }
     .phase-tab::before {
       content: '';
-      width: 10px; height: 10px;
+      width: 9px; height: 9px;
       border-radius: 50%;
       flex-shrink: 0;
     }
+    .phase-tab:hover { background: #fff; color: var(--mck-gray-800); }
     .phase-tab.filter::before { background: var(--c-filter); }
     .phase-tab.discovery::before { background: var(--c-discovery); }
     .phase-tab.delivery::before { background: var(--c-delivery); }
-    .phase-tab::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-      border-radius: 3px 3px 0 0;
-    }
-    .phase-tab.filter::after { background: var(--c-filter); }
-    .phase-tab.discovery::after { background: var(--c-discovery); }
-    .phase-tab.delivery::after { background: var(--c-delivery); }
-    .phase-tab.filter { color: var(--c-filter); }
-    .phase-tab.discovery { color: var(--c-discovery); }
-    .phase-tab.delivery { color: var(--c-delivery); }
+    .phase-tab.filter.active { background: #fff; color: #495057; border-color: var(--c-filter); }
+    .phase-tab.discovery.active { background: #fff; color: #1864ab; border-color: var(--c-discovery); }
+    .phase-tab.delivery.active { background: #fff; color: #099268; border-color: var(--c-delivery); }
     .phase-tab .tab-stages {
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      text-transform: none;
+      font-size: 0.75rem;
+      font-weight: 400;
       opacity: 0.7;
     }
 
-    /* ── Board Grid ──────────────────────────── */
+    /* ── Board Grid ───────────────────────────── */
     .board {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 0;
-      min-height: calc(100vh - 100px);
+      gap: 20px;
+      align-items: start;
     }
-    .board-col {
-      padding: 20px 16px 40px;
-      overflow-y: auto;
-      max-height: calc(100vh - 100px);
-      border-right: 1px solid rgba(255,255,255,0.04);
-    }
-    .board-col:last-child { border-right: none; }
 
-    /* ── Cards ────────────────────────────────── */
+    /* ── Cards ─────────────────────────────────── */
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px 16px;
       margin-bottom: 16px;
-      transition: background 0.15s;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.04);
     }
-    .card:hover { background: var(--card-bg-hover); }
     .card-num {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.04em;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
     }
     .filter-col .card-num { color: var(--c-filter); }
     .discovery-col .card-num { color: var(--c-discovery); }
     .delivery-col .card-num { color: var(--c-delivery); }
 
     .card h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      line-height: 1.35;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
     }
     .card-desc {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      line-height: 1.55;
-      margin-bottom: 12px;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 10px;
     }
 
-    /* ── Card Sections ───────────────────────── */
-    .card-section {
-      margin-top: 14px;
-    }
+    /* ── Card Sections ────────────────────────── */
+    .card-section { margin-top: 12px; }
     .card-section-title {
       font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      margin-bottom: 8px;
-      padding-bottom: 4px;
+      margin-bottom: 6px;
     }
     .filter-col .card-section-title { color: var(--c-filter); }
     .discovery-col .card-section-title { color: var(--c-discovery); }
@@ -167,99 +178,95 @@
 
     .card ul {
       list-style: none;
-      margin: 0;
+      margin: 0 0 0 18px;
       padding: 0;
     }
     .card ul li {
-      font-size: 0.84rem;
-      color: var(--text-dim);
-      padding: 3px 0 3px 14px;
+      font-size: 14px;
+      color: #475569;
+      padding: 2px 0;
       position: relative;
-      line-height: 1.5;
+      line-height: 1.55;
     }
     .card ul li::before {
       content: '•';
       position: absolute;
-      left: 0;
-      color: var(--text-muted);
+      left: -14px;
+      color: var(--mck-gray-400);
     }
 
-    /* ── Callout Boxes ───────────────────────── */
+    /* ── Callout Boxes ────────────────────────── */
     .callout {
       border-radius: 8px;
       padding: 10px 14px;
-      font-size: 0.82rem;
-      line-height: 1.5;
+      font-size: 13px;
+      line-height: 1.55;
       margin-top: 10px;
     }
     .callout-amber {
-      background: rgba(245,159,0,0.1);
+      background: #fffbeb;
       border-left: 3px solid #f59f00;
-      color: #ffd43b;
+      color: #78350f;
     }
     .callout-green {
-      background: rgba(32,201,151,0.1);
+      background: #ecfdf5;
       border-left: 3px solid #20c997;
-      color: #63e6be;
+      color: #065f46;
     }
     .callout-red {
-      background: rgba(224,49,49,0.08);
+      background: #fef2f2;
       border-left: 3px solid #e03131;
-      color: #ffa8a8;
+      color: #7f1d1d;
     }
     .callout-blue {
-      background: rgba(77,171,247,0.1);
-      border-left: 3px solid #4dabf7;
-      color: #93c5fd;
+      background: #eff6ff;
+      border-left: 3px solid #1971c2;
+      color: #1e3a5f;
     }
 
-    /* ── Tags ─────────────────────────────────── */
+    /* ── Tags / Pills ─────────────────────────── */
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .tag {
-      font-size: 0.73rem;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 500;
       padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.06);
-      color: var(--text-dim);
-      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      background: #e0edff;
+      color: #0d47a1;
+      white-space: nowrap;
     }
-    .tag-filter { background: var(--c-filter-dim); color: var(--c-filter); border-color: rgba(173,181,189,0.2); }
-    .tag-discovery { background: var(--c-discovery-dim); color: var(--c-discovery); border-color: rgba(77,171,247,0.2); }
-    .tag-delivery { background: var(--c-delivery-dim); color: var(--c-delivery); border-color: rgba(32,201,151,0.2); }
-    .tag-green { background: rgba(32,201,151,0.12); color: #20c997; border-color: rgba(32,201,151,0.2); }
-    .tag-purple { background: rgba(132,94,247,0.12); color: #845ef7; border-color: rgba(132,94,247,0.2); }
-    .tag-orange { background: rgba(253,126,20,0.12); color: #fd7e14; border-color: rgba(253,126,20,0.2); }
+    .tag-green { background: #d1fae5; color: #065f46; }
+    .tag-purple { background: #ede9fe; color: #5b21b6; }
+    .tag-orange { background: #fff7ed; color: #9a3412; }
     .tag-role {
-      background: rgba(255,255,255,0.04);
-      color: var(--text-dim);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
     }
 
     /* ── Status Dots ──────────────────────────── */
-    .status-list { margin-top: 6px; }
+    .status-list { margin-top: 4px; }
     .status-item {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      padding: 6px 0;
-      font-size: 0.84rem;
-      color: var(--text-dim);
-      line-height: 1.45;
+      padding: 5px 0;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.5;
     }
     .status-dot {
       width: 10px; height: 10px;
       border-radius: 50%;
       flex-shrink: 0;
-      margin-top: 4px;
+      margin-top: 5px;
     }
-    .status-item strong { color: #fff; font-weight: 600; }
+    .status-item strong { color: #1e3a5f; font-weight: 600; }
 
     /* ── Metrics Row ──────────────────────────── */
     .metrics-row {
@@ -269,13 +276,12 @@
       margin-top: 10px;
     }
     .metric-tag {
-      font-size: 0.72rem;
+      font-size: 11px;
       font-weight: 600;
       padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(32,201,151,0.1);
-      color: #20c997;
-      border: 1px solid rgba(32,201,151,0.2);
+      border-radius: 999px;
+      background: #d1fae5;
+      color: #065f46;
     }
 
     /* ── Flow Arrow ───────────────────────────── */
@@ -283,10 +289,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px 0;
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      opacity: 0.5;
+      padding: 2px 0;
+      color: var(--mck-gray-400);
+      font-size: 1rem;
     }
 
     /* ── Sync Badge ───────────────────────────── */
@@ -294,14 +299,13 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.73rem;
+      font-size: 11px;
       font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 6px;
-      background: var(--c-delivery-dim);
-      color: var(--c-delivery);
-      border: 1px solid rgba(32,201,151,0.15);
-      margin-bottom: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #d1fae5;
+      color: #065f46;
+      margin-bottom: 8px;
     }
 
     /* ── Gate Badge ───────────────────────────── */
@@ -309,49 +313,35 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.73rem;
+      font-size: 11px;
       font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 6px;
-      background: rgba(255,212,59,0.1);
-      color: #ffd43b;
-      border: 1px solid rgba(255,212,59,0.2);
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #fef3c7;
+      border: 1px solid #f59f00;
+      color: #92400e;
     }
     .gate-dot {
       width: 7px; height: 7px;
       border-radius: 50%;
-      background: #ffd43b;
+      background: #f59f00;
     }
 
     /* ── Output Block ─────────────────────────── */
     .output-block {
-      margin-top: 12px;
+      margin-top: 10px;
       padding: 12px 14px;
-      background: rgba(255,255,255,0.03);
+      background: #f8fafc;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid #e2e8f0;
     }
     .output-block-title {
       font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    /* ── Goal Banner ──────────────────────────── */
-    .goal-banner {
-      background: rgba(132,94,247,0.08);
-      border: 1px solid rgba(132,94,247,0.15);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 0.84rem;
-      color: #b197fc;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      color: var(--mck-gray-600);
+      margin-bottom: 6px;
     }
 
     /* ── I/O Labels ───────────────────────────── */
@@ -360,388 +350,344 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--text-muted);
+      color: var(--mck-gray-600);
       margin-bottom: 4px;
     }
-    .io-label.in { color: #4dabf7; }
+    .io-label.in { color: var(--c-discovery); }
     .io-label.out { color: var(--c-delivery); }
-    .io-label.in::before { content: ''; }
-    .io-label.out::before { content: ''; }
 
     /* ── Responsive ───────────────────────────── */
     @media (max-width: 1024px) {
-      .board {
-        grid-template-columns: 1fr;
-      }
-      .board-col {
-        max-height: none;
-        overflow-y: visible;
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        display: none;
-      }
+      .board { grid-template-columns: 1fr; }
+      .board-col { display: none; }
       .board-col.active { display: block; }
-      .phase-tab { cursor: pointer; }
-      .phase-tab::after { height: 0; }
-      .phase-tab.active::after { height: 3px; }
+      .phase-tab.active { font-weight: 700; }
     }
     @media (min-width: 1025px) {
       .board-col { display: block !important; }
-      .phase-tab::after { height: 3px; }
     }
-
-    /* ── Custom Scrollbar ─────────────────────── */
-    .board-col::-webkit-scrollbar { width: 6px; }
-    .board-col::-webkit-scrollbar-track { background: transparent; }
-    .board-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-    .board-col::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+    @media (max-width: 768px) {
+      .hero { padding: 28px 20px; }
+      .hero h1 { font-size: 26px; }
+      .container { padding: 16px; }
+    }
   </style>
 </head>
 <body>
 
 <div id="nav-placeholder"></div>
 
-<!-- ═══ Phase Tabs ═══ -->
-<div class="phase-tabs">
-  <div class="phase-tab filter active" data-col="filter">
-    ФИЛЬТРАЦИЯ <span class="tab-stages">Стадии 1–3</span>
+<div class="container">
+
+  <!-- ═══ Hero ═══ -->
+  <div class="hero">
+    <div class="hero-badge">Поток создания ценности</div>
+    <h1>Детальное описание этапов процесса</h1>
+    <p>Три слоя, семь стадий: от фильтрации инициатив через Discovery до реализации и подтверждения ценности.</p>
   </div>
-  <div class="phase-tab discovery active" data-col="discovery">
-    ДИСКАВЕРИ <span class="tab-stages">Стадии 4–6</span>
+
+  <!-- ═══ Phase Tabs ═══ -->
+  <div class="phase-tabs">
+    <div class="phase-tab filter active" data-col="filter">
+      Фильтрация <span class="tab-stages">Стадии 1–3</span>
+    </div>
+    <div class="phase-tab discovery active" data-col="discovery">
+      Дискавери <span class="tab-stages">Стадии 4–6</span>
+    </div>
+    <div class="phase-tab delivery active" data-col="delivery">
+      Деливери <span class="tab-stages">Стадия 7</span>
+    </div>
   </div>
-  <div class="phase-tab delivery active" data-col="delivery">
-    ДЕЛИВЕРИ <span class="tab-stages">Стадия 7</span>
-  </div>
-</div>
 
-<!-- ═══ Three-Column Board ═══ -->
-<div class="board">
+  <!-- ═══ Three-Column Board ═══ -->
+  <div class="board">
 
-  <!-- ══════════════════════════════════════════
-       ФИЛЬТРАЦИЯ (Стадии 1–3)
-  ══════════════════════════════════════════ -->
-  <div class="board-col filter-col active" data-col="filter">
+    <!-- ═══ ФИЛЬТРАЦИЯ ═══ -->
+    <div class="board-col filter-col active" data-col="filter">
 
-    <!-- Card 01: Фильтрация инициатив -->
-    <div class="card">
-      <div class="card-num">01</div>
-      <h3>Фильтрация инициатив</h3>
-      <p class="card-desc">Сформулировать измеримую бизнес-ценность и определить критерии допуска в рейтинг.</p>
+      <div class="card">
+        <div class="card-num">Стадия 01</div>
+        <h3>Фильтрация инициатив</h3>
+        <p class="card-desc">Сформулировать измеримую бизнес-ценность и определить критерии допуска в рейтинг.</p>
+        <div class="card-section">
+          <div class="card-section-title">Входы</div>
+          <ul>
+            <li>Ресурсная ёмкость команд</li>
+            <li>Текущий техдолг</li>
+            <li>Цели периода / OKR</li>
+            <li>Бэклог инициатив (от стратегии)</li>
+          </ul>
+        </div>
+        <div class="callout callout-amber">
+          <strong>Минимальный порог:</strong> есть эффект, скоринг, первичная оценка, понятны границы PP.
+        </div>
+        <div class="callout callout-red" style="margin-top:8px">
+          <em>Не нужно на этом этапе:</em> декомпозиция до задач, архитектура, привязка к спринтам.
+        </div>
+      </div>
 
-      <div class="card-section">
-        <div class="card-section-title">Входы</div>
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 01a</div>
+        <h3>Критерии допуска PP</h3>
         <ul>
-          <li>Ресурсная ёмкость команд</li>
-          <li>Текущий техдолг</li>
-          <li>Цели периода / OKR</li>
-          <li>Бэклог инициатив (от стратегии)</li>
+          <li>Сформулирован ожидаемый эффект</li>
+          <li>Указана метрика или прокси-метрика</li>
+          <li>Инициатива привязана к стратегфокусу</li>
+          <li>Понятны границы PP</li>
+          <li>Есть верхнеуровневая оценка объёма</li>
+          <li>Описаны ключевые зависимости</li>
+          <li>Скоринг заполнен по PP в целом</li>
         </ul>
       </div>
 
-      <div class="callout callout-amber">
-        <strong>Минимальный порог:</strong> есть эффект, скоринг, первичная оценка, понятны границы PP.
-      </div>
+      <div class="flow-arrow">↓</div>
 
-      <div class="callout callout-red" style="margin-top:8px">
-        <em>Не нужно на этом этапе:</em> декомпозиция до задач, архитектура, привязка к спринтам.
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 01a: Критерии допуска PP -->
-    <div class="card">
-      <div class="card-num">01a</div>
-      <h3>Критерии допуска PP</h3>
-      <ul>
-        <li>Сформулирован ожидаемый эффект</li>
-        <li>Указана метрика или прокси-метрика</li>
-        <li>Инициатива привязана к стратегфокусу</li>
-        <li>Понятны границы PP</li>
-        <li>Есть верхнеуровневая оценка объёма</li>
-        <li>Описаны ключевые зависимости</li>
-        <li>Скоринг заполнен по PP в целом</li>
-      </ul>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 02: PI-планирование -->
-    <div class="card">
-      <div class="card-num">02</div>
-      <h3>PI-планирование</h3>
-      <p class="card-desc">Планирование инкремента, укрупнённые оценки, согласование приоритетов.</p>
-
-      <div class="tags">
-        <span class="tag">Jira</span>
-        <span class="tag">Скоринг</span>
-        <span class="tag">CPM / CPC</span>
-      </div>
-
-      <div class="card-section">
-        <div class="card-section-title">Роли</div>
+      <div class="card">
+        <div class="card-num">Стадия 02</div>
+        <h3>PI-планирование</h3>
+        <p class="card-desc">Планирование инкремента, укрупнённые оценки, согласование приоритетов.</p>
         <div class="tags">
-          <span class="tag tag-role">PO / BO / RO</span>
-          <span class="tag tag-role">Управление</span>
-          <span class="tag tag-role">Финансы / Стратегия</span>
-          <span class="tag tag-role">Центры компетенций</span>
+          <span class="tag">Jira</span>
+          <span class="tag">Скоринг</span>
+          <span class="tag">CPM / CPC</span>
+        </div>
+        <div class="card-section">
+          <div class="card-section-title">Роли</div>
+          <div class="tags">
+            <span class="tag tag-role">PO / BO / RO</span>
+            <span class="tag tag-role">Управление</span>
+            <span class="tag tag-role">Финансы / Стратегия</span>
+            <span class="tag tag-role">Центры компетенций</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="flow-arrow">↓</div>
+      <div class="flow-arrow">↓</div>
 
-    <!-- Card 03: Портфель инициатив -->
-    <div class="card">
-      <div class="card-num">03</div>
-      <h3>Портфель инициатив</h3>
-      <p class="card-desc">Формирование и сопровождение портфеля одобренных инициатив.</p>
-
-      <div class="output-block">
-        <div class="output-block-title">Выходы этапа</div>
-        <ul>
-          <li>Единое целеполагание по инициативам</li>
-          <li>Понимание ожидаемого эффекта</li>
-          <li>Прозрачная загрузка команд</li>
-          <li>Структура бэклога и зависимостей</li>
-        </ul>
+      <div class="card">
+        <div class="card-num">Стадия 03</div>
+        <h3>Портфель инициатив</h3>
+        <p class="card-desc">Формирование и сопровождение портфеля одобренных инициатив.</p>
+        <div class="output-block">
+          <div class="output-block-title">Выходы этапа</div>
+          <ul>
+            <li>Единое целеполагание по инициативам</li>
+            <li>Понимание ожидаемого эффекта</li>
+            <li>Прозрачная загрузка команд</li>
+            <li>Структура бэклога и зависимостей</li>
+          </ul>
+        </div>
       </div>
+
     </div>
 
+    <!-- ═══ ДИСКАВЕРИ ═══ -->
+    <div class="board-col discovery-col active" data-col="discovery">
+
+      <div class="card">
+        <div class="card-num">Стадия 04</div>
+        <h3>Центр управления ценностью (ЦУЦ / VDO)</h3>
+        <p class="card-desc">Единая точка экспертизы и принятия решений по формату реализации инициатив.</p>
+        <div class="callout callout-blue">
+          <strong>Цель:</strong> Превратить отфильтрованную идею в валидированную гипотезу и подобрать оптимальный формат реализации.
+        </div>
+        <div class="card-section">
+          <div class="card-section-title">Состав ЦУЦ</div>
+          <ul>
+            <li>Проектный офис</li>
+            <li>Офис развития продуктовых практик</li>
+            <li>ITG</li>
+            <li>Ст. УД по ИТ и по опер. эффективности</li>
+            <li>Департамент стратегического развития</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <h3>Статусы инициатив в Discovery</h3>
+        <div class="status-list">
+          <div class="status-item">
+            <span class="status-dot" style="background:#f59f00"></span>
+            <span><strong>В работе</strong> — уточняются проблема, ЦА, контекст</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background:#1971c2"></span>
+            <span><strong>Валидация</strong> — исследования, эксперименты</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background:#20c997"></span>
+            <span><strong>Подтверждена</strong> — гипотеза жизнеспособна</span>
+          </div>
+          <div class="status-item">
+            <span class="status-dot" style="background:#e03131"></span>
+            <span><strong>Отклонена</strong> — неперспективна, с обоснованием</span>
+          </div>
+        </div>
+        <div class="metrics-row" style="margin-top:12px">
+          <span class="metric-tag">% гипотез → перспективные</span>
+          <span class="metric-tag">Discovery cycle-time</span>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 05</div>
+        <h3>Выбор фреймворка реализации</h3>
+        <p class="card-desc">ЦУЦ принимает решение о формате на основании объёма, зависимостей и характера инициативы.</p>
+        <div class="tags">
+          <span class="tag tag-green">Проект</span>
+          <span class="tag tag-purple">БФ-команда</span>
+          <span class="tag tag-orange">Flow-задачи</span>
+        </div>
+        <div class="output-block" style="margin-top:12px">
+          <div class="output-block-title">Выходы Discovery</div>
+          <ul>
+            <li>Описанная проблема и целевая аудитория</li>
+            <li>Валидированная концепция решения</li>
+            <li>Метрики успеха и ожидаемый эффект</li>
+            <li>Рекомендованный формат реализации</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 06</div>
+        <h3>Переход в Деливери (GO / NO-GO)</h3>
+        <p class="card-desc">Передача артефактов командам для входа в Деливери без повторного discovery.</p>
+        <div class="card-section">
+          <div class="card-section-title">Пакет передачи</div>
+          <ul>
+            <li>Решение GO / NO-GO по инициативе</li>
+            <li>Задача в системе трекинга (Скоуп)</li>
+            <li>Скоринговый балл (приоритет)</li>
+            <li>Первичный набор требований и эпиков</li>
+            <li>Сессия по задаче для входа в Деливери</li>
+            <li>Результат PI-планирования</li>
+          </ul>
+        </div>
+        <div class="callout callout-green" style="margin-top:12px">
+          <strong>Дерево целей Заказчика</strong> — управление ресурсами, бюджетом и инициативами.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ ДЕЛИВЕРИ ═══ -->
+    <div class="board-col delivery-col active" data-col="delivery">
+
+      <div class="card">
+        <h3>Реализация и достижение ценности</h3>
+        <p class="card-desc">Три последовательных этапа от кода до акта ввода в эксплуатацию.</p>
+        <div class="sync-badge">Синхронизация с SDLC</div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 07.1</div>
+        <h3>Разработка</h3>
+        <p class="card-desc">Этап реализации и тестирования согласно Регламенту SDLC.</p>
+        <div class="card-section">
+          <div class="io-label in">↓ Вход</div>
+          <ul>
+            <li>Детальный набор эпиков (≤ квартала)</li>
+            <li>User Story (≤ спринта)</li>
+            <li>Архитектурное решение, ТЗ / ЧТЗ</li>
+            <li>Оценка трудозатрат / Story Points</li>
+            <li>План Релиза</li>
+          </ul>
+        </div>
+        <div class="card-section">
+          <div class="io-label out">↑ Выход</div>
+          <ul>
+            <li>Готовый протестированный код</li>
+            <li>Готовая фича</li>
+            <li>Отчёты по тестированию</li>
+          </ul>
+        </div>
+        <div class="metrics-row">
+          <span class="metric-tag">Cycle-time</span>
+          <span class="metric-tag">Lead time</span>
+          <span class="metric-tag">Throughput</span>
+          <span class="metric-tag">Defect containment</span>
+        </div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag tag-role">Деливери-менеджер / PO</span>
+          <span class="tag tag-role">Разработчики</span>
+          <span class="tag tag-role">Тестировщик</span>
+          <span class="tag tag-role">Аналитик (t-shape)</span>
+        </div>
+        <div class="tags" style="margin-top:6px">
+          <span class="tag">Jira</span>
+          <span class="tag">CI/CD</span>
+          <span class="tag">TestOps</span>
+          <span class="tag">Confluence</span>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 07.2</div>
+        <h3>Приёмочное тестирование (UAT)</h3>
+        <p class="card-desc">Гейты: РК и Управление изменениями. Демо-сессии с заказчиком.</p>
+        <div class="tags" style="margin-bottom:10px">
+          <span class="gate-badge"><span class="gate-dot"></span>Гейт UAT</span>
+        </div>
+        <div class="card-section">
+          <div class="io-label out">↑ Выход</div>
+          <ul>
+            <li>Готовый к внедрению согласованный код</li>
+            <li>Решение о внедрении на основании РК/КИ</li>
+            <li>Отчёт по результатам UAT</li>
+          </ul>
+        </div>
+        <div class="metrics-row">
+          <span class="metric-tag">% прохождения UAT</span>
+          <span class="metric-tag">Гейт UAT</span>
+          <span class="metric-tag">Кол-во крит. дефектов</span>
+        </div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag tag-role">Заказчик</span>
+          <span class="tag tag-role">Бизнес-аналитик</span>
+          <span class="tag tag-role">PO</span>
+          <span class="tag tag-role">Менеджер UAT</span>
+        </div>
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="card">
+        <div class="card-num">Стадия 07.3</div>
+        <h3>Внедрение (ввод в эксплуатацию)</h3>
+        <p class="card-desc">Регламент процесса управления вводом систем в эксплуатацию.</p>
+        <div class="card-section">
+          <div class="io-label out">↑ Выход</div>
+          <ul>
+            <li>Комплект эксплуатационной документации / Релиз-ноты</li>
+            <li>Акт о вводе системы в эксплуатацию</li>
+            <li>Карточка в CMDB, паспорт в ЕАМ</li>
+            <li>Закрытые задачи в Jira</li>
+          </ul>
+        </div>
+        <div class="tags" style="margin-top:8px">
+          <span class="tag">Jira</span>
+          <span class="tag">Confluence</span>
+          <span class="tag">CMDB</span>
+          <span class="tag">EAM</span>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       ДИСКАВЕРИ (Стадии 4–6)
-  ══════════════════════════════════════════ -->
-  <div class="board-col discovery-col active" data-col="discovery">
-
-    <!-- Card 04: Центр управления ценностью -->
-    <div class="card">
-      <div class="card-num">04</div>
-      <h3>Центр управления ценностью (ЦУЦ / VDO)</h3>
-      <p class="card-desc">Единая точка экспертизы и принятия решений по формату реализации инициатив.</p>
-
-      <div class="callout callout-blue">
-        <strong>Цель:</strong> Превратить отфильтрованную идею в валидированную гипотезу и подобрать оптимальный формат реализации.
-      </div>
-
-      <div class="card-section">
-        <div class="card-section-title">Состав ЦУЦ</div>
-        <ul>
-          <li>Проектный офис</li>
-          <li>Офис развития продуктовых практик</li>
-          <li>ITG</li>
-          <li>Ст. УД по ИТ и по опер. эффективности</li>
-          <li>Департамент стратегического развития</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Статусы инициатив в Discovery -->
-    <div class="card">
-      <h3 style="margin-bottom:12px">Статусы инициатив в Discovery</h3>
-      <div class="status-list">
-        <div class="status-item">
-          <span class="status-dot" style="background:#f59f00"></span>
-          <span><strong>В работе</strong> — уточняются проблема, ЦА, контекст</span>
-        </div>
-        <div class="status-item">
-          <span class="status-dot" style="background:#4dabf7"></span>
-          <span><strong>Валидация</strong> — исследования, эксперименты</span>
-        </div>
-        <div class="status-item">
-          <span class="status-dot" style="background:#20c997"></span>
-          <span><strong>Подтверждена</strong> — гипотеза жизнеспособна</span>
-        </div>
-        <div class="status-item">
-          <span class="status-dot" style="background:#e03131"></span>
-          <span><strong>Отклонена</strong> — неперспективна, с обоснованием</span>
-        </div>
-      </div>
-      <div class="metrics-row" style="margin-top:14px">
-        <span class="metric-tag">% гипотез → перспективные</span>
-        <span class="metric-tag">Discovery cycle-time</span>
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 05: Выбор фреймворка -->
-    <div class="card">
-      <div class="card-num">05</div>
-      <h3>Выбор фреймворка реализации</h3>
-      <p class="card-desc">ЦУЦ принимает решение о формате на основании объёма, зависимостей и характера инициативы.</p>
-
-      <div class="tags">
-        <span class="tag tag-green">Проект</span>
-        <span class="tag tag-purple">БФ-команда</span>
-        <span class="tag tag-orange">Flow-задачи</span>
-      </div>
-
-      <div class="output-block" style="margin-top:14px">
-        <div class="output-block-title">Выходы Discovery</div>
-        <ul>
-          <li>Описанная проблема и целевая аудитория</li>
-          <li>Валидированная концепция решения</li>
-          <li>Метрики успеха и ожидаемый эффект</li>
-          <li>Рекомендованный формат реализации</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 06: Переход в Деливери -->
-    <div class="card">
-      <div class="card-num">06</div>
-      <h3>Переход в Деливери (GO / NO-GO)</h3>
-      <p class="card-desc">Передача артефактов командам для входа в Деливери без повторного discovery.</p>
-
-      <div class="card-section">
-        <div class="card-section-title">Пакет передачи</div>
-        <ul>
-          <li>Решение GO / NO-GO по инициативе</li>
-          <li>Задача в системе трекинга (Скоуп)</li>
-          <li>Скоринговый балл (приоритет)</li>
-          <li>Первичный набор требований и эпиков</li>
-          <li>Сессия по задаче для входа в Деливери</li>
-          <li>Результат PI-планирования</li>
-        </ul>
-      </div>
-
-      <div class="callout callout-green" style="margin-top:12px">
-        🎯 <strong>Дерево целей Заказчика</strong> — управление ресурсами, бюджетом и инициативами.
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       ДЕЛИВЕРИ (Стадия 7)
-  ══════════════════════════════════════════ -->
-  <div class="board-col delivery-col active" data-col="delivery">
-
-    <!-- Overview Card -->
-    <div class="card">
-      <h3>Реализация и достижение ценности</h3>
-      <p class="card-desc">Три последовательных этапа от кода до акта ввода в эксплуатацию.</p>
-      <div class="sync-badge">Синхронизация с SDLC</div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 07.1: Разработка -->
-    <div class="card">
-      <div class="card-num">07.1</div>
-      <h3>Разработка</h3>
-      <p class="card-desc">Этап реализации и тестирования согласно Регламенту SDLC.</p>
-
-      <div class="card-section">
-        <div class="io-label in">↓ Вход</div>
-        <ul>
-          <li>Детальный набор эпиков (≤ квартала)</li>
-          <li>User Story (≤ спринта)</li>
-          <li>Архитектурное решение, ТЗ / ЧТЗ</li>
-          <li>Оценка трудозатрат / Story Points</li>
-          <li>План Релиза</li>
-        </ul>
-      </div>
-
-      <div class="card-section">
-        <div class="io-label out">↑ Выход</div>
-        <ul>
-          <li>Готовый протестированный код</li>
-          <li>Готовая фича</li>
-          <li>Отчёты по тестированию</li>
-        </ul>
-      </div>
-
-      <div class="metrics-row">
-        <span class="metric-tag">Cycle-time</span>
-        <span class="metric-tag">Lead time</span>
-        <span class="metric-tag">Throughput</span>
-        <span class="metric-tag">Defect containment</span>
-      </div>
-
-      <div class="tags" style="margin-top:8px">
-        <span class="tag tag-role">Деливери-менеджер / PO</span>
-        <span class="tag tag-role">Разработчики</span>
-        <span class="tag tag-role">Тестировщик</span>
-        <span class="tag tag-role">Аналитик (t-shape)</span>
-      </div>
-
-      <div class="tags" style="margin-top:6px">
-        <span class="tag">Jira</span>
-        <span class="tag">CI/CD</span>
-        <span class="tag">TestOps</span>
-        <span class="tag">Confluence</span>
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 07.2: Приёмочное тестирование -->
-    <div class="card">
-      <div class="card-num">07.2</div>
-      <h3>Приёмочное тестирование (UAT)</h3>
-      <p class="card-desc">Гейты: РК и Управление изменениями. Демо-сессии с заказчиком.</p>
-
-      <div class="tags" style="margin-bottom:10px">
-        <span class="gate-badge"><span class="gate-dot"></span>Гейт UAT</span>
-      </div>
-
-      <div class="card-section">
-        <div class="io-label out">↑ Выход</div>
-        <ul>
-          <li>Готовый к внедрению согласованный код</li>
-          <li>Решение о внедрении на основании РК/КИ</li>
-          <li>Отчёт по результатам UAT</li>
-        </ul>
-      </div>
-
-      <div class="metrics-row">
-        <span class="metric-tag">% прохождения UAT</span>
-        <span class="metric-tag">Гейт UAT</span>
-        <span class="metric-tag">Кол-во крит. дефектов</span>
-      </div>
-
-      <div class="tags" style="margin-top:8px">
-        <span class="tag tag-role">Заказчик</span>
-        <span class="tag tag-role">Бизнес-аналитик</span>
-        <span class="tag tag-role">PO</span>
-        <span class="tag tag-role">Менеджер UAT</span>
-      </div>
-    </div>
-
-    <div class="flow-arrow">↓</div>
-
-    <!-- Card 07.3: Внедрение -->
-    <div class="card">
-      <div class="card-num">07.3</div>
-      <h3>Внедрение (ввод в эксплуатацию)</h3>
-      <p class="card-desc">Регламент процесса управления вводом систем в эксплуатацию.</p>
-
-      <div class="card-section">
-        <div class="io-label out">↑ Выход</div>
-        <ul>
-          <li>Комплект эксплуатационной документации / Релиз-ноты</li>
-          <li>Акт о вводе системы в эксплуатацию</li>
-          <li>Карточка в CMDB, паспорт в ЕАМ</li>
-          <li>Закрытые задачи в Jira</li>
-        </ul>
-      </div>
-
-      <div class="tags" style="margin-top:8px">
-        <span class="tag">Jira</span>
-        <span class="tag">Confluence</span>
-        <span class="tag">CMDB</span>
-        <span class="tag">EAM</span>
-      </div>
-    </div>
-
-  </div>
 </div>
 
 <script src="nav.js"></script>
