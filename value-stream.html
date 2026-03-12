@@ -360,6 +360,40 @@
       font-size: 1rem;
     }
 
+    /* ── Delivery Flow ─────────────────────────── */
+    .delivery-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #f0fdf9;
+      border: 1px solid #d1fae5;
+      border-radius: 8px;
+    }
+    .delivery-flow-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #065f46;
+    }
+    .delivery-flow-num {
+      font-size: 11px;
+      font-weight: 700;
+      background: #d1fae5;
+      color: #099268;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .delivery-flow-arrow {
+      color: #86efac;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
     /* ── Sync Badge ───────────────────────────── */
     .sync-badge {
       display: inline-flex;
@@ -805,6 +839,22 @@
         <h3>Реализация и достижение ценности</h3>
         <p class="card-desc">Три последовательных этапа от кода до акта ввода в эксплуатацию.</p>
         <div class="sync-badge">Синхронизация с SDLC</div>
+        <div class="delivery-flow">
+          <div class="delivery-flow-step">
+            <span class="delivery-flow-num">7.1</span>
+            <span>Разработка</span>
+          </div>
+          <span class="delivery-flow-arrow">→</span>
+          <div class="delivery-flow-step">
+            <span class="delivery-flow-num">7.2</span>
+            <span>Приёмочное тестирование</span>
+          </div>
+          <span class="delivery-flow-arrow">→</span>
+          <div class="delivery-flow-step">
+            <span class="delivery-flow-num">7.3</span>
+            <span>Внедрение</span>
+          </div>
+        </div>
       </div>
 
       <div class="flow-arrow">↓</div>
