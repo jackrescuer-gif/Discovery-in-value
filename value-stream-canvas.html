@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh; padding: 24px; overflow-x: auto; }
-.page { min-width: 2400px; background: #f8f8f8; border: 1px solid #d0d0d0; border-radius: 4px; padding: 28px 32px 32px; position: relative; }
+.page { min-width: 2800px; background: #f8f8f8; border: 1px solid #d0d0d0; border-radius: 4px; padding: 28px 32px 32px; position: relative; }
 .top-mgmt { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); background: #dbeafe; border: 1px solid #93c5fd; border-radius: 8px; padding: 7px 20px; font-size: 11px; color: #1e40af; text-align: center; line-height: 1.4; white-space: nowrap; }
 .stage-title { text-align: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 22px; padding-top: 10px; }
 .stage-title span { font-style: italic; }
@@ -198,6 +198,33 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
     <div class="stage-frame sf-delivery" style="flex:1;">
       <div class="stage-frame-title">Деливери</div>
       <div class="sf-inner">
+        <!-- Подэтап: Проектирование -->
+        <div style="width:310px;flex-shrink:0;" class="phase-wrap">
+          <div class="sdlc-banner" style="background:#e0e7ff;border:1px solid #a5b4fc;color:#3730a3;margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап Проектирования</div>
+          <div class="card card-roles" style="margin-bottom:5px;">
+            <div class="card-title">Роли</div>
+            <ul><li><u>Системный аналитик / BA</u></li><li>Архитектор решений</li><li>Деливери-менеджер / РО</li><li>Tech Lead</li><li>UX/UI-дизайнер</li></ul>
+          </div>
+          <div class="card card-arts-in" style="margin-bottom:5px;">
+            <div class="art-label art-in">↓ Вход</div>
+            <ul><li>Delivery Package из Discovery</li><li>Первичные эпики и требования</li><li>Результат PI-планирования</li><li>Скоринговый балл (приоритет)</li></ul>
+          </div>
+          <div class="card card-arts" style="margin-bottom:5px;">
+            <div class="art-label art-out">↑ Выход</div>
+            <ul><li>Архитектурное решение (ADR)</li><li>ТЗ / ЧТЗ · Детальное тех. задание</li><li>Детальный набор эпиков (≤ квартал)</li><li>User Story (≤ спринт)</li><li>Оценка трудозатрат / Story Points</li><li>План Релиза и состав квартала</li></ul>
+          </div>
+          <div class="card card-metrics" style="margin-bottom:5px;">
+            <div class="card-title">Артефакты</div>
+            <div class="metric-chips"><span class="mchip">ADR</span><span class="mchip">ТЗ / ЧТЗ</span><span class="mchip">UX-макеты</span><span class="mchip">Декомпозиция</span></div>
+          </div>
+          <div class="card card-tools">
+            <div class="card-title">Инструменты и церемонии</div>
+            <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">Figma</span><span class="tag tag-gray">Miro</span></div>
+            <ul style="margin-top:5px;"><li>Груминг бэклога · Refinement</li><li>Архитектурное ревью</li><li>Планирование Релиза и состава квартала</li></ul>
+          </div>
+        </div>
+        <div class="ph-connector"><div class="line"></div><div class="arrow"></div></div>
+        <!-- Подэтап: Разработка -->
         <div style="width:370px;flex-shrink:0;" class="phase-wrap">
           <div class="sdlc-banner sdlc-blue" style="margin-bottom:6px;">Синхронизация с Регламентом SDLC · Этап Реализации и Тестирования</div>
           <div class="card card-roles" style="margin-bottom:5px;">
@@ -207,7 +234,7 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
           </div>
           <div class="card card-arts-in" style="margin-bottom:5px;">
             <div class="art-label art-in">↓ Вход</div>
-            <ul><li>Детальный набор эпиков (≤ квартал)</li><li>User Story (≤ спринт)</li><li>Архитектурное решение</li><li>ТЗ / ЧТЗ · Детальное тех. задание</li><li>Оценка трудозатрат / Story Points</li><li>План Релиза и состав квартала</li></ul>
+            <ul><li>Архитектурное решение (ADR)</li><li>ТЗ / ЧТЗ · Детальное тех. задание</li><li>User Story (≤ спринт)</li><li>Оценка трудозатрат / Story Points</li><li>План Релиза и состав квартала</li></ul>
           </div>
           <div class="card card-arts" style="margin-bottom:5px;">
             <div class="art-label art-out">↑ Выход</div>
@@ -220,7 +247,7 @@ body { font-family: 'Inter', sans-serif; background: #f0f0f0; min-height: 100vh;
           <div class="card card-tools">
             <div class="card-title">Инструменты и церемонии</div>
             <div class="tag-row"><span class="tag tag-gray">Jira</span><span class="tag tag-gray">Confluence</span><span class="tag tag-gray">CI/CD</span><span class="tag tag-gray">TestOps</span><span class="tag tag-gray">РК</span></div>
-            <ul style="margin-top:5px;"><li>Дейлики · Планирование спринтов</li><li>Код-ревью · Retrospective</li><li>Планирование Релиза и состава квартала</li></ul>
+            <ul style="margin-top:5px;"><li>Дейлики · Планирование спринтов</li><li>Код-ревью · Retrospective</li></ul>
           </div>
         </div>
         <div class="gate-wrap">
