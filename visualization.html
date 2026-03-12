@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Process — Корпоративная визуализация</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/shared.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <script src="nav.js" defer></script>
+    <script src="feedback-widget.js" defer></script>
+    <style>
+        :root {
+            --mck-blue: #0066CC;
+            --mck-blue-dark: #003366;
+            --mck-blue-light: #E6F2FF;
+            --mck-gray-50: #F8F9FA;
+            --mck-gray-100: #F5F5F5;
+            --mck-gray-200: #E9ECEF;
+            --mck-gray-400: #ADB5BD;
+            --mck-gray-600: #6C757D;
+            --mck-gray-800: #343A40;
+            --mck-white: #FFFFFF;
+            --mck-yellow: #FFB81C;
+            --mck-blue-900: #1e3a5f;
+            --mck-blue-800: #2c5282;
+            --shadow-soft: 0 2px 12px rgba(5, 28, 44, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            color: var(--mck-gray-800);
+            background: var(--mck-white);
+            line-height: 1.55;
+        }
+
+        h1, h2, h3, h4, .brand, .phase-number {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--mck-blue-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--mck-white);
+            border-bottom: 1px solid var(--mck-gray-200);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px 10px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--mck-blue-dark);
+            white-space: nowrap;
+        }
+
+        .phase-nav {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .phase-link {
+            text-decoration: none;
+            color: var(--mck-gray-600);
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 5px;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .phase-link:hover {
+            color: var(--mck-blue);
+        }
+
+        .phase-link.active {
+            color: var(--mck-blue);
+            border-bottom-color: var(--mck-blue);
+        }
+
+        .page-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .page-link {
+            text-decoration: none;
+            color: var(--mck-blue-dark);
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+            padding: 6px 9px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--mck-white);
+        }
+
+        .page-link:hover {
+            border-color: var(--mck-blue);
+            color: var(--mck-blue);
+        }
+
+        .phase-select {
+            display: none;
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+            color: var(--mck-blue-dark);
+            font-size: 0.82rem;
+            background: var(--mck-white);
+        }
+
+        .header-progress-track {
+            height: 3px;
+            background: var(--mck-gray-100);
+        }
+
+        .header-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--mck-blue), var(--mck-blue-dark));
+            transition: width 0.1s linear;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 56px;
+        }
+
+        .hero-section {
+            padding: 28px 32px;
+            background: linear-gradient(135deg, var(--mck-blue-900), var(--mck-blue-800));
+            color: #ffffff;
+            border-radius: 14px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+            max-width: 980px;
+        }
+
+        .hero-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 980px;
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        .hero-summary {
+            padding: 24px 0 30px;
+            border-bottom: 1px solid var(--mck-gray-200);
+        }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-box {
+            background: var(--mck-white);
+            border: 1px solid var(--mck-gray-200);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 51, 102, 0.06);
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--mck-blue);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value.key {
+            color: var(--mck-yellow);
+        }
+
+        .kpi-label {
+            color: var(--mck-gray-600);
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .macro-card {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 18px;
+        }
+
+        .block-action-title {
+            font-size: 1.05rem;
+            color: var(--mck-blue-dark);
+            margin-bottom: 6px;
+        }
+
+        .block-subtitle {
+            color: var(--mck-gray-600);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--mck-gray-200);
+            margin: 26px 0;
+        }
+
+        .phase-section {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--mck-gray-200);
+            scroll-margin-top: 96px;
+        }
+
+        .phase-section.phase-alt {
+            background: var(--mck-gray-50);
+            margin: 0 -20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .phase-number {
+            font-size: 4rem;
+            line-height: 0.9;
+            color: var(--mck-gray-200);
+            min-width: 78px;
+            font-weight: 700;
+        }
+
+        .phase-title {
+            font-size: 1.78rem;
+            margin-bottom: 6px;
+        }
+
+        .phase-description {
+            color: var(--mck-gray-600);
+            font-size: 0.96rem;
+            max-width: 920px;
+        }
+
+        .phase-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .phase-main {
+            display: grid;
+            gap: 14px;
+            max-width: 860px;
+            min-width: 0;
+        }
+
+        .panel {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0, 51, 102, 0.04);
+            min-width: 0;
+        }
+
+        .panel h3 {
+            font-size: 1.08rem;
+            margin-bottom: 7px;
+            color: var(--mck-blue-dark);
+        }
+
+        .panel p {
+            color: var(--mck-gray-800);
+            font-size: 0.92rem;
+            margin-bottom: 8px;
+        }
+
+        .phase-sidebar {
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .fact-box {
+            border: 1px solid var(--mck-gray-200);
+            border-left: 3px solid var(--mck-blue);
+            padding: 10px 11px;
+            background: var(--mck-white);
+        }
+
+        .fact-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: var(--mck-gray-400);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .fact-value {
+            color: var(--mck-gray-800);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .fact-list {
+            margin-left: 18px;
+            color: var(--mck-gray-800);
+            font-size: 0.87rem;
+            line-height: 1.55;
+        }
+
+        .fact-list li {
+            margin-bottom: 5px;
+        }
+
+        .widget-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .widget-btn {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            color: var(--mck-blue-dark);
+            text-decoration: none;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .widget-btn:hover {
+            border-color: var(--mck-blue);
+            color: var(--mck-blue);
+        }
+
+        .accordion-group {
+            margin-top: 14px;
+            border-top: 1px solid var(--mck-gray-200);
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--mck-gray-200);
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: left;
+            color: var(--mck-blue-dark);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 13px 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .accordion-chevron {
+            color: var(--mck-gray-600);
+            transition: transform 0.25s ease;
+        }
+
+        .accordion-item.open .accordion-chevron {
+            transform: rotate(90deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .accordion-inner {
+            padding: 2px 0 14px;
+        }
+
+        .accordion-inner ul {
+            margin-left: 20px;
+            color: var(--mck-gray-800);
+            font-size: 0.89rem;
+            line-height: 1.6;
+        }
+
+        .accordion-inner li {
+            margin-bottom: 6px;
+        }
+
+        .text-block {
+            color: var(--mck-gray-800);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .diagram-title {
+            font-size: 1rem;
+            color: var(--mck-blue-dark);
+            margin-bottom: 5px;
+        }
+
+        .diagram-description {
+            color: var(--mck-gray-600);
+            font-size: 0.86rem;
+            margin-bottom: 9px;
+        }
+
+        .mermaid-shell {
+            overflow-x: auto;
+            border-top: 1px solid var(--mck-gray-200);
+            padding-top: 10px;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .drawio-embed {
+            width: 100%;
+            min-height: 360px;
+            border: 1px solid var(--mck-gray-200);
+            border-radius: 4px;
+            background: var(--mck-white);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            max-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 780px;
+        }
+
+        th, td {
+            border-bottom: 1px solid var(--mck-gray-200);
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 0.82rem;
+            color: var(--mck-gray-800);
+        }
+
+        th {
+            color: var(--mck-blue-dark);
+            background: var(--mck-gray-50);
+            font-size: 0.76rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .mini-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .mini-metric {
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-white);
+            padding: 9px;
+        }
+
+        .mini-metric strong {
+            font-size: 1.1rem;
+            color: var(--mck-blue-dark);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .mini-metric span {
+            font-size: 0.76rem;
+            color: var(--mck-gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-note {
+            margin-top: 26px;
+            color: var(--mck-gray-600);
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .fab-top {
+            position: fixed;
+            right: 20px;
+            bottom: 76px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--mck-gray-200);
+            background: var(--mck-blue);
+            color: var(--mck-white);
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0, 51, 102, 0.16);
+            display: none;
+            z-index: 1090;
+        }
+
+        .fab-top.visible {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 51, 102, 0.72);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200;
+            padding: 24px;
+        }
+
+        .widget-overlay.active {
+            display: flex;
+        }
+
+        .widget-modal {
+            width: min(1100px, 96vw);
+            background: var(--mck-white);
+            border: 1px solid var(--mck-gray-200);
+            box-shadow: 0 14px 28px rgba(0, 51, 102, 0.24);
+        }
+
+        .widget-modal-header {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--mck-gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .widget-modal-header h3 {
+            font-size: 0.98rem;
+            color: var(--mck-blue-dark);
+        }
+
+        .widget-close {
+            border: none;
+            background: transparent;
+            color: var(--mck-gray-800);
+            font-size: 1.35rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .widget-modal iframe {
+            width: 100%;
+            height: min(80vh, 760px);
+            border: none;
+        }
+
+        @media (max-width: 1100px) {
+            .phase-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .header-inner {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .mini-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 0 14px 34px;
+            }
+
+            .hero-section {
+                padding-top: 30px;
+            }
+
+            .hero-title {
+                font-size: 1.96rem;
+            }
+
+            .kpi-row {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-section {
+                padding: 38px 0;
+            }
+
+            .phase-number {
+                font-size: 3rem;
+                min-width: 56px;
+            }
+
+            .phase-title {
+                font-size: 1.45rem;
+            }
+
+            .phase-nav {
+                display: none;
+            }
+
+            .phase-select {
+                display: block;
+            }
+
+            .widget-modal iframe {
+                height: 72vh;
+            }
+
+            .drawio-embed {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="nav-placeholder"></div>
+
+    <main class="page">
+        <section class="hero-section" id="top">
+            <h1 class="hero-title">Value Creation Stream: от идеи к production-решению</h1>
+            <p class="hero-subtitle">
+                Полный процесс трансформации инициатив в реализованную ценность. После фильтрации идей и отбора инициатив в портфель они проходят управление через Portfolio Management и Value Design Office, которые выбирают правильный тип discovery, проводят специфичный анализ, и передают готовый Delivery Package в исполнение.
+            </p>
+        </section>
+
+        <section class="hero-summary">
+            <div class="kpi-row">
+                <article class="kpi-box">
+                    <div class="kpi-value">4–8 недель</div>
+                    <div class="kpi-label">Средняя длительность цикла discovery</div>
+                </article>
+                <article class="kpi-box">
+                    <div class="kpi-value key">60–80%</div>
+                    <div class="kpi-label">Гипотез отсекается до delivery</div>
+                </article>
+                <article class="kpi-box">
+                    <div class="kpi-value">2 пути</div>
+                    <div class="kpi-label">Стандартный handoff или ускоренный MVP</div>
+                </article>
+            </div>
+            <article class="macro-card">
+                <h2 class="block-action-title">NEW: Value Creation Stream — 3 слоя управления и 10 этапов трансформации идей в ценность</h2>
+                <p class="block-subtitle">Основная архитектура процесса: от идеи до реализованного решения</p>
+                <div style="background: #f5f9fc; border: 1px solid #d0dce6; border-radius: 8px; padding: 24px; margin-bottom: 24px; font-family: monospace; font-size: 0.9rem; overflow-x: auto;">
+                    <div style="color: #1e3a5f; font-weight: bold; margin-bottom: 16px; text-align: center;">VALUE CREATION STREAM: 10 этапов в 3 слоях управления</div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="background: #e3f2fd; padding: 12px; margin-bottom: 12px; border-left: 4px solid #1e3a5f; font-weight: bold;">
+                            LAYER 1: INITIATIVE GOVERNANCE
+                        </div>
+                        <div style="padding: 0 16px; line-height: 1.8;">
+                            Ideas/Signals → <strong>①FILTRATION</strong> → <strong>②PI PLANNING</strong> → <strong>③PORTFOLIO INTAKE</strong> → Portfolio Prioritization
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="background: #f3e5f5; padding: 12px; margin-bottom: 12px; border-left: 4px solid #7b1fa2; font-weight: bold;">
+                            LAYER 2: DISCOVERY GOVERNANCE (Value Design Office)
+                        </div>
+                        <div style="padding: 0 16px; line-height: 1.8;">
+                            <strong>④DISCOVERY KICKOFF</strong> → VDO Framework Selection (5 types) → <strong>⑤DISCOVERY EXECUTION</strong> (framework-specific) → <strong>⑥HYPOTHESIS VALIDATION</strong> → <strong>⑦DELIVERY PACKAGE PREP</strong> ✓
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div style="background: #e8f5e9; padding: 12px; margin-bottom: 12px; border-left: 4px solid #388e3c; font-weight: bold;">
+                            LAYER 3: DELIVERY EXECUTION
+                        </div>
+                        <div style="padding: 0 16px; line-height: 1.8;">
+                            <strong>⑧GO/NO-GO REVIEW</strong> (Governance Gate) → ✓ Approved → <strong>⑨DELIVERY ROUTING</strong> → <strong>⑩IMPLEMENTATION & VALUE REALIZATION</strong>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff3e0; padding: 12px; border-radius: 4px; margin-top: 16px; font-size: 0.85rem; color: #e65100;">
+                        <strong>KEY POINT:</strong> Discovery (Layer 2) состоит из 5 различных frameworks, выбираемых Value Design Office на основе типа инициативы.
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section style="padding: 40px 0; background-color: #f9f9f9; margin-bottom: 32px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 24px; color: var(--mck-dark-blue);">Value Design Office: управление открытиями</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1200px;">
+                <article class="panel">
+                    <h3 style="color: var(--mck-dark-blue); margin-bottom: 12px;">Portfolio Management</h3>
+                    <p style="color: var(--mck-gray-600); margin-bottom: 12px;">После этапа Filtration и PI Planning одобренные инициативы переходят в <strong>Portfolio</strong>, где фиксируется их статус, распределяются ресурсы и назначаются владельцы.</p>
+                    <ul style="color: var(--mck-gray-600); margin-left: 20px;">
+                        <li>Регистрация инициатив в портфеле</li>
+                        <li>Назначение бизнес-спонсоров</li>
+                        <li>Резервирование бюджета и team capacity</li>
+                        <li>Планирование старта работ</li>
+                    </ul>
+                </article>
+                <article class="panel">
+                    <h3 style="color: var(--mck-dark-blue); margin-bottom: 12px;">Value Design Office (VDO)</h3>
+                    <p style="color: var(--mck-gray-600); margin-bottom: 12px;"><strong>VDO управляет процессом discovery</strong> — выбирает правильный тип анализа для каждой инициативы на основе её характера и неопределённости.</p>
+                    <ul style="color: var(--mck-gray-600); margin-left: 20px;">
+                        <li>Классификация типа инициативы</li>
+                        <li>Выбор одного из 5 frameworks</li>
+                        <li>Планирование discovery процесса</li>
+                        <li>Управление качеством открытий</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section style="padding: 40px 0; background-color: #ffffff; margin-bottom: 32px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 24px; color: var(--mck-dark-blue);">5 типов Discovery в Value Design Office</h2>
+            <p style="color: var(--mck-gray-600); margin-bottom: 24px; max-width: 900px;">Value Design Office выбирает один из 5 frameworks в зависимости от типа инициативы, уровня неопределённости и других факторов:</p>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                <article class="panel" style="padding: 16px;">
+                    <h4 style="font-size: 0.95rem; color: var(--mck-dark-blue); margin-bottom: 8px;">1. Product Discovery</h4>
+                    <p style="font-size: 0.85rem; color: var(--mck-gray-600);">Для новых фич, расширения на новые сегменты, решения проблем клиентов.</p>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--mck-gray-500);">10–14 недель</div>
+                </article>
+                <article class="panel" style="padding: 16px;">
+                    <h4 style="font-size: 0.95rem; color: var(--mck-dark-blue); margin-bottom: 8px;">2. Project Initiation</h4>
+                    <p style="font-size: 0.85rem; color: var(--mck-gray-600);">Для enterprise систем, миграций, инфраструктурных проектов с ясным scope.</p>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--mck-gray-500);">8–11 недель</div>
+                </article>
+                <article class="panel" style="padding: 16px;">
+                    <h4 style="font-size: 0.95rem; color: var(--mck-dark-blue); margin-bottom: 8px;">3. Operational Improvement</h4>
+                    <p style="font-size: 0.85rem; color: var(--mck-gray-600);">Для оптимизации процессов, снижения затрат и улучшения эффективности.</p>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--mck-gray-500);">5–7 недель</div>
+                </article>
+                <article class="panel" style="padding: 16px;">
+                    <h4 style="font-size: 0.95rem; color: var(--mck-dark-blue); margin-bottom: 8px;">4. Strategic Exploration</h4>
+                    <p style="font-size: 0.85rem; color: var(--mck-gray-600);">Для бизнес-инноваций, входа на новые рынки, трансформации.</p>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--mck-gray-500);">7–9 недель</div>
+                </article>
+                <article class="panel" style="padding: 16px;">
+                    <h4 style="font-size: 0.95rem; color: var(--mck-dark-blue); margin-bottom: 8px;">5. Experimentation</h4>
+                    <p style="font-size: 0.85rem; color: var(--mck-gray-600);">Для тестирования гипотез, быстрого обучения с низким инвестментом.</p>
+                    <div style="margin-top: 8px; font-size: 0.8rem; color: var(--mck-gray-500);">4–6 недель</div>
+                </article>
+            </div>
+        </section>
+
+        <section style="padding: 40px 0; background-color: #f9f9f9; margin-bottom: 32px;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 24px; color: var(--mck-dark-blue);">Discovery Governance: Framework-Specific Discovery</h2>
+            <article class="panel" style="max-width: 900px; margin-bottom: 20px;">
+                <p>Discovery Governance does not represent a single universal process.</p>
+                <p>Instead, the Value Design Office selects the most appropriate discovery framework depending on the type of initiative.</p>
+                <p>Available frameworks include:</p>
+                <ul style="margin-left: 18px; margin-bottom: 8px;">
+                    <li>Product Discovery</li>
+                    <li>Project Initiation</li>
+                    <li>Operational Improvement</li>
+                    <li>Strategic Exploration</li>
+                    <li>Experimentation</li>
+                </ul>
+                <p>The section below demonstrates the Product Discovery framework as an example used for initiatives with high market or user uncertainty.</p>
+            </article>
+            <p style="color: var(--mck-gray-600); margin-bottom: 16px; max-width: 900px;">После выбора framework Value Design Office координирует специфичный для типа инициативы процесс discovery. Ниже показаны детальные примеры <strong>Product Discovery Framework</strong> — одного из 5 типов discovery, которые используются в Value Creation Stream.</p>
+
+            <div style="background: #e3f2fd; border-left: 4px solid #1e3a5f; padding: 16px; margin-bottom: 24px; border-radius: 4px;">
+                <p style="color: #1e3a5f; margin: 0; font-weight: 600;">⚠️ Важно понимать:</p>
+                <ul style="color: #1e3a5f; margin: 8px 0 0 20px;">
+                    <li>Эти три фазы ниже — это детальное описание <strong>Product Discovery Framework</strong></li>
+                    <li>Discovery в Value Creation Stream может быть реализован через 5 разных frameworks:</li>
+                    <li style="margin-top: 4px;">
+                        <strong>1. Product Discovery</strong> (для инициатив с рыночной неопределённостью)<br/>
+                        <strong>2. Project Initiation</strong> (для инициатив с чётким scope)<br/>
+                        <strong>3. Operational Improvement</strong> (для оптимизации процессов)<br/>
+                        <strong>4. Strategic Exploration</strong> (для стратегических инициатив)<br/>
+                        <strong>5. Experimentation</strong> (для быстрого обучения)
+                    </li>
+                    <li style="margin-top: 8px;">Value Design Office выбирает правильный framework на основе характера инициативы</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="phase-1" class="phase-section">
+            <header class="phase-header">
+                <div class="phase-number">01</div>
+                <div>
+                    <h2 class="phase-title">ПРИМЕР: Product Discovery — Сфокусируйте инициативу и сформируйте приоритетные гипотезы</h2>
+                    <p class="phase-description">Фаза 1 (Product Discovery Framework) превращает бизнес-запрос в структуру проверяемых гипотез через исследование проблемы, анализ рынка и данных. Это один из 5 types of discovery, выбираемый VDO для инициатив с высокой рыночной неопределённостью.</p>
+                </div>
+            </header>
+
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Product Discovery – Stage 1: Problem Discovery (Фаза 1. Инициализация и исследование)</h3>
+                        <p><strong>Что происходит:</strong> Превращаем идею из планирования в конкретный план действий. Собираем команду, определяем рамки задачи и изучаем проблему со всех сторон.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «разведки перед боем». Мы понимаем, какую боль клиента лечим, смотрим конкурентов, анализируем данные и формулируем гипотезы.</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма фазы 1</div>
+                            <div class="diagram-description">От инициативы из Initiative Portfolio после Portfolio Intake и приоритизации до списка приоритизированных гипотез.</div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/01-phase-1-research.drawio" title="Диаграмма фазы 1" loading="lazy"></iframe>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Длительность</div>
+                        <div class="fact-value">1–2 недели в рамках полного цикла 4–8 недель</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Ключевые роли</div>
+                        <ul class="fact-list">
+                            <li>Product Manager / Product Owner</li>
+                            <li>UX Researcher</li>
+                            <li>Tech Lead</li>
+                            <li>Data Analyst</li>
+                        </ul>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Выход фазы</div>
+                        <div class="fact-value">Приоритизированный пул гипотез и план валидации на фазу 2</div>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-throughput">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('throughput')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
+            </div>
+
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Definition of Ready и входные условия фазы 1</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>Инициатива из Initiative Portfolio после Portfolio Intake и приоритизации, с понятной бизнес-ценностью</li>
+                                <li>Product Owner назначен и доступен 50%+ времени</li>
+                                <li>Команда Discovery собрана (минимум: PM, UX, Tech Lead)</li>
+                                <li>Бюджет на Discovery согласован (4–8 недель)</li>
+                                <li>Доступ к пользователям и данным подтверждён</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Справочник обозначений (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block">Глоссарий терминов, используемых в Discovery и последующем handoff в Delivery.</p>
+                            <div class="table-wrap">
+                                <table id="glossaryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Артефакт</th>
+                                            <th>Аббр.</th>
+                                            <th>Перевод</th>
+                                            <th>Пояснение для бизнеса</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Product Requirements Document</td><td><strong>PRD</strong></td><td>Требования к продукту</td><td>Документ, который описывает что и почему мы делаем.</td></tr>
+                                        <tr><td>Application Programming Interface</td><td><strong>API</strong></td><td>Интерфейс для связи систем</td><td>Правила взаимодействия между сервисами и системами.</td></tr>
+                                        <tr><td>Architecture Decision Record</td><td><strong>ADR</strong></td><td>Решения по архитектуре</td><td>Фиксация архитектурных решений, альтернатив и последствий.</td></tr>
+                                        <tr><td>Proof of Concept</td><td><strong>PoC</strong></td><td>Проверка концепции</td><td>Рабочий макет, который показывает техническую реализуемость.</td></tr>
+                                        <tr><td>Minimum Viable Product</td><td><strong>MVP</strong></td><td>Минимально жизнеспособный продукт</td><td>Самая простая рабочая версия с измеримым эффектом.</td></tr>
+                                        <tr><td>Low-fidelity prototype</td><td><strong>Low-fi</strong></td><td>Черновой макет</td><td>Быстрый скетч для дешёвой проверки идеи.</td></tr>
+                                        <tr><td>High-fidelity prototype</td><td><strong>High-fi</strong></td><td>Детальный макет</td><td>Макет, близкий к финальному продукту по UX/UI.</td></tr>
+                                        <tr><td>User Experience / User Interface</td><td><strong>UX/UI</strong></td><td>Опыт и интерфейс</td><td>Как продукт работает и как выглядит для пользователя.</td></tr>
+                                        <tr><td>Definition of Done</td><td><strong>DoD</strong></td><td>Критерии готовности</td><td>Список условий, после которых задача считается завершённой.</td></tr>
+                                        <tr><td>Acceptance Criteria</td><td><strong>AC</strong></td><td>Критерии приёмки</td><td>Условия, при которых бизнес принимает результат.</td></tr>
+                                        <tr><td>Product Owner</td><td><strong>PO</strong></td><td>Владелец продукта</td><td>Отвечает за ценность, приоритизацию и продуктовые решения.</td></tr>
+                                        <tr><td>Key Performance Indicator</td><td><strong>KPI</strong></td><td>Ключевой показатель</td><td>Метрика, по которой измеряется успех гипотезы/решения.</td></tr>
+                                        <tr><td>Return on Investment</td><td><strong>ROI</strong></td><td>Окупаемость</td><td>Показывает возврат инвестиций в инициативу.</td></tr>
+                                        <tr><td>Jobs to be Done</td><td><strong>JTBD</strong></td><td>Задача пользователя</td><td>Подход, фокусирующийся на реальной задаче клиента.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="phase-2" class="phase-section phase-alt">
+            <header class="phase-header">
+                <div class="phase-number">02</div>
+                <div>
+                    <h2 class="phase-title">ПРИМЕР: Product Discovery — Проверьте гипотезы и доведите прототип до решения</h2>
+                    <p class="phase-description">Фаза 2 (Product Discovery Framework, продолжение) объединяет подтверждение гипотез, прототипирование и фильтрацию решений. Итоговый Delivery Package содержит валидированное решение, готовое к передаче в Delivery для разработки.</p>
+                </div>
+            </header>
+
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Product Discovery – Stage 2: Solution Validation (Фаза 2.1. Проверка гипотез)</h3>
+                        <p><strong>Что происходит:</strong> Тестируем предположения на реальных пользователях, прежде чем тратить ресурсы на разработку.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «проверяем, не врём ли мы себе».</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма 2.1 — Валидация гипотез</div>
+                            <div class="diagram-description">От приоритизированных гипотез до подтверждённых, уточнённых и отклонённых.</div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/02-phase-2-1-validation.drawio" title="Диаграмма фазы 2.1" loading="lazy"></iframe>
+                        </div>
+                    </article>
+
+                    <article class="panel">
+                        <h3>Фаза 2.2. Прототипирование решения</h3>
+                        <p><strong>Что происходит:</strong> Создаём «макеты» будущего продукта — от простых набросков до интерактивных моделей.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «рисуем будущее» и проверяем UX до кода.</p>
+                        <div class="mermaid-shell">
+                            <div class="diagram-title">Диаграмма 2.2 — Прототипирование</div>
+                            <div class="diagram-description">Переход от подтверждённых гипотез к старту процесса Delivery.</div>
+                            <iframe class="drawio-embed" data-drawio-file="drawio/03-phase-2-2-prototyping.drawio" title="Диаграмма фазы 2.2" loading="lazy"></iframe>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Длительность</div>
+                        <div class="fact-value">2–4 недели (валидация + прототипирование)</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Метрики фазы</div>
+                        <ul class="fact-list">
+                            <li>Количество исследований</li>
+                            <li>Время на исследование</li>
+                            <li>Количество экспериментов</li>
+                            <li>Время на эксперименты</li>
+                        </ul>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Критерий выхода</div>
+                        <div class="fact-value">Подтвержденные гипотезы и прототип решения с валидированным UX</div>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-cycle">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('cycle')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
+            </div>
+
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Критерии качества гипотезы и гейты прототипирования</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block"><strong>Гипотеза готова к валидации, если:</strong></p>
+                            <ul>
+                                <li>Есть формулировка: «Мы верим, что [решение] достигнет [результат] для [сегмент]»</li>
+                                <li>Метрика успеха определена и baseline известен</li>
+                                <li>Целевое значение метрики установлено</li>
+                                <li>Time-box валидации: 2–5 дней</li>
+                                <li>Определен метод проверки (A/B, интервью, прототип, landing page)</li>
+                            </ul>
+                            <p class="text-block"><strong>Гейты 2.2:</strong> Low-fi → High-fi → Интерактивный прототип → Старт процесса Delivery.</p>
+                            <ul>
+                                <li>Переход Low-fi → High-fi: 3+ внутренних ревью с положительным фидбэком</li>
+                                <li>Переход High-fi → Интерактивный: применена дизайн-система</li>
+                                <li>Переход в Delivery: 5+ пользовательских тестов и 80%+ success rate</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Детальный процесс валидации гипотез</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <div class="mermaid-shell">
+                                <div class="diagram-title">Диаграмма 2.1b — Подробная валидация</div>
+                                <div class="diagram-description">Детальный путь гипотезы через методы проверки и цикл уточнения.</div>
+                                <iframe class="drawio-embed" data-drawio-file="drawio/04-validation-detailed.drawio" title="Подробная схема валидации" loading="lazy"></iframe>
+                            </div>
+                            <ul>
+                                <li><strong>Эксперименты:</strong> A/B tests, smoke tests, landing page tests</li>
+                                <li><strong>Опросы:</strong> количественные исследования, NPS, satisfaction surveys</li>
+                                <li><strong>Интервью:</strong> глубинные интервью с пользователями и экспертами</li>
+                                <li><strong>Прототипы:</strong> low-fidelity и high-fidelity для UX-валидации</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Шаблоны и чек-листы (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <p class="text-block"><strong>Шаблон гипотезы:</strong></p>
+                            <p class="text-block">Мы верим, что [функциональность/изменение] для [сегмент пользователей] даст [бизнес-результат], если [критерий успеха через X время].</p>
+                            <p class="text-block"><strong>Шаблон ADR:</strong> Контекст → Решение → Альтернативы → Последствия.</p>
+                            <ul>
+                                <li>Гипотеза сформулирована по шаблону</li>
+                                <li>Метрика и целевое значение определены</li>
+                                <li>Метод валидации выбран</li>
+                                <li>Критерии успеха задокументированы</li>
+                                <li>Дата завершения валидации назначена</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="phase-3" class="phase-section">
+            <header class="phase-header">
+                <div class="phase-number">03</div>
+                <div>
+                    <h2 class="phase-title">ФАЗА ОБЩАЯ для всех frameworks: Delivery Package — передача в Delivery</h2>
+                    <p class="phase-description">Фаза 3 финализирует результаты любого выбранного framework: упаковываем артефакты discovery, формулируем требования, определяем KPI и передаём в Delivery чёткий пакет для реализации. Это gate перед началом разработки. Regardless of the discovery framework used, the process must produce a Delivery Package that contains validated insights, solution definition, and implementation readiness artifacts.</p>
+                </div>
+            </header>
+
+            <div class="phase-layout">
+                <div class="phase-main">
+                    <article class="panel">
+                        <h3>Фаза 3. Формирование handoff-пакета</h3>
+                        <p><strong>Что происходит:</strong> Команда структурирует все результаты Discovery в единый пакет передачи и подтверждает полноту артефактов со стейкхолдерами.</p>
+                        <p><strong>Простыми словами:</strong> Это этап «упаковать и передать»: Delivery получает не идеи, а готовый набор документов, по которому можно сразу начинать реализацию.</p>
+                        <ul class="fact-list">
+                            <li>Финальная формулировка проблемы и бизнес-цели</li>
+                            <li>Подтверждённые гипотезы и их доказательная база</li>
+                            <li>Согласованные API-контракты и архитектурные ограничения</li>
+                            <li>Критерии приёмки и тестовые сценарии</li>
+                            <li>Риски, допущения и план контроля качества</li>
+                        </ul>
+                    </article>
+
+                    <article class="panel">
+                        <h3>Реестр артефактов передачи в Delivery</h3>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Артефакт</th>
+                                        <th>Содержимое</th>
+                                        <th>Ответственный</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>PRD / Product Brief</td><td>Бизнес-цель, scope, ограничения, KPI успеха</td><td>Product Manager</td></tr>
+                                    <tr><td>Техническая спецификация</td><td>Архитектурный подход, NFR, интеграции, зависимости</td><td>Tech Lead</td></tr>
+                                    <tr><td>API-контракты</td><td>Схемы запросов/ответов, версии, правила совместимости</td><td>Tech Lead + системные владельцы</td></tr>
+                                    <tr><td>ADR</td><td>Принятые решения, альтернативы, последствия</td><td>Tech Lead</td></tr>
+                                    <tr><td>UX-артефакты</td><td>Пользовательские сценарии, макеты, ключевые UX-решения</td><td>UX/UI Designer</td></tr>
+                                    <tr><td>План тестирования и приёмки</td><td>Критерии приёмки, тест-кейсы, DoD/DoR handoff</td><td>QA/PM/Tech Lead</td></tr>
+                                    <tr><td>План релиза и мониторинга</td><td>Метрики запуска, алерты, роли в инцидентах</td><td>DevOps + Product Manager</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                </div>
+
+                <aside class="phase-sidebar">
+                    <article class="fact-box">
+                        <div class="fact-label">Вход в фазу</div>
+                        <div class="fact-value">Подтверждённые гипотезы и согласованные продуктовые решения</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Выход фазы</div>
+                        <div class="fact-value">Полный, проверенный и согласованный пакет артефактов для команды Delivery</div>
+                    </article>
+                    <article class="fact-box">
+                        <div class="fact-label">Критерий готовности handoff</div>
+                        <ul class="fact-list">
+                            <li>Артефакты имеют владельцев и статус согласования</li>
+                            <li>Пробелы по требованиям и интеграциям закрыты</li>
+                            <li>Критерии приёмки подтверждены бизнесом и Delivery</li>
+                        </ul>
+                        <div class="widget-links">
+                            <a class="widget-btn" href="executive-dashboard.html#widget-cost">Связанный виджет борда</a>
+                            <button class="widget-btn" type="button" onclick="openWidgetPreview('cost')">Виджет во всплывающем окне</button>
+                        </div>
+                    </article>
+                </aside>
+            </div>
+
+            <div class="accordion-group">
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Чек-лист полноты пакета передачи</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li>PRD и бизнес-цели синхронизированы с roadmap Delivery</li>
+                                <li>Нефункциональные требования (время отклика, нагрузка, безопасность) задокументированы</li>
+                                <li>API-контракты подписаны всеми затронутыми командами</li>
+                                <li>Критерии приёмки и тестовые сценарии покрывают ключевые пользовательские пути</li>
+                                <li>Риски, допущения и открытые вопросы имеют владельцев и дедлайны</li>
+                            </ul>
+                            <p class="text-block"><strong>Итог handoff:</strong> Delivery получает пакет артефактов, достаточный для старта разработки без повторного Discovery.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button">
+                        <span>Ответственные по артефактам (appendix)</span>
+                        <span class="accordion-chevron">▶</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="accordion-inner">
+                            <ul>
+                                <li><strong>Product Manager:</strong> PRD, бизнес-цели, приоритизация релизного scope.</li>
+                                <li><strong>UX Researcher:</strong> исследовательская сводка, обоснование пользовательской ценности.</li>
+                                <li><strong>UX/UI Designer:</strong> UX-артефакты, сценарии, спецификация интерфейса.</li>
+                                <li><strong>Tech Lead:</strong> техспецификация, ADR, архитектурные решения, API-контракты.</li>
+                                <li><strong>Data Analyst:</strong> метрики запуска, baseline, схема измерения эффекта.</li>
+                                <li><strong>DevOps Engineer:</strong> план релиза, мониторинг, эксплуатационные требования.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section style="padding: 40px; background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border: 2px solid #ff6f00; border-radius: 8px; margin: 32px 0;">
+            <div style="max-width: 1000px;">
+                <h2 style="font-size: 1.5rem; color: #e65100; margin-bottom: 16px;">🎯 GO / NO-GO REVIEW — Governance Gate</h2>
+                <p style="color: #bf360c; margin-bottom: 16px; font-weight: 600;">
+                    This governance gate validates whether the discovery results are sufficient to start delivery execution.
+                    Stakeholders confirm business value, scope clarity, and delivery readiness.
+                </p>
+                <p style="color: #bf360c; margin-bottom: 16px; font-size: 0.9rem;">После завершения Discovery и подготовки Delivery Package проводится GO/NO-GO Review — критическая точка принятия решения перед передачей в Delivery.</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 16px;">
+                    <article style="background: white; padding: 16px; border-radius: 6px;">
+                        <h3 style="color: #2e7d32; font-size: 1rem; margin-bottom: 8px;">✅ GO — Одобрение</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;">Инициатива прошла все критерии качества Discovery и готова к передаче в Delivery.</p>
+                        <ul style="font-size: 0.9rem; color: #555; margin-left: 20px;">
+                            <li>Delivery Package полный и валидный</li>
+                            <li>KPI и success criteria ясны</li>
+                            <li>Все стейкхолдеры согласованы</li>
+                            <li>→ Инициатива переходит в DELIVERY EXECUTION</li>
+                        </ul>
+                    </article>
+
+                    <article style="background: white; padding: 16px; border-radius: 6px;">
+                        <h3 style="color: #c62828; font-size: 1rem; margin-bottom: 8px;">❌ NO-GO — Отклонение</h3>
+                        <p style="font-size: 0.9rem; color: #333; margin-bottom: 8px;">Инициатива не готова к Delivery или требует доработки.</p>
+                        <ul style="font-size: 0.9rem; color: #555; margin-left: 20px;">
+                            <li>Недостаточное количество evidence</li>
+                            <li>Неясные KPI или success criteria</li>
+                            <li>Критические риски не разрешены</li>
+                            <li>→ Возврат на доработку в Discovery</li>
+                        </ul>
+                    </article>
+                </div>
+
+                <div style="background: white; padding: 12px; border-radius: 6px; border-left: 4px solid #ff6f00;">
+                    <p style="font-size: 0.9rem; color: #333; margin: 0;">
+                        <strong>Участники GO/NO-GO Review:</strong> Chief Discovery Officer, Value Design Office Lead, Relevant Domain Experts, Delivery Leader, Sponsor
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer-note">
+            <span>Source: Internal Discovery tracker, product research materials, PI Planning artifacts</span>
+            <span id="lastUpdated">Updated: —</span>
+        </div>
+    </main>
+
+    <div style="max-width:1200px;margin:8px auto 24px auto;padding:0 20px;font-size:0.85rem;color:#64748b;">
+        <strong>Быстрые ссылки на обратную связь:</strong>
+        <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback" target="_blank" style="margin-left:8px;">вся обратная связь</a> ·
+        <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Atask" target="_blank">только задачи</a> ·
+        <a href="https://github.com/jackrescuer-gif/Discovery-in-value/issues?q=is%3Aissue+is%3Aopen+label%3Afeedback+label%3Apage%3Avisualization" target="_blank">обратная связь по визуализации</a>
+    </div>
+
+    <button class="fab-top" id="backToTop" aria-label="Наверх">↑</button>
+
+    <div class="widget-overlay" id="widgetOverlay">
+        <div class="widget-modal" role="dialog" aria-modal="true" aria-labelledby="widgetOverlayTitle">
+            <div class="widget-modal-header">
+                <h3 id="widgetOverlayTitle">Виджет борда</h3>
+                <button class="widget-close" id="widgetOverlayClose" aria-label="Закрыть окно">&times;</button>
+            </div>
+            <iframe id="widgetIframe" title="Widget preview" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script>const CURRENT_PAGE = 'visualization.html';</script>
+    <script src="nav.js"></script>
+    <script>
+        function buildDrawioViewerUrl(filePath) {
+            const absoluteFileUrl = new URL(filePath, window.location.href).href;
+            const encoded = encodeURIComponent(absoluteFileUrl);
+            return "https://app.diagrams.net/?lightbox=1&nav=1&title=0&layers=1&url=" + encoded;
+        }
+
+        function initDrawioEmbeds() {
+            document.querySelectorAll("iframe.drawio-embed[data-drawio-file]").forEach((frame) => {
+                const filePath = frame.getAttribute("data-drawio-file");
+                if (!filePath) return;
+                frame.src = buildDrawioViewerUrl(filePath);
+            });
+        }
+
+        function scrollToPhase(phaseId) {
+            const section = document.getElementById(phaseId);
+            if (!section) return;
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        window.scrollToPhase = scrollToPhase;
+
+        function updateActiveNav(id) {
+            document.querySelectorAll(".phase-link").forEach(link => {
+                link.classList.toggle("active", link.dataset.phase === id);
+            });
+            const select = document.getElementById("phaseSelect");
+            if (select && select.value !== id) {
+                select.value = id;
+            }
+        }
+
+        function setupPhaseObserver() {
+            const sections = document.querySelectorAll(".phase-section");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateActiveNav(entry.target.id);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: "-30% 0px -50% 0px",
+                threshold: 0.05
+            });
+            sections.forEach(section => observer.observe(section));
+        }
+
+        function updateProgressBar() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            const progressEl = document.getElementById("scrollProgress");
+            if (progressEl) {
+                progressEl.style.width = Math.min(100, Math.max(0, progress)).toFixed(2) + "%";
+            }
+            const fab = document.getElementById("backToTop");
+            if (!fab) return;
+            fab.classList.toggle("visible", scrollTop > 500);
+        }
+
+        function setupAccordions() {
+            document.querySelectorAll(".accordion-item").forEach(item => {
+                const trigger = item.querySelector(".accordion-trigger");
+                const content = item.querySelector(".accordion-content");
+                if (!trigger || !content) return;
+
+                trigger.addEventListener("click", () => {
+                    const isOpen = item.classList.contains("open");
+                    if (isOpen) {
+                        item.classList.remove("open");
+                        content.style.maxHeight = "0px";
+                        return;
+                    }
+                    item.classList.add("open");
+                    content.style.maxHeight = content.scrollHeight + "px";
+                });
+            });
+        }
+
+        function setupHeaderNavigation() {
+            document.querySelectorAll(".phase-link").forEach(link => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const target = link.dataset.phase;
+                    if (!target) return;
+                    scrollToPhase(target);
+                });
+            });
+
+            const phaseSelect = document.getElementById("phaseSelect");
+            if (phaseSelect) {
+                phaseSelect.addEventListener("change", () => {
+                    scrollToPhase(phaseSelect.value);
+                });
+            }
+        }
+
+        function setupBackToTop() {
+            const button = document.getElementById("backToTop");
+            if (!button) return;
+            button.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+        }
+
+        const widgetPreviewConfig = {
+            throughput: {
+                title: "Виджет «Операционная динамика»",
+                src: "executive-dashboard.html?embed=1&widget=throughput"
+            },
+            cycle: {
+                title: "Виджет «Скорость цикла»",
+                src: "executive-dashboard.html?embed=1&widget=cycle"
+            },
+            cost: {
+                title: "Виджет «Контроль бюджета»",
+                src: "executive-dashboard.html?embed=1&widget=cost"
+            }
+        };
+
+        function closeWidgetPreview() {
+            const overlay = document.getElementById("widgetOverlay");
+            const iframe = document.getElementById("widgetIframe");
+            if (!overlay || !iframe) return;
+            overlay.classList.remove("active");
+            iframe.src = "about:blank";
+        }
+
+        function openWidgetPreview(widgetKey) {
+            const config = widgetPreviewConfig[widgetKey];
+            if (!config) return;
+            const overlay = document.getElementById("widgetOverlay");
+            const iframe = document.getElementById("widgetIframe");
+            const title = document.getElementById("widgetOverlayTitle");
+            if (!overlay || !iframe || !title) return;
+            title.textContent = config.title;
+            iframe.src = config.src;
+            overlay.classList.add("active");
+        }
+        window.openWidgetPreview = openWidgetPreview;
+
+        function setupWidgetPreview() {
+            const overlay = document.getElementById("widgetOverlay");
+            const closeBtn = document.getElementById("widgetOverlayClose");
+            if (!overlay || !closeBtn) return;
+            closeBtn.addEventListener("click", closeWidgetPreview);
+            overlay.addEventListener("click", (event) => {
+                if (event.target === overlay) {
+                    closeWidgetPreview();
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initDrawioEmbeds();
+            setupHeaderNavigation();
+            setupPhaseObserver();
+            setupAccordions();
+            setupBackToTop();
+            setupWidgetPreview();
+            updateProgressBar();
+
+            const now = new Date();
+            const updated = document.getElementById("lastUpdated");
+            if (updated) {
+                updated.textContent = "Updated: " + now.toLocaleString("ru-RU");
+            }
+
+            if (window.initFeedbackWidget) {
+                window.initFeedbackWidget('visualization');
+            }
+        });
+
+        window.addEventListener("scroll", updateProgressBar, { passive: true });
+        window.addEventListener("resize", () => {
+            document.querySelectorAll(".accordion-item.open .accordion-content").forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });        });
+    </script>
+</body>
+</html>
