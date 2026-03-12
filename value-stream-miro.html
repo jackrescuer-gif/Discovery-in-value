@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Value Stream — Process Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f0f0;
+    background-image: radial-gradient(circle, #c8c8c8 1px, transparent 1px);
+    background-size: 24px 24px;
+    min-height: 100vh;
+    padding: 32px;
+    color: #1a1a1a;
+  }
+
+  /* ── Top label ── */
+  .frame-label {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* ── Page title ── */
+  .page-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .page-title span { font-weight: 400; }
+
+  /* ── Top note ── */
+  .top-note {
+    background: #e8f0fe;
+    border: 1px solid #b3c8f5;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 12px;
+    color: #2a5db0;
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto 28px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Outer wrapper ── */
+  .canvas {
+    position: relative;
+    min-width: 1520px;
+  }
+
+  /* ── Section bands (colored background blocks) ── */
+  .bands {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .band {
+    border-radius: 12px 12px 0 0;
+    padding: 8px 14px 0;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+
+  /* ── Main flow row ── */
+  .flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  /* ── Section group (colored background) ── */
+  .section {
+    border-radius: 14px;
+    padding: 14px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .section-filtraciya { background: #fff3e0; border: 1.5px solid #ffcc80; }
+  .section-filtraciya .section-title { color: #e65100; }
+
+  .section-discovery { background: #e8f5e9; border: 1.5px solid #a5d6a7; }
+  .section-discovery .section-title { color: #1b5e20; }
+
+  .section-delivery { background: #fce4ec; border: 1.5px solid #f48fb1; }
+  .section-delivery .section-title { color: #880e4f; }
+
+  /* ── Stage block ── */
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  /* ── Step card (white box) ── */
+  .step-card {
+    background: white;
+    border-radius: 10px;
+    padding: 10px 12px;
+    width: 220px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    border: 1.5px solid #e0e0e0;
+    position: relative;
+  }
+  .step-card.blue-header { border-top: 3px solid #1976d2; }
+  .step-card.orange-header { border-top: 3px solid #f57c00; }
+  .step-card.green-header { border-top: 3px solid #388e3c; }
+  .step-card.pink-header { border-top: 3px solid #c2185b; }
+  .step-card.teal-header { border-top: 3px solid #00796b; }
+  .step-card.purple-header { border-top: 3px solid #7b1fa2; }
+
+  .step-sdlc {
+    font-size: 9px;
+    color: #888;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 4px;
+  }
+  .step-sdlc a { color: #1976d2; text-decoration: none; }
+
+  .step-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  /* Sub-sections inside step card */
+  .sub { margin-bottom: 8px; }
+  .sub-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 4px;
+  }
+  .sub ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .sub ul li {
+    font-size: 10.5px;
+    color: #333;
+    padding-left: 10px;
+    position: relative;
+    line-height: 1.35;
+  }
+  .sub ul li::before {
+    content: '•';
+    position: absolute;
+    left: 1px;
+    color: #aaa;
+    font-size: 9px;
+  }
+  .sub ul li a { color: #1976d2; text-decoration: none; font-size: 10px; }
+
+  /* Tools chips */
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .chip {
+    font-size: 9.5px;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: #444;
+    font-weight: 500;
+  }
+
+  /* ── Artifact card (yellow) ── */
+  .artifact-card {
+    background: #fffde7;
+    border: 1.5px solid #f9a825;
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 170px;
+    font-size: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .artifact-card .a-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #f57f17;
+    letter-spacing: .04em;
+    margin-bottom: 5px;
+  }
+  .artifact-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .artifact-card ul li {
+    font-size: 10px;
+    color: #333;
+    padding-left: 10px;
+    position: relative;
+    line-height: 1.3;
+  }
+  .artifact-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 1px;
+    color: #f9a825;
+    font-size: 9px;
+  }
+
+  /* ── Gate diamond ── */
+  .gate {
+    width: 38px;
+    height: 38px;
+    background: #ff9800;
+    border-radius: 4px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    position: relative;
+    z-index: 2;
+  }
+  .gate-label {
+    transform: rotate(-45deg);
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+  }
+  .gate.blue { background: #1976d2; }
+  .gate.red { background: #d32f2f; }
+
+  /* ── Horizontal arrow ── */
+  .h-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    flex-shrink: 0;
+    margin-top: 70px;
+  }
+  .h-arrow-line {
+    height: 2px;
+    background: #9e9e9e;
+    width: 28px;
+  }
+  .h-arrow-head {
+    width: 0; height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 8px solid #9e9e9e;
+  }
+
+  /* Arrow label */
+  .arrow-label {
+    font-size: 9px;
+    color: #888;
+    white-space: nowrap;
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f0f0f0;
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  /* ── Column layout for stage (card + below artifact) ── */
+  .stage-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── GAPs section ── */
+  .gaps-section {
+    background: #fffde7;
+    border: 1.5px solid #f9a825;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-top: 20px;
+    max-width: 900px;
+  }
+  .gaps-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e65100;
+    margin-bottom: 8px;
+    letter-spacing: .04em;
+  }
+  .gaps-section ol {
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .gaps-section ol li {
+    font-size: 11.5px;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  /* ── Bottom monitoring bar ── */
+  .monitor-bar {
+    background: #e8f5e9;
+    border: 1.5px solid #a5d6a7;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    margin-top: 14px;
+    font-size: 11px;
+    color: #2e7d32;
+    font-weight: 500;
+  }
+
+  /* ── Vertical connector dots ── */
+  .v-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #bdbdbd;
+    margin: 3px auto;
+  }
+
+  /* Gate row */
+  .gate-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0;
+  }
+  .gate-mini {
+    background: #ff9800;
+    color: white;
+    font-size: 8px;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 2px 5px;
+    letter-spacing: .03em;
+  }
+  .gate-mini.blue { background: #1976d2; }
+
+  .divider { height: 1px; background: #eee; margin: 6px 0; }
+
+  /* Status pill */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .s-work { background: #e3f2fd; color: #1565c0; }
+  .s-valid { background: #fff8e1; color: #e65100; }
+  .s-ok { background: #e8f5e9; color: #2e7d32; }
+  .s-no { background: #fce4ec; color: #880e4f; }
+
+  .top-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Wrapper for whole flow with horizontal scroll */
+  .scroll-wrapper {
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+
+  .flow-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    padding: 8px 4px;
+    min-width: max-content;
+  }
+
+  /* Section wrapper inside flow */
+  .sec-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .sec-band {
+    border-radius: 12px 12px 0 0;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .sec-body {
+    border-radius: 0 0 12px 12px;
+    padding: 12px 10px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .sec-filtraciya .sec-band { background: #ffe0b2; color: #bf360c; }
+  .sec-filtraciya .sec-body { background: #fff8f0; border: 1.5px solid #ffcc80; border-top: none; border-radius: 0 0 12px 12px; }
+
+  .sec-discovery .sec-band { background: #c8e6c9; color: #1b5e20; }
+  .sec-discovery .sec-body { background: #f1f8e9; border: 1.5px solid #a5d6a7; border-top: none; border-radius: 0 0 12px 12px; }
+
+  .sec-delivery .sec-band { background: #f8bbd0; color: #880e4f; }
+  .sec-delivery .sec-body { background: #fdf0f5; border: 1.5px solid #f48fb1; border-top: none; border-radius: 0 0 12px 12px; }
+
+  /* between sections gap */
+  .sec-gap {
+    width: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 86px;
+  }
+
+  /* entry node */
+  .entry-node {
+    width: 90px;
+    background: #e3f2fd;
+    border: 1.5px solid #90caf9;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 10px;
+    color: #0d47a1;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 40px;
+  }
+  .entry-node strong { display: block; font-size: 11px; margin-bottom: 3px; }
+
+  /* metrics card */
+  .metric-card {
+    background: #fff;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 215px;
+    margin-top: 8px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="frame-label">Фрейм 1</div>
+
+<div class="top-center">
+  <div style="display:flex;justify-content:center;margin-bottom:12px">
+    <div style="background:#e8f0fe;border:1px solid #b3c8f5;border-radius:8px;padding:8px 20px;font-size:12px;color:#2a5db0;font-weight:500">
+      Управление ресурсами, бюджетом и инициативами через <strong>Дерево целей Заказчика</strong>
+    </div>
+  </div>
+  <div class="page-title"><span>Этап</span> <strong>Value Stream</strong> <span>— полный поток</span></div>
+</div>
+
+<div class="scroll-wrapper">
+<div class="flow-inner">
+
+  <!-- Entry -->
+  <div class="entry-node" style="margin-right:10px">
+    <strong>Инициативы</strong>
+    Стратегия · OKR · Бэклог
+  </div>
+
+  <div class="h-arrow" style="margin-top:50px">
+    <div class="h-arrow-line" style="width:10px"></div>
+    <div class="h-arrow-head"></div>
+  </div>
+
+  <!-- ══════════════════════════════
+       ФИЛЬТРАЦИЯ
+  ══════════════════════════════════ -->
+  <div class="sec-wrap sec-filtraciya">
+    <div class="sec-band">Фильтрация</div>
+    <div class="sec-body">
+
+      <!-- Stage 1 -->
+      <div class="stage-col">
+        <div class="step-card orange-header">
+          <div class="step-sdlc">Стадия 1 · Фильтрация инициатив</div>
+          <div class="step-title">Фильтрация PP</div>
+
+          <div class="sub">
+            <div class="sub-title">Роли</div>
+            <ul>
+              <li>PO / BO / RO и команда</li>
+              <li>Уровень управления / Правление</li>
+              <li>Центры компетенций (фин., стратегия, риск)</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Критерии допуска PP</div>
+            <ul>
+              <li>Сформулирован ожидаемый эффект</li>
+              <li>Указана метрика / прокси-метрика</li>
+              <li>Привязка к стратфокусу периода</li>
+              <li>Понятны границы PP</li>
+              <li>Верхнеуровневая оценка объёма</li>
+              <li>Описаны ключевые зависимости</li>
+              <li>Скоринг заполнен по PP в целом</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Инструменты и церемонии</div>
+          <div class="tools">
+            <span class="chip">Jira</span>
+            <span class="chip">Скоринг</span>
+            <span class="chip">PI-планирование</span>
+            <span class="chip">CPM / CPC</span>
+          </div>
+        </div>
+
+        <!-- artifact below -->
+        <div class="artifact-card">
+          <div class="a-title">↓ Входы</div>
+          <ul>
+            <li>Ресурсная ёмкость команд</li>
+            <li>Текущий техдолг</li>
+            <li>Цели периода / OKR</li>
+            <li>Бэклог инициатив 1-го ур.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="position:relative">
+        <div class="h-arrow">
+          <div class="h-arrow-line"></div>
+          <div class="h-arrow-head"></div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage-col">
+        <div class="step-card orange-header">
+          <div class="step-sdlc">Стадия 2 · PI-планирование</div>
+          <div class="step-title">PI-планирование</div>
+
+          <div class="sub">
+            <div class="sub-title">Назначение</div>
+            <ul>
+              <li>Планирование инкремента</li>
+              <li>Укрупнённые оценки объёмов</li>
+              <li>Согласование приоритетов PP</li>
+              <li>Формирование скорингового рейтинга</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Роли</div>
+            <ul>
+              <li>PO / RO всех команд</li>
+              <li>Правление / ЛПР</li>
+              <li>Финансы, стратегия</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Инструменты</div>
+          <div class="tools">
+            <span class="chip">Jira</span>
+            <span class="chip">Скоринг-модель</span>
+            <span class="chip">Коллег. органы</span>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↑ Выходы</div>
+          <ul>
+            <li>Единое целеполагание</li>
+            <li>Понимание ожидаемого эффекта</li>
+            <li>Прозрачная загрузка команд</li>
+            <li>Структура бэклога и зависимостей</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="h-arrow">
+        <div class="h-arrow-line"></div>
+        <div class="h-arrow-head"></div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage-col">
+        <div class="step-card orange-header">
+          <div class="step-sdlc">Стадия 3 · Портфель</div>
+          <div class="step-title">Портфель инициатив</div>
+
+          <div class="sub">
+            <div class="sub-title">Назначение</div>
+            <ul>
+              <li>Формирование утверждённого портфеля</li>
+              <li>Сопровождение инициатив PP</li>
+              <li>Балансировка ресурс. ёмкости</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Метрики</div>
+            <ul>
+              <li>Скоринговый рейтинг PP</li>
+              <li>Загрузка vs ёмкость команд</li>
+              <li>Доля стратегических PP</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="tools">
+            <span class="chip">Jira</span>
+            <span class="chip">Confluence</span>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↑ Выходы</div>
+          <ul>
+            <li>Рейтинг PP с приоритетами</li>
+            <li>Утверждённый портфель</li>
+            <li>Карта зависимостей и рисков</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Gap + big arrow -->
+  <div class="sec-gap">
+    <div class="h-arrow" style="margin-top:0">
+      <div class="h-arrow-line" style="width:16px"></div>
+      <div class="h-arrow-head"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       DISCOVERY
+  ══════════════════════════════════ -->
+  <div class="sec-wrap sec-discovery">
+    <div class="sec-band">Дискавери</div>
+    <div class="sec-body">
+
+      <!-- Stage 4: ЦУЦ -->
+      <div class="stage-col">
+        <div class="step-card green-header">
+          <div class="step-sdlc">Стадия 4 · ЦУЦ / VDO</div>
+          <div class="step-title">Центр управления ценностью</div>
+
+          <div class="sub">
+            <div class="sub-title">Функции ЦУЦ</div>
+            <ul>
+              <li>Исследование и экспертиза инициатив</li>
+              <li>Уточнение проблемы и ЦА</li>
+              <li>Классификация по типу неопределённости</li>
+              <li>Формирование метрик успеха</li>
+              <li>Агрегация отчётов по прогрессу</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Состав ЦУЦ</div>
+            <ul>
+              <li>Проектный офис</li>
+              <li>Офис продуктовых практик</li>
+              <li>ITG</li>
+              <li>Ст. УД по ИТ и по Операц. эфф.</li>
+              <li>Деп. стратегического развития</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Статусы в Discovery</div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">
+            <span class="status-pill s-work"><span class="status-dot" style="background:#1976d2"></span>В работе</span>
+            <span class="status-pill s-valid"><span class="status-dot" style="background:#f57c00"></span>Валидация</span>
+            <span class="status-pill s-ok"><span class="status-dot" style="background:#388e3c"></span>Подтверждена</span>
+            <span class="status-pill s-no"><span class="status-dot" style="background:#c62828"></span>Отклонена</span>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↓ Входы</div>
+          <ul>
+            <li>Приоритизированные PP из портфеля</li>
+            <li>Результат PI-планирования</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="h-arrow">
+        <div class="h-arrow-line"></div>
+        <div class="h-arrow-head"></div>
+      </div>
+
+      <!-- Stage 5: Выбор фреймворка -->
+      <div class="stage-col">
+        <div class="step-card green-header">
+          <div class="step-sdlc">Стадия 5 · Выбор фреймворка</div>
+          <div class="step-title">Выбор формата реализации</div>
+
+          <div class="sub">
+            <div class="sub-title">Критерии выбора</div>
+            <ul>
+              <li>Объём и сложность инициативы</li>
+              <li>Зависимости от других команд</li>
+              <li>Характер работ (продукт/проект/поток)</li>
+              <li>Ресурсная ёмкость и тип команды</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Возможные форматы</div>
+            <ul>
+              <li><strong>Проект</strong> — ограниченный срок, кросс-команда</li>
+              <li><strong>БФ-команда</strong> — продуктовый подход</li>
+              <li><strong>Flow-задачи</strong> — потоковые операц. задачи</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Метрики этапа</div>
+          <div class="tools" style="margin-top:4px">
+            <span class="chip">% гипотез → перспективные</span>
+            <span class="chip">Discovery cycle-time</span>
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↑ Выходы Discovery</div>
+          <ul>
+            <li>Описанная проблема и ЦА</li>
+            <li>Валидированная концепция</li>
+            <li>Метрики успеха и ожид. эффект</li>
+            <li>Рекомендованный формат</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="h-arrow">
+        <div class="h-arrow-line"></div>
+        <div class="h-arrow-head"></div>
+      </div>
+
+      <!-- Stage 6: Переход в Деливери -->
+      <div class="stage-col">
+        <div class="step-card green-header">
+          <div class="step-sdlc">Стадия 6 · GO / NO-GO</div>
+          <div class="step-title">Переход в Деливери</div>
+
+          <div class="sub">
+            <div class="sub-title">Пакет передачи командам</div>
+            <ul>
+              <li>Решение GO / NO-GO</li>
+              <li>Задача в системе трекинга (Скоуп)</li>
+              <li>Скоринговый балл (приоритет)</li>
+              <li>Первичный набор требований</li>
+              <li>Первичный набор эпиков</li>
+              <li>Сессия по входу в Деливери</li>
+              <li>Результат PI-планирования</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div style="background:#fff3e0;border-radius:6px;padding:6px 8px;font-size:10px;color:#e65100;margin-top:2px">
+            🎯 <strong>Дерево целей Заказчика</strong> — управление ресурсами и бюджетом
+          </div>
+        </div>
+
+        <!-- gate -->
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <div class="gate" style="width:32px;height:32px">
+            <div class="gate-label" style="font-size:8px">GO</div>
+          </div>
+          <div style="font-size:9px;color:#555;line-height:1.3">Гейт перехода<br>в Деливери</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Gap + big arrow -->
+  <div class="sec-gap">
+    <div class="h-arrow" style="margin-top:0">
+      <div class="h-arrow-line" style="width:16px"></div>
+      <div class="h-arrow-head"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       DELIVERY
+  ══════════════════════════════════ -->
+  <div class="sec-wrap sec-delivery">
+    <div class="sec-band">Деливери</div>
+    <div class="sec-body">
+
+      <!-- Stage 7.1: Разработка -->
+      <div class="stage-col">
+        <div class="step-card blue-header">
+          <div class="step-sdlc">Этап 1 · Разработка — <a href="#">Регламент SDLC</a></div>
+          <div class="step-title">Разработка</div>
+
+          <div class="sub">
+            <div class="sub-title">Роли</div>
+            <ul>
+              <li>Деливери-менеджер / РО</li>
+              <li>Разработчики</li>
+              <li>Тестировщик (ручные и авто)</li>
+              <li>Аналитик (t-shape)</li>
+              <li>Тест-менеджер</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Метрики</div>
+            <ul>
+              <li>Cycle-time · Lead time</li>
+              <li>Flow Efficiency</li>
+              <li>Defect containment</li>
+              <li>Throughput</li>
+              <li>Кол-во дефектов на тест.</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Инструменты и церемонии</div>
+          <div class="tools" style="margin-top:4px">
+            <span class="chip">Jira</span>
+            <span class="chip">Confluence</span>
+            <span class="chip">CI/CD</span>
+            <span class="chip">TestOps</span>
+            <span class="chip">РК</span>
+          </div>
+          <div style="margin-top:5px;font-size:9.5px;color:#555">
+            Дейлики · Планирование спринтов · Код-ревью · Retrospective
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↓ Вход</div>
+          <ul>
+            <li>Эпики (≤ квартал)</li>
+            <li>User Story (≤ спринт)</li>
+            <li>Архит. решение / ТЗ / ЧТЗ</li>
+            <li>Оценка трудозатрат / SP</li>
+            <li>План Релиза</li>
+          </ul>
+        </div>
+        <div class="artifact-card" style="border-color:#a5d6a7;background:#f1f8e9;margin-top:4px">
+          <div class="a-title" style="color:#2e7d32">↑ Выход</div>
+          <ul>
+            <li>Готовый протестированный код</li>
+            <li>Готовая фича</li>
+            <li>Отчёты по тестированию</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Gate -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 4px;margin-top:60px">
+        <div class="h-arrow" style="margin-top:0">
+          <div class="h-arrow-line" style="width:10px"></div>
+          <div class="h-arrow-head"></div>
+        </div>
+        <div style="margin-top:8px">
+          <div class="gate blue" style="width:30px;height:30px">
+            <div class="gate-label" style="font-size:7px">РК</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 7.2: UAT -->
+      <div class="stage-col">
+        <div class="step-card pink-header">
+          <div class="step-sdlc">Этап 2 · Приёмочное тестирование — <a href="#">Регламент SDLC</a></div>
+          <div class="step-title">Приёмочное тестирование (UAT)</div>
+
+          <div class="sub">
+            <div class="sub-title">Гейты</div>
+            <div class="tools" style="margin-bottom:4px">
+              <span class="chip" style="background:#fff3e0;border-color:#ffb74d;color:#e65100">РК</span>
+              <span class="chip" style="background:#fff3e0;border-color:#ffb74d;color:#e65100">Управление изменениями</span>
+            </div>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Роли</div>
+            <ul>
+              <li>Заказчик</li>
+              <li>Бизнес-аналитик / Технолог</li>
+              <li>Деливери · РО</li>
+              <li>Менеджер по приёмочному тест.</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Метрики</div>
+            <ul>
+              <li>Кол-во найд. / критич. дефектов</li>
+              <li>% прохождения UAT</li>
+              <li>Гейт прохождения UAT</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Инструменты и церемонии</div>
+          <div class="tools" style="margin-top:4px">
+            <span class="chip">Jira</span>
+            <span class="chip">Confluence</span>
+            <span class="chip">РК (тест. активности)</span>
+          </div>
+          <div style="margin-top:5px;font-size:9.5px;color:#555">
+            Дейлики · Демо-сессия / Review с заказчиком
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↓ Вход</div>
+          <ul>
+            <li>Готовый протестированный код</li>
+            <li>Готовая фича</li>
+            <li>Отчёты по тестированию</li>
+          </ul>
+        </div>
+        <div class="artifact-card" style="border-color:#a5d6a7;background:#f1f8e9;margin-top:4px">
+          <div class="a-title" style="color:#2e7d32">↑ Выход</div>
+          <ul>
+            <li>Согласованный код к внедрению</li>
+            <li>Решение о внедрении (РК/КИ)</li>
+            <li>Отчёт по UAT</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 4px;margin-top:60px">
+        <div class="h-arrow" style="margin-top:0">
+          <div class="h-arrow-line" style="width:10px"></div>
+          <div class="h-arrow-head"></div>
+        </div>
+      </div>
+
+      <!-- Stage 7.3: Внедрение -->
+      <div class="stage-col">
+        <div class="step-card teal-header">
+          <div class="step-sdlc">Этап 3 · Внедрение — <a href="#">Регламент SDLC</a></div>
+          <div class="step-title">Внедрение (ввод в эксплуатацию)</div>
+
+          <div class="sub">
+            <div class="sub-title">Роли</div>
+            <ul>
+              <li>ИТ-Лидер Сопровождения</li>
+              <li>Администратор сопровождения стендов</li>
+              <li>Корпоративный архитектор</li>
+              <li>Менеджер упр. конфигурациями</li>
+            </ul>
+          </div>
+
+          <div class="sub">
+            <div class="sub-title">Метрики</div>
+            <ul>
+              <li>Акт о вводе в эксплуатацию</li>
+              <li>Карточка системы в CMDB</li>
+              <li>Паспорт системы в ЕАМ</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sub-title">Инструменты и церемонии</div>
+          <div class="tools" style="margin-top:4px">
+            <span class="chip">Jira</span>
+            <span class="chip">Confluence</span>
+            <span class="chip">CMDB</span>
+            <span class="chip">EAM</span>
+          </div>
+          <div style="margin-top:5px;font-size:9.5px;color:#555">
+            Церемонии по фреймворку команд
+          </div>
+        </div>
+
+        <div class="artifact-card">
+          <div class="a-title">↓ Вход</div>
+          <ul>
+            <li>Согласованный код к внедрению</li>
+            <li>Решение о внедрении (РК/КИ)</li>
+            <li>Отчёт по UAT</li>
+          </ul>
+        </div>
+        <div class="artifact-card" style="border-color:#a5d6a7;background:#f1f8e9;margin-top:4px">
+          <div class="a-title" style="color:#2e7d32">↑ Выход</div>
+          <ul>
+            <li>Эксплуатац. документация / Релиз-ноты</li>
+            <li>Акт о вводе системы в экспл.</li>
+            <li>Карточка в CMDB, паспорт в ЕАМ</li>
+            <li>Закрытые задачи в Jira</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /flow-inner -->
+</div><!-- /scroll-wrapper -->
+
+<!-- GAPs -->
+<div style="margin-top:20px">
+  <div class="gaps-section">
+    <div class="gaps-title">GAPs</div>
+    <ol>
+      <li>Отсутствие синхронизации ролей, артефактов и церемоний, детализированного описания этапов SDLC для каждого типа фреймворка команд.</li>
+      <li>Словарь — все термины и определения, используемые в потоке.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Monitor bar -->
+<div class="monitor-bar">
+  Мониторинг, постконтроль · Интеграция в аудиторские процессы · Governance
+</div>
+
+</body>
+</html>

@@ -236,6 +236,150 @@
       line-height: 1.5;
     }
 
+    /* ── Diagram Preview ─────────────────────── */
+    .diagram-preview {
+      position: relative;
+      margin: 0 0 8px;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid #dee2e6;
+      background: #f0f0f0;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      display: block;
+    }
+    .diagram-preview:hover {
+      border-color: var(--mck-blue);
+      box-shadow: 0 4px 24px rgba(0,102,204,0.18);
+    }
+    .diagram-preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .diagram-preview-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0);
+      transition: background 0.2s;
+    }
+    .diagram-preview:hover .diagram-preview-overlay {
+      background: rgba(0,30,60,0.10);
+    }
+    .diagram-preview-label {
+      background: rgba(255,255,255,0.96);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--mck-blue);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .diagram-preview:hover .diagram-preview-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .diagram-preview-label svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .diagram-caption {
+      text-align: center;
+      font-size: 13px;
+      color: var(--mck-gray-600);
+      margin-bottom: 28px;
+    }
+
+    /* ── Lightbox ─────────────────────────────── */
+    .diagram-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 16px;
+    }
+    .diagram-lightbox.open {
+      display: flex;
+    }
+    .diagram-lightbox-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.4);
+    }
+    .diagram-lightbox-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .diagram-lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.95);
+      color: #495057;
+      font-size: 22px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      transition: background 0.15s, color 0.15s, transform 0.1s;
+      line-height: 1;
+    }
+    .diagram-lightbox-close:hover {
+      background: #fff;
+      color: #e03131;
+      transform: scale(1.08);
+    }
+    .diagram-lightbox-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(26,27,46,0.82);
+      color: rgba(255,255,255,0.88);
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      pointer-events: none;
+      backdrop-filter: blur(6px);
+      white-space: nowrap;
+    }
+    .diagram-lightbox-hint kbd {
+      background: rgba(255,255,255,0.2);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-family: monospace;
+    }
+
     @media (max-width: 768px) {
       .hero {
         grid-template-columns: 1fr;
@@ -281,6 +425,18 @@
         </ul>
       </div>
     </div>
+
+    <!-- ═══ Diagram Preview ═══ -->
+    <div class="diagram-preview" id="diagramPreview" onclick="openDiagramLightbox()" role="button" tabindex="0" aria-label="Открыть полную схему Value Stream">
+      <img src="value-stream-miro.png" alt="Value Stream — полный поток создания ценности" width="1600" height="1120">
+      <div class="diagram-preview-overlay">
+        <div class="diagram-preview-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+          Нажмите для просмотра полной схемы
+        </div>
+      </div>
+    </div>
+    <p class="diagram-caption">Value Stream — полный поток создания ценности (7 стадий)</p>
 
     <main>
       <div class="page-grid">
@@ -363,10 +519,51 @@
     </main>
   </div>
 
+  <!-- ═══ Diagram Lightbox ═══ -->
+  <div class="diagram-lightbox" id="diagramLightbox">
+    <div class="diagram-lightbox-content">
+      <button class="diagram-lightbox-close" onclick="closeDiagramLightbox()" aria-label="Закрыть" title="Закрыть (Esc)">×</button>
+      <iframe class="diagram-lightbox-iframe" id="diagramLightboxIframe"></iframe>
+      <div class="diagram-lightbox-hint"><kbd>Esc</kbd> закрыть · прокрутка внутри схемы</div>
+    </div>
+  </div>
+
   <script>
     if (window.initFeedbackWidget) {
       window.initFeedbackWidget('index');
     }
+  </script>
+  <script>
+  document.getElementById('diagramPreview').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openDiagramLightbox();
+    }
+  });
+
+  function openDiagramLightbox() {
+    var lb = document.getElementById('diagramLightbox');
+    var iframe = document.getElementById('diagramLightboxIframe');
+    iframe.src = 'value-stream-miro.html';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDiagramLightbox() {
+    var lb = document.getElementById('diagramLightbox');
+    var iframe = document.getElementById('diagramLightboxIframe');
+    lb.classList.remove('open');
+    iframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('diagramLightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeDiagramLightbox();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDiagramLightbox();
+  });
   </script>
 </body>
 </html>
